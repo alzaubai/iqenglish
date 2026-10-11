@@ -133,14 +133,14 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         {/* Header */}
         <div className="bg-zinc-900 text-white p-5 sm:p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-400 text-zinc-950 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-2xl bg-white/10 text-white flex items-center justify-center font-bold">
               <Award className="w-5 h-5" />
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-black font-arabic">
                 {exam.title}
               </h3>
-              <span className="text-xs text-zinc-300 font-arabic block mt-0.5">
+              <span className="text-xs text-zinc-400 font-arabic block mt-0.5">
                 الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section}
               </span>
             </div>
@@ -159,12 +159,12 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
           {/* VIEW: RESULT CARD IF ALREADY SUBMITTED */}
           {isSubmitted ? (
             <div className="text-center py-6 sm:py-8 space-y-5">
-              <div className="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-800 mx-auto flex items-center justify-center border-2 border-emerald-300 shadow-sm">
+              <div className="w-16 h-16 rounded-3xl bg-zinc-100 text-zinc-900 mx-auto flex items-center justify-center border-2 border-zinc-300 shadow-2xs">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
 
               <div>
-                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 font-arabic inline-block mb-2">
+                <span className="text-xs font-bold text-zinc-800 bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200 font-arabic inline-block mb-2">
                   تم تسليم الامتحان بنجاح ✔️
                 </span>
                 <h4 className="text-2xl font-black text-zinc-900 font-arabic">
@@ -176,23 +176,23 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
               </div>
 
               {/* Score Display Card */}
-              <div className="p-6 bg-zinc-50 border-2 border-zinc-200 rounded-3xl max-w-xs mx-auto text-center space-y-1">
+              <div className="p-6 bg-zinc-50 border border-zinc-200 rounded-3xl max-w-xs mx-auto text-center space-y-1">
                 <span className="text-xs text-zinc-500 font-arabic block">درجتك النهائية:</span>
                 <strong className="text-4xl font-black text-zinc-900 font-mono block">
                   {earnedScore} <span className="text-xl text-zinc-400 font-normal">/ {totalPoints}</span>
                 </strong>
-                <span className="text-xs font-bold text-emerald-700 font-arabic block pt-1">
+                <span className="text-xs font-bold text-zinc-700 font-arabic block pt-1">
                   {earnedScore >= totalPoints * 0.8
-                    ? 'ممتاز جداً! إجابات رائعة 🌟'
+                    ? 'ممتاز جداً! إجابات رائعة'
                     : earnedScore >= totalPoints * 0.5
-                    ? 'جيد جداً! واصل المراجعة 👍'
-                    : 'حاول مراجعة الدروس والقواعد ثانية 💪'}
+                    ? 'جيد جداً! واصل المراجعة'
+                    : 'حاول مراجعة الدروس والقواعد ثانية'}
                 </span>
               </div>
 
               <button
                 onClick={onClose}
-                className="py-3 px-8 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm cursor-pointer shadow-sm transition-all font-arabic"
+                className="py-3 px-8 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm cursor-pointer shadow-2xs transition-all font-arabic"
               >
                 العودة للمنهاج والدروس
               </button>
@@ -200,8 +200,8 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
           ) : (
             /* VIEW: EXAM QUESTIONS FORM */
             <div className="space-y-6 text-right">
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-amber-950 text-xs font-arabic flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+              <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-2xl text-zinc-700 text-xs font-arabic flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-zinc-900 shrink-0" />
                 <span>
                   اختر الإجابة الصحيحة لكل سؤال، وعند الانتهاء اضغط زر <strong>تسليم الإجابات</strong> بالأسفل.
                 </span>

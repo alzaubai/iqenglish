@@ -1141,7 +1141,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
       )}
 
       {/* ======================================================== */}
-      {/* الخلاصة (تم إلغاء كلمة الوزاري بناءً على الطلب)            */}
+      {/* الخلاصة الذهبية المركزة للقاعدة                            */}
       {/* ======================================================== */}
       <section className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 shadow-xs text-right space-y-4">
         <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">

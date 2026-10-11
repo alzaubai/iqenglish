@@ -27,7 +27,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
   // 2: 'adjectives' (الصفات المنتهية بـ ed و ing)
   // 3: 'connectors' (أدوات الربط وتسلسل القصة)
   // 4: 'verbs' (أفعال الدرس الثاني)
-  // 5: 'quiz' (الامتحان الوزاري التفاعلي)
+  // 5: 'quiz' (الامتحان التفاعلي الشامل)
   const [activeMainSection, setActiveMainSection] = useState<
     'was-were' | 'adjectives' | 'connectors' | 'verbs' | 'quiz'
   >('was-were');
@@ -110,7 +110,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
       options: ['wasn’t', 'weren’t', 'didn’t was', 'not was'],
       correctIndex: 0,
       ruleKey: 'was-were-negative',
-      explanationAr: 'سارة فاعل مفرد ننفيها بـ (wasn\'t). تحذير وزاري: إياك أن تختار didn\'t was!',
+      explanationAr: 'سارة فاعل مفرد ننفيها بـ (wasn\'t). تنبيه امتحاني مهم: إياك أن تختار didn\'t was!',
     },
     {
       id: 'l2-q4',
@@ -146,7 +146,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
       options: ['interested', 'interesting', 'interest', 'interests'],
       correctIndex: 0,
       ruleKey: 'adjectives',
-      explanationAr: 'قاعدة وزارية ذهبية: عند وجود حرف الجر (in) بعد الفراغ والحديث عن اهتمام شخص نختار (interested).',
+      explanationAr: 'قاعدة ذهبية: عند وجود حرف الجر (in) بعد الفراغ والحديث عن اهتمام شخص نختار (interested).',
     },
     {
       id: 'l2-q8',
@@ -155,7 +155,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
       options: ['excited', 'exciting', 'excitement', 'excites'],
       correctIndex: 1,
       ruleKey: 'adjectives',
-      explanationAr: 'قاعدة وزارية ذهبية: إذا جاء بعد الفراغ اسم موصوف (football match) نختار صفة ing وهي (exciting).',
+      explanationAr: 'قاعدة ذهبية: إذا جاء بعد الفراغ اسم موصوف (football match) نختار صفة ing وهي (exciting).',
     },
     {
       id: 'l2-q9',
@@ -400,7 +400,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
                   activeMainSection === 'quiz' ? 'text-purple-950' : 'text-zinc-900'
                 }`}
               >
-                الامتحان الوزاري
+                الامتحان التفاعلي
               </h3>
               <p className="text-[11px] text-zinc-500 mt-0.5">
                 اختبار تفاعلي مع التصحيح
@@ -614,7 +614,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
                 <div className="bg-amber-50/90 border border-amber-300 rounded-2xl p-4 sm:p-5 space-y-2 text-right">
                   <div className="flex items-center gap-2 text-amber-900 font-bold text-xs sm:text-sm font-arabic">
                     <Lightbulb className="w-4 h-4 text-amber-600" />
-                    <span>ملاحظة ذهبية من الأستاذ العراقي للوزاري:</span>
+                    <span>ملاحظة ذهبية من الأستاذ العراقي للامتحانات:</span>
                   </div>
                   <ul className="text-xs text-amber-950 font-arabic space-y-1.5 pr-2 list-disc list-inside leading-relaxed">
                     <li>
@@ -655,7 +655,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
                   <AlertTriangle className="w-5 h-5 text-rose-700 shrink-0 mt-0.5" />
                   <div className="space-y-1 text-right">
                     <h5 className="text-xs sm:text-sm font-black text-rose-950 font-arabic">
-                      تحذير وزاري خطير جداً 🚨
+                      تحذير امتحاني خطير جداً 🚨
                     </h5>
                     <p className="text-xs text-rose-900 font-arabic leading-relaxed">
                       إياك أن تستخدم كلمة <span className="font-mono font-bold bg-white px-1.5 py-0.5 rounded text-rose-700" dir="ltr">didn't</span> مع was أو were!
@@ -993,7 +993,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
             <div className="bg-amber-50/90 border-2 border-amber-300 rounded-2xl p-5 space-y-3 text-right">
               <div className="flex items-center gap-2 text-amber-900 font-bold text-sm font-arabic">
                 <Zap className="w-5 h-5 text-amber-600" />
-                <span>الخطة السحرية للحل في الامتحان الوزاري والشهري:</span>
+                <span>الخطة السحرية للحل في الامتحان التحريري والشهري:</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-arabic text-amber-950">
                 <div className="p-3.5 bg-white/90 rounded-xl border border-amber-200 space-y-1">
@@ -1380,7 +1380,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-purple-100 pb-4">
               <div>
                 <span className="text-xs font-bold text-purple-700 font-arabic block">
-                  بنك الأسئلة الوزارية والشهرية
+                  بنك الأسئلة الشاملة والشهرية
                 </span>
                 <h4 className="text-lg sm:text-xl font-black text-purple-950 font-arabic mt-0.5">
                   اختبار شامل ومباشر على قواعد الدرس الثاني (10 أسئلة)

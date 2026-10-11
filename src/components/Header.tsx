@@ -44,11 +44,11 @@ export const Header: React.FC<HeaderProps> = ({
           {isExamActive && onOpenExam && (
             <button
               onClick={onOpenExam}
-              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-950 font-bold text-xs flex items-center gap-1 font-arabic shadow-xs cursor-pointer animate-pulse transition-all shrink-0"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-1 font-arabic shadow-2xs cursor-pointer transition-all shrink-0"
               title="امتحان سريع متاح الآن!"
             >
               <Award className="w-3.5 h-3.5" />
-              <span>امتحان سريع 🚀</span>
+              <span>امتحان سريع</span>
             </button>
           )}
 
@@ -56,46 +56,44 @@ export const Header: React.FC<HeaderProps> = ({
           <nav className="flex items-center p-0.5 sm:p-1 bg-zinc-100 rounded-xl border border-zinc-200/80 shrink-0">
             <button
               onClick={() => onTabChange('curriculum')}
-              className={`px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer font-arabic ${
+              className={`px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer font-arabic ${
                 activeTab === 'curriculum'
                   ? 'bg-white text-zinc-950 shadow-xs'
                   : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
               <BookOpen className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-zinc-700 shrink-0" />
-              <span className="sm:hidden">الدروس</span>
-              <span className="hidden sm:inline">الدروس</span>
+              <span>الدروس</span>
             </button>
             <button
               onClick={() => onTabChange('grammar')}
-              className={`px-2 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer font-arabic relative ${
+              className={`px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer font-arabic relative ${
                 activeTab === 'grammar'
                   ? 'bg-zinc-900 text-white shadow-xs'
                   : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
-              <BookMarked className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-amber-400 shrink-0" />
-              <span className="sm:hidden">القواعد</span>
-              <span className="hidden sm:inline">القواعد</span>
+              <BookMarked className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-zinc-300 shrink-0" />
+              <span>القواعد</span>
               <span className={`text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.2 rounded-full font-sans font-bold hidden sm:inline ${
                 activeTab === 'grammar'
-                  ? 'bg-amber-400 text-zinc-950'
-                  : 'bg-zinc-200 text-zinc-800'
+                  ? 'bg-zinc-800 text-zinc-200'
+                  : 'bg-zinc-200 text-zinc-700'
               }`}>
                 جديد
               </span>
             </button>
           </nav>
 
-          {/* Teacher Admin Button */}
+          {/* Teacher Admin Button (Always visible on all screens and inside all lessons) */}
           {onOpenTeacherDashboard && (
             <button
               onClick={onOpenTeacherDashboard}
-              className="px-2 sm:px-2.5 py-1.5 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-100 text-zinc-800 font-bold text-xs flex items-center gap-1 cursor-pointer font-arabic transition-all shadow-2xs shrink-0"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-100 text-zinc-900 font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-all shadow-2xs shrink-0"
               title="لوحة تحكم الأستاذ (إدارة الدروس والامتحانات والدرجات)"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-zinc-900" />
-              <span className="hidden sm:inline">الأستاذ 👨‍🏫</span>
+              <ShieldCheck className="w-4 h-4 text-zinc-900" />
+              <span>الأستاذ 👨‍🏫</span>
             </button>
           )}
         </div>

@@ -30,15 +30,14 @@ import {
   listenToActiveExam,
   QuickExam,
 } from './services/firebase';
-import { StudentActivationModal } from './components/auth/StudentActivationModal';
-import { TeacherDashboard } from './components/admin/TeacherDashboard';
+import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
+import { TeacherDashboardPage } from './components/admin/TeacherDashboardPage';
 import { StudentQuickExamModal } from './components/exam/StudentQuickExamModal';
 
 export default function App() {
   // Authentication & Platform State
   const [studentSession, setStudentSession] = useState<StudentSession | null>(getStoredStudentSession());
-  const [isActivationModalOpen, setIsActivationModalOpen] = useState(false);
-  const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState(false);
+  const [isTeacherMode, setIsTeacherMode] = useState(false);
   const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(DEFAULT_PLATFORM_CONFIG);
   const [activeExam, setActiveExam] = useState<QuickExam | null>(null);
   const [isStudentExamModalOpen, setIsStudentExamModalOpen] = useState(false);
@@ -125,6 +124,27 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // 1. Dedicated Teacher Dashboard Page (Full Page, Not Modal)
+  if (isTeacherMode) {
+    return (
+      <TeacherDashboardPage
+        platformConfig={platformConfig}
+        onBackToSite={() => setIsTeacherMode(false)}
+      />
+    );
+  }
+
+  // 2. Student Authentication Gate (Clean Centered Full Page, Same Site Background)
+  if (!studentSession) {
+    return (
+      <StudentLoginScreen
+        platformConfig={platformConfig}
+        onActivated={(session) => setStudentSession(session)}
+        onOpenTeacherLogin={() => setIsTeacherMode(true)}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-zinc-100 text-zinc-900 flex flex-col font-sans selection:bg-zinc-800 selection:text-white" dir="rtl">
       {/* Top Header with Navigation Tabs */}
@@ -135,7 +155,7 @@ export default function App() {
         studentSection={studentSession?.section}
         isExamActive={Boolean(activeExam && activeExam.isActive)}
         onOpenExam={() => setIsStudentExamModalOpen(true)}
-        onOpenTeacherDashboard={() => setIsTeacherDashboardOpen(true)}
+        onOpenTeacherDashboard={() => setIsTeacherMode(true)}
       />
 
       {/* Main Container */}
@@ -393,7 +413,7 @@ export default function App() {
               </span>
             )}
             <button
-              onClick={() => setIsTeacherDashboardOpen(true)}
+              onClick={() => setIsTeacherMode(true)}
               className="text-zinc-700 hover:text-zinc-950 font-bold underline cursor-pointer"
             >
               لوحة تحكم الأستاذ 🔐
@@ -401,24 +421,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* Student Activation Modal (Gate for Students) */}
-      <StudentActivationModal
-        isOpen={!studentSession || isActivationModalOpen}
-        platformConfig={platformConfig}
-        onActivated={(session) => {
-          setStudentSession(session);
-          setIsActivationModalOpen(false);
-        }}
-        onOpenTeacherLogin={() => setIsTeacherDashboardOpen(true)}
-      />
-
-      {/* Teacher Admin Dashboard Modal */}
-      <TeacherDashboard
-        isOpen={isTeacherDashboardOpen}
-        onClose={() => setIsTeacherDashboardOpen(false)}
-        platformConfig={platformConfig}
-      />
 
       {/* Student Quick Exam Modal */}
       {activeExam && activeExam.isActive && studentSession && (
