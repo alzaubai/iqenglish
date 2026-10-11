@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Lock } from 'lucide-react';
 import { LessonData } from '../types/curriculum';
 
 interface LessonGridSelectorProps {
@@ -7,6 +7,7 @@ interface LessonGridSelectorProps {
   selectedLessonId: string;
   onSelectLesson: (lessonId: string) => void;
   onBackToUnits: () => void;
+  unlockedLessonIds?: string[];
 }
 
 export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
@@ -14,6 +15,7 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
   selectedLessonId,
   onSelectLesson,
   onBackToUnits,
+  unlockedLessonIds,
 }) => {
   return (
     <div className="space-y-6" dir="rtl">
@@ -40,16 +42,35 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {lessons.map((lesson) => {
           const isSelected = selectedLessonId === lesson.id;
+          const isUnlocked = !unlockedLessonIds || unlockedLessonIds.includes(lesson.id);
+
           return (
             <button
               key={lesson.id}
-              onClick={() => onSelectLesson(lesson.id)}
-              className={`group p-3.5 sm:p-4 rounded-2xl border text-right transition-all cursor-pointer flex flex-col justify-between bg-white ${
-                isSelected
-                  ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20'
-                  : 'border-zinc-200 hover:border-zinc-300 hover:shadow-md'
+              onClick={() => {
+                if (isUnlocked) {
+                  onSelectLesson(lesson.id);
+                }
+              }}
+              className={`group p-3.5 sm:p-4 rounded-2xl border text-right transition-all flex flex-col justify-between bg-white relative overflow-hidden ${
+                !isUnlocked
+                  ? 'opacity-75 cursor-not-allowed border-zinc-200'
+                  : isSelected
+                  ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20 cursor-pointer'
+                  : 'border-zinc-200 hover:border-zinc-300 hover:shadow-md cursor-pointer'
               }`}
             >
+              {/* Lock Overlay if Locked by Teacher */}
+              {!isUnlocked && (
+                <div className="absolute inset-0 bg-zinc-950/45 backdrop-blur-[1.5px] rounded-2xl flex flex-col items-center justify-center text-white z-10 p-3 select-none">
+                  <div className="w-9 h-9 rounded-xl bg-zinc-900/90 text-amber-400 flex items-center justify-center mb-1.5 shadow-md">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <span className="text-xs font-bold font-arabic bg-zinc-900/90 px-2.5 py-1 rounded-lg">
+                    مقفول من الأستاذ 🔒
+                  </span>
+                </div>
+              )}
               <div>
                 {/* صورة غلاف الدرس */}
                 {lesson.imageUrl ? (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Volume2,
   BookOpen,
@@ -21,8 +21,47 @@ import { GenericLessonExercises } from './components/exercises/GenericLessonExer
 import { GrammarUnitSelector } from './components/grammar/GrammarUnitSelector';
 import { GrammarTopicSelector } from './components/grammar/GrammarTopicSelector';
 import { GrammarTopicDetail } from './components/grammar/GrammarTopicDetail';
+import {
+  StudentSession,
+  PlatformConfig,
+  DEFAULT_PLATFORM_CONFIG,
+  getStoredStudentSession,
+  listenToPlatformConfig,
+  listenToActiveExam,
+  QuickExam,
+} from './services/firebase';
+import { StudentActivationModal } from './components/auth/StudentActivationModal';
+import { TeacherDashboard } from './components/admin/TeacherDashboard';
+import { StudentQuickExamModal } from './components/exam/StudentQuickExamModal';
 
 export default function App() {
+  // Authentication & Platform State
+  const [studentSession, setStudentSession] = useState<StudentSession | null>(getStoredStudentSession());
+  const [isActivationModalOpen, setIsActivationModalOpen] = useState(false);
+  const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState(false);
+  const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(DEFAULT_PLATFORM_CONFIG);
+  const [activeExam, setActiveExam] = useState<QuickExam | null>(null);
+  const [isStudentExamModalOpen, setIsStudentExamModalOpen] = useState(false);
+
+  // Realtime Listeners for Firebase Platform Config & Active Exam
+  useEffect(() => {
+    const unsub = listenToPlatformConfig((cfg) => {
+      setPlatformConfig(cfg);
+    });
+    return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    if (platformConfig.activeExamId) {
+      const unsub = listenToActiveExam(platformConfig.activeExamId, (exam) => {
+        setActiveExam(exam);
+      });
+      return () => unsub();
+    } else {
+      setActiveExam(null);
+    }
+  }, [platformConfig.activeExamId]);
+
   // Main Tab State
   const [activeMainTab, setActiveMainTab] = useState<'curriculum' | 'grammar'>('curriculum');
 
@@ -92,6 +131,11 @@ export default function App() {
       <Header
         activeTab={activeMainTab}
         onTabChange={handleTabChange}
+        studentName={studentSession?.fullName}
+        studentSection={studentSession?.section}
+        isExamActive={Boolean(activeExam && activeExam.isActive)}
+        onOpenExam={() => setIsStudentExamModalOpen(true)}
+        onOpenTeacherDashboard={() => setIsTeacherDashboardOpen(true)}
       />
 
       {/* Main Container */}
@@ -157,6 +201,7 @@ export default function App() {
                 selectedLessonId={selectedLessonId}
                 onSelectLesson={handleSelectLesson}
                 onBackToUnits={() => setCurriculumViewState('units')}
+                unlockedLessonIds={platformConfig.unlockedLessons}
               />
             )}
 
@@ -339,11 +384,51 @@ export default function App() {
 
       {/* Clean Footer */}
       <footer className="border-t border-zinc-200 bg-white py-5 mt-10" dir="rtl">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-center text-xs text-zinc-500 font-arabic">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center text-xs text-zinc-500 font-arabic">
           <span>English for Iraq • 1st Intermediate</span>
-          <span>منهاج اللغة الإنجليزية للصف الأول المتوسط</span>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {studentSession && (
+              <span className="text-zinc-600 bg-zinc-100 px-2.5 py-1 rounded-lg">
+                الطالب: <strong>{studentSession.fullName}</strong> (شعبة {studentSession.section})
+              </span>
+            )}
+            <button
+              onClick={() => setIsTeacherDashboardOpen(true)}
+              className="text-zinc-700 hover:text-zinc-950 font-bold underline cursor-pointer"
+            >
+              لوحة تحكم الأستاذ 🔐
+            </button>
+          </div>
         </div>
       </footer>
+
+      {/* Student Activation Modal (Gate for Students) */}
+      <StudentActivationModal
+        isOpen={!studentSession || isActivationModalOpen}
+        platformConfig={platformConfig}
+        onActivated={(session) => {
+          setStudentSession(session);
+          setIsActivationModalOpen(false);
+        }}
+        onOpenTeacherLogin={() => setIsTeacherDashboardOpen(true)}
+      />
+
+      {/* Teacher Admin Dashboard Modal */}
+      <TeacherDashboard
+        isOpen={isTeacherDashboardOpen}
+        onClose={() => setIsTeacherDashboardOpen(false)}
+        platformConfig={platformConfig}
+      />
+
+      {/* Student Quick Exam Modal */}
+      {activeExam && activeExam.isActive && studentSession && (
+        <StudentQuickExamModal
+          isOpen={isStudentExamModalOpen}
+          onClose={() => setIsStudentExamModalOpen(false)}
+          exam={activeExam}
+          student={studentSession}
+        />
+      )}
     </div>
   );
 }
