@@ -1129,7 +1129,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
               {/* Document Official Header */}
               <div className="border-b-2 border-slate-800 pb-4 text-center space-y-1">
                 <div className="flex items-center justify-between text-xs text-slate-500 font-arabic">
-                  <span>جمهورية العراق • وزارة التربية</span>
+                  <span>جمهورية العراق • التربية والتعليم</span>
                   <span>الصف الأول المتوسط</span>
                 </div>
                 <h2 className="text-xl font-bold text-slate-900 font-arabic pt-1">

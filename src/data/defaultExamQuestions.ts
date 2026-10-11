@@ -404,7 +404,7 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
     ],
     correctAnswer: 'Mosul and Hatra',
     points: 2,
-    explanationAr: 'كتاب النشاط ص 11: في رحلته الأخيرة نزل في الموصل وزار معابد الحضر.',
+    explanationAr: 'كتاب النشاط ص 11: في رحلته الأخيرة نزل في الموصل وقام بزيارة معابد الحضر.',
   },
   {
     id: 'l5-ex1-2',
