@@ -26,10 +26,12 @@ import {
   PlatformConfig,
   DEFAULT_PLATFORM_CONFIG,
   getStoredStudentSession,
+  setStoredStudentSession,
   listenToPlatformConfig,
   listenToActiveExam,
   QuickExam,
 } from './services/firebase';
+import { STORAGE_KEYS } from './constants/storageKeys';
 import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
 import { TeacherDashboardPage } from './components/admin/TeacherDashboardPage';
 import { StudentQuickExamModal } from './components/exam/StudentQuickExamModal';
@@ -40,7 +42,7 @@ export default function App() {
   // Authentication & Platform State
   const [studentSession, setStudentSession] = useState<StudentSession | null>(getStoredStudentSession());
   const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState<boolean>(
-    () => localStorage.getItem('iq_is_teacher') === 'true'
+    () => localStorage.getItem(STORAGE_KEYS.TEACHER_LOGGED_IN) === 'true'
   );
   const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState(false);
   const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(DEFAULT_PLATFORM_CONFIG);
@@ -148,7 +150,7 @@ export default function App() {
         platformConfig={platformConfig}
         onActivated={(session) => setStudentSession(session)}
         onTeacherLoginSuccess={() => {
-          localStorage.setItem('iq_is_teacher', 'true');
+          localStorage.setItem(STORAGE_KEYS.TEACHER_LOGGED_IN, 'true');
           setIsTeacherLoggedIn(true);
           setIsTeacherDashboardOpen(false); // Directly enters the MAIN PAGE!
         }}
@@ -160,7 +162,7 @@ export default function App() {
   const hasCompletedActiveExam = Boolean(
     !activeExam ||
     !studentSession ||
-    localStorage.getItem(`iq_exam_done_${activeExam.id}_${studentSession.id}`) !== null
+    localStorage.getItem(STORAGE_KEYS.examDone(activeExam.id, studentSession.id)) !== null
   );
 
   return (
@@ -173,7 +175,7 @@ export default function App() {
         studentSection={studentSession?.section}
         isTeacher={isTeacherLoggedIn}
         onLogoutTeacher={() => {
-          localStorage.removeItem('iq_is_teacher');
+          localStorage.removeItem(STORAGE_KEYS.TEACHER_LOGGED_IN);
           setIsTeacherLoggedIn(false);
         }}
         isExamActive={Boolean(activeExam && activeExam.isActive)}
@@ -444,7 +446,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => {
-                    localStorage.removeItem('iq_is_teacher');
+                    localStorage.removeItem(STORAGE_KEYS.TEACHER_LOGGED_IN);
                     setIsTeacherLoggedIn(false);
                   }}
                   className="text-zinc-500 hover:text-zinc-900 underline cursor-pointer"
@@ -459,12 +461,13 @@ export default function App() {
                 </span>
                 <button
                   onClick={() => {
-                    localStorage.removeItem('iq_is_teacher');
+                    setStoredStudentSession(null);
                     setStudentSession(null);
                   }}
                   className="text-slate-500 hover:text-slate-800 underline cursor-pointer text-[11px]"
+                  title="تسجيل خروج الطالب والعودة لشاشة البداية"
                 >
-                  دخول أستاذ المادة 🔐
+                  خروج الطالب 🚪
                 </button>
               </div>
             ) : null}

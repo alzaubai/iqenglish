@@ -13,6 +13,7 @@ import {
   StudentSession,
   submitStudentExamResult
 } from '../../services/firebase';
+import { STORAGE_KEYS } from '../../constants/storageKeys';
 
 interface StudentQuickExamModalProps {
   isOpen: boolean;
@@ -37,7 +38,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
   // Check if previously submitted locally
   useEffect(() => {
     if (!exam) return;
-    const localKey = `iq_exam_done_${exam.id}_${student.id}`;
+    const localKey = STORAGE_KEYS.examDone(exam.id, student.id);
     const saved = localStorage.getItem(localKey);
     if (saved) {
       const parsed = JSON.parse(saved);
@@ -98,7 +99,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       });
 
       // 2. Save locally
-      const localKey = `iq_exam_done_${exam.id}_${student.id}`;
+      const localKey = STORAGE_KEYS.examDone(exam.id, student.id);
       localStorage.setItem(
         localKey,
         JSON.stringify({

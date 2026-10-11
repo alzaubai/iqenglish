@@ -143,11 +143,11 @@ export const updatePlatformConfig = async (
 // -------------------------------------------------------------
 // Helper Functions for Students
 // -------------------------------------------------------------
-const STUDENT_STORAGE_KEY = 'iq_student_profile';
+import { STORAGE_KEYS } from '../constants/storageKeys';
 
 export const getStoredStudentSession = (): StudentSession | null => {
   try {
-    const raw = localStorage.getItem(STUDENT_STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEYS.STUDENT_PROFILE);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -156,9 +156,9 @@ export const getStoredStudentSession = (): StudentSession | null => {
 
 export const setStoredStudentSession = (session: StudentSession | null) => {
   if (session) {
-    localStorage.setItem(STUDENT_STORAGE_KEY, JSON.stringify(session));
+    localStorage.setItem(STORAGE_KEYS.STUDENT_PROFILE, JSON.stringify(session));
   } else {
-    localStorage.removeItem(STUDENT_STORAGE_KEY);
+    localStorage.removeItem(STORAGE_KEYS.STUDENT_PROFILE);
   }
 };
 
