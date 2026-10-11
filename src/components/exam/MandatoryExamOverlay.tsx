@@ -15,7 +15,7 @@ export const MandatoryExamOverlay: React.FC<MandatoryExamOverlayProps> = ({
 }) => {
   return (
     <div
-      className="fixed inset-0 z-45 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300"
+      className="fixed inset-0 z-[45] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300"
       dir="rtl"
     >
       <div className="w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-8 text-center space-y-6 my-auto">
