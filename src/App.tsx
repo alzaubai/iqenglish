@@ -490,7 +490,7 @@ export default function App() {
         )}
 
       {/* Student Quick Exam Modal */}
-      {activeExam && activeExam.isActive && studentSession && (
+      {activeExam && studentSession && (activeExam.isActive || isStudentExamModalOpen) && (
         <StudentQuickExamModal
           isOpen={isStudentExamModalOpen}
           onClose={() => setIsStudentExamModalOpen(false)}

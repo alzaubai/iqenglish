@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Sparkles,
   CheckCircle2,
   AlertCircle,
   X,
   Award,
-  Send
+  Send,
+  Clock
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import {
@@ -14,6 +15,9 @@ import {
   submitStudentExamResult
 } from '../../services/firebase';
 import { STORAGE_KEYS } from '../../constants/storageKeys';
+
+// Configuration: countdown seconds before force-closing after teacher stops exam
+export const EXAM_FORCE_CLOSE_COUNTDOWN_SECONDS = 10;
 
 interface StudentQuickExamModalProps {
   isOpen: boolean;
@@ -35,6 +39,13 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
+  // Forced shutdown state when teacher ends exam mid-session
+  const [isForceEnding, setIsForceEnding] = useState(false);
+  const [countdown, setCountdown] = useState(EXAM_FORCE_CLOSE_COUNTDOWN_SECONDS);
+  const hasAutoSubmittedRef = useRef(false);
+  const selectedAnswersRef = useRef(selectedAnswers);
+  selectedAnswersRef.current = selectedAnswers;
+
   // Check if previously submitted locally
   useEffect(() => {
     if (!exam) return;
@@ -50,6 +61,72 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       setSelectedAnswers({});
     }
   }, [exam?.id, student?.id]);
+
+  // Watch for teacher stopping the active exam while student is solving
+  useEffect(() => {
+    if (!isOpen || !exam || exam.isActive || isSubmitted || hasAutoSubmittedRef.current) {
+      return;
+    }
+
+    // Teacher has stopped the exam! Auto-submit current progress
+    hasAutoSubmittedRef.current = true;
+    setIsForceEnding(true);
+
+    const currentAnswers = selectedAnswersRef.current;
+    let autoScore = 0;
+    exam.questions.forEach((q) => {
+      const userAns = currentAnswers[q.id];
+      if (userAns && userAns.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase()) {
+        autoScore += q.points || 2;
+      }
+    });
+
+    const totalPossiblePoints = exam.questions.reduce((acc, q) => acc + (q.points || 2), 0);
+
+    // Save submission to remote Firestore
+    submitStudentExamResult({
+      examId: exam.id,
+      examTitle: exam.title,
+      studentName: student.fullName,
+      studentSection: student.section,
+      studentCode: student.code,
+      score: autoScore,
+      totalPoints: totalPossiblePoints,
+      submittedAt: new Date().toISOString(),
+      answers: currentAnswers,
+    }).catch(console.error);
+
+    // Save locally
+    const localKey = STORAGE_KEYS.examDone(exam.id, student.id);
+    localStorage.setItem(
+      localKey,
+      JSON.stringify({
+        score: autoScore,
+        totalPoints: totalPossiblePoints,
+        submittedAt: new Date().toISOString(),
+      })
+    );
+
+    setEarnedScore(autoScore);
+    setTotalPoints(totalPossiblePoints);
+    setIsSubmitted(true);
+  }, [exam?.isActive, isOpen, exam, student, isSubmitted]);
+
+  // Countdown timer when force-ending
+  useEffect(() => {
+    if (!isForceEnding) return;
+
+    if (countdown <= 0) {
+      onClose();
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isForceEnding, countdown, onClose]);
 
   if (!isOpen || !exam) return null;
 
@@ -158,6 +235,28 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
         {/* Body */}
         <div className="p-5 sm:p-7 max-h-[75vh] overflow-y-auto space-y-6">
+          {/* TEACHER STOPPED EXAM NOTICE BANNER */}
+          {isForceEnding && (
+            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-arabic space-y-2 animate-in fade-in">
+              <div className="flex items-center gap-2 font-bold text-sm text-amber-800">
+                <Clock className="w-5 h-5 text-amber-600 shrink-0" />
+                <span>قام أستاذ المادة بإنهاء وقت الامتحان ⏱️</span>
+              </div>
+              <p className="text-amber-700 leading-relaxed">
+                تم حفظ إجاباتك الحالية واحتساب نتيجتك وإرسالها للأستاذ تلقائياً بنجاح. ستُغلق هذه الشاشة تلقائياً بعد <strong>{countdown}</strong> ثوانٍ.
+              </p>
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="py-1.5 px-4 rounded-xl bg-amber-800 hover:bg-amber-700 text-white font-bold text-xs cursor-pointer transition-colors"
+                >
+                  إغلاق ومتابعة الدروس الآن ({countdown})
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* VIEW: RESULT CARD IF ALREADY SUBMITTED */}
           {isSubmitted ? (
             <div className="text-center py-6 sm:py-8 space-y-5">
