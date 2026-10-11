@@ -1,0 +1,28 @@
+{
+  "name": "English for Iraq - Unit 1 | الأول المتوسط",
+  "short_name": "English IQ",
+  "description": "تطبيق تفاعلي شامل لمنهج اللغة الإنجليزية للصف الأول المتوسط مع استماع، قراءة، قواعد، وتمارين كتاب النشاط",
+  "start_url": "/iqenglish/",
+  "scope": "/iqenglish/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["education", "books"],
+  "icons": [
+    {
+      "src": "/iqenglish/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/iqenglish/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
