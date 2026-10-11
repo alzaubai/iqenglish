@@ -33,6 +33,8 @@ import {
 import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
 import { TeacherDashboardPage } from './components/admin/TeacherDashboardPage';
 import { StudentQuickExamModal } from './components/exam/StudentQuickExamModal';
+import { StudentGradesHistoryModal } from './components/exam/StudentGradesHistoryModal';
+import { MandatoryExamOverlay } from './components/exam/MandatoryExamOverlay';
 
 export default function App() {
   // Authentication & Platform State
@@ -44,6 +46,7 @@ export default function App() {
   const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(DEFAULT_PLATFORM_CONFIG);
   const [activeExam, setActiveExam] = useState<QuickExam | null>(null);
   const [isStudentExamModalOpen, setIsStudentExamModalOpen] = useState(false);
+  const [isStudentHistoryModalOpen, setIsStudentHistoryModalOpen] = useState(false);
 
   // Realtime Listeners for Firebase Platform Config & Active Exam
   useEffect(() => {
@@ -153,8 +156,15 @@ export default function App() {
     );
   }
 
+  // Check if student has completed current active exam
+  const hasCompletedActiveExam = Boolean(
+    !activeExam ||
+    !studentSession ||
+    localStorage.getItem(`iq_exam_done_${activeExam.id}_${studentSession.id}`) !== null
+  );
+
   return (
-    <div className="min-h-screen bg-zinc-100 text-zinc-900 flex flex-col font-sans selection:bg-zinc-800 selection:text-white" dir="rtl">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-slate-700 selection:text-white" dir="rtl">
       {/* Top Header with Navigation Tabs */}
       <Header
         activeTab={activeMainTab}
@@ -169,6 +179,7 @@ export default function App() {
         isExamActive={Boolean(activeExam && activeExam.isActive)}
         onOpenExam={() => setIsStudentExamModalOpen(true)}
         onOpenTeacherDashboard={() => setIsTeacherDashboardOpen(true)}
+        onOpenStudentGradesHistory={() => setIsStudentHistoryModalOpen(true)}
       />
 
       {/* Main Container */}
@@ -443,7 +454,7 @@ export default function App() {
               </div>
             ) : studentSession ? (
               <div className="flex items-center gap-2">
-                <span className="text-zinc-600 bg-zinc-100 px-2.5 py-1 rounded-lg">
+                <span className="text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
                   الطالب: <strong>{studentSession.fullName}</strong> (شعبة {studentSession.section})
                 </span>
                 <button
@@ -451,7 +462,7 @@ export default function App() {
                     localStorage.removeItem('iq_is_teacher');
                     setStudentSession(null);
                   }}
-                  className="text-zinc-500 hover:text-zinc-800 underline cursor-pointer text-[11px]"
+                  className="text-slate-500 hover:text-slate-800 underline cursor-pointer text-[11px]"
                 >
                   دخول أستاذ المادة 🔐
                 </button>
@@ -461,12 +472,35 @@ export default function App() {
         </div>
       </footer>
 
+      {/* Mandatory Exam Overlay Gate (Enforces exam if active & not completed yet) */}
+      {activeExam &&
+        activeExam.isActive &&
+        !isTeacherLoggedIn &&
+        studentSession &&
+        !hasCompletedActiveExam &&
+        !isStudentExamModalOpen && (
+          <MandatoryExamOverlay
+            exam={activeExam}
+            student={studentSession}
+            onStartExam={() => setIsStudentExamModalOpen(true)}
+          />
+        )}
+
       {/* Student Quick Exam Modal */}
       {activeExam && activeExam.isActive && studentSession && (
         <StudentQuickExamModal
           isOpen={isStudentExamModalOpen}
           onClose={() => setIsStudentExamModalOpen(false)}
           exam={activeExam}
+          student={studentSession}
+        />
+      )}
+
+      {/* Student Grades & History Modal */}
+      {studentSession && (
+        <StudentGradesHistoryModal
+          isOpen={isStudentHistoryModalOpen}
+          onClose={() => setIsStudentHistoryModalOpen(false)}
           student={studentSession}
         />
       )}

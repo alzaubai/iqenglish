@@ -15,7 +15,13 @@ import {
   Play,
   Pause,
   Shuffle,
-  AlertCircle
+  AlertCircle,
+  FileDown,
+  Printer,
+  Copy,
+  Check,
+  UserX,
+  X
 } from 'lucide-react';
 import {
   PlatformConfig,
@@ -24,7 +30,9 @@ import {
   saveOrUpdateExam,
   listenToSubmissions,
   ExamSubmission,
-  listenToActiveExam
+  listenToActiveExam,
+  StudentSession,
+  listenToAllStudents
 } from '../../services/firebase';
 import {
   UNIT_1_QUESTION_BANK,
@@ -52,14 +60,21 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
   // Submissions State
   const [submissions, setSubmissions] = useState<ExamSubmission[]>([]);
+  const [allStudents, setAllStudents] = useState<StudentSession[]>([]);
   const [selectedSectionFilter, setSelectedSectionFilter] = useState<string>('all');
   const [searchStudentQuery, setSearchStudentQuery] = useState<string>('');
+  const [resultsSubTab, setResultsSubTab] = useState<'submitted' | 'absent'>('submitted');
+
+  // PDF / Print Modal State
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [telegramCopied, setTelegramCopied] = useState(false);
 
   // Exam Builder State
   const [examTitle, setExamTitle] = useState('الامتحان السريع • الوحدة الأولى');
   const [selectedLessonSources, setSelectedLessonSources] = useState<string[]>([
     'lesson-1',
     'lesson-2',
+    'lesson-3',
     'grammar',
   ]);
   const [questionCountTarget, setQuestionCountTarget] = useState<number>(5);
@@ -71,6 +86,14 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const [newMasterCode, setNewMasterCode] = useState(platformConfig.masterCode || 'IQ-2026');
   const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '2026');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
+
+  // Listen to all registered students
+  useEffect(() => {
+    const unsub = listenToAllStudents((studentsList) => {
+      setAllStudents(studentsList);
+    });
+    return () => unsub();
+  }, []);
 
   // Listen to submissions for the current active exam
   useEffect(() => {
@@ -90,7 +113,6 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
         if (exam) {
           setIsExamActiveLocal(exam.isActive);
           setExamTitle(exam.title);
-          // If we haven't selected questions yet, set them from current active exam
           if (selectedQuestions.length === 0 && exam.questions?.length > 0) {
             setSelectedQuestions(exam.questions as CategorizedExamQuestion[]);
           }
@@ -137,7 +159,6 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
       selectedLessonSources.includes(q.lessonId)
     );
 
-    // Shuffle and pick target count
     const shuffled = [...availablePool].sort(() => 0.5 - Math.random());
     const picked = shuffled.slice(0, questionCountTarget);
     setSelectedQuestions(picked);
@@ -148,14 +169,12 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     const currentQ = selectedQuestions[indexToSwap];
     const currentSelectedIds = selectedQuestions.map((q) => q.id);
 
-    // Find available candidates from the same lesson or selected sources
-    let candidates = UNIT_1_QUESTION_BANK.filter(
+    const candidates = UNIT_1_QUESTION_BANK.filter(
       (q) =>
         selectedLessonSources.includes(q.lessonId) &&
         !currentSelectedIds.includes(q.id)
     );
 
-    // Prefer same lesson if available
     const sameLessonCandidates = candidates.filter((q) => q.lessonId === currentQ.lessonId);
     const pool = sameLessonCandidates.length > 0 ? sameLessonCandidates : candidates;
 
@@ -245,109 +264,162 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     return matchesSection && matchesSearch;
   });
 
-  const totalSubmissions = submissions.length;
+  // Filter Registered Students by Section & Search
+  const filteredRegisteredStudents = allStudents.filter((student) => {
+    const matchesSection =
+      selectedSectionFilter === 'all' || student.section === selectedSectionFilter;
+    const matchesSearch =
+      !searchStudentQuery.trim() ||
+      student.fullName.toLowerCase().includes(searchStudentQuery.toLowerCase().trim());
+    return matchesSection && matchesSearch;
+  });
+
+  // Submitted student names set (lowercased)
+  const submittedStudentNames = new Set(
+    filteredSubmissions.map((s) => s.studentName.trim().toLowerCase())
+  );
+
+  // Absent students = registered students who have not submitted yet
+  const absentStudents = filteredRegisteredStudents.filter(
+    (student) => !submittedStudentNames.has(student.fullName.trim().toLowerCase())
+  );
+
+  const totalRegisteredCount = filteredRegisteredStudents.length;
+  const totalSubmissions = filteredSubmissions.length;
+  const totalAbsentCount = absentStudents.length;
+  const participationRate =
+    totalRegisteredCount > 0
+      ? Math.round((totalSubmissions / totalRegisteredCount) * 100)
+      : 0;
+
   const avgScore =
     totalSubmissions > 0
-      ? (submissions.reduce((acc, curr) => acc + curr.score, 0) / totalSubmissions).toFixed(1)
+      ? (
+          filteredSubmissions.reduce((acc, curr) => acc + (curr.score / curr.totalPoints) * 10, 0) /
+          totalSubmissions
+        ).toFixed(1)
       : '0';
-  const topScore = totalSubmissions > 0 ? Math.max(...submissions.map((s) => s.score)) : 0;
+
+  const topScore =
+    totalSubmissions > 0 ? Math.max(...filteredSubmissions.map((s) => s.score)) : 0;
+
+  // Copy Telegram Summary Text
+  const handleCopyTelegramSummary = () => {
+    const sectionName = selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`;
+    const dateStr = new Date().toLocaleDateString('ar-IQ');
+
+    let text = `📊 تقرير الامتحان اليومي • الأول المتوسط\n`;
+    text += `📌 ${examTitle}\n`;
+    text += `🏫 الشعبة: ${sectionName}\n`;
+    text += `📅 التاريخ: ${dateStr}\n`;
+    text += `───────────────\n`;
+    text += `👥 المسجلين: ${totalRegisteredCount} طالب\n`;
+    text += `✅ الممتحنون: ${totalSubmissions} طالب (${participationRate}%)\n`;
+    text += `❌ الغائبون: ${totalAbsentCount} طالب\n`;
+    text += `⭐ متوسط الدرجات: ${avgScore} / 10\n`;
+    text += `───────────────\n`;
+    text += `📝 كشف الدرجات:\n`;
+
+    filteredSubmissions.forEach((sub, i) => {
+      text += `${i + 1}. ${sub.studentName} (${sub.studentSection}): ${sub.score}/${sub.totalPoints}\n`;
+    });
+
+    if (absentStudents.length > 0) {
+      text += `\n⚠️ الطلاب الذين لم يمتحنوا بعد:\n`;
+      absentStudents.forEach((st, i) => {
+        text += `${i + 1}. ${st.fullName} (شعبة ${st.section})\n`;
+      });
+    }
+
+    navigator.clipboard.writeText(text);
+    setTelegramCopied(true);
+    setTimeout(() => setTelegramCopied(false), 3000);
+  };
 
   return (
-    <div className="min-h-screen bg-zinc-100 text-zinc-900 flex flex-col font-sans selection:bg-zinc-800 selection:text-white" dir="rtl">
-      {/* Top Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-zinc-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-slate-700 selection:text-white" dir="rtl">
+      {/* Top Header of Teacher Dashboard */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <button
-              onClick={onBackToSite}
-              className="px-3 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center gap-1.5 cursor-pointer font-arabic transition-colors"
-            >
-              <ArrowRight className="w-4 h-4" />
-              <span>العودة للمنهاج والدروس</span>
-            </button>
-            <span className="text-zinc-300 hidden sm:inline">|</span>
-            <span className="text-xs sm:text-sm font-bold text-zinc-900 font-arabic hidden sm:inline">
-              لوحة تحكم الأستاذ
-            </span>
+            <div className="w-10 h-10 rounded-2xl bg-slate-800 text-white flex items-center justify-center font-bold text-sm shadow-xs font-sans">
+              👨‍🏫
+            </div>
+            <div>
+              <h1 className="text-base sm:text-lg font-bold text-slate-800 leading-tight">
+                لوحة تحكم أستاذ المادة
+              </h1>
+              <span className="text-xs text-slate-500 font-arabic block">
+                إدارة المنهاج التفاعلي والامتحانات والدرجات
+              </span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {isAuthenticated && (
-              <button
-                onClick={() => setIsAuthenticated(false)}
-                className="px-3 py-1.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
-              >
-                قفل اللوحة 🔒
-              </button>
-            )}
-          </div>
+          <button
+            onClick={onBackToSite}
+            className="py-2 px-3 sm:px-4 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-colors shadow-2xs"
+          >
+            <ArrowRight className="w-4 h-4" />
+            <span>العودة إلى المنهاج / الدرس</span>
+          </button>
         </div>
       </header>
 
-      {/* Main Page Area */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      {/* Main Content */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-8 space-y-6">
+        {/* ======================================================== */}
+        {/* GATE: IF NOT AUTHENTICATED WITH PIN                      */}
+        {/* ======================================================== */}
         {!isAuthenticated ? (
-          /* ======================================================== */
-          /* PIN LOGIN VIEW                                           */
-          /* ======================================================== */
-          <div className="max-w-md mx-auto my-12 bg-white rounded-3xl border border-zinc-200 p-7 sm:p-9 shadow-xs text-center space-y-6">
-            <div className="w-12 h-12 rounded-2xl bg-zinc-900 text-white mx-auto flex items-center justify-center font-bold text-base shadow-2xs font-sans">
-              <ShieldCheck className="w-6 h-6" />
+          <div className="max-w-md mx-auto my-12 bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 text-center space-y-5 shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-slate-100 text-slate-800 mx-auto flex items-center justify-center border border-slate-300 shadow-2xs">
+              <Lock className="w-7 h-7 text-slate-700" />
             </div>
 
             <div>
-              <h2 className="text-2xl font-black text-zinc-900 font-arabic">
-                دخول أستاذ المادة
+              <h2 className="text-xl font-bold text-slate-800 font-arabic">
+                تأكيد هوية أستاذ المادة
               </h2>
-              <p className="text-xs text-zinc-500 font-arabic mt-1">
-                أدخل الرمز السري الخاص بك لإدارة المنهاج، الامتحانات، ومتابعة درجات الطلاب
+              <p className="text-xs text-slate-500 font-arabic mt-1">
+                يرجى إدخال رمز المرور السري (PIN) للدخول إلى لوحة التحكم
               </p>
             </div>
 
-            <form onSubmit={handleVerifyPin} className="space-y-4">
-              <div className="space-y-1.5 text-right">
-                <label className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                  <KeyRound className="w-3.5 h-3.5 text-zinc-900" />
-                  <span>الرمز السري (PIN):</span>
+            <form onSubmit={handleVerifyPin} className="space-y-4 text-right">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 font-arabic">
+                  الرمز السري (PIN):
                 </label>
                 <input
                   type="password"
                   value={pinInput}
                   onChange={(e) => {
                     setPinInput(e.target.value);
-                    setPinError(false);
+                    if (pinError) setPinError(false);
                   }}
                   placeholder="2026"
-                  className="w-full px-4 py-3 rounded-xl border border-zinc-300 focus:border-zinc-900 focus:ring-0 text-center font-mono font-bold text-xl tracking-widest text-zinc-900 placeholder:text-zinc-300 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-slate-800 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-slate-800 placeholder:text-slate-300 transition-colors"
                   autoFocus
                 />
-                <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5 text-center">
-                  (الرمز الافتراضي: <strong className="font-mono text-zinc-700">2026</strong>)
+                <span className="text-[11px] text-slate-400 font-arabic block pt-0.5">
+                  الرمز الافتراضي هو: <strong className="font-mono text-slate-600">2026</strong>
                 </span>
               </div>
 
               {pinError && (
-                <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-arabic flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-zinc-900" />
-                  <span>الرمز السري غير صحيح، يرجى إعادة المحاولة.</span>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-arabic flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-slate-700" />
+                  <span>الرمز السري غير صحيح، يرجى المحاولة ثانية.</span>
                 </div>
               )}
 
-              <div className="flex items-center gap-2 pt-2">
-                <button
-                  type="submit"
-                  className="flex-1 py-3 px-5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm cursor-pointer shadow-2xs transition-colors font-arabic"
-                >
-                  دخول اللوحة 🔓
-                </button>
-                <button
-                  type="button"
-                  onClick={onBackToSite}
-                  className="py-3 px-4 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-bold text-xs sm:text-sm cursor-pointer transition-colors font-arabic"
-                >
-                  إلغاء
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="w-full py-3.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm cursor-pointer shadow-xs transition-colors font-arabic flex items-center justify-center gap-2"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                <span>دخول لوحة التحكم</span>
+              </button>
             </form>
           </div>
         ) : (
@@ -356,7 +428,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
           /* ======================================================== */
           <div className="space-y-6">
             {/* Top Navigation Tabs */}
-            <div className="bg-white rounded-2xl border border-zinc-200 p-1.5 flex flex-wrap gap-1">
+            <div className="bg-white rounded-2xl border border-slate-200 p-1.5 flex flex-wrap gap-1">
               {[
                 { id: 'results', label: '📊 نتائج الطلاب والدرجات', count: totalSubmissions },
                 { id: 'builder', label: '📝 صانع الامتحانات التفاعلي', activeBadge: isExamActiveLocal },
@@ -368,14 +440,14 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                   onClick={() => setActiveTab(t.id as any)}
                   className={`flex-1 min-w-[140px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer font-arabic ${
                     activeTab === t.id
-                      ? 'bg-zinc-900 text-white shadow-2xs'
-                      : 'text-zinc-600 hover:bg-zinc-100'
+                      ? 'bg-slate-800 text-white shadow-xs'
+                      : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <span>{t.label}</span>
                   {t.count !== undefined && (
                     <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                      activeTab === t.id ? 'bg-zinc-800 text-white' : 'bg-zinc-200 text-zinc-700'
+                      activeTab === t.id ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-700'
                     }`}>
                       {t.count}
                     </span>
@@ -387,141 +459,288 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
               ))}
             </div>
 
-            {/* TAB 1: LIVE RESULTS & STUDENT GRADES */}
+            {/* ======================================================== */}
+            {/* TAB 1: LIVE RESULTS & STUDENT GRADES WITH ABSENTEES & PDF */}
+            {/* ======================================================== */}
             {activeTab === 'results' && (
               <div className="space-y-5 text-right">
-                {/* Stats row */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="p-4 rounded-2xl bg-white border border-zinc-200 text-center">
-                    <span className="text-xs text-zinc-500 font-arabic block">عدد الطلاب الذين حلوا الامتحان</span>
-                    <strong className="text-2xl font-black text-zinc-900 font-mono block mt-1">
+                {/* 4 Stats Cards */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200 text-center">
+                    <span className="text-xs text-slate-500 font-arabic block">الطلاب المسجلين</span>
+                    <strong className="text-2xl font-bold text-slate-800 font-mono block mt-1">
+                      {totalRegisteredCount}
+                    </strong>
+                    <span className="text-[10px] text-slate-400 font-arabic block mt-0.5">في الشعبة المختارة</span>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200 text-center">
+                    <span className="text-xs text-slate-500 font-arabic block">الطلاب الممتحنون</span>
+                    <strong className="text-2xl font-bold text-emerald-700 font-mono block mt-1">
                       {totalSubmissions}
                     </strong>
+                    <span className="text-[10px] text-emerald-600 font-arabic block mt-0.5 font-bold">
+                      نسبة المشاركة: {participationRate}%
+                    </span>
                   </div>
-                  <div className="p-4 rounded-2xl bg-white border border-zinc-200 text-center">
-                    <span className="text-xs text-zinc-500 font-arabic block">متوسط الدرجات</span>
-                    <strong className="text-2xl font-black text-zinc-900 font-mono block mt-1">
-                      {avgScore}
+
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200 text-center">
+                    <span className="text-xs text-slate-500 font-arabic block">الطلاب الغائبون (لم يمتحنوا)</span>
+                    <strong className={`text-2xl font-bold font-mono block mt-1 ${totalAbsentCount > 0 ? 'text-rose-600' : 'text-slate-800'}`}>
+                      {totalAbsentCount}
                     </strong>
+                    <span className="text-[10px] text-slate-400 font-arabic block mt-0.5">لم يسلموا الإجابة بعد</span>
                   </div>
-                  <div className="p-4 rounded-2xl bg-white border border-zinc-200 text-center">
-                    <span className="text-xs text-zinc-500 font-arabic block">أعلى درجة مسجلة</span>
-                    <strong className="text-2xl font-black text-zinc-900 font-mono block mt-1">
-                      {topScore} / 10
+
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200 text-center">
+                    <span className="text-xs text-slate-500 font-arabic block">متوسط الدرجات</span>
+                    <strong className="text-2xl font-bold text-slate-800 font-mono block mt-1">
+                      {avgScore} <span className="text-xs text-slate-400 font-normal">/ 10</span>
                     </strong>
+                    <span className="text-[10px] text-slate-400 font-arabic block mt-0.5">
+                      أعلى درجة: {topScore}
+                    </span>
                   </div>
                 </div>
 
-                {/* Filters */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-zinc-200">
+                {/* Filters & Actions Bar */}
+                <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200">
+                  {/* Search Input */}
                   <div className="relative flex-1">
-                    <Search className="w-4 h-4 text-zinc-400 absolute right-3 top-1/2 -translate-y-1/2" />
+                    <Search className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
                       value={searchStudentQuery}
                       onChange={(e) => setSearchStudentQuery(e.target.value)}
                       placeholder="ابحث باسم الطالب..."
-                      className="w-full pr-9 pl-3 py-2 text-xs rounded-xl border border-zinc-200 font-arabic focus:border-zinc-900 focus:ring-0"
+                      className="w-full pr-9 pl-3 py-2 text-xs rounded-xl border border-slate-200 font-arabic focus:border-slate-800 focus:ring-0"
                     />
                   </div>
 
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-                    <span className="text-xs text-zinc-500 font-arabic pl-1 whitespace-nowrap">
+                  {/* Section Filter Chips */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0">
+                    <span className="text-xs text-slate-500 font-arabic pl-1 whitespace-nowrap">
                       الشعبة:
                     </span>
                     {['all', 'أ', 'ب', 'ج', 'د', 'هـ'].map((sec) => (
                       <button
                         key={sec}
                         onClick={() => setSelectedSectionFilter(sec)}
-                        className={`px-3 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer font-arabic ${
+                        className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer font-arabic ${
                           selectedSectionFilter === sec
-                            ? 'bg-zinc-900 text-white shadow-2xs'
-                            : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-700'
+                            ? 'bg-slate-800 text-white shadow-xs'
+                            : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                         }`}
                       >
                         {sec === 'all' ? 'الكل' : `شعبة ${sec}`}
                       </button>
                     ))}
                   </div>
+
+                  {/* PDF Export & Telegram Copy Buttons */}
+                  <div className="flex items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100 shrink-0">
+                    <button
+                      onClick={handleCopyTelegramSummary}
+                      className="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-colors shadow-2xs"
+                      title="نسخ ملخص النتائج لنشره في قناة التيليكرام"
+                    >
+                      {telegramCopied ? (
+                        <>
+                          <Check className="w-4 h-4 text-emerald-600" />
+                          <span className="text-emerald-700">تم النسخ ✔️</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4 text-slate-500" />
+                          <span>ملخص التيليكرام</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => setIsPdfModalOpen(true)}
+                      className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-colors shadow-xs"
+                      title="تصدير كشف درجات الطلاب كملف PDF قابل للطباعة"
+                    >
+                      <FileDown className="w-4 h-4" />
+                      <span>تصدير PDF 📄</span>
+                    </button>
+                  </div>
                 </div>
 
-                {/* Submissions Table */}
-                {filteredSubmissions.length === 0 ? (
-                  <div className="py-14 text-center bg-white rounded-2xl border border-zinc-200 space-y-2">
-                    <Users className="w-10 h-10 text-zinc-300 mx-auto" />
-                    <h4 className="text-sm font-bold text-zinc-700 font-arabic">
-                      لا توجد درجات مسجلة حتى الآن
-                    </h4>
-                    <p className="text-xs text-zinc-400 font-arabic max-w-sm mx-auto">
-                      بمجرد أن تطلق الامتحان السريع من تبويب (صانع الامتحانات) ويحله الطلاب، ستظهر أسماؤهم ودرجاتهم هنا لحظياً.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
-                    <table className="w-full text-right border-collapse text-xs sm:text-sm">
-                      <thead>
-                        <tr className="bg-zinc-50 text-zinc-800 font-bold font-arabic border-b border-zinc-200">
-                          <th className="p-3.5">#</th>
-                          <th className="p-3.5">اسم الطالب</th>
-                          <th className="p-3.5">الشعبة</th>
-                          <th className="p-3.5">كود التفعيل</th>
-                          <th className="p-3.5">الدرجة</th>
-                          <th className="p-3.5">وقت التسليم</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-zinc-200 font-sans">
-                        {filteredSubmissions.map((sub, idx) => (
-                          <tr key={sub.id || idx} className="hover:bg-zinc-50 transition-colors">
-                            <td className="p-3.5 text-zinc-400 font-mono text-xs">{idx + 1}</td>
-                            <td className="p-3.5 font-bold font-arabic text-zinc-900">
-                              {sub.studentName}
-                            </td>
-                            <td className="p-3.5 font-bold font-arabic">
-                              <span className="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">
-                                شعبة {sub.studentSection}
-                              </span>
-                            </td>
-                            <td className="p-3.5 font-mono text-xs text-zinc-500 uppercase">
-                              {sub.studentCode}
-                            </td>
-                            <td className="p-3.5">
-                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md font-mono font-bold text-xs bg-zinc-100 text-zinc-900 border border-zinc-300">
-                                {sub.score} / {sub.totalPoints}
-                              </span>
-                            </td>
-                            <td className="p-3.5 text-xs text-zinc-500 font-arabic flex items-center gap-1 pt-4">
-                              <Clock className="w-3.5 h-3.5 text-zinc-400" />
-                              <span>{new Date(sub.submittedAt).toLocaleTimeString('ar-IQ')}</span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                {/* Sub-Tabs: Submitted Students vs Absent Students */}
+                <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+                  <button
+                    onClick={() => setResultsSubTab('submitted')}
+                    className={`py-2 px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer ${
+                      resultsSubTab === 'submitted'
+                        ? 'bg-slate-800 text-white shadow-xs'
+                        : 'text-slate-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>الطلاب الممتحنون ({totalSubmissions})</span>
+                  </button>
+
+                  <button
+                    onClick={() => setResultsSubTab('absent')}
+                    className={`py-2 px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer ${
+                      resultsSubTab === 'absent'
+                        ? 'bg-rose-700 text-white shadow-xs'
+                        : 'text-slate-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    <UserX className="w-4 h-4" />
+                    <span>الطلاب غير الممتحنين / الغياب ({totalAbsentCount})</span>
+                  </button>
+                </div>
+
+                {/* SUBTAB A: SUBMITTED STUDENTS TABLE */}
+                {resultsSubTab === 'submitted' && (
+                  <>
+                    {filteredSubmissions.length === 0 ? (
+                      <div className="py-14 text-center bg-white rounded-2xl border border-slate-200 space-y-2">
+                        <Users className="w-10 h-10 text-slate-300 mx-auto" />
+                        <h4 className="text-sm font-bold text-slate-700 font-arabic">
+                          لا توجد درجات مسجلة في هذا القسم حتى الآن
+                        </h4>
+                        <p className="text-xs text-slate-400 font-arabic max-w-sm mx-auto">
+                          عندما يحل الطلاب الامتحان السريع ستظهر أسماؤهم ودرجاتهم هنا لحظياً.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+                        <table className="w-full text-right border-collapse text-xs sm:text-sm">
+                          <thead>
+                            <tr className="bg-slate-50 text-slate-700 font-bold font-arabic border-b border-slate-200">
+                              <th className="p-3.5">#</th>
+                              <th className="p-3.5">اسم الطالب</th>
+                              <th className="p-3.5">الشعبة</th>
+                              <th className="p-3.5">كود التفعيل</th>
+                              <th className="p-3.5">الدرجة</th>
+                              <th className="p-3.5">وقت التسليم</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 font-sans">
+                            {filteredSubmissions.map((sub, idx) => (
+                              <tr key={sub.id || idx} className="hover:bg-slate-50/80 transition-colors">
+                                <td className="p-3.5 text-slate-400 font-mono text-xs">{idx + 1}</td>
+                                <td className="p-3.5 font-bold font-arabic text-slate-800">
+                                  {sub.studentName}
+                                </td>
+                                <td className="p-3.5 font-bold font-arabic">
+                                  <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                                    شعبة {sub.studentSection}
+                                  </span>
+                                </td>
+                                <td className="p-3.5 font-mono text-xs text-slate-500 uppercase">
+                                  {sub.studentCode}
+                                </td>
+                                <td className="p-3.5">
+                                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md font-mono font-bold text-xs bg-slate-100 text-slate-800 border border-slate-300">
+                                    {sub.score} / {sub.totalPoints}
+                                  </span>
+                                </td>
+                                <td className="p-3.5 text-xs text-slate-500 font-arabic">
+                                  <div className="flex items-center gap-1">
+                                    <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                    <span>{new Date(sub.submittedAt).toLocaleTimeString('ar-IQ')}</span>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* SUBTAB B: ABSENT STUDENTS TABLE (NOT YET SUBMITTED) */}
+                {resultsSubTab === 'absent' && (
+                  <>
+                    {absentStudents.length === 0 ? (
+                      <div className="py-14 text-center bg-white rounded-2xl border border-slate-200 space-y-2">
+                        <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
+                        <h4 className="text-sm font-bold text-slate-800 font-arabic">
+                          ممتاز! جميع طلاب هذه الشعبة قد أكملوا الامتحان بنجاح ✔️
+                        </h4>
+                        <p className="text-xs text-slate-400 font-arabic max-w-sm mx-auto">
+                          نسبة الحضور 100%، لا يوجد طلاب غائبون في القائمة.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+                        <table className="w-full text-right border-collapse text-xs sm:text-sm">
+                          <thead>
+                            <tr className="bg-rose-50/70 text-rose-900 font-bold font-arabic border-b border-rose-200">
+                              <th className="p-3.5">#</th>
+                              <th className="p-3.5">اسم الطالب الغائب</th>
+                              <th className="p-3.5">الشعبة</th>
+                              <th className="p-3.5">كود التفعيل المسجل</th>
+                              <th className="p-3.5">حالة الامتحان</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 font-sans">
+                            {absentStudents.map((st, idx) => (
+                              <tr key={st.id || idx} className="hover:bg-slate-50/80 transition-colors">
+                                <td className="p-3.5 text-slate-400 font-mono text-xs">{idx + 1}</td>
+                                <td className="p-3.5 font-bold font-arabic text-slate-800">
+                                  {st.fullName}
+                                </td>
+                                <td className="p-3.5 font-bold font-arabic">
+                                  <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                                    شعبة {st.section}
+                                  </span>
+                                </td>
+                                <td className="p-3.5 font-mono text-xs text-slate-500 uppercase">
+                                  {st.code}
+                                </td>
+                                <td className="p-3.5">
+                                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md font-arabic font-bold text-xs bg-rose-50 text-rose-700 border border-rose-200">
+                                    لم يؤد الامتحان بعد ⏳
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}
 
-            {/* TAB 2: INTERACTIVE QUESTION BUILDER & SWAPPER */}
+            {/* ======================================================== */}
+            {/* TAB 2: EXAM BUILDER & SWAPPER                            */}
+            {/* ======================================================== */}
             {activeTab === 'builder' && (
               <div className="space-y-6 text-right">
-                {/* Active Exam Status Bar */}
-                <div className="bg-white p-4 sm:p-5 rounded-2xl border border-zinc-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                      isExamActiveLocal ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-500'
-                    }`}>
-                      {isExamActiveLocal ? <Play className="w-4 h-4 fill-current" /> : <Pause className="w-4 h-4 fill-current" />}
-                    </span>
-                    <div>
-                      <h4 className="text-sm sm:text-base font-bold font-arabic text-zinc-900">
-                        {isExamActiveLocal ? 'الامتحان متاح ونشط حالياً للطلاب 🟢' : 'الامتحان متوقف حالياً 🔴'}
-                      </h4>
-                      <p className="text-xs text-zinc-500 font-arabic">
-                        {isExamActiveLocal
-                          ? 'يظهر لجميع الطلاب زر للبدء بالامتحان وتسليم الدرجات.'
-                          : 'يمكنك إعداد وتعديل الأسئلة أدناه، ثم الضغط على زر الاعتماد والإطلاق.'}
-                      </p>
+                {/* Exam Title & Master Actions Card */}
+                <div className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="space-y-1.5 flex-1 max-w-md">
+                    <label className="text-xs font-bold text-slate-700 font-arabic">
+                      عنوان الامتحان السريع:
+                    </label>
+                    <input
+                      type="text"
+                      value={examTitle}
+                      onChange={(e) => setExamTitle(e.target.value)}
+                      placeholder="الامتحان السريع • الوحدة الأولى"
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 font-arabic text-sm text-slate-800 focus:border-slate-800 focus:ring-0"
+                    />
+                    <div className="flex items-center gap-2 pt-1 text-xs">
+                      <span className="text-slate-500 font-arabic">حالة الامتحان الآن:</span>
+                      <span
+                        className={`font-bold font-arabic px-2 py-0.5 rounded-full text-[11px] ${
+                          isExamActiveLocal
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            : 'bg-slate-100 text-slate-600 border border-slate-200'
+                        }`}
+                      >
+                        {isExamActiveLocal ? 'متاح للطلاب ومباشر الآن 🚀' : 'مغلق حالياً 🔒'}
+                      </span>
                     </div>
                   </div>
 
@@ -529,7 +748,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     {isExamActiveLocal ? (
                       <button
                         onClick={() => handleSaveAndLaunchExam(false)}
-                        className="px-4 py-2 rounded-xl border border-zinc-300 hover:bg-zinc-100 text-zinc-800 font-bold text-xs cursor-pointer font-arabic transition-colors flex items-center gap-1.5"
+                        className="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-800 font-bold text-xs cursor-pointer font-arabic transition-colors flex items-center gap-1.5"
                       >
                         <Pause className="w-3.5 h-3.5" />
                         <span>إيقاف الامتحان 🔒</span>
@@ -537,7 +756,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     ) : (
                       <button
                         onClick={() => handleSaveAndLaunchExam(true)}
-                        className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs cursor-pointer font-arabic transition-colors flex items-center gap-1.5 shadow-2xs"
+                        className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs cursor-pointer font-arabic transition-colors flex items-center gap-1.5 shadow-xs"
                       >
                         <Play className="w-3.5 h-3.5 fill-current" />
                         <span>اعتماد وإطلاق الامتحان للطلاب 🚀</span>
@@ -547,19 +766,19 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                 </div>
 
                 {builderStatusMsg && (
-                  <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-arabic">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-arabic">
                     {builderStatusMsg}
                   </div>
                 )}
 
                 {/* Filter Sources & Generator Settings Card */}
-                <div className="bg-white rounded-2xl border border-zinc-200 p-5 space-y-4">
+                <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-4">
                   <div>
-                    <h4 className="text-sm font-bold text-zinc-900 font-arabic">
-                      1. تحديد مصادر الأسئلة (من أي الدروس تريد الاختبار؟)
+                    <h4 className="text-sm font-bold text-slate-800 font-arabic">
+                      1. تحديد مصادر الأسئلة (من أي تمارين كتاب النشاط تريد الاختبار؟)
                     </h4>
-                    <p className="text-xs text-zinc-500 font-arabic mt-0.5">
-                      حدد الدروس التي درستها لطلابك ليتم توليد الأسئلة منها حصراً:
+                    <p className="text-xs text-slate-500 font-arabic mt-0.5">
+                      حدد الدروس التي درستها لطلابك ليتم توليد الأسئلة منها حصراً كما هي في كتاب النشاط:
                     </p>
                   </div>
 
@@ -581,12 +800,12 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                           onClick={() => handleToggleLessonSource(src.id)}
                           className={`px-3 py-1.5 rounded-xl border text-xs font-bold font-arabic transition-all cursor-pointer flex items-center gap-1.5 ${
                             isChecked
-                              ? 'bg-zinc-900 text-white border-zinc-900 shadow-2xs'
-                              : 'bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-600'
+                              ? 'bg-slate-800 text-white border-slate-800 shadow-xs'
+                              : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-600'
                           }`}
                         >
                           <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center text-[10px] ${
-                            isChecked ? 'border-white bg-white text-zinc-950 font-bold' : 'border-zinc-300'
+                            isChecked ? 'border-white bg-white text-slate-900 font-bold' : 'border-slate-300'
                           }`}>
                             {isChecked ? '✓' : ''}
                           </span>
@@ -597,9 +816,9 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                   </div>
 
                   {/* Question Count & Re-roll Button */}
-                  <div className="pt-2 border-t border-zinc-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-zinc-700 font-arabic">
+                      <span className="text-xs font-bold text-slate-700 font-arabic">
                         عدد الأسئلة:
                       </span>
                       {[5, 8].map((cnt) => (
@@ -609,8 +828,8 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                           onClick={() => setQuestionCountTarget(cnt)}
                           className={`px-3 py-1 rounded-lg text-xs font-bold font-arabic transition-all cursor-pointer ${
                             questionCountTarget === cnt
-                              ? 'bg-zinc-900 text-white'
-                              : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-700'
+                              ? 'bg-slate-800 text-white'
+                              : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                           }`}
                         >
                           {cnt} أسئلة
@@ -621,7 +840,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     <button
                       type="button"
                       onClick={handleGenerateQuestions}
-                      className="px-4 py-2 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-800 text-xs font-bold font-arabic cursor-pointer transition-colors flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold font-arabic cursor-pointer transition-colors flex items-center gap-1.5"
                     >
                       <Shuffle className="w-3.5 h-3.5" />
                       <span>إعادة توليد نموذج عشوائي 🎲</span>
@@ -632,10 +851,10 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                 {/* Generated Questions List with "تبديل هذا السؤال" feature */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between px-1">
-                    <h4 className="text-sm font-bold text-zinc-900 font-arabic">
+                    <h4 className="text-sm font-bold text-slate-800 font-arabic">
                       2. مراجعة الأسئلة وتعديلها ({selectedQuestions.length} أسئلة):
                     </h4>
-                    <span className="text-xs text-zinc-500 font-arabic">
+                    <span className="text-xs text-slate-500 font-arabic">
                       اضغط "تبديل" لتغيير أي سؤال لا يعجبك بسؤال بديل فوراً
                     </span>
                   </div>
@@ -644,20 +863,20 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     {selectedQuestions.map((q, idx) => (
                       <div
                         key={q.id + idx}
-                        className="bg-white rounded-2xl border border-zinc-200 p-4 sm:p-5 space-y-3 shadow-2xs"
+                        className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 space-y-3 shadow-xs"
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="space-y-1 text-left" dir="ltr">
                             <div className="flex items-center gap-2">
-                              <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-mono">
+                              <span className="w-6 h-6 rounded-md bg-slate-800 text-white text-xs font-bold flex items-center justify-center font-mono">
                                 {idx + 1}
                               </span>
-                              <span className="text-sm font-bold text-zinc-900 font-sans">
+                              <span className="text-sm font-bold text-slate-800 font-sans">
                                 {q.questionEn}
                               </span>
                             </div>
                             {q.questionAr && (
-                              <p className="text-xs text-zinc-500 font-arabic pt-0.5 text-right" dir="rtl">
+                              <p className="text-xs text-slate-500 font-arabic pt-0.5 text-right" dir="rtl">
                                 {q.questionAr}
                               </p>
                             )}
@@ -667,10 +886,10 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                           <button
                             type="button"
                             onClick={() => handleSwapSingleQuestion(idx)}
-                            className="px-2.5 py-1.5 rounded-lg border border-zinc-200 hover:bg-zinc-50 text-zinc-700 text-xs font-bold font-arabic cursor-pointer transition-colors shrink-0 flex items-center gap-1"
-                            title="تغيير هذا السؤال بسؤال آخر"
+                            className="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors shrink-0 flex items-center gap-1"
+                            title="تغيير هذا السؤال بسؤال آخر من كتاب النشاط"
                           >
-                            <RotateCcw className="w-3 h-3 text-zinc-500" />
+                            <RotateCcw className="w-3 h-3 text-slate-500" />
                             <span>تبديل السؤال</span>
                           </button>
                         </div>
@@ -682,24 +901,24 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                               key={oIdx}
                               className={`p-2 rounded-lg text-xs font-sans text-left flex items-center justify-between border ${
                                 opt === q.correctAnswer
-                                  ? 'bg-zinc-100 font-bold border-zinc-400 text-zinc-900'
-                                  : 'bg-zinc-50 border-zinc-200 text-zinc-600'
+                                  ? 'bg-slate-100 font-bold border-slate-400 text-slate-800'
+                                  : 'bg-slate-50 border-slate-200 text-slate-600'
                               }`}
                             >
                               <span>{opt}</span>
-                              {opt === q.correctAnswer && <span className="text-zinc-900 font-bold">✓</span>}
+                              {opt === q.correctAnswer && <span className="text-slate-800 font-bold">✓</span>}
                             </div>
                           ))}
                         </div>
 
                         {/* Source lesson & exercise reference */}
-                        <div className="pt-2 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-arabic">
+                        <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-arabic">
                           <span className="flex items-center gap-1.5">
-                            <span className="font-bold text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+                            <span className="font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                               {q.exerciseRef || q.lessonTitleAr}
                             </span>
                           </span>
-                          <span className="font-mono font-bold text-zinc-600">{q.points || 2} درجات</span>
+                          <span className="font-mono font-bold text-slate-600">{q.points || 2} درجات</span>
                         </div>
                       </div>
                     ))}
@@ -710,7 +929,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     <button
                       type="button"
                       onClick={() => handleSaveAndLaunchExam(true)}
-                      className="py-3.5 px-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm cursor-pointer shadow-xs transition-colors font-arabic inline-flex items-center gap-2"
+                      className="py-3.5 px-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm cursor-pointer shadow-xs transition-colors font-arabic inline-flex items-center gap-2"
                     >
                       <Play className="w-4 h-4 fill-current" />
                       <span>اعتماد هذا النموذج وإطلاق الامتحان للطلاب 🚀</span>
@@ -720,85 +939,72 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
               </div>
             )}
 
-            {/* TAB 3: LESSON ACCESS CONTROL */}
+            {/* ======================================================== */}
+            {/* TAB 3: LESSON LOCKING / UNLOCKING                        */}
+            {/* ======================================================== */}
             {activeTab === 'lessons' && (
               <div className="space-y-5 text-right">
-                <div className="bg-white p-4 rounded-2xl border border-zinc-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h4 className="text-sm font-bold text-zinc-900 font-arabic">
-                      التحكم بالدروس المفتوحة والمقفولة للطلاب
-                    </h4>
-                    <p className="text-xs text-zinc-500 font-arabic mt-0.5">
-                      الدرس المقفول لن يفتح للطالب وستظهر عليه أيقونة قفل 🔒.
+                    <h3 className="text-base font-bold text-slate-800 font-arabic">
+                      التحكم بالدروس المفتوحة للطلاب
+                    </h3>
+                    <p className="text-xs text-slate-500 font-arabic mt-0.5">
+                      يمكنك قفل الدروس المتقدمة حتى لا يسبقك الطلاب في المنهاج، وفتحها تدريجياً حسب تقدمك في الدوام:
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleUnlockAll}
-                      className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold font-arabic cursor-pointer transition-colors"
+                      className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
                     >
-                      فتح الكل
+                      فتح جميع الدروس
                     </button>
                     <button
                       onClick={handleLockAllExcept1}
-                      className="px-3 py-1.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
+                      className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
                     >
-                      قفل الكل عدا الدرس 1
+                      قفل الكل (عدا الدرس 1)
                     </button>
                   </div>
                 </div>
 
-                {/* 10 Lessons Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Lesson Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {Array.from({ length: 10 }, (_, i) => {
-                    const lessonId = `lesson-${i + 1}`;
-                    const isUnlocked = (platformConfig.unlockedLessons || []).includes(lessonId);
+                    const lNum = i + 1;
+                    const lId = `lesson-${lNum}`;
+                    const isUnlocked = (platformConfig.unlockedLessons || []).includes(lId);
 
                     return (
                       <div
-                        key={lessonId}
-                        className={`p-3.5 rounded-2xl border flex items-center justify-between gap-3 transition-all ${
+                        key={lId}
+                        className={`p-4 rounded-2xl border transition-all flex items-center justify-between ${
                           isUnlocked
-                            ? 'bg-white border-zinc-200'
-                            : 'bg-zinc-50 border-zinc-200/60 opacity-60'
+                            ? 'bg-white border-slate-200 shadow-2xs'
+                            : 'bg-slate-50/70 border-dashed border-slate-300 opacity-80'
                         }`}
                       >
-                        <div className="flex items-center gap-2.5">
-                          <span className={`w-8 h-8 rounded-xl flex items-center justify-center font-mono font-bold text-xs ${
-                            isUnlocked ? 'bg-zinc-900 text-white' : 'bg-zinc-200 text-zinc-500'
-                          }`}>
-                            L{i + 1}
+                        <div className="space-y-0.5">
+                          <span className="text-[11px] font-mono font-bold text-slate-400">
+                            Lesson {lNum}
                           </span>
-                          <div>
-                            <span className="font-bold text-xs text-zinc-900 font-arabic block">
-                              الدرس {i + 1}
-                            </span>
-                            <span className="text-[11px] text-zinc-400 font-sans block">
-                              Lesson {i + 1}
-                            </span>
-                          </div>
+                          <h4 className="text-sm font-bold text-slate-800 font-arabic">
+                            الدرس {lNum}
+                          </h4>
                         </div>
 
                         <button
-                          onClick={() => handleToggleLessonAccess(lessonId)}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold font-arabic cursor-pointer transition-all flex items-center gap-1.5 ${
+                          onClick={() => handleToggleLessonAccess(lId)}
+                          className={`p-2 rounded-xl border cursor-pointer transition-colors ${
                             isUnlocked
-                              ? 'bg-zinc-900 text-white'
-                              : 'bg-zinc-200 text-zinc-700 hover:bg-zinc-300'
+                              ? 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
+                              : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
                           }`}
+                          title={isUnlocked ? 'قفل هذا الدرس' : 'فتح هذا الدرس'}
                         >
-                          {isUnlocked ? (
-                            <>
-                              <Unlock className="w-3.5 h-3.5" />
-                              <span>مفتوح</span>
-                            </>
-                          ) : (
-                            <>
-                              <Lock className="w-3.5 h-3.5" />
-                              <span>مقفول</span>
-                            </>
-                          )}
+                          {isUnlocked ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
                         </button>
                       </div>
                     );
@@ -807,70 +1013,248 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
               </div>
             )}
 
-            {/* TAB 4: ACCESS CODES & PIN */}
+            {/* ======================================================== */}
+            {/* TAB 4: CODES & PIN SETTINGS                              */}
+            {/* ======================================================== */}
             {activeTab === 'codes' && (
-              <form onSubmit={handleSaveSettings} className="bg-white p-6 rounded-3xl border border-zinc-200 space-y-5 text-right max-w-lg mx-auto">
-                <div className="text-center pb-2">
-                  <h4 className="text-base font-bold text-zinc-900 font-arabic">
-                    إدارة كود التفعيل والرمز السري
-                  </h4>
-                  <p className="text-xs text-zinc-500 font-arabic mt-1">
-                    يمكنك تغيير الكود الموحد الذي ترسله للطلاب، وتغيير رمز دخول الأستاذ.
-                  </p>
-                </div>
-
-                {settingsSaveMsg && (
-                  <div className="p-3 bg-zinc-50 border border-zinc-200 text-zinc-800 rounded-xl text-xs font-arabic flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0" />
-                    <span>{settingsSaveMsg}</span>
+              <div className="space-y-5 text-right">
+                <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 max-w-xl mx-auto space-y-5">
+                  <div>
+                    <h3 className="text-base font-bold text-slate-800 font-arabic">
+                      إعدادات كود التفعيل والرمز السري للأستاذ
+                    </h3>
+                    <p className="text-xs text-slate-500 font-arabic mt-0.5">
+                      يمكنك تغيير كود تفعيل الطلاب أو الرمز السري الخاص بك في أي وقت:
+                    </p>
                   </div>
-                )}
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                    <KeyRound className="w-3.5 h-3.5 text-zinc-900" />
-                    <span>كود تفعيل الطلاب:</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={newMasterCode}
-                    onChange={(e) => setNewMasterCode(e.target.value)}
-                    placeholder="IQ-2026"
-                    className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 focus:border-zinc-900 focus:ring-0 font-mono font-bold text-base tracking-wider text-zinc-900 uppercase text-center"
-                  />
-                  <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5">
-                    الكود الذي تدزه للطلاب للدخول للمنصة.
-                  </span>
+                  <form onSubmit={handleSaveSettings} className="space-y-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
+                        <KeyRound className="w-3.5 h-3.5 text-slate-600" />
+                        <span>كود تفعيل الطلاب الرئيسي:</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={newMasterCode}
+                        onChange={(e) => setNewMasterCode(e.target.value)}
+                        placeholder="IQ-2026"
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-800 focus:border-slate-800 focus:ring-0 uppercase"
+                      />
+                      <span className="text-[11px] text-slate-400 font-arabic block">
+                        هذا هو الكود الذي ترسله لطلابك ليسجلوا به في المنصة.
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
+                        <Lock className="w-3.5 h-3.5 text-slate-600" />
+                        <span>الرمز السري للأستاذ (PIN):</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={newTeacherPin}
+                        onChange={(e) => setNewTeacherPin(e.target.value)}
+                        placeholder="2026"
+                        className="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-800 focus:border-slate-800 focus:ring-0"
+                      />
+                      <span className="text-[11px] text-slate-400 font-arabic block">
+                        الرمز الذي يفتح لك لوحة التحكم هذه ويمنحك صلاحية الأستاذ.
+                      </span>
+                    </div>
+
+                    {settingsSaveMsg && (
+                      <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-arabic">
+                        {settingsSaveMsg}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      className="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm cursor-pointer shadow-xs transition-colors font-arabic"
+                    >
+                      حفظ التغييرات
+                    </button>
+                  </form>
                 </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-zinc-900" />
-                    <span>الرمز السري لدخول الأستاذ (PIN):</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={newTeacherPin}
-                    onChange={(e) => setNewTeacherPin(e.target.value)}
-                    placeholder="2026"
-                    className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 focus:border-zinc-900 focus:ring-0 font-mono font-bold text-base tracking-wider text-zinc-900 text-center"
-                  />
-                  <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5">
-                    الرمز السري لدخول هذه اللوحة.
-                  </span>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 px-5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm cursor-pointer transition-colors font-arabic shadow-2xs"
-                >
-                  حفظ التغييرات
-                </button>
-              </form>
+              </div>
             )}
           </div>
         )}
       </main>
+
+      {/* ======================================================== */}
+      {/* PRINT-READY PDF REPORT MODAL                             */}
+      {/* ======================================================== */}
+      {isPdfModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-900/50 backdrop-blur-sm overflow-y-auto"
+          dir="rtl"
+        >
+          <div className="w-full max-w-3xl bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="bg-slate-800 text-white p-4 sm:p-5 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-2.5">
+                <FileDown className="w-5 h-5 text-amber-300" />
+                <div>
+                  <h3 className="text-base font-bold font-arabic">
+                    تقرير درجات الامتحان • الأول المتوسط
+                  </h3>
+                  <span className="text-xs text-slate-300 font-arabic">
+                    {selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => window.print()}
+                  className="py-1.5 px-3.5 rounded-xl bg-white text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic shadow-xs hover:bg-slate-100 transition-colors"
+                >
+                  <Printer className="w-4 h-4 text-slate-700" />
+                  <span>طباعة / حفظ PDF</span>
+                </button>
+
+                <button
+                  onClick={() => setIsPdfModalOpen(false)}
+                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white cursor-pointer transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Printable Document Content (Preview) */}
+            <div className="p-6 sm:p-8 overflow-y-auto space-y-6 text-right print:p-0" id="printable-exam-report">
+              {/* Document Official Header */}
+              <div className="border-b-2 border-slate-800 pb-4 text-center space-y-1">
+                <div className="flex items-center justify-between text-xs text-slate-500 font-arabic">
+                  <span>جمهورية العراق • وزارة التربية</span>
+                  <span>الصف الأول المتوسط</span>
+                </div>
+                <h2 className="text-xl font-bold text-slate-900 font-arabic pt-1">
+                  كشف نتائج ودرجات الامتحان اليومي لمادة اللغة الإنجليزية
+                </h2>
+                <div className="flex items-center justify-center gap-4 text-xs text-slate-600 font-arabic pt-1">
+                  <span>📌 الامتحان: <strong>{examTitle}</strong></span>
+                  <span>🏫 الشعبة: <strong>{selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`}</strong></span>
+                  <span>📅 التاريخ: <strong>{new Date().toLocaleDateString('ar-IQ')}</strong></span>
+                </div>
+              </div>
+
+              {/* Statistical Summary Box */}
+              <div className="grid grid-cols-4 gap-2.5 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-center text-xs font-arabic">
+                <div>
+                  <span className="text-[11px] text-slate-500 block">عدد المسجلين</span>
+                  <strong className="text-base font-bold text-slate-800 font-mono">{totalRegisteredCount}</strong>
+                </div>
+                <div>
+                  <span className="text-[11px] text-slate-500 block">عدد الممتحنين</span>
+                  <strong className="text-base font-bold text-emerald-700 font-mono">{totalSubmissions}</strong>
+                </div>
+                <div>
+                  <span className="text-[11px] text-slate-500 block">عدد الغائبين</span>
+                  <strong className="text-base font-bold text-rose-600 font-mono">{totalAbsentCount}</strong>
+                </div>
+                <div>
+                  <span className="text-[11px] text-slate-500 block">متوسط الدرجة</span>
+                  <strong className="text-base font-bold text-slate-800 font-mono">{avgScore} / 10</strong>
+                </div>
+              </div>
+
+              {/* Table 1: Attendees and Scores */}
+              <div className="space-y-2">
+                <h4 className="text-sm font-bold text-slate-800 font-arabic flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>أولاً: قائمة الطلاب الممتحنين والدرجات ({totalSubmissions} طالب):</span>
+                </h4>
+
+                {filteredSubmissions.length === 0 ? (
+                  <p className="text-xs text-slate-400 py-3 font-arabic">لا يوجد ممتحنون في هذه الشعبة.</p>
+                ) : (
+                  <div className="rounded-xl border border-slate-200 overflow-hidden">
+                    <table className="w-full text-right text-xs border-collapse">
+                      <thead>
+                        <tr className="bg-slate-100 text-slate-700 font-bold font-arabic border-b border-slate-200">
+                          <th className="p-2.5">ت</th>
+                          <th className="p-2.5">اسم الطالب</th>
+                          <th className="p-2.5">الشعبة</th>
+                          <th className="p-2.5">الدرجة النهائية</th>
+                          <th className="p-2.5">وقت التسليم</th>
+                          <th className="p-2.5">التقييم</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 font-sans">
+                        {filteredSubmissions.map((sub, idx) => (
+                          <tr key={sub.id || idx}>
+                            <td className="p-2.5 text-slate-400 font-mono">{idx + 1}</td>
+                            <td className="p-2.5 font-bold font-arabic text-slate-800">{sub.studentName}</td>
+                            <td className="p-2.5 font-arabic">شعبة {sub.studentSection}</td>
+                            <td className="p-2.5 font-bold font-mono text-slate-900">
+                              {sub.score} / {sub.totalPoints}
+                            </td>
+                            <td className="p-2.5 text-slate-500 text-[11px]">
+                              {new Date(sub.submittedAt).toLocaleTimeString('ar-IQ')}
+                            </td>
+                            <td className="p-2.5 font-arabic">
+                              {sub.score >= sub.totalPoints * 0.8
+                                ? 'ممتاز'
+                                : sub.score >= sub.totalPoints * 0.5
+                                ? 'جيد'
+                                : 'يحتاج متابعة'}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Table 2: Absent Students */}
+              <div className="space-y-2 pt-2">
+                <h4 className="text-sm font-bold text-rose-800 font-arabic flex items-center gap-1.5">
+                  <UserX className="w-4 h-4 text-rose-600" />
+                  <span>ثانياً: قائمة الطلاب غير الممتحنين / الغياب ({totalAbsentCount} طالب):</span>
+                </h4>
+
+                {absentStudents.length === 0 ? (
+                  <p className="text-xs text-emerald-700 py-2 font-arabic font-bold">لا يوجد غياب، جميع الطلاب امتحنوا بنجاح.</p>
+                ) : (
+                  <div className="rounded-xl border border-rose-200 overflow-hidden">
+                    <table className="w-full text-right text-xs border-collapse">
+                      <thead>
+                        <tr className="bg-rose-50 text-rose-900 font-bold font-arabic border-b border-rose-200">
+                          <th className="p-2.5">ت</th>
+                          <th className="p-2.5">اسم الطالب الغائب</th>
+                          <th className="p-2.5">الشعبة</th>
+                          <th className="p-2.5">الملاحظة</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 font-sans">
+                        {absentStudents.map((st, idx) => (
+                          <tr key={st.id || idx}>
+                            <td className="p-2.5 text-slate-400 font-mono">{idx + 1}</td>
+                            <td className="p-2.5 font-bold font-arabic text-slate-800">{st.fullName}</td>
+                            <td className="p-2.5 font-arabic">شعبة {st.section}</td>
+                            <td className="p-2.5 text-rose-600 font-arabic font-bold">غائب عن الامتحان</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer Signature Box */}
+              <div className="pt-8 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600 font-arabic">
+                <span>توقيع مدرس المادة: .......................................</span>
+                <span>توقيع إدارة المدرسة: .......................................</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -3,12 +3,9 @@ import {
   Sparkles,
   CheckCircle2,
   AlertCircle,
-  HelpCircle,
-  Clock,
-  Send,
   X,
   Award,
-  RotateCcw
+  Send
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import {
@@ -100,11 +97,15 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         answers: selectedAnswers,
       });
 
-      // 2. Save locally to prevent resubmission
+      // 2. Save locally
       const localKey = `iq_exam_done_${exam.id}_${student.id}`;
       localStorage.setItem(
         localKey,
-        JSON.stringify({ score, totalPoints: totalPossible })
+        JSON.stringify({
+          score: score,
+          totalPoints: totalPossible,
+          submittedAt: new Date().toISOString(),
+        })
       );
 
       setEarnedScore(score);
@@ -112,9 +113,9 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       setIsSubmitted(true);
 
       confetti({
-        particleCount: 60,
-        spread: 70,
-        origin: { y: 0.6 },
+        particleCount: 65,
+        spread: 80,
+        origin: { y: 0.55 },
       });
     } catch (err) {
       console.error(err);
@@ -126,21 +127,21 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-zinc-950/70 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-900/50 backdrop-blur-sm overflow-y-auto"
       dir="rtl"
     >
-      <div className="w-full max-w-2xl bg-white rounded-3xl border border-zinc-200 shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+      <div className="w-full max-w-2xl bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="bg-zinc-900 text-white p-5 sm:p-6 flex items-center justify-between">
+        <div className="bg-slate-800 text-white p-5 sm:p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-white/10 text-white flex items-center justify-center font-bold">
-              <Award className="w-5 h-5" />
+              <Award className="w-5 h-5 text-amber-300" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-black font-arabic">
+              <h3 className="text-base sm:text-lg font-bold font-arabic">
                 {exam.title}
               </h3>
-              <span className="text-xs text-zinc-400 font-arabic block mt-0.5">
+              <span className="text-xs text-slate-300 font-arabic block mt-0.5">
                 الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section}
               </span>
             </div>
@@ -148,7 +149,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-zinc-300 hover:text-white cursor-pointer transition-colors"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white cursor-pointer transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -159,29 +160,29 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
           {/* VIEW: RESULT CARD IF ALREADY SUBMITTED */}
           {isSubmitted ? (
             <div className="text-center py-6 sm:py-8 space-y-5">
-              <div className="w-16 h-16 rounded-3xl bg-zinc-100 text-zinc-900 mx-auto flex items-center justify-center border-2 border-zinc-300 shadow-2xs">
-                <CheckCircle2 className="w-9 h-9" />
+              <div className="w-16 h-16 rounded-3xl bg-slate-100 text-slate-800 mx-auto flex items-center justify-center border-2 border-slate-300 shadow-xs">
+                <CheckCircle2 className="w-9 h-9 text-emerald-600" />
               </div>
 
               <div>
-                <span className="text-xs font-bold text-zinc-800 bg-zinc-100 px-3 py-1 rounded-full border border-zinc-200 font-arabic inline-block mb-2">
+                <span className="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 font-arabic inline-block mb-2">
                   تم تسليم الامتحان بنجاح ✔️
                 </span>
-                <h4 className="text-2xl font-black text-zinc-900 font-arabic">
+                <h4 className="text-2xl font-bold text-slate-800 font-arabic">
                   أحسنت يا {student.fullName}!
                 </h4>
-                <p className="text-xs text-zinc-500 font-arabic mt-1">
+                <p className="text-xs text-slate-500 font-arabic mt-1">
                   تم إرسال درجتك إلى لوحة الأستاذ وتسجيلها في القائمة فوراً
                 </p>
               </div>
 
               {/* Score Display Card */}
-              <div className="p-6 bg-zinc-50 border border-zinc-200 rounded-3xl max-w-xs mx-auto text-center space-y-1">
-                <span className="text-xs text-zinc-500 font-arabic block">درجتك النهائية:</span>
-                <strong className="text-4xl font-black text-zinc-900 font-mono block">
-                  {earnedScore} <span className="text-xl text-zinc-400 font-normal">/ {totalPoints}</span>
+              <div className="p-6 bg-slate-50 border border-slate-200 rounded-3xl max-w-xs mx-auto text-center space-y-1">
+                <span className="text-xs text-slate-500 font-arabic block">درجتك النهائية:</span>
+                <strong className="text-4xl font-bold text-slate-800 font-mono block">
+                  {earnedScore} <span className="text-xl text-slate-400 font-normal">/ {totalPoints}</span>
                 </strong>
-                <span className="text-xs font-bold text-zinc-700 font-arabic block pt-1">
+                <span className="text-xs font-bold text-slate-700 font-arabic block pt-1">
                   {earnedScore >= totalPoints * 0.8
                     ? 'ممتاز جداً! إجابات رائعة'
                     : earnedScore >= totalPoints * 0.5
@@ -192,7 +193,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
               <button
                 onClick={onClose}
-                className="py-3 px-8 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm cursor-pointer shadow-2xs transition-all font-arabic"
+                className="py-3 px-8 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm cursor-pointer shadow-sm transition-all font-arabic"
               >
                 العودة للمنهاج والدروس
               </button>
@@ -200,10 +201,10 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
           ) : (
             /* VIEW: EXAM QUESTIONS FORM */
             <div className="space-y-6 text-right">
-              <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-2xl text-zinc-700 text-xs font-arabic flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-zinc-900 shrink-0" />
+              <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 text-xs font-arabic flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-slate-600 shrink-0" />
                 <span>
-                  اختر الإجابة الصحيحة لكل سؤال، وعند الانتهاء اضغط زر <strong>تسليم الإجابات</strong> بالأسفل.
+                  اختر الإجابة الصحيحة لكل سؤال من أسئلة كتاب النشاط، وعند الانتهاء اضغط زر <strong>تسليم الإجابات</strong> بالأسفل.
                 </span>
               </div>
 
@@ -215,25 +216,25 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
                   return (
                     <div
                       key={q.id}
-                      className="p-4 sm:p-5 rounded-2xl border-2 border-zinc-200 bg-white shadow-2xs space-y-3"
+                      className="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="space-y-1 text-left" dir="ltr">
                           <div className="flex items-center gap-2">
-                            <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-mono">
+                            <span className="w-6 h-6 rounded-md bg-slate-800 text-white text-xs font-bold flex items-center justify-center font-mono">
                               {idx + 1}
                             </span>
-                            <span className="text-sm sm:text-base font-bold text-zinc-900 font-sans">
+                            <span className="text-sm sm:text-base font-bold text-slate-800 font-sans">
                               {q.questionEn}
                             </span>
                           </div>
                           {q.questionAr && (
-                            <p className="text-xs text-zinc-500 font-arabic pt-0.5 text-right" dir="rtl">
+                            <p className="text-xs text-slate-500 font-arabic pt-0.5 text-right" dir="rtl">
                               {q.questionAr}
                             </p>
                           )}
                         </div>
-                        <span className="text-[11px] font-mono text-zinc-400 font-bold shrink-0">
+                        <span className="text-[11px] font-mono text-slate-400 font-bold shrink-0">
                           {q.points || 2} pts
                         </span>
                       </div>
@@ -248,10 +249,10 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
                               key={oIdx}
                               type="button"
                               onClick={() => handleSelectOption(q.id, opt)}
-                              className={`p-3 rounded-xl border-2 text-left font-sans text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-between gap-2 ${
+                              className={`p-3 rounded-xl border text-left font-sans text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-between gap-2 ${
                                 isSelected
-                                  ? 'border-zinc-900 bg-zinc-900 text-white shadow-xs'
-                                  : 'border-zinc-200 bg-zinc-50/70 hover:bg-zinc-100 text-zinc-800'
+                                  ? 'border-slate-800 bg-slate-800 text-white shadow-xs'
+                                  : 'border-slate-200 bg-slate-50/70 hover:bg-slate-100 text-slate-800'
                               }`}
                             >
                               <span>{opt}</span>
@@ -259,10 +260,10 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
                                 className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                                   isSelected
                                     ? 'border-white bg-white'
-                                    : 'border-zinc-300 bg-white'
+                                    : 'border-slate-300 bg-white'
                                 }`}
                               >
-                                {isSelected && <span className="w-2 h-2 rounded-full bg-zinc-950" />}
+                                {isSelected && <span className="w-2 h-2 rounded-full bg-slate-800" />}
                               </span>
                             </button>
                           );
@@ -286,7 +287,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
                   type="button"
                   onClick={handleSubmitExam}
                   disabled={isSubmitting}
-                  className="w-full py-4 px-6 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all font-arabic"
+                  className="w-full py-4 px-6 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all font-arabic"
                 >
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? 'جاري إرسال الإجابة للأستاذ...' : 'تسليم الإجابات واعتماد الدرجة'}</span>

@@ -137,22 +137,22 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
 
   return (
     <div
-      className="min-h-screen bg-zinc-100 flex flex-col justify-between p-4 sm:p-6 selection:bg-zinc-800 selection:text-white"
+      className="min-h-screen bg-slate-50 flex flex-col justify-between p-4 sm:p-6 selection:bg-slate-700 selection:text-white"
       dir="rtl"
     >
       <div />
 
       {/* Centered Login Card */}
-      <div className="w-full max-w-md mx-auto my-auto bg-white rounded-3xl border border-zinc-200 p-6 sm:p-8 shadow-xs">
+      <div className="w-full max-w-md mx-auto my-auto bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-sm">
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <div className="w-11 h-11 rounded-xl bg-zinc-900 text-white flex items-center justify-center font-bold text-base shadow-2xs font-sans mx-auto mb-3">
+          <div className="w-12 h-12 rounded-2xl bg-slate-800 text-white flex items-center justify-center font-bold text-base shadow-xs font-sans mx-auto mb-3">
             {mode === 'teacher' ? '👨‍🏫' : 'E1'}
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 font-sans leading-tight">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-800 font-sans leading-tight">
             English for Iraq
           </h1>
-          <p className="text-xs text-zinc-500 font-arabic mt-1">
+          <p className="text-xs text-slate-500 font-arabic mt-1">
             {mode === 'teacher'
               ? 'دخول أستاذ المادة • المنهاج التفاعلي ولوحة التحكم'
               : 'الصف الأول المتوسط • المنهاج التفاعلي'}
@@ -165,8 +165,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
         {mode === 'teacher' ? (
           <form onSubmit={handleVerifyTeacherPin} className="space-y-4 text-right">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                <Lock className="w-3.5 h-3.5 text-zinc-900" />
+              <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-slate-700" />
                 <span>أدخل رمز المرور السري للأستاذ (PIN):</span>
               </label>
               <input
@@ -177,24 +177,24 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                   if (teacherErrorMessage) setTeacherErrorMessage(null);
                 }}
                 placeholder="2026"
-                className="w-full px-4 py-3 rounded-xl border border-zinc-300 focus:border-zinc-900 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-zinc-900 placeholder:text-zinc-300 transition-colors"
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-slate-700 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-slate-800 placeholder:text-slate-300 transition-colors"
                 autoFocus
               />
-              <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5">
-                الرمز الافتراضي هو: <strong className="font-mono text-zinc-600">2026</strong> (يمكنك تغييره لاحقاً من لوحة التحكم).
+              <span className="text-[11px] text-slate-400 font-arabic block pt-0.5">
+                الرمز الافتراضي هو: <strong className="font-mono text-slate-600">2026</strong> (يمكنك تغييره لاحقاً من لوحة التحكم).
               </span>
             </div>
 
             {teacherErrorMessage && (
-              <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-arabic flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0 text-zinc-900" />
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-arabic flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-slate-700" />
                 <span>{teacherErrorMessage}</span>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full py-3.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-2xs transition-colors font-arabic"
+              className="w-full py-3.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors font-arabic"
             >
               <ShieldCheck className="w-4 h-4" />
               <span>دخول المنهاج كأستاذ المادة</span>
@@ -207,7 +207,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                   setMode('student');
                   setTeacherErrorMessage(null);
                 }}
-                className="text-xs font-bold text-zinc-500 hover:text-zinc-900 font-arabic cursor-pointer transition-colors"
+                className="text-xs font-bold text-slate-500 hover:text-slate-800 font-arabic cursor-pointer transition-colors"
               >
                 العودة لدخول الطلاب ←
               </button>
@@ -222,8 +222,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
             {step === 1 && (
               <form onSubmit={handleVerifyCode} className="space-y-4 text-right">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                    <KeyRound className="w-3.5 h-3.5 text-zinc-900" />
+                  <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
+                    <KeyRound className="w-3.5 h-3.5 text-slate-700" />
                     <span>أدخل كود التفعيل:</span>
                   </label>
                   <input
@@ -234,24 +234,24 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                       if (errorMessage) setErrorMessage(null);
                     }}
                     placeholder="IQ-2026"
-                    className="w-full px-4 py-3 rounded-xl border border-zinc-300 focus:border-zinc-900 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-zinc-900 uppercase placeholder:text-zinc-300 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-slate-700 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-slate-800 uppercase placeholder:text-slate-300 transition-colors"
                     autoFocus
                   />
-                  <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5">
+                  <span className="text-[11px] text-slate-400 font-arabic block pt-0.5">
                     الكود يُعطى لطلاب الأستاذ حصراً.
                   </span>
                 </div>
 
                 {errorMessage && (
-                  <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-arabic flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0 text-zinc-900" />
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-arabic flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-slate-700" />
                     <span>{errorMessage}</span>
                   </div>
                 )}
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-2xs transition-colors font-arabic"
+                  className="w-full py-3.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors font-arabic"
                 >
                   <span>التحقق من الكود والمتابعة</span>
                   <ArrowLeft className="w-4 h-4" />
@@ -262,8 +262,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
             {/* STEP 2: Enter Student Name + Section */}
             {step === 2 && (
               <form onSubmit={handleSaveStudentProfile} className="space-y-4 text-right">
-                <div className="p-2.5 bg-zinc-50 border border-zinc-200 rounded-xl flex items-center gap-2 text-zinc-800 text-xs font-arabic">
-                  <CheckCircle2 className="w-4 h-4 text-zinc-900 shrink-0" />
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-2 text-slate-800 text-xs font-arabic">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>
                     تم قبول الكود: <strong className="font-mono">{enteredCode.toUpperCase()}</strong>
                   </span>
@@ -271,8 +271,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
 
                 {/* Student Full Name */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-zinc-900" />
+                  <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-slate-700" />
                     <span>اسم الطالب الثلاثي:</span>
                   </label>
                   <input
@@ -283,15 +283,15 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                       if (errorMessage) setErrorMessage(null);
                     }}
                     placeholder="مثال: علي حيدر حسن"
-                    className="w-full px-4 py-2.5 rounded-xl border border-zinc-300 focus:border-zinc-900 focus:ring-0 font-arabic text-sm text-zinc-900 placeholder:text-zinc-400 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-slate-700 focus:ring-0 font-arabic text-sm text-slate-800 placeholder:text-slate-400 transition-colors"
                     autoFocus
                   />
                 </div>
 
                 {/* Section Selector */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                    <GraduationCap className="w-3.5 h-3.5 text-zinc-900" />
+                  <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
+                    <GraduationCap className="w-3.5 h-3.5 text-slate-700" />
                     <span>الشعبة:</span>
                   </label>
                   <div className="grid grid-cols-5 gap-1.5">
@@ -302,8 +302,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                         onClick={() => setSection(sec)}
                         className={`py-2 rounded-lg border font-bold text-xs font-arabic transition-all cursor-pointer ${
                           section === sec
-                            ? 'bg-zinc-900 text-white border-zinc-900 shadow-2xs'
-                            : 'bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-700'
+                            ? 'bg-slate-800 text-white border-slate-800 shadow-xs'
+                            : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
                         }`}
                       >
                         شعبة {sec}
@@ -313,8 +313,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                 </div>
 
                 {errorMessage && (
-                  <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-arabic flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0 text-zinc-900" />
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs font-arabic flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-slate-700" />
                     <span>{errorMessage}</span>
                   </div>
                 )}
@@ -322,7 +322,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-2xs transition-colors font-arabic"
+                  className="w-full py-3.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-xs transition-colors font-arabic"
                 >
                   <span>{isSubmitting ? 'جاري الدخول...' : 'دخول المنصة وحفظ البيانات'}</span>
                 </button>
@@ -330,14 +330,14 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
             )}
 
             {/* Teacher Login Link */}
-            <div className="pt-5 mt-5 border-t border-zinc-100 text-center">
+            <div className="pt-5 mt-5 border-t border-slate-100 text-center">
               <button
                 type="button"
                 onClick={() => {
                   setMode('teacher');
                   setTeacherErrorMessage(null);
                 }}
-                className="text-xs font-bold text-zinc-500 hover:text-zinc-900 font-arabic cursor-pointer transition-colors"
+                className="text-xs font-bold text-slate-500 hover:text-slate-800 font-arabic cursor-pointer transition-colors"
               >
                 دخول أستاذ المادة 👨‍🏫
               </button>
@@ -347,7 +347,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
       </div>
 
       {/* Clean Footer */}
-      <footer className="text-center text-xs text-zinc-400 font-arabic pt-4" dir="rtl">
+      <footer className="text-center text-xs text-slate-400 font-arabic pt-4" dir="rtl">
         <span>English for Iraq • 1st Intermediate</span>
       </footer>
     </div>

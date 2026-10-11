@@ -246,3 +246,55 @@ export const listenToSubmissions = (
     }
   );
 };
+
+export const listenToAllStudents = (
+  callback: (students: StudentSession[]) => void
+): Unsubscribe => {
+  const colRef = collection(db, 'students');
+  return onSnapshot(
+    colRef,
+    (snapshot) => {
+      const results: StudentSession[] = [];
+      snapshot.forEach((docSnap) => {
+        results.push({
+          id: docSnap.id,
+          ...(docSnap.data() as Omit<StudentSession, 'id'>),
+        });
+      });
+      callback(results);
+    },
+    (err) => {
+      console.warn('Error listening to all students:', err);
+      callback([]);
+    }
+  );
+};
+
+export const listenToStudentSubmissions = (
+  studentName: string,
+  callback: (submissions: ExamSubmission[]) => void
+): Unsubscribe => {
+  const colRef = collection(db, 'submissions');
+  const q = query(colRef, orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const results: ExamSubmission[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (data.studentName === studentName) {
+          results.push({
+            id: docSnap.id,
+            ...(data as Omit<ExamSubmission, 'id'>),
+          });
+        }
+      });
+      callback(results);
+    },
+    (err) => {
+      console.warn('Error listening to student submissions:', err);
+      callback([]);
+    }
+  );
+};
+
