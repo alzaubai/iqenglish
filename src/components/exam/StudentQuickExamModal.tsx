@@ -87,6 +87,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     submitStudentExamResult({
       examId: exam.id,
       examTitle: exam.title,
+      studentId: student.id,
       studentName: student.fullName,
       studentSection: student.section,
       studentCode: student.code,
@@ -166,6 +167,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       await submitStudentExamResult({
         examId: exam.id,
         examTitle: exam.title,
+        studentId: student.id,
         studentName: student.fullName,
         studentSection: student.section,
         studentCode: student.code,

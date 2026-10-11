@@ -24,7 +24,7 @@ export const StudentGradesHistoryModal: React.FC<StudentGradesHistoryModalProps>
     if (!isOpen || !student) return;
 
     setIsLoading(true);
-    const unsub = listenToStudentSubmissions(student.fullName, (list) => {
+    const unsub = listenToStudentSubmissions(student.id, (list) => {
       setSubmissions(list);
       setIsLoading(false);
     });

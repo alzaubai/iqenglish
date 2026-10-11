@@ -62,6 +62,7 @@ export interface ExamSubmission {
   id?: string;
   examId: string;
   examTitle: string;
+  studentId?: string;
   studentName: string;
   studentSection: string;
   studentCode: string;
@@ -271,7 +272,7 @@ export const listenToAllStudents = (
 };
 
 export const listenToStudentSubmissions = (
-  studentName: string,
+  studentId: string,
   callback: (submissions: ExamSubmission[]) => void
 ): Unsubscribe => {
   const colRef = collection(db, 'submissions');
@@ -282,7 +283,8 @@ export const listenToStudentSubmissions = (
       const results: ExamSubmission[] = [];
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        if (data.studentName === studentName) {
+        // Secure filter: only return submissions strictly belonging to this student's unique ID
+        if (data.studentId && data.studentId === studentId) {
           results.push({
             id: docSnap.id,
             ...(data as Omit<ExamSubmission, 'id'>),
