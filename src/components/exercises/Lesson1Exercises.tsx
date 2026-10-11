@@ -57,36 +57,36 @@ export const Lesson1Exercises: React.FC<Lesson1ExercisesProps> = ({
   return (
     <div className="space-y-6">
       {/* Exercise Tabs: Bar starts from Right to Left (تمرين 1 on the right, 2 in middle, 3 on left) */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-3" dir="rtl">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-3" dir="rtl">
         <button
           onClick={() => setActiveStep(1)}
-          className={`py-3 px-4 rounded-xl border-2 text-center transition-all cursor-pointer font-arabic ${
+          className={`py-2 sm:py-3 px-2 sm:px-4 rounded-xl border-2 text-center transition-all cursor-pointer font-arabic ${
             activeStep === 1
               ? 'bg-zinc-900 text-white border-zinc-900 shadow-sm'
               : 'bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-700'
           }`}
         >
-          <span className="text-sm font-bold block">تمرين 1</span>
+          <span className="text-xs sm:text-sm font-bold block">تمرين 1</span>
         </button>
         <button
           onClick={() => setActiveStep(2)}
-          className={`py-3 px-4 rounded-xl border-2 text-center transition-all cursor-pointer font-arabic ${
+          className={`py-2 sm:py-3 px-2 sm:px-4 rounded-xl border-2 text-center transition-all cursor-pointer font-arabic ${
             activeStep === 2
               ? 'bg-zinc-900 text-white border-zinc-900 shadow-sm'
               : 'bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-700'
           }`}
         >
-          <span className="text-sm font-bold block">تمرين 2</span>
+          <span className="text-xs sm:text-sm font-bold block">تمرين 2</span>
         </button>
         <button
           onClick={() => setActiveStep(3)}
-          className={`py-3 px-4 rounded-xl border-2 text-center transition-all cursor-pointer font-arabic ${
+          className={`py-2 sm:py-3 px-2 sm:px-4 rounded-xl border-2 text-center transition-all cursor-pointer font-arabic ${
             activeStep === 3
               ? 'bg-zinc-900 text-white border-zinc-900 shadow-sm'
               : 'bg-white hover:bg-zinc-50 border-zinc-200 text-zinc-700'
           }`}
         >
-          <span className="text-sm font-bold block">تمرين 3</span>
+          <span className="text-xs sm:text-sm font-bold block">تمرين 3</span>
         </button>
       </div>
 

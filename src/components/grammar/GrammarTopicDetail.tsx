@@ -181,7 +181,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
       </div>
 
       {/* 2. TOPIC HEADER CARD */}
-      <div className="bg-white rounded-3xl border border-zinc-200 p-6 sm:p-7 shadow-xs text-right">
+      <div className="bg-white rounded-3xl border border-zinc-200 p-4 sm:p-7 shadow-xs text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
@@ -240,7 +240,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 min-w-[120px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer font-arabic ${
+                className={`flex-1 min-w-[95px] sm:min-w-[120px] py-2 sm:py-2.5 px-2.5 sm:px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer font-arabic ${
                   activeTab === tab.id
                     ? 'bg-zinc-900 text-white shadow-2xs'
                     : 'text-zinc-600 hover:bg-zinc-100'

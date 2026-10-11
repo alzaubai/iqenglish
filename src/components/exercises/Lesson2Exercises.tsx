@@ -125,7 +125,7 @@ export const Lesson2Exercises: React.FC<Lesson2ExercisesProps> = ({
           <button
             key={tab.step}
             onClick={() => setCurrentStep(tab.step as any)}
-            className={`py-3 px-4 text-center rounded-xl font-bold text-sm transition-all cursor-pointer font-arabic ${
+            className={`py-2 sm:py-3 px-2 sm:px-4 text-center rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer font-arabic ${
               currentStep === tab.step
                 ? 'bg-zinc-900 text-white shadow-sm'
                 : 'bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-700'

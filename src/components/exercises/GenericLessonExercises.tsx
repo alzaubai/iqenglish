@@ -59,12 +59,12 @@ export const GenericLessonExercises: React.FC<GenericLessonExercisesProps> = ({
   return (
     <div className="space-y-6">
       {/* Exercise Tabs Bar: starts from Right to Left (تمرين 1, تمرين 2 ...) */}
-      <div className="flex flex-wrap gap-2 text-right" dir="rtl">
+      <div className="flex flex-wrap gap-1.5 sm:gap-2 text-right" dir="rtl">
         {exercises.map((ex, idx) => (
           <button
             key={idx}
             onClick={() => setActiveExerciseIndex(idx)}
-            className={`py-3 px-5 text-center rounded-xl font-bold text-sm transition-all cursor-pointer font-arabic ${
+            className={`py-2 sm:py-3 px-3.5 sm:px-5 text-center rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer font-arabic ${
               activeExerciseIndex === idx
                 ? 'bg-zinc-900 text-white shadow-sm'
                 : 'bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-700'
@@ -76,7 +76,7 @@ export const GenericLessonExercises: React.FC<GenericLessonExercisesProps> = ({
       </div>
 
       {/* Exercise Content Card (arranged LTR) */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 shadow-sm space-y-5" dir="ltr">
+      <div className="bg-white rounded-2xl border border-zinc-200 p-4 sm:p-6 shadow-sm space-y-5" dir="ltr">
         <div className="pb-3 border-b border-zinc-200">
           <span className="text-xs font-bold text-zinc-500 font-sans block mb-1">
             Activity Book • Page {currentEx.pageNumber} • Exercise {currentEx.exerciseNumber}

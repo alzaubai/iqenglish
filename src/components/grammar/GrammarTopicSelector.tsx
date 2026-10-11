@@ -34,7 +34,7 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
       </div>
 
       {/* Unit Overview Card */}
-      <div className="bg-white rounded-3xl border border-zinc-200 p-6 sm:p-7 shadow-xs text-right">
+      <div className="bg-white rounded-3xl border border-zinc-200 p-4 sm:p-7 shadow-xs text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 text-white text-xs font-mono font-bold">

@@ -95,7 +95,7 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-7">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 space-y-6 sm:space-y-7 overflow-x-hidden min-w-0">
         {/* ================= SECTION A: GRAMMAR TAB ================= */}
         {activeMainTab === 'grammar' && (
           <div>
@@ -162,9 +162,9 @@ export default function App() {
 
             {/* VIEW 3: LESSON DETAIL VIEW (AUDIO + ACTIVITY BOOK EXERCISES) */}
             {curriculumViewState === 'detail' && (
-              <div className="space-y-7">
+              <div className="space-y-6 sm:space-y-7">
                 {/* Top Navigation Bar: Back to 10 lessons */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-zinc-200 shadow-2xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-zinc-200 shadow-2xs">
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setCurriculumViewState('lessons')}
@@ -182,7 +182,7 @@ export default function App() {
                   </div>
 
                   {/* Quick switcher buttons */}
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 self-end sm:self-auto">
                     <button
                       onClick={handlePrevLesson}
                       disabled={currentLesson.lessonNumber === 1}
@@ -297,11 +297,11 @@ export default function App() {
                 </section>
 
                 {/* Bottom Lesson Navigation */}
-                <div className="bg-white rounded-2xl border border-zinc-200 p-4 shadow-sm flex items-center justify-between">
+                <div className="bg-white rounded-2xl border border-zinc-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-2.5">
                   <button
                     onClick={handlePrevLesson}
                     disabled={currentLesson.lessonNumber === 1}
-                    className={`px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all font-arabic ${
+                    className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all font-arabic ${
                       currentLesson.lessonNumber === 1
                         ? 'opacity-30 cursor-not-allowed text-zinc-400 bg-zinc-100'
                         : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 cursor-pointer'
@@ -313,7 +313,7 @@ export default function App() {
 
                   <button
                     onClick={() => setCurriculumViewState('lessons')}
-                    className="text-xs font-bold text-zinc-600 hover:text-zinc-900 underline font-arabic"
+                    className="text-xs font-bold text-zinc-600 hover:text-zinc-900 underline font-arabic text-center order-last sm:order-none w-full sm:w-auto mt-1 sm:mt-0"
                   >
                     قائمة دروس الوحدة الأولى (10 دروس)
                   </button>
@@ -321,7 +321,7 @@ export default function App() {
                   <button
                     onClick={handleNextLesson}
                     disabled={currentLesson.lessonNumber === 10}
-                    className={`px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all font-arabic ${
+                    className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all font-arabic ${
                       currentLesson.lessonNumber === 10
                         ? 'opacity-30 cursor-not-allowed text-zinc-400 bg-zinc-100'
                         : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 cursor-pointer'
@@ -339,7 +339,7 @@ export default function App() {
 
       {/* Clean Footer */}
       <footer className="border-t border-zinc-200 bg-white py-5 mt-10" dir="rtl">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between text-xs text-zinc-500 font-arabic">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-center text-xs text-zinc-500 font-arabic">
           <span>English for Iraq • 1st Intermediate</span>
           <span>منهاج اللغة الإنجليزية للصف الأول المتوسط</span>
         </div>

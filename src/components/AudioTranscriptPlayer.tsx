@@ -901,18 +901,18 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden mb-6" dir="rtl">
+    <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden mb-6 max-w-full" dir="rtl">
       {/* Track Selector & Master Header */}
-      <div className="bg-zinc-50 border-b border-zinc-200 p-4 sm:p-5">
+      <div className="bg-zinc-50 border-b border-zinc-200 p-3.5 sm:p-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2 py-0.5 rounded-full">
+              <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 مزامنة صوتية ذكية (أزرق للأولاد • وردي للبنات)
               </span>
             </div>
-            <h3 className="text-lg font-bold text-zinc-900 font-arabic">
+            <h3 className="text-base sm:text-lg font-bold text-zinc-900 font-arabic">
               {activeTrack.titleAr}
             </h3>
             <p className="text-xs text-zinc-500 font-sans mt-0.5" dir="ltr">
@@ -922,12 +922,12 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
 
           {/* Track selector tabs if multiple tracks in lesson */}
           {transcripts.length > 1 && (
-            <div className="flex items-center gap-1.5 p-1 bg-zinc-200/80 rounded-xl self-start sm:self-center">
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-zinc-200/80 rounded-xl self-start sm:self-center max-w-full">
               {transcripts.map((t, idx) => (
                 <button
                   key={t.id}
                   onClick={() => setActiveTrackIndex(idx)}
-                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                  className={`px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                     activeTrackIndex === idx
                       ? 'bg-white text-zinc-900 shadow-xs'
                       : 'text-zinc-600 hover:text-zinc-900'
@@ -949,12 +949,12 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
         </div>
 
         {/* Master Controls: Play, Speed, Translation */}
-        <div className="mt-4 pt-3 border-t border-zinc-200 flex flex-wrap items-center justify-between gap-3">
+        <div className="mt-3 sm:mt-4 pt-3 border-t border-zinc-200 flex flex-wrap items-center justify-between gap-2.5">
           <div className="flex flex-wrap items-center gap-2">
             {/* Play Button */}
             <button
               onClick={playEntireTrack}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-sm cursor-pointer ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm cursor-pointer ${
                 isPlaying
                   ? 'bg-zinc-800 text-white ring-2 ring-zinc-400'
                   : 'bg-zinc-900 text-white hover:bg-zinc-800'
@@ -962,13 +962,14 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
             >
               {isPlaying ? (
                 <>
-                  <Pause className="w-4 h-4 fill-current" />
+                  <Pause className="w-4 h-4 fill-current shrink-0" />
                   <span>إيقاف مؤقت</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4 fill-current" />
-                  <span>تشغيل التسجيل كاملاً بالتتابع</span>
+                  <Play className="w-4 h-4 fill-current shrink-0" />
+                  <span className="hidden sm:inline">تشغيل التسجيل كاملاً بالتتابع</span>
+                  <span className="sm:hidden">تشغيل التسجيل كاملاً</span>
                 </>
               )}
             </button>
@@ -977,47 +978,50 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
               <button
                 onClick={stopPlayback}
                 title="إعادة من البداية"
-                className="p-2.5 rounded-xl border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-100 cursor-pointer"
+                className="p-2 sm:p-2.5 rounded-xl border border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-100 cursor-pointer"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
               </button>
             )}
 
             {/* Speed Selector */}
-            <div className="flex items-center gap-1 bg-white border border-zinc-300 rounded-xl p-1 shadow-2xs">
-              <span className="text-[11px] font-bold text-zinc-500 px-1.5 flex items-center gap-1 font-arabic">
-                <Gauge className="w-3.5 h-3.5" />
-                <span>السرعة:</span>
+            <div className="flex items-center gap-0.5 sm:gap-1 bg-white border border-zinc-300 rounded-xl p-0.5 sm:p-1 shadow-2xs">
+              <span className="text-[10px] sm:text-[11px] font-bold text-zinc-500 px-1 sm:px-1.5 flex items-center gap-1 font-arabic">
+                <Gauge className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                <span className="hidden sm:inline">السرعة:</span>
               </span>
               <button
                 onClick={() => setSpeechRate(0.7)}
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                className={`px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-lg transition-all cursor-pointer ${
                   speechRate === 0.7
                     ? 'bg-zinc-900 text-white'
                     : 'text-zinc-600 hover:bg-zinc-100'
                 }`}
               >
-                0.7x بطيء
+                <span className="sm:hidden">0.7x</span>
+                <span className="hidden sm:inline">0.7x بطيء</span>
               </button>
               <button
                 onClick={() => setSpeechRate(0.85)}
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                className={`px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-lg transition-all cursor-pointer ${
                   speechRate === 0.85
                     ? 'bg-zinc-900 text-white'
                     : 'text-zinc-600 hover:bg-zinc-100'
                 }`}
               >
-                0.85x متزن
+                <span className="sm:hidden">0.85x</span>
+                <span className="hidden sm:inline">0.85x متزن</span>
               </button>
               <button
                 onClick={() => setSpeechRate(1.0)}
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                className={`px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-lg transition-all cursor-pointer ${
                   speechRate === 1.0
                     ? 'bg-zinc-900 text-white'
                     : 'text-zinc-600 hover:bg-zinc-100'
                 }`}
               >
-                1.0x عادي
+                <span className="sm:hidden">1.0x</span>
+                <span className="hidden sm:inline">1.0x عادي</span>
               </button>
             </div>
           </div>
@@ -1025,20 +1029,20 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
           {/* Toggle Translation */}
           <button
             onClick={() => setShowArabicTranslation(!showArabicTranslation)}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
               showArabicTranslation
                 ? 'bg-white border-zinc-300 text-zinc-900 shadow-2xs'
                 : 'bg-zinc-200 border-zinc-300 text-zinc-600'
             }`}
           >
-            <Languages className="w-3.5 h-3.5" />
+            <Languages className="w-3.5 h-3.5 shrink-0" />
             <span>{showArabicTranslation ? 'إخفاء الترجمة' : 'إظهار الترجمة'}</span>
           </button>
         </div>
       </div>
 
       {/* Transcript Lines List (Comic Chat Experience) */}
-      <div className="p-4 sm:p-6 space-y-5 max-h-[680px] overflow-y-auto bg-zinc-50/50">
+      <div className="p-3 sm:p-6 space-y-4 sm:space-y-5 max-h-[680px] overflow-y-auto bg-zinc-50/50">
         {activeTrack.lines.map((line) => {
           const isLineActive = currentLineId === line.id;
           const profile = getCharacterProfile(line.speaker, line.gender);
@@ -1048,7 +1052,7 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
             <div
               key={line.id}
               id={`line-box-${line.id}`}
-              className={`flex items-start gap-3 sm:gap-4 transition-all duration-300 ${
+              className={`flex items-start gap-2 sm:gap-4 transition-all duration-300 w-full min-w-0 ${
                 profile.isAlternating ? 'sm:mr-6' : 'sm:ml-2'
               }`}
             >
@@ -1060,27 +1064,27 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
                   size="md"
                   isActive={isLineActive}
                 />
-                <span className="text-[11px] font-bold text-zinc-700 font-arabic mt-1.5 px-2 py-0.5 rounded-lg bg-white border border-zinc-200 shadow-2xs">
+                <span className="text-[10px] sm:text-[11px] font-bold text-zinc-700 font-arabic mt-1 sm:mt-1.5 px-1.5 sm:px-2 py-0.5 rounded-lg bg-white border border-zinc-200 shadow-2xs">
                   {profile.nameAr}
                 </span>
               </div>
 
               {/* Comic Speech Bubble */}
               <div
-                className={`flex-1 p-4 sm:p-5 rounded-3xl border-2 transition-all duration-300 relative shadow-2xs ${
+                className={`flex-1 min-w-0 p-3 sm:p-5 rounded-2xl sm:rounded-3xl border-2 transition-all duration-300 relative shadow-2xs ${
                   isLineActive
                     ? `${profile.activeRing} shadow-md scale-[1.01] ring-2`
                     : `bg-white ${profile.borderNormal} hover:shadow-xs`
                 }`}
               >
                 {/* Header Row: Speaker Badge, Scene Tag, and Play Button */}
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                  <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 mb-2.5 sm:mb-3">
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                     <span
-                      className={`font-bold text-xs uppercase px-3 py-1 rounded-xl border flex items-center gap-1.5 font-sans shadow-2xs ${profile.accentBadge}`}
+                      className={`font-bold text-[11px] sm:text-xs uppercase px-2.5 sm:px-3 py-1 rounded-xl border flex items-center gap-1 sm:gap-1.5 font-sans shadow-2xs ${profile.accentBadge}`}
                     >
                       <span>{line.speaker}</span>
-                      <span className="text-[11px] font-arabic opacity-85">
+                      <span className="text-[10px] sm:text-[11px] font-arabic opacity-85">
                         ({profile.nameAr})
                       </span>
                     </span>
@@ -1088,7 +1092,7 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
                     {/* Scene / Activity Badge */}
                     {scene?.badgeLabelAr && (
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-bold border font-arabic shadow-2xs ${
+                        className={`inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-lg text-[11px] sm:text-xs font-bold border font-arabic shadow-2xs ${
                           scene.badgeColor || 'bg-zinc-100 text-zinc-700 border-zinc-200'
                         }`}
                       >
@@ -1097,8 +1101,8 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
                     )}
 
                     {isLineActive && (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold font-arabic bg-emerald-100 text-emerald-900 border border-emerald-200 animate-pulse">
-                        <Volume2 className="w-3.5 h-3.5" />
+                      <span className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg text-[11px] sm:text-xs font-bold font-arabic bg-emerald-100 text-emerald-900 border border-emerald-200 animate-pulse">
+                        <Volume2 className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
                         <span>يتحدث الآن...</span>
                       </span>
                     )}
@@ -1106,24 +1110,24 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
 
                   <button
                     onClick={() => playSingleLine(line)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer font-arabic ${
+                    className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer font-arabic shrink-0 ${
                       isLineActive
                         ? 'bg-zinc-900 text-white shadow-xs'
                         : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800'
                     }`}
                   >
                     <Volume2 className="w-3.5 h-3.5" />
-                    <span>استماع للجملة</span>
+                    <span>استماع</span>
                   </button>
                 </div>
 
                 {/* Main Content: Side-by-side text and dedicated scene illustration */}
-                <div className="flex flex-col md:flex-row items-stretch gap-4">
+                <div className="flex flex-col md:flex-row items-stretch gap-3 sm:gap-4 min-w-0">
                   {/* Text Column (English + Arabic) */}
-                  <div className="flex-1 flex flex-col justify-between space-y-3">
+                  <div className="flex-1 min-w-0 flex flex-col justify-between space-y-2.5 sm:space-y-3">
                     {/* English line (LTR) with Interactive Phrasal Unit Highlighting */}
                     <div
-                      className="flex flex-wrap items-center gap-1.5 py-1 text-left font-sans"
+                      className="flex flex-wrap items-center gap-1 sm:gap-1.5 py-1 text-left font-sans min-w-0 max-w-full"
                       dir="ltr"
                     >
                       {CURRICULUM_CHUNKS[line.id] ? (
@@ -1138,7 +1142,7 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
                               type="button"
                               onClick={(e) => handleChunkClick(chunk, line, e)}
                               title={`انقر لنطق "${chunk.en}" • ترجمتها: "${chunk.ar}"`}
-                              className={`inline-flex items-center px-2.5 py-1 rounded-xl text-sm sm:text-base font-bold cursor-pointer transition-all duration-200 select-none border ${
+                              className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-xl text-xs sm:text-base font-bold cursor-pointer transition-all duration-200 select-none border max-w-full break-words ${
                                 isChunkActive
                                   ? profile.gender === 'female'
                                     ? 'bg-pink-600 text-white font-bold ring-2 ring-pink-300 border-pink-700 shadow-sm scale-105'
