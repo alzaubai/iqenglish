@@ -37,7 +37,10 @@ import { StudentQuickExamModal } from './components/exam/StudentQuickExamModal';
 export default function App() {
   // Authentication & Platform State
   const [studentSession, setStudentSession] = useState<StudentSession | null>(getStoredStudentSession());
-  const [isTeacherMode, setIsTeacherMode] = useState(false);
+  const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState<boolean>(
+    () => localStorage.getItem('iq_is_teacher') === 'true'
+  );
+  const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState(false);
   const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(DEFAULT_PLATFORM_CONFIG);
   const [activeExam, setActiveExam] = useState<QuickExam | null>(null);
   const [isStudentExamModalOpen, setIsStudentExamModalOpen] = useState(false);
@@ -124,23 +127,28 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // 1. Dedicated Teacher Dashboard Page (Full Page, Not Modal)
-  if (isTeacherMode) {
+  // 1. Dedicated Teacher Dashboard Page (Opens when teacher clicks the Teacher Icon)
+  if (isTeacherDashboardOpen) {
     return (
       <TeacherDashboardPage
         platformConfig={platformConfig}
-        onBackToSite={() => setIsTeacherMode(false)}
+        isPreAuthenticated={true}
+        onBackToSite={() => setIsTeacherDashboardOpen(false)}
       />
     );
   }
 
-  // 2. Student Authentication Gate (Clean Centered Full Page, Same Site Background)
-  if (!studentSession) {
+  // 2. Authentication Gate: Neither student nor teacher is logged in yet
+  if (!studentSession && !isTeacherLoggedIn) {
     return (
       <StudentLoginScreen
         platformConfig={platformConfig}
         onActivated={(session) => setStudentSession(session)}
-        onOpenTeacherLogin={() => setIsTeacherMode(true)}
+        onTeacherLoginSuccess={() => {
+          localStorage.setItem('iq_is_teacher', 'true');
+          setIsTeacherLoggedIn(true);
+          setIsTeacherDashboardOpen(false); // Directly enters the MAIN PAGE!
+        }}
       />
     );
   }
@@ -153,9 +161,14 @@ export default function App() {
         onTabChange={handleTabChange}
         studentName={studentSession?.fullName}
         studentSection={studentSession?.section}
+        isTeacher={isTeacherLoggedIn}
+        onLogoutTeacher={() => {
+          localStorage.removeItem('iq_is_teacher');
+          setIsTeacherLoggedIn(false);
+        }}
         isExamActive={Boolean(activeExam && activeExam.isActive)}
         onOpenExam={() => setIsStudentExamModalOpen(true)}
-        onOpenTeacherDashboard={() => setIsTeacherMode(true)}
+        onOpenTeacherDashboard={() => setIsTeacherDashboardOpen(true)}
       />
 
       {/* Main Container */}
@@ -407,17 +420,43 @@ export default function App() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center text-xs text-zinc-500 font-arabic">
           <span>English for Iraq • 1st Intermediate</span>
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {studentSession && (
-              <span className="text-zinc-600 bg-zinc-100 px-2.5 py-1 rounded-lg">
-                الطالب: <strong>{studentSession.fullName}</strong> (شعبة {studentSession.section})
-              </span>
-            )}
-            <button
-              onClick={() => setIsTeacherMode(true)}
-              className="text-zinc-700 hover:text-zinc-950 font-bold underline cursor-pointer"
-            >
-              لوحة تحكم الأستاذ 🔐
-            </button>
+            {isTeacherLoggedIn ? (
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-800 bg-zinc-100 px-2.5 py-1 rounded-lg font-bold">
+                  أنت في وضع: أستاذ المادة 👨‍🏫
+                </span>
+                <button
+                  onClick={() => setIsTeacherDashboardOpen(true)}
+                  className="text-zinc-900 hover:underline font-bold cursor-pointer"
+                >
+                  لوحة تحكم الأستاذ ⚙️
+                </button>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem('iq_is_teacher');
+                    setIsTeacherLoggedIn(false);
+                  }}
+                  className="text-zinc-500 hover:text-zinc-900 underline cursor-pointer"
+                >
+                  خروج
+                </button>
+              </div>
+            ) : studentSession ? (
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-600 bg-zinc-100 px-2.5 py-1 rounded-lg">
+                  الطالب: <strong>{studentSession.fullName}</strong> (شعبة {studentSession.section})
+                </span>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem('iq_is_teacher');
+                    setStudentSession(null);
+                  }}
+                  className="text-zinc-500 hover:text-zinc-800 underline cursor-pointer text-[11px]"
+                >
+                  دخول أستاذ المادة 🔐
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
       </footer>

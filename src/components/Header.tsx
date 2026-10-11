@@ -1,11 +1,13 @@
 import React from 'react';
-import { BookOpen, BookMarked, ShieldCheck, Award, User } from 'lucide-react';
+import { BookOpen, BookMarked, ShieldCheck, Award, User, LogOut } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: 'curriculum' | 'grammar';
   onTabChange: (tab: 'curriculum' | 'grammar') => void;
   studentName?: string;
   studentSection?: string;
+  isTeacher?: boolean;
+  onLogoutTeacher?: () => void;
   isExamActive?: boolean;
   onOpenExam?: () => void;
   onOpenTeacherDashboard?: () => void;
@@ -16,6 +18,8 @@ export const Header: React.FC<HeaderProps> = ({
   onTabChange,
   studentName,
   studentSection,
+  isTeacher,
+  onLogoutTeacher,
   isExamActive,
   onOpenExam,
   onOpenTeacherDashboard,
@@ -40,8 +44,8 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Action Controls & Navigation */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {/* Quick Exam Alert Button (if active) */}
-          {isExamActive && onOpenExam && (
+          {/* Quick Exam Alert Button (if active and not teacher) */}
+          {isExamActive && onOpenExam && !isTeacher && (
             <button
               onClick={onOpenExam}
               className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-1 font-arabic shadow-2xs cursor-pointer transition-all shrink-0"
@@ -52,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           )}
 
-          {/* Navigation Tabs */}
+          {/* Navigation Tabs (الدروس / القواعد) */}
           <nav className="flex items-center p-0.5 sm:p-1 bg-zinc-100 rounded-xl border border-zinc-200/80 shrink-0">
             <button
               onClick={() => onTabChange('curriculum')}
@@ -85,16 +89,36 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </nav>
 
-          {/* Teacher Admin Button (Always visible on all screens and inside all lessons) */}
-          {onOpenTeacherDashboard && (
+          {/* TEACHER MODE: Dedicated Dashboard Button (Accessible inside all lessons and grammar) */}
+          {isTeacher && onOpenTeacherDashboard && (
             <button
               onClick={onOpenTeacherDashboard}
-              className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-100 text-zinc-900 font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-all shadow-2xs shrink-0"
-              title="لوحة تحكم الأستاذ (إدارة الدروس والامتحانات والدرجات)"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-all shadow-2xs shrink-0"
+              title="فتح لوحة التحكم الخاصة بالأستاذ (إدارة الدروس والامتحانات والدرجات)"
             >
-              <ShieldCheck className="w-4 h-4 text-zinc-900" />
-              <span>الأستاذ 👨‍🏫</span>
+              <ShieldCheck className="w-4 h-4 text-zinc-200" />
+              <span>لوحة تحكم الأستاذ ⚙️</span>
             </button>
+          )}
+
+          {/* TEACHER MODE: Exit Teacher Mode */}
+          {isTeacher && onLogoutTeacher && (
+            <button
+              onClick={onLogoutTeacher}
+              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-zinc-200 hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900 font-bold text-xs flex items-center gap-1 cursor-pointer font-arabic transition-all shrink-0"
+              title="تسجيل الخروج من وضع الأستاذ"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">خروج</span>
+            </button>
+          )}
+
+          {/* STUDENT MODE: Show student name */}
+          {!isTeacher && studentName && (
+            <div className="hidden sm:flex items-center gap-1.5 bg-zinc-100 border border-zinc-200/80 px-2.5 py-1.5 rounded-xl text-xs text-zinc-700 font-arabic shrink-0">
+              <User className="w-3.5 h-3.5 text-zinc-500" />
+              <span>{studentName} ({studentSection})</span>
+            </div>
           )}
         </div>
       </div>

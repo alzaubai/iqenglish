@@ -34,14 +34,16 @@ import {
 interface TeacherDashboardPageProps {
   platformConfig: PlatformConfig;
   onBackToSite: () => void;
+  isPreAuthenticated?: boolean;
 }
 
 export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   platformConfig,
   onBackToSite,
+  isPreAuthenticated = false,
 }) => {
   // Authentication State
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(isPreAuthenticated);
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
 
@@ -564,12 +566,12 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                   {/* Sources Chips */}
                   <div className="flex flex-wrap gap-2 pt-1">
                     {[
-                      { id: 'lesson-1', label: 'الدرس 1 (العطلة)' },
-                      { id: 'lesson-2', label: 'الدرس 2 (معالم العراق)' },
-                      { id: 'lesson-3', label: 'الدرس 3 (قصة القارب)' },
-                      { id: 'lesson-4', label: 'الدرس 4 (القصاصات)' },
-                      { id: 'lesson-5', label: 'الدرس 5 (أستراليا)' },
-                      { id: 'grammar', label: 'القواعد النحوية' },
+                      { id: 'lesson-1', label: 'الدرس 1 (تمارين ص 4)' },
+                      { id: 'lesson-2', label: 'الدرس 2 (تمارين ص 6 و 7)' },
+                      { id: 'lesson-3', label: 'الدرس 3 (تمارين ص 8 و 9)' },
+                      { id: 'lesson-4', label: 'الدرس 4 (تمارين ص 10)' },
+                      { id: 'lesson-5', label: 'الدرس 5 (تمارين ص 11 و 12)' },
+                      { id: 'grammar', label: 'تمارين القواعد النحوية' },
                     ].map((src) => {
                       const isChecked = selectedLessonSources.includes(src.id);
                       return (
@@ -690,10 +692,14 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                           ))}
                         </div>
 
-                        {/* Source lesson footer */}
-                        <div className="pt-2 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-400 font-arabic">
-                          <span>المصدر: {q.lessonTitleAr}</span>
-                          <span className="font-mono font-bold text-zinc-500">{q.points || 2} درجات</span>
+                        {/* Source lesson & exercise reference */}
+                        <div className="pt-2 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-arabic">
+                          <span className="flex items-center gap-1.5">
+                            <span className="font-bold text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+                              {q.exerciseRef || q.lessonTitleAr}
+                            </span>
+                          </span>
+                          <span className="font-mono font-bold text-zinc-600">{q.points || 2} درجات</span>
                         </div>
                       </div>
                     ))}
