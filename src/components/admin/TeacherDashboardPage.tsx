@@ -87,40 +87,50 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '2026');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
-  // Listen to all registered students
+  // Listen to all registered students (only after PIN authentication)
   useEffect(() => {
+    if (!isAuthenticated) {
+      setAllStudents([]);
+      return;
+    }
+
     const unsub = listenToAllStudents((studentsList) => {
       setAllStudents(studentsList);
     });
-    return () => unsub();
-  }, []);
 
-  // Listen to submissions for the current active exam
+    return () => unsub();
+  }, [isAuthenticated]);
+
+  // Listen to submissions for the current active exam (only after PIN authentication)
   useEffect(() => {
-    if (!platformConfig.activeExamId) return;
+    if (!isAuthenticated || !platformConfig.activeExamId) {
+      setSubmissions([]);
+      return;
+    }
 
     const unsub = listenToSubmissions(platformConfig.activeExamId, (list) => {
       setSubmissions(list);
     });
 
     return () => unsub();
-  }, [platformConfig.activeExamId]);
+  }, [isAuthenticated, platformConfig.activeExamId]);
 
-  // Sync active exam state
+  // Sync active exam state (only after PIN authentication)
   useEffect(() => {
-    if (platformConfig.activeExamId) {
-      const unsub = listenToActiveExam(platformConfig.activeExamId, (exam) => {
-        if (exam) {
-          setIsExamActiveLocal(exam.isActive);
-          setExamTitle(exam.title);
-          if (selectedQuestions.length === 0 && exam.questions?.length > 0) {
-            setSelectedQuestions(exam.questions as CategorizedExamQuestion[]);
-          }
+    if (!isAuthenticated || !platformConfig.activeExamId) return;
+
+    const unsub = listenToActiveExam(platformConfig.activeExamId, (exam) => {
+      if (exam) {
+        setIsExamActiveLocal(exam.isActive);
+        setExamTitle(exam.title);
+        if (selectedQuestions.length === 0 && exam.questions?.length > 0) {
+          setSelectedQuestions(exam.questions as CategorizedExamQuestion[]);
         }
-      });
-      return () => unsub();
-    }
-  }, [platformConfig.activeExamId]);
+      }
+    });
+
+    return () => unsub();
+  }, [isAuthenticated, platformConfig.activeExamId]);
 
   // Generate initial questions if list is empty
   useEffect(() => {
