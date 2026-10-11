@@ -1,0 +1,23 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Temporary test scripts
+test_output.mp3
+test_*.ts
+test-*.mp3
+dump_*.ts
+print_*.ts
+inspect_*.ts
+show_*.ts
+validate_*.ts
+verify_*.ts
+analyze_*.ts
+find_*.ts
+unmatched_*.ts
+preview_*.html

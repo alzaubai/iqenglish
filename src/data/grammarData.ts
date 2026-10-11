@@ -1,0 +1,456 @@
+import { GrammarUnit } from '../types/grammar';
+
+export const grammarUnitsList: GrammarUnit[] = [
+  {
+    id: 'unit-1',
+    unitNumber: 1,
+    titleEn: 'Unit 1: The Holidays & Free Time',
+    titleAr: 'الوحدة الأولى: العطل وأوقات الفراغ',
+    descriptionAr: 'شرح زمن الماضي البسيط، الأفعال القياسية والشاذة، النفي، الأسئلة، واستخدام فعل الكينونة في الماضي (was/were) والصفات المنتهية بـ ed و ing.',
+    isAvailable: true,
+    lessons: [
+      // LESSON 1: Past Simple Tense
+      {
+        id: 'grammar-u1-l1',
+        unitNumber: 1,
+        lessonNumber: 1,
+        titleAr: 'الدرس 1: زمن الماضي البسيط (Past Simple Tense)',
+        titleEn: 'Lesson 1: Past Simple Tense (Affirmative, Negative, Questions & Verbs)',
+        subtitleAr: 'الشرح الشامل للقواعد والأفعال الشاذة والقياسية',
+        topics: [
+          {
+            id: 'u1-l1-past-simple',
+            titleAr: 'زمن الماضي البسيط (Past Simple Tense)',
+            titleEn: 'Past Simple Tense',
+            summaryAr: 'يُستخدم للتعبير عن أحداث وقعت وانتهت في الماضي في وقت محدد. من دلائل هذا الزمن: yesterday (أمس)، ago (مضت)، last week/month/year (الماضي)، in the holidays (في العطلة).',
+            rules: [
+              {
+                id: 'rule-affirmative',
+                titleAr: '1. حالة الإثبات (Affirmative)',
+                titleEn: 'Affirmative Sentences',
+                formula: 'Subject (الفاعل) + Verb in Past (فعل في الماضي) + Complement (التكملة)',
+                formulaNoteAr: 'ينتهي الفعل إما بإضافة (ed-) إذا كان قياسياً، أو يتغير شكله إذا كان شاذاً.',
+                explanationAr: 'في حالة الإثبات، يأتي الفاعل أولاً (سواء كان مفرداً أو جمعاً: I, You, He, She, It, We, They) يليه الفعل في صيغة الماضي المباشر دون أي فعل مساعد.',
+                examples: [
+                  {
+                    en: 'I went to a village by the river.',
+                    ar: 'ذهبتُ إلى قرية بالقرب من النهر. (فعل شاذ: go -> went)',
+                    highlightWord: 'went',
+                  },
+                  {
+                    en: 'Muna and I stayed at home.',
+                    ar: 'منى وأنا بقينا في المنزل. (فعل قياسي: stay -> stayed)',
+                    highlightWord: 'stayed',
+                  },
+                  {
+                    en: 'I saw my friends every day.',
+                    ar: 'رأيتُ أصدقائي كل يوم. (فعل شاذ: see -> saw)',
+                    highlightWord: 'saw',
+                  },
+                  {
+                    en: 'I made some clothes.',
+                    ar: 'صنعتُ بعض الملابس. (فعل شاذ: make -> made)',
+                    highlightWord: 'made',
+                  },
+                ],
+              },
+              {
+                id: 'rule-negative',
+                titleAr: '2. حالة النفي (Negative)',
+                titleEn: 'Negative Sentences',
+                formula: "Subject (الفاعل) + didn't (did not) + Base Verb (فعل مجرد) + Complement",
+                formulaNoteAr: 'بعد didn\'t يعود الفعل إلى أصله المجرد الخالي من أي إضافة.',
+                explanationAr: 'لنفي الجملة في الماضي البسيط نستخدم الفعل المساعد المنفي (didn\'t) لجميع الضمائر، ويجب دائماً تجريد الفعل الذي يليه من علامة الماضي.',
+                examples: [
+                  {
+                    en: "I didn't go away in the holidays.",
+                    ar: 'لم أسافر في العطلة. (لاحظ عودة الفعل go بدلاً من went)',
+                    highlightWord: "didn't go",
+                  },
+                  {
+                    en: "We didn't stay at a hotel.",
+                    ar: 'لم نمكث في فندق. (stay بدون ed)',
+                    highlightWord: "didn't stay",
+                  },
+                  {
+                    en: "She didn't see her friends yesterday.",
+                    ar: 'لم تر صديقاتها بالأمس.',
+                    highlightWord: "didn't see",
+                  },
+                ],
+              },
+              {
+                id: 'rule-yes-no-question',
+                titleAr: '3. السؤال بنعم أو لا (Yes / No Question)',
+                titleEn: 'Yes/No Questions',
+                formula: 'Did + Subject (الفاعل) + Base Verb (فعل مجرد) + Complement + ?',
+                formulaNoteAr: 'الإجابة القصيرة: Yes, [فاعل] did. أو No, [فاعل] didn\'t.',
+                explanationAr: 'نبدأ السؤال بالفعل المساعد (Did) ثم الفاعل ثم الفعل في المصدر المجرد.',
+                examples: [
+                  {
+                    en: 'Did you go away in the holidays?',
+                    ar: 'هل سافرت في العطلة؟',
+                    highlightWord: 'Did you go',
+                  },
+                  {
+                    en: 'Yes, I did. / No, I didn\'t.',
+                    ar: 'نعم سافرت / كلا لم أسافر.',
+                    highlightWord: 'Yes, I did',
+                  },
+                  {
+                    en: 'Did they play football yesterday?',
+                    ar: 'هل لعبوا كرة القدم أمس؟',
+                    highlightWord: 'Did they play',
+                  },
+                ],
+              },
+              {
+                id: 'rule-wh-question',
+                titleAr: '4. السؤال بأدوات الاستفهام (Wh- Questions)',
+                titleEn: 'Information Questions',
+                formula: 'Wh-word (أداة الاستفهام) + did + Subject (الفاعل) + Base Verb (فعل مجرد) + ?',
+                formulaNoteAr: 'أدوات الاستفهام مثل: What (ماذا)، Where (أين)، When (متى)، Who (من)، How (كيف).',
+                explanationAr: 'نضع أداة الاستفهام في البداية متبوعة بالفعل المساعد did ثم الفاعل فالفعل المجرد.',
+                examples: [
+                  {
+                    en: 'What did you do there?',
+                    ar: 'ماذا فعلت هناك؟',
+                    highlightWord: 'What did you do',
+                  },
+                  {
+                    en: 'What did you do all the time?',
+                    ar: 'ماذا فعلتما طوال الوقت؟',
+                    highlightWord: 'What did you do',
+                  },
+                  {
+                    en: 'Where did Faisal go in the holidays?',
+                    ar: 'إلى أين ذهب فيصل في العطلة؟',
+                    highlightWord: 'Where did Faisal go',
+                  },
+                ],
+              },
+            ],
+            verbTables: [
+              {
+                titleAr: 'جدول تصريف أهم أفعال الدرس الأول (Regular & Irregular Verbs)',
+                descriptionAr: 'الأفعال القياسية تنتهي بـ (ed-) بينما الأفعال الشاذة تحفظ كما هي.',
+                rows: [
+                  { base: 'go', past: 'went', meaningAr: 'يذهب / ذهب', type: 'irregular' },
+                  { base: 'see', past: 'saw', meaningAr: 'يرى / رأى', type: 'irregular' },
+                  { base: 'make', past: 'made', meaningAr: 'يصنع / صنع', type: 'irregular' },
+                  { base: 'do', past: 'did', meaningAr: 'يفعل / فعل', type: 'irregular' },
+                  { base: 'swim', past: 'swam', meaningAr: 'يسبح / سبح', type: 'irregular' },
+                  { base: 'have', past: 'had', meaningAr: 'يملك / ملك أو تناول', type: 'irregular' },
+                  { base: 'stay', past: 'stayed', meaningAr: 'يبقى / بقي', type: 'regular' },
+                  { base: 'play', past: 'played', meaningAr: 'يلعب / لعب', type: 'regular' },
+                  { base: 'visit', past: 'visited', meaningAr: 'يزور / زار', type: 'regular' },
+                  { base: 'watch', past: 'watched', meaningAr: 'يشاهد / شاهد', type: 'regular' },
+                  { base: 'listen', past: 'listened', meaningAr: 'يستمع / استمع', type: 'regular' },
+                  { base: 'cook', past: 'cooked', meaningAr: 'يطبخ / طبخ', type: 'regular' },
+                ],
+              },
+            ],
+            examTips: [
+              'عند وجود (did) أو (didn\'t) في الجملة، اختر دائماً الفعل المجرد الخالي من أي إضافة (بدون ed أو ing أو s). مثال: He didn\'t (went / go) to school -> الجواب: go.',
+              'إذا كان الفعل ينتهي بحرف ساكن وقبله حرف علة واحد ومشدد، نكرر الحرف الأخير قبل إضافة ed (مثل: stop -> stopped).',
+              'إذا كان الفعل ينتهي بحرف y وقبله حرف ساكن، يُقلب إلى i ثم نضيف ed (مثل: study -> studied). أما إذا كان قبله حرف علة فيبقى كما هو (مثل: play, stay -> played, stayed).',
+              'انتبه للكلمات الدالة على الماضي في الأسئلة الوزارية والامتحانات: yesterday, last week, ago, in the holidays.',
+            ],
+            quiz: [
+              {
+                id: 'q1-1',
+                questionTextEn: 'Faisal ______ to a village by the river in the holidays.',
+                questionTextAr: 'اختر الفعل المناسب للماضي البسيط:',
+                options: ['go', 'went', 'goes', 'going'],
+                correctIndex: 1,
+                explanationAr: 'الجملة في الماضي المثبت، لذا نستخدم صيغة الماضي الشاذة (went) من الفعل go.',
+              },
+              {
+                id: 'q1-2',
+                questionTextEn: 'Did you ______ away in the holidays?',
+                questionTextAr: 'اختر الفعل بعد أداة السؤال Did:',
+                options: ['went', 'goes', 'go', 'gone'],
+                correctIndex: 2,
+                explanationAr: 'بعد أداة السؤال (Did) يجب دائماً أن يكون الفعل مجرداً (Base form) وهو (go).',
+              },
+              {
+                id: 'q1-3',
+                questionTextEn: "Muna and Huda ______ stay at a hotel; they stayed at home.",
+                questionTextAr: 'اختر أداة النفي المناسبة للماضي:',
+                options: ["didn't", "don't", "doesn't", "aren't"],
+                correctIndex: 0,
+                explanationAr: 'ننفي زمن الماضي البسيط باستخدام (didn\'t) متبوعة بفعل مجرد.',
+              },
+              {
+                id: 'q1-4',
+                questionTextEn: 'What is the past form of the verb "make"?',
+                questionTextAr: 'ما هو تصريف الماضي من الفعل (make)؟',
+                options: ['maked', 'making', 'made', 'makes'],
+                correctIndex: 2,
+                explanationAr: 'الفعل make شاذ وماضيه هو (made).',
+              },
+            ],
+          },
+        ],
+      },
+      // LESSON 2: Past Simple with Verb to be (was/were) & Adjectives (-ed / -ing)
+      {
+        id: 'grammar-u1-l2',
+        unitNumber: 1,
+        lessonNumber: 2,
+        titleAr: 'الدرس 2: أفعال الكينونة (Was / Were) والصفات (-ed / -ing)',
+        titleEn: 'Lesson 2: Past with Was/Were, Adjectives & Narrative Connectors',
+        subtitleAr: 'أفعال الكينونة was/were والصفات المنتهية بـ ed و ing وأدوات الربط',
+        topics: [
+          {
+            id: 'u1-l2-was-were',
+            titleAr: '1. فعل الكينونة في الماضي (Was / Were)',
+            titleEn: 'Past of Verb to Be: Was / Were',
+            summaryAr: 'يتحول فعل الكينونة (am / is / are) في الماضي إلى (was / were). يُستخدم لوصف الحالة أو المكان أو الأشخاص دون وجود فعل حركي آخر.',
+            rules: [
+              {
+                id: 'rule-was-were-affirmative',
+                titleAr: 'حالة الإثبات مع Was و Were',
+                titleEn: 'Affirmative with Was / Were',
+                formula: '[ Singular: I / He / She / It ] + was  |  [ Plural: We / You / They ] + were',
+                formulaNoteAr: 'المفرد يأخذ was والجمع يأخذ were وكذلك ضمير المخاطب you.',
+                explanationAr: 'تُستخدم was مع الفاعل المفرد الغائب والمتكلم، بينما تُستخدم were مع الجمع والمخاطب.',
+                examples: [
+                  {
+                    en: 'The boat trip was quite exciting.',
+                    ar: 'كانت رحلة القارب مثيرة للغاية. (المفرد -> was)',
+                    highlightWord: 'was',
+                  },
+                  {
+                    en: 'The players were fantastic!',
+                    ar: 'كان اللاعبون رائعين! (الجمع -> were)',
+                    highlightWord: 'were',
+                  },
+                  {
+                    en: 'Ur was the capital of the ancient Sumerian people.',
+                    ar: 'كانت أور عاصمة السومريين القدماء.',
+                    highlightWord: 'was',
+                  },
+                  {
+                    en: 'My sisters were fed up.',
+                    ar: 'كانت أخواتي ضجرات ومستاءات. (الجمع -> were)',
+                    highlightWord: 'were',
+                  },
+                ],
+              },
+              {
+                id: 'rule-was-were-negative',
+                titleAr: 'حالة النفي مع Was not (Wasn\'t) و Were not (Weren\'t)',
+                titleEn: 'Negative with Wasn\'t / Weren\'t',
+                formula: "Subject + was not (wasn't) / were not (weren't) + Complement",
+                formulaNoteAr: 'في وجود was / were لا نستخدم didn\'t بل نضع not مباشرة بعد was أو were.',
+                explanationAr: 'ننفي بإضافة كلمة not مباشرة بعد فعل الكينونة.',
+                examples: [
+                  {
+                    en: 'Sara was not in Abu Dhabi; she was in Iraq.',
+                    ar: 'لم تكن سارة في أبوظبي، بل كانت في العراق.',
+                    highlightWord: 'was not',
+                  },
+                  {
+                    en: "The tickets weren't expensive.",
+                    ar: 'لم تكن التذاكر غالية الثمن.',
+                    highlightWord: "weren't",
+                  },
+                ],
+              },
+              {
+                id: 'rule-was-were-question',
+                titleAr: 'السؤال بتقديم Was و Were',
+                titleEn: 'Questions with Was / Were',
+                formula: 'Was / Were + Subject + Complement + ?',
+                formulaNoteAr: 'الإجابة: Yes, he was. / No, he wasn\'t. أو Yes, they were. / No, they weren\'t.',
+                explanationAr: 'في السؤال، نقدم Was أو Were إلى بداية الجملة قبل الفاعل.',
+                examples: [
+                  {
+                    en: 'Was the football match exciting?',
+                    ar: 'هل كانت مباراة كرة القدم حماسية؟',
+                    highlightWord: 'Was the football match',
+                  },
+                  {
+                    en: 'Were they happy in Baghdad?',
+                    ar: 'هل كانوا سعداء في بغداد؟',
+                    highlightWord: 'Were they',
+                  },
+                ],
+              },
+            ],
+            examTips: [
+              'الفاعل المفرد (He, She, It, Richard, The museum) يأخذ (was). أما الفاعل الجمع (They, We, You, The players, My sisters) فيأخذ (were).',
+              'لا يجوز أبداً كتابة (didn\'t was) أو (didn\'t were)، بل ننفيها هكذا: (wasn\'t / weren\'t).',
+            ],
+          },
+          {
+            id: 'u1-l2-adjectives',
+            titleAr: '2. الصفات المنتهية بـ ed و ing',
+            titleEn: 'Adjectives ending in -ed vs -ing',
+            summaryAr: 'تُستخدم الصفات المنتهية بـ ed لوصف شعور الشخص وإحساسه الداخلي، بينما تُستخدم الصفات المنتهية بـ ing لوصف الشيء أو الشخص الذي يسبب ذلك الشعور.',
+            rules: [
+              {
+                id: 'rule-adjectives-comparison',
+                titleAr: 'الفرق بين صفات (-ed) وصفات (-ing)',
+                titleEn: '-ed describes feeling | -ing describes the cause',
+                formula: 'Person (Feeling) + Adjective-ed  |  Thing/Cause + Adjective-ing',
+                formulaNoteAr: 'قاعدة ذهبية: الشخص يشعر بالملل bored لأن الشيء ممل ومسبب للملل boring.',
+                explanationAr: '1. الصفات المنتهية بـ (ed): تصف كيف يشعر الشخص (مثال: interested = مهتم، bored = يشعر بالملل، excited = متحمس).\n2. الصفات المنتهية بـ (ing): تصف ما يمنح ذلك الشعور (مثال: interesting = ممتع ومثير للاهتمام، boring = ممل، exciting = حماسي ومثير).',
+                examples: [
+                  {
+                    en: 'Shopping is so boring!',
+                    ar: 'التسوق ممل جداً! (التسوق مسبب للشعور -> boring)',
+                    highlightWord: 'boring',
+                  },
+                  {
+                    en: 'Richard was bored in the markets.',
+                    ar: 'شعر ريتشارد بالملل في الأسواق. (ريتشارد يشعر بالملل -> bored)',
+                    highlightWord: 'bored',
+                  },
+                  {
+                    en: 'The boat trip was quite exciting.',
+                    ar: 'كانت رحلة القارب حماسية ومثيرة. (الرحلة مسببة للحماس -> exciting)',
+                    highlightWord: 'exciting',
+                  },
+                  {
+                    en: 'The museum was very interesting.',
+                    ar: 'كان المتحف ممتعاً وشيقاً. (المتحف مسبب للاهتمام -> interesting)',
+                    highlightWord: 'interesting',
+                  },
+                ],
+              },
+              {
+                id: 'rule-narrative-connectors',
+                titleAr: '3. أدوات تسلسل الأحداث (Connectors: so, and, then)',
+                titleEn: 'Narrative Connectors (so, then, after that)',
+                formula: 'Sentence 1 + [ so / and / then / after that ] + Sentence 2',
+                formulaNoteAr: 'so تعني (لذلك)، and تعني (و)، then تعني (ثم)، after that تعني (بعد ذلك).',
+                explanationAr: 'نستخدم أدوات الربط هذه لربط الجمل وتوضيح تسلسل الرحلة والسبب والنتيجة.',
+                examples: [
+                  {
+                    en: 'We arrived in Baghdad at night, so we just went to bed.',
+                    ar: 'وصلنا بغداد ليلاً، لذلك ذهبنا للنوم مباشرة. (so = لذلك)',
+                    highlightWord: 'so',
+                  },
+                  {
+                    en: 'Next day, we toured the city. In the afternoon, there was a match.',
+                    ar: 'في اليوم التالي تجولنا، وفي فترة بعد الظهر كانت هناك مباراة.',
+                    highlightWord: 'Next day',
+                  },
+                  {
+                    en: 'On Friday morning, we looked around the markets. Then I was fed up!',
+                    ar: 'صباح الجمعة زرنا الأسواق، ثم ضجرت وسئمت!',
+                    highlightWord: 'Then',
+                  },
+                ],
+              },
+            ],
+            verbTables: [
+              {
+                titleAr: 'أفعال رحلة ريتشارد وسارة (Lesson 2 Verbs)',
+                descriptionAr: 'الأفعال الأكثر وروداً في الدرس الثاني:',
+                rows: [
+                  { base: 'take', past: 'took', meaningAr: 'يأخذ / أخذ', type: 'irregular' },
+                  { base: 'wear', past: 'wore', meaningAr: 'يرتدي / ارتدى', type: 'irregular' },
+                  { base: 'tell', past: 'told', meaningAr: 'يخبر / أخبر', type: 'irregular' },
+                  { base: 'spend', past: 'spent', meaningAr: 'يقضي / قضى', type: 'irregular' },
+                  { base: 'come', past: 'came', meaningAr: 'يأتي / جاء', type: 'irregular' },
+                  { base: 'tour', past: 'toured', meaningAr: 'يتجول / تجول', type: 'regular' },
+                  { base: 'arrive', past: 'arrived', meaningAr: 'يصل / وصل', type: 'regular' },
+                  { base: 'enjoy', past: 'enjoyed', meaningAr: 'يستمتع / استمتع', type: 'regular' },
+                  { base: 'travel', past: 'travelled', meaningAr: 'يسافر / سافر', type: 'regular' },
+                ],
+              },
+            ],
+            examTips: [
+              'في الامتحانات، إذا كان الفاعل عاقلاً ويتحدث عن شعوره نختار صفة ed، وإذا كان الموصوف شيئاً أو فاعلاً مسبباً للشعور نختار صفة ing.',
+              'مثال امتحاني: The game was very (excited / exciting). -> الجواب: exciting لأن المباراة هي المسببة للإثارة.',
+            ],
+            quiz: [
+              {
+                id: 'q2-1',
+                questionTextEn: 'The ziggurat in Ur ______ huge and ancient.',
+                questionTextAr: 'اختر فعل الكينونة المناسب للماضي (المفرد):',
+                options: ['were', 'was', 'are', 'is'],
+                correctIndex: 1,
+                explanationAr: 'الفاعل مفرد (The ziggurat) والجملة في الماضي، لذا نختار (was).',
+              },
+              {
+                id: 'q2-2',
+                questionTextEn: 'My sisters ______ fed up with shopping.',
+                questionTextAr: 'اختر فعل الكينونة المناسب للجمع:',
+                options: ['was', 'were', 'is', 'did'],
+                correctIndex: 1,
+                explanationAr: 'الفاعل جمع (My sisters)، والجمع في الماضي يأخذ (were).',
+              },
+              {
+                id: 'q2-3',
+                questionTextEn: 'Shopping is so ______! I want to go home.',
+                questionTextAr: 'اختر الصفة المناسبة للتسوق (مسبب الشعور):',
+                options: ['bored', 'boring', 'bores', 'boredom'],
+                correctIndex: 1,
+                explanationAr: 'التسوق هو المسبب للشعور بالملل، لذا نستخدم الصفة المنتهية بـ ing وهي (boring).',
+              },
+              {
+                id: 'q2-4',
+                questionTextEn: 'We arrived in Baghdad at night, ______ we just went to bed.',
+                questionTextAr: 'اختر أداة الربط المناسبة للنتيجة:',
+                options: ['because', 'so', 'but', 'although'],
+                correctIndex: 1,
+                explanationAr: 'نستخدم (so) لربط السبب بالنتيجة (وصلنا ليلاً، لذلك ذهبنا للنوم).',
+              },
+            ],
+          },
+        ],
+      },
+      // Placeholder for Lessons 3-10
+      ...[3, 4, 5, 6, 7, 8, 9, 10].map((num) => ({
+        id: `grammar-u1-l${num}`,
+        unitNumber: 1,
+        lessonNumber: num,
+        titleAr: `الدرس ${num}: قواعد الدرس ${num}`,
+        titleEn: `Lesson ${num} Grammar`,
+        subtitleAr: 'شرح القواعد والتمارين لهذا الدرس',
+        topics: [],
+      })),
+    ],
+  },
+  // Units 2 - 8 placeholders for navigation overview
+  {
+    id: 'unit-2',
+    unitNumber: 2,
+    titleEn: 'Unit 2: Seasons & Weather',
+    titleAr: 'الوحدة الثانية: فصول السنة والطقس',
+    descriptionAr: 'قواعد المستقبل البسيط مع will والمقارنة والتفضيل (قيد الإعداد).',
+    isAvailable: false,
+    lessons: [],
+  },
+  {
+    id: 'unit-3',
+    unitNumber: 3,
+    titleEn: 'Unit 3: Great Inventions & Stories',
+    titleAr: 'الوحدة الثالثة: الاختراعات والقصص',
+    descriptionAr: 'قواعد المضارع التام مع have/has والتصريف الثالث للفعل (قيد الإعداد).',
+    isAvailable: false,
+    lessons: [],
+  },
+  {
+    id: 'unit-4',
+    unitNumber: 4,
+    titleEn: 'Unit 4: Revision 1',
+    titleAr: 'الوحدة الرابعة: المراجعة العامة 1',
+    descriptionAr: 'مراجعة الوحدات 1 إلى 3 (قيد الإعداد).',
+    isAvailable: false,
+    lessons: [],
+  },
+  {
+    id: 'unit-5',
+    unitNumber: 5,
+    titleEn: 'Unit 5: Other Countries',
+    titleAr: 'الوحدة الخامسة: بلدان أخرى',
+    descriptionAr: 'المقارنات والمفاضلات والتصريف الثالث للأفعال الشاذة (قيد الإعداد).',
+    isAvailable: false,
+    lessons: [],
+  },
+];

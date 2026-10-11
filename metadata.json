@@ -1,0 +1,6 @@
+{
+  "name": "English for Iraq - Unit 1 Layers",
+  "description": "تطبيق تعليمي تفاعلي لمنهج اللغة الإنجليزية للصف الأول المتوسط (Unit 1) مع قراءة صوتية، قواعد وشروح، وتمارين كتاب النشاط.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
