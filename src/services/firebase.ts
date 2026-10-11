@@ -5,6 +5,7 @@ import {
   setDoc,
   getDoc,
   updateDoc,
+  deleteDoc,
   collection,
   onSnapshot,
   query,
@@ -77,6 +78,7 @@ export interface PlatformConfig {
   grammarUnlocked: boolean;
   masterCode: string;
   allowedCodes: string[];
+  revokedCodes?: string[]; // Codes that have been revoked and blocked
   teacherPin: string;
   activeExamId: string | null;
 }
@@ -98,6 +100,7 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   grammarUnlocked: true,
   masterCode: 'IQ-2026',
   allowedCodes: ['IQ-2026', 'IQ-STAR', 'ENGLISH-1'],
+  revokedCodes: [],
   teacherPin: '2026', // Teacher Master PIN
   activeExamId: null,
 };
@@ -179,6 +182,59 @@ export const registerStudentInFirebase = async (
   } catch (err) {
     console.error('Failed to register student in Firebase:', err);
   }
+};
+
+export const deleteStudentFromFirebase = async (
+  studentId: string,
+  studentCode?: string
+): Promise<void> => {
+  try {
+    // 1. Delete student document
+    const studentDoc = doc(db, 'students', studentId);
+    await deleteDoc(studentDoc);
+
+    // 2. Revoke the student's code so they cannot reuse it
+    if (studentCode) {
+      const cleanCode = studentCode.trim().toUpperCase();
+      const configDoc = doc(db, CONFIG_DOC_PATH);
+      const snap = await getDoc(configDoc);
+      if (snap.exists()) {
+        const currentData = snap.data() as PlatformConfig;
+        const currentRevoked = currentData.revokedCodes || [];
+        if (!currentRevoked.includes(cleanCode)) {
+          await updateDoc(configDoc, {
+            revokedCodes: [...currentRevoked, cleanCode],
+          });
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Failed to delete student from Firebase:', err);
+    throw err;
+  }
+};
+
+export const generateRandomAccessCode = (): string => {
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  return `IQ-${randomNum}`;
+};
+
+export const listenToSingleStudent = (
+  studentId: string,
+  onDeleted: () => void
+): Unsubscribe => {
+  const studentDoc = doc(db, 'students', studentId);
+  return onSnapshot(
+    studentDoc,
+    (snap) => {
+      if (!snap.exists()) {
+        onDeleted();
+      }
+    },
+    (err) => {
+      console.warn('Error listening to student session doc:', err);
+    }
+  );
 };
 
 // -------------------------------------------------------------

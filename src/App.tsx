@@ -30,6 +30,7 @@ import {
   listenToPlatformConfig,
   listenToActiveExam,
   QuickExam,
+  listenToSingleStudent,
 } from './services/firebase';
 import { STORAGE_KEYS } from './constants/storageKeys';
 import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
@@ -68,6 +69,18 @@ export default function App() {
       setActiveExam(null);
     }
   }, [platformConfig.activeExamId]);
+
+  // Realtime Session Guard: If student is deleted by teacher in Firestore, log them out immediately
+  useEffect(() => {
+    if (!studentSession || isTeacherLoggedIn) return;
+
+    const unsub = listenToSingleStudent(studentSession.id, () => {
+      setStoredStudentSession(null);
+      setStudentSession(null);
+    });
+
+    return () => unsub();
+  }, [studentSession?.id, isTeacherLoggedIn]);
 
   // Main Tab State
   const [activeMainTab, setActiveMainTab] = useState<'curriculum' | 'grammar'>('curriculum');

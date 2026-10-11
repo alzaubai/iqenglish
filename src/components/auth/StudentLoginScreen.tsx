@@ -52,6 +52,17 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
       return;
     }
 
+    const isRevoked = (platformConfig.revokedCodes || []).some(
+      (c) => c.toUpperCase() === cleanCode
+    );
+
+    if (isRevoked) {
+      setErrorMessage(
+        'تم إلغاء تفعيل هذا الكود. لا يمكنك الدخول به ثانية، يرجى مراجعة أستاذ المادة لاستلام كود جديد.'
+      );
+      return;
+    }
+
     const isMaster = cleanCode === (platformConfig.masterCode || 'IQ-2026').toUpperCase();
     const isAllowed = (platformConfig.allowedCodes || []).some(
       (c) => c.toUpperCase() === cleanCode

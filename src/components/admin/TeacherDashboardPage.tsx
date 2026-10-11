@@ -21,7 +21,10 @@ import {
   Copy,
   Check,
   UserX,
-  X
+  X,
+  Trash2,
+  RefreshCw,
+  Sparkles,
 } from 'lucide-react';
 import {
   PlatformConfig,
@@ -32,7 +35,9 @@ import {
   ExamSubmission,
   listenToActiveExam,
   StudentSession,
-  listenToAllStudents
+  listenToAllStudents,
+  deleteStudentFromFirebase,
+  generateRandomAccessCode,
 } from '../../services/firebase';
 import {
   UNIT_1_QUESTION_BANK,
@@ -63,7 +68,10 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const [allStudents, setAllStudents] = useState<StudentSession[]>([]);
   const [selectedSectionFilter, setSelectedSectionFilter] = useState<string>('all');
   const [searchStudentQuery, setSearchStudentQuery] = useState<string>('');
-  const [resultsSubTab, setResultsSubTab] = useState<'submitted' | 'absent'>('submitted');
+  const [resultsSubTab, setResultsSubTab] = useState<'submitted' | 'absent' | 'all_students'>('submitted');
+  const [studentToDelete, setStudentToDelete] = useState<StudentSession | null>(null);
+  const [isDeletingStudent, setIsDeletingStudent] = useState(false);
+  const [codeCopied, setCodeCopied] = useState(false);
 
   // PDF / Print Modal State
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
@@ -261,6 +269,41 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
       setTimeout(() => setSettingsSaveMsg(null), 3000);
     } catch {
       setSettingsSaveMsg('تعذر الحفظ، يرجى المحاولة ثانية.');
+    }
+  };
+
+  // Generate a fresh random code
+  const handleGenerateNewCode = async () => {
+    const freshCode = generateRandomAccessCode();
+    setNewMasterCode(freshCode);
+    try {
+      await updatePlatformConfig({ masterCode: freshCode });
+      setSettingsSaveMsg(`تم توليد واعتماد كود تفعيل جديد بنجاح: ${freshCode} ✔️`);
+      setTimeout(() => setSettingsSaveMsg(null), 4000);
+    } catch {
+      setSettingsSaveMsg('حدث خطأ أثناء حفظ الكود الجديد.');
+    }
+  };
+
+  // Copy code to clipboard
+  const handleCopyCode = (codeToCopy: string) => {
+    navigator.clipboard.writeText(codeToCopy);
+    setCodeCopied(true);
+    setTimeout(() => setCodeCopied(false), 2500);
+  };
+
+  // Confirm delete student & revoke their code
+  const handleConfirmDeleteStudent = async () => {
+    if (!studentToDelete) return;
+    setIsDeletingStudent(true);
+    try {
+      await deleteStudentFromFirebase(studentToDelete.id, studentToDelete.code);
+      setStudentToDelete(null);
+    } catch (err) {
+      console.error(err);
+      alert('تعذر حذف الطالب، يرجى المحاولة ثانية.');
+    } finally {
+      setIsDeletingStudent(false);
     }
   };
 
@@ -603,6 +646,18 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     <UserX className="w-4 h-4" />
                     <span>الطلاب غير الممتحنين / الغياب ({totalAbsentCount})</span>
                   </button>
+
+                  <button
+                    onClick={() => setResultsSubTab('all_students')}
+                    className={`py-2 px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer ${
+                      resultsSubTab === 'all_students'
+                        ? 'bg-slate-800 text-white shadow-xs'
+                        : 'text-slate-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    <Users className="w-4 h-4" />
+                    <span>تسلسل الطلاب المسجلين ({totalRegisteredCount})</span>
+                  </button>
                 </div>
 
                 {/* SUBTAB A: SUBMITTED STUDENTS TABLE */}
@@ -715,6 +770,95 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                             ))}
                           </tbody>
                         </table>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* SUBTAB C: COMPACT SEQUENCED ALL REGISTERED STUDENTS TABLE WITH DELETE */}
+                {resultsSubTab === 'all_students' && (
+                  <>
+                    {filteredRegisteredStudents.length === 0 ? (
+                      <div className="py-14 text-center bg-white rounded-2xl border border-slate-200 space-y-2">
+                        <Users className="w-10 h-10 text-slate-300 mx-auto" />
+                        <h4 className="text-sm font-bold text-slate-700 font-arabic">
+                          لا يوجد طلاب مسجلون في هذا القسم حالياً
+                        </h4>
+                        <p className="text-xs text-slate-400 font-arabic">
+                          عندما يقوم الطلاب بالتسجيل باستخدام كود التفعيل، ستظهر أسماؤهم هنا بتسلسل رقمي
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-2xs">
+                        <div className="p-3 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600 font-arabic">
+                          <span>
+                            إجمالي الطلاب المسجلين: <strong className="text-slate-800">{filteredRegisteredStudents.length} طالب</strong>
+                          </span>
+                          <span className="text-[11px] text-slate-500 bg-white px-2 py-1 rounded-lg border border-slate-200">
+                            💡 عند حذف أي طالب، يتم إلغاء كوده فوراً ولا يمكنه الدخول به مجدداً
+                          </span>
+                        </div>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-right text-xs">
+                            <thead>
+                              <tr className="bg-slate-100/80 text-slate-700 border-b border-slate-200 font-arabic font-bold">
+                                <th className="p-3 font-mono text-center w-12">#</th>
+                                <th className="p-3">اسم الطالب الثلاثي</th>
+                                <th className="p-3 text-center">الشعبة</th>
+                                <th className="p-3 text-center">كود التفعيل</th>
+                                <th className="p-3 text-center">تاريخ الانضمام</th>
+                                <th className="p-3 text-center w-24">إجراء الحذف</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 font-sans">
+                              {filteredRegisteredStudents.map((st, idx) => {
+                                const regDate = st.registeredAt
+                                  ? new Date(st.registeredAt).toLocaleDateString('ar-IQ', {
+                                      month: 'short',
+                                      day: 'numeric',
+                                      hour: '2-digit',
+                                      minute: '2-digit',
+                                    })
+                                  : 'غير محدد';
+
+                                return (
+                                  <tr key={st.id || idx} className="hover:bg-slate-50/80 transition-colors">
+                                    <td className="p-3 text-slate-400 font-mono text-xs text-center font-bold">
+                                      {idx + 1}
+                                    </td>
+                                    <td className="p-3 font-bold font-arabic text-slate-800">
+                                      {st.fullName}
+                                    </td>
+                                    <td className="p-3 font-bold font-arabic text-center">
+                                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200 text-[11px]">
+                                        شعبة {st.section}
+                                      </span>
+                                    </td>
+                                    <td className="p-3 font-mono text-xs text-slate-600 text-center uppercase">
+                                      <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-bold">
+                                        {st.code}
+                                      </span>
+                                    </td>
+                                    <td className="p-3 text-slate-400 font-arabic text-[11px] text-center">
+                                      {regDate}
+                                    </td>
+                                    <td className="p-3 text-center">
+                                      <button
+                                        type="button"
+                                        onClick={() => setStudentToDelete(st)}
+                                        className="py-1 px-2.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-arabic font-bold text-xs cursor-pointer transition-colors flex items-center justify-center gap-1 mx-auto"
+                                        title={`حذف الطالب ${st.fullName} وإلغاء كوده`}
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                        <span>حذف</span>
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     )}
                   </>
@@ -1039,21 +1183,73 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                   </div>
 
                   <form onSubmit={handleSaveSettings} className="space-y-4">
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
                         <KeyRound className="w-3.5 h-3.5 text-slate-600" />
                         <span>كود تفعيل الطلاب الرئيسي:</span>
                       </label>
-                      <input
-                        type="text"
-                        value={newMasterCode}
-                        onChange={(e) => setNewMasterCode(e.target.value)}
-                        placeholder="IQ-2026"
-                        className="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-800 focus:border-slate-800 focus:ring-0 uppercase"
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={newMasterCode}
+                          onChange={(e) => setNewMasterCode(e.target.value)}
+                          placeholder="IQ-2026"
+                          className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-800 focus:border-slate-800 focus:ring-0 uppercase tracking-wider"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleGenerateNewCode}
+                          className="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-colors shrink-0 shadow-2xs"
+                          title="توليد كود تفعيل عشوائي جديد بضغطة زر"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>🎲 توليد كود جديد</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyCode(newMasterCode)}
+                          className="px-3 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1 cursor-pointer font-arabic transition-colors shrink-0"
+                          title="نسخ الكود لمشاركته مع الطلاب"
+                        >
+                          {codeCopied ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-600" />
+                              <span className="text-emerald-700 font-arabic">تم النسخ ✔️</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5" />
+                              <span className="font-arabic">نسخ 📋</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
                       <span className="text-[11px] text-slate-400 font-arabic block">
-                        هذا هو الكود الذي ترسله لطلابك ليسجلوا به في المنصة.
+                        هذا هو الكود الفعّال الذي ترسله لطلابك ليسجلوا به في المنصة.
                       </span>
+
+                      {/* Display revoked codes if any */}
+                      {platformConfig.revokedCodes && platformConfig.revokedCodes.length > 0 && (
+                        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-arabic space-y-1.5 mt-2">
+                          <div className="flex items-center justify-between text-slate-600">
+                            <span className="font-bold flex items-center gap-1">
+                              <UserX className="w-3.5 h-3.5 text-rose-500" />
+                              الأكواد الملغاة والمحظورة ({platformConfig.revokedCodes.length} كود):
+                            </span>
+                            <span className="text-[10px] text-slate-400">لا يمكن الدخول بهذه الأكواد</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1.5 pt-1">
+                            {platformConfig.revokedCodes.map((rc, i) => (
+                              <span
+                                key={i}
+                                className="px-2 py-0.5 rounded-md font-mono text-[11px] bg-rose-50 text-rose-700 border border-rose-200 line-through"
+                              >
+                                {rc}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-1.5">
@@ -1261,6 +1457,58 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                 <span>توقيع مدرس المادة: .......................................</span>
                 <span>توقيع إدارة المدرسة: .......................................</span>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* DELETE STUDENT CONFIRMATION MODAL                        */}
+      {/* ======================================================== */}
+      {studentToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" dir="rtl">
+          <div className="w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-xl p-6 space-y-5 animate-in fade-in zoom-in-95 duration-200 text-right">
+            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-200 mx-auto">
+              <Trash2 className="w-6 h-6" />
+            </div>
+
+            <div className="text-center space-y-1">
+              <h3 className="text-lg font-bold text-slate-800 font-arabic">
+                تأكيد حذف الطالب
+              </h3>
+              <p className="text-xs text-slate-500 font-arabic">
+                هل أنت متأكد من حذف الطالب <strong>{studentToDelete.fullName}</strong> (شعبة {studentToDelete.section})؟
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-2xl text-xs text-rose-800 font-arabic space-y-1">
+              <div className="font-bold flex items-center gap-1 text-rose-900">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+                <span>إجراء أمان لمنع إعادة الدخول:</span>
+              </div>
+              <p className="text-[11px] leading-relaxed text-rose-700">
+                سيتم إخراج الطالب فوراً، وسيتم إلغاء تفعيل الكود (<strong className="font-mono">{studentToDelete.code}</strong>). لن يتمكن هذا الطالب من الدخول بنفس الكود القديم إلا إذا قمت بإعطائه كوداً جديداً.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 pt-2">
+              <button
+                type="button"
+                onClick={handleConfirmDeleteStudent}
+                disabled={isDeletingStudent}
+                className="flex-1 py-3 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm cursor-pointer shadow-xs transition-colors font-arabic flex items-center justify-center gap-1.5"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>{isDeletingStudent ? 'جاري الحذف...' : 'نعم، حذف الطالب وإلغاء الكود'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setStudentToDelete(null)}
+                disabled={isDeletingStudent}
+                className="py-3 px-4 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm cursor-pointer transition-colors font-arabic"
+              >
+                إلغاء
+              </button>
             </div>
           </div>
         </div>
