@@ -22,6 +22,7 @@ import { GenericLessonExercises } from './components/exercises/GenericLessonExer
 import { GrammarUnitSelector } from './components/grammar/GrammarUnitSelector';
 import { GrammarTopicSelector } from './components/grammar/GrammarTopicSelector';
 import { GrammarTopicDetail } from './components/grammar/GrammarTopicDetail';
+import { startBackgroundMediaPrefetch } from './utils/offlineMedia';
 import {
   StudentSession,
   PlatformConfig,
@@ -63,6 +64,11 @@ export default function App() {
     });
     return () => unsub();
   }, []);
+
+  // Background offline media prefetch (caches audio & illustrations silently)
+  useEffect(() => {
+    startBackgroundMediaPrefetch(unit1Lessons, selectedLessonId);
+  }, [selectedLessonId]);
 
   // Student active study time heartbeat (runs every 60 seconds)
   useEffect(() => {
