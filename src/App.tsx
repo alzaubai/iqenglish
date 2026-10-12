@@ -56,6 +56,19 @@ export default function App() {
   const [isStudentExamModalOpen, setIsStudentExamModalOpen] = useState(false);
   const [isStudentHistoryModalOpen, setIsStudentHistoryModalOpen] = useState(false);
 
+  // Main Tab State
+  const [activeMainTab, setActiveMainTab] = useState<'curriculum' | 'grammar'>('curriculum');
+
+  // Curriculum State
+  const [, setSelectedUnitId] = useState<string>('unit-1');
+  const [selectedLessonId, setSelectedLessonId] = useState<string>('lesson-1');
+  const [curriculumViewState, setCurriculumViewState] = useState<'units' | 'lessons' | 'detail'>('lessons');
+
+  // Grammar Tab State (Units -> 5 Grammar Topics -> Topic Cards & Practice)
+  const [grammarSelectedUnitId, setGrammarSelectedUnitId] = useState<string>('unit-1');
+  const [grammarSelectedTopicId, setGrammarSelectedTopicId] = useState<string>('topic-past-simple');
+  const [grammarViewState, setGrammarViewState] = useState<'units' | 'topics' | 'detail'>('units');
+
   // Realtime Listeners for Firebase Platform Config & Active Exam
   useEffect(() => {
     recordSiteVisit(); // Track platform total visits
@@ -106,19 +119,6 @@ export default function App() {
 
     return () => unsub();
   }, [studentSession?.id, isTeacherLoggedIn]);
-
-  // Main Tab State
-  const [activeMainTab, setActiveMainTab] = useState<'curriculum' | 'grammar'>('curriculum');
-
-  // Curriculum State
-  const [, setSelectedUnitId] = useState<string>('unit-1');
-  const [selectedLessonId, setSelectedLessonId] = useState<string>('lesson-1');
-  const [curriculumViewState, setCurriculumViewState] = useState<'units' | 'lessons' | 'detail'>('lessons');
-
-  // Grammar Tab State (Units -> 5 Grammar Topics -> Topic Cards & Practice)
-  const [grammarSelectedUnitId, setGrammarSelectedUnitId] = useState<string>('unit-1');
-  const [grammarSelectedTopicId, setGrammarSelectedTopicId] = useState<string>('topic-past-simple');
-  const [grammarViewState, setGrammarViewState] = useState<'units' | 'topics' | 'detail'>('units');
 
   const currentLesson =
     unit1Lessons.find((l) => l.id === selectedLessonId) || unit1Lessons[0];
