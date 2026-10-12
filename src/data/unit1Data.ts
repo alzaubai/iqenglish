@@ -713,6 +713,8 @@ export const unit1Lessons: LessonData[] = [
         audioTrackNumber: 11,
         bookReference: "Student's Book p. 82",
         description: 'Sana talks about spending a wonderful day with her friends.',
+        audioFileUrl: '/audio/lesson-7/track11-full.mp3',
+        hasGeminiAudio: true,
         lines: [
           {
             id: 'l7-1',
@@ -720,6 +722,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'I had a fantastic day yesterday. I spent the day with my friends, and we did lots of fun things together.',
             textAr: 'قضيت يوماً رائعاً بالأمس مع صديقاتي، وفعلنا الكثير من الأشياء الممتعة معاً.',
+            audioFileUrl: '/audio/lesson-7/l7-1.mp3',
           },
           {
             id: 'l7-2',
@@ -727,6 +730,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'In the morning, we went fishing. We did not catch any fish, but it was very relaxing.',
             textAr: 'في الصباح ذهبنا لصيد السمك. لم نصطد أي سمكة، لكن الأمر كان مريحاً جداً للأعصاب.',
+            audioFileUrl: '/audio/lesson-7/l7-2.mp3',
           },
           {
             id: 'l7-3',
@@ -734,6 +738,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'Then we walked along the seashore and found some beautiful seashells. I took some pictures of the boats in the sea.',
             textAr: 'ثم سرنا على طول شاطئ البحر ووجدنا بعض الأصداف الجميلة، والتقطت بعض الصور للقوارب في البحر.',
+            audioFileUrl: '/audio/lesson-7/l7-3.mp3',
           },
           {
             id: 'l7-4',
@@ -741,6 +746,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'My parents said we could have a pizza or go for a picnic. In the afternoon, my friends and I played football in the park and then listened to some music.',
             textAr: 'قال والداي إنه بإمكاننا تناول البيتزا أو الذهاب في نزهة. وبعد الظهر لعبت أنا وصديقاتي كرة القدم في الحديقة ثم استمعنا لبعض الموسيقى.',
+            audioFileUrl: '/audio/lesson-7/l7-4.mp3',
           },
         ],
       },
@@ -829,6 +835,8 @@ export const unit1Lessons: LessonData[] = [
         audioTrackNumber: 9,
         bookReference: "Student's Book p. 12",
         description: 'Key skills learned in Unit 1: talking about holidays, hobbies, and adverbs.',
+        audioFileUrl: '/audio/lesson-9/track9-full.mp3',
+        hasGeminiAudio: true,
         lines: [
           {
             id: 'l9-1',
@@ -836,6 +844,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'male',
             textEn: 'In Unit 1, we learned how to talk about holidays in the past simple: I went swimming every day. I stayed at home.',
             textAr: 'في الوحدة الأولى، تعلمنا كيفية التحدث عن العطل في زمن الماضي البسيط: ذهبت للسباحة كل يوم، وبقيت في المنزل.',
+            audioFileUrl: '/audio/lesson-9/l9-1.mp3',
           },
           {
             id: 'l9-2',
@@ -843,6 +852,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'male',
             textEn: 'We learned how to ask questions: Did you visit your friends? Yes, I did. Did you go on picnics? No, I did not.',
             textAr: 'وتعلمنا كيفية طرح الأسئلة: هل زرت أصدقاءك؟ نعم فعلت. هل ذهبت في نزهات؟ كلا لم أفعل.',
+            audioFileUrl: '/audio/lesson-9/l9-2.mp3',
           },
           {
             id: 'l9-3',
@@ -850,6 +860,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'male',
             textEn: 'We also learned adverbs of frequency: I always get up before eight o clock. I usually go on picnics on Fridays. My father never drives fast.',
             textAr: 'وتعلمنا أيضاً ظروف التكرار: أستيقظ دائماً قبل الثامنة. وعادةً أذهب في نزهات أيام الجمعة. وأبي لا يقود بسرعة أبداً.',
+            audioFileUrl: '/audio/lesson-9/l9-3.mp3',
           },
         ],
       },
