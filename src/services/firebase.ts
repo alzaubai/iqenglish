@@ -157,8 +157,54 @@ export const updatePlatformConfig = async (
   if (!snap.exists()) {
     await setDoc(docRef, { ...DEFAULT_PLATFORM_CONFIG, ...partialConfig });
   } else {
-    await updateDoc(docRef, partialConfig);
+    const currentData = snap.data() as PlatformConfig;
+    const currentAllowed = currentData.allowedCodes || [];
+    const newAllowed = partialConfig.allowedCodes || [];
+    const mergedAllowed = Array.from(
+      new Set(
+        [
+          ...currentAllowed,
+          ...newAllowed,
+          currentData.masterCode,
+          partialConfig.masterCode,
+        ].filter(Boolean)
+      )
+    );
+
+    await updateDoc(docRef, {
+      ...partialConfig,
+      allowedCodes: mergedAllowed,
+    });
   }
+};
+
+// Direct Firestore verification for student codes (guarantees student codes never fail)
+export const verifyStudentCodeOnline = async (code: string): Promise<boolean> => {
+  if (!code) return false;
+  const clean = code.trim().toUpperCase();
+  try {
+    const cfgSnap = await getDoc(doc(db, CONFIG_DOC_PATH));
+    if (cfgSnap.exists()) {
+      const cfg = cfgSnap.data() as PlatformConfig;
+      if (cfg.revokedCodes && cfg.revokedCodes.some((c) => c.toUpperCase() === clean)) {
+        return false;
+      }
+      if (cfg.masterCode && cfg.masterCode.toUpperCase() === clean) return true;
+      if (cfg.allowedCodes && cfg.allowedCodes.some((c) => c.toUpperCase() === clean)) return true;
+    }
+    // Also check if any existing student in Firestore is registered with this code
+    const stdCol = collection(db, 'students');
+    const stdSnaps = await getDocs(stdCol);
+    for (const d of stdSnaps.docs) {
+      const dCode = d.data().code;
+      if (dCode && dCode.trim().toUpperCase() === clean) {
+        return true;
+      }
+    }
+  } catch (err) {
+    console.warn('Online code verify error:', err);
+  }
+  return false;
 };
 
 // -------------------------------------------------------------

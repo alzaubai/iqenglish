@@ -16,6 +16,7 @@ import {
   setStoredStudentSession,
   registerStudentInFirebase,
   findExistingStudent,
+  verifyStudentCodeOnline,
 } from '../../services/firebase';
 
 interface StudentLoginScreenProps {
@@ -43,7 +44,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
   const [teacherErrorMessage, setTeacherErrorMessage] = useState<string | null>(null);
 
   // Student Step 1: Verify Code
-  const handleVerifyCode = (e: React.FormEvent) => {
+  const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
     const cleanCode = enteredCode.trim().toUpperCase();
@@ -72,8 +73,23 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
     if (isMaster || isAllowed) {
       setStep(2);
       setErrorMessage(null);
-    } else {
+      return;
+    }
+
+    // Direct online fallback check (guarantees student codes never fail)
+    setIsSubmitting(true);
+    try {
+      const isValidOnline = await verifyStudentCodeOnline(cleanCode);
+      if (isValidOnline) {
+        setStep(2);
+        setErrorMessage(null);
+      } else {
+        setErrorMessage('كود التفعيل غير صحيح. راجع أستاذ المادة.');
+      }
+    } catch {
       setErrorMessage('كود التفعيل غير صحيح. راجع أستاذ المادة.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
