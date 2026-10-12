@@ -38,8 +38,8 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="text-sm sm:text-lg font-bold tracking-tight text-slate-800 block leading-tight font-sans">
               English for Iraq
             </span>
-            <span className="text-[10px] sm:text-xs text-slate-500 font-arabic hidden sm:block leading-tight">
-              الصف الأول المتوسط • المنهاج التفاعلي
+            <span className="text-[10px] sm:text-xs text-slate-500 font-arabic block leading-tight truncate">
+              الصف الأول المتوسط • إشراف أ. حسام محمود منصور
             </span>
           </div>
         </div>
@@ -110,7 +110,7 @@ export const Header: React.FC<HeaderProps> = ({
               title="فتح لوحة التحكم الخاصة بالأستاذ (إدارة الدروس والامتحانات والدرجات)"
             >
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>لوحة تحكم الأستاذ ⚙️</span>
+              <span>لوحة تحكم الأستاذ</span>
             </button>
           )}
 

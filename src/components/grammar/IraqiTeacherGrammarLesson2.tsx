@@ -500,7 +500,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
                   </div>
 
                   <p className="text-xs text-blue-900 font-arabic pt-1">
-                    💡 <strong>أمثلة من منهج ريتشارد:</strong>
+                    <strong>أمثلة من منهج ريتشارد:</strong>
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-1">
                     <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl flex items-center justify-between">
@@ -569,7 +569,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
                   </div>
 
                   <p className="text-xs text-indigo-900 font-arabic pt-1">
-                    💡 <strong>أمثلة من منهج ريتشارد:</strong>
+                    <strong>أمثلة من منهج ريتشارد:</strong>
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-1">
                     <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl flex items-center justify-between">
@@ -655,13 +655,13 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
                   <AlertTriangle className="w-5 h-5 text-rose-700 shrink-0 mt-0.5" />
                   <div className="space-y-1 text-right">
                     <h5 className="text-xs sm:text-sm font-black text-rose-950 font-arabic">
-                      تحذير امتحاني خطير جداً 🚨
+                      تحذير امتحاني مهم جداً
                     </h5>
                     <p className="text-xs text-rose-900 font-arabic leading-relaxed">
                       إياك أن تستخدم كلمة <span className="font-mono font-bold bg-white px-1.5 py-0.5 rounded text-rose-700" dir="ltr">didn't</span> مع was أو were!
-                      لا تقل أبداً ❌ <span className="line-through font-mono">didn't was</span> أو ❌ <span className="line-through font-mono">didn't were</span>.
+                      لا تقل أبداً خطأ: <span className="line-through font-mono">didn't was</span> أو خطأ: <span className="line-through font-mono">didn't were</span>.
                       الصحيح فقط هو إضافة <span className="font-mono font-bold bg-white px-1.5 py-0.5 rounded text-emerald-800" dir="ltr">not</span> مباشرة بعد الفعل:
-                      ✔ <strong className="font-mono text-emerald-900">wasn't</strong> و ✔ <strong className="font-mono text-emerald-900">weren't</strong>.
+                      أي: <strong className="font-mono text-emerald-900">wasn't</strong> و <strong className="font-mono text-emerald-900">weren't</strong>.
                     </p>
                   </div>
                 </div>
@@ -1487,7 +1487,7 @@ export const IraqiTeacherGrammarLesson2: React.FC = () => {
                         }`}
                       >
                         <span className="font-bold block mb-0.5">
-                          {isCorrect ? '✔ عاشت إيدك! إجابة صحيحة:' : '✖ انتبه يا بطل، التصحيح:'}
+                          {isCorrect ? 'إجابة صحيحة:' : 'انتبه، التصحيح:'}
                         </span>
                         {q.explanationAr}
                       </div>

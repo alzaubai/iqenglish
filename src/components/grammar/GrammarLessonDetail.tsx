@@ -196,7 +196,7 @@ export const GrammarLessonDetail: React.FC<GrammarLessonDetailProps> = ({
                         </div>
                         {rule.formulaNoteAr && (
                           <div className="text-xs text-blue-900 font-arabic pt-2 border-t border-blue-200/80">
-                            💡 <span className="font-bold text-blue-950">ملاحظة:</span> {rule.formulaNoteAr}
+                            <span className="font-bold text-blue-950">ملاحظة:</span> {rule.formulaNoteAr}
                           </div>
                         )}
                       </div>
@@ -508,7 +508,7 @@ export const GrammarLessonDetail: React.FC<GrammarLessonDetailProps> = ({
                           {/* Explanation Box */}
                           {isAnswered && (
                             <div className="text-xs text-zinc-700 bg-zinc-100 p-3 rounded-xl border border-zinc-200 font-arabic leading-relaxed mt-2">
-                              💡 <span className="font-bold">التوضيح:</span> {q.explanationAr}
+                              <span className="font-bold">التوضيح:</span> {q.explanationAr}
                             </div>
                           )}
                         </div>

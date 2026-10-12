@@ -27,13 +27,13 @@ export const MandatoryExamOverlay: React.FC<MandatoryExamOverlayProps> = ({
         {/* Content */}
         <div className="space-y-2">
           <span className="text-[11px] font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 font-arabic inline-block">
-            امتحان يومي مباشر ⏱️
+            امتحان يومي مباشر • إشراف: أ. حسام محمود منصور
           </span>
           <h2 className="text-xl sm:text-2xl font-bold text-slate-800 font-arabic">
             {exam.title}
           </h2>
           <p className="text-xs text-slate-500 font-arabic leading-relaxed pt-1">
-            أهلاً بك يا <strong>{student.fullName}</strong>. أطلق أستاذ المادة هذا الامتحان السريع لطلاب شعبة ({student.section}).
+            أهلاً بك يا <strong>{student.fullName}</strong>. أطلق مدرس المادة <strong>أ. حسام محمود منصور</strong> هذا الامتحان السريع لطلاب شعبة ({student.section}).
             يجب حل الأسئلة وتسليمها للتمكن من متابعة تصفح الدروس.
           </p>
         </div>

@@ -1,15 +1,17 @@
 import React from 'react';
-import { ArrowRight, BookOpen, Sparkles, CheckCircle2, ChevronLeft } from 'lucide-react';
+import { ArrowRight, BookOpen, Sparkles, CheckCircle2, ChevronLeft, Lock } from 'lucide-react';
 import { unit1GrammarTopicsList, GrammarTopicData } from '../../data/unit1GrammarTopics';
 
 interface GrammarTopicSelectorProps {
   onSelectTopic: (topicId: string) => void;
   onBackToUnits: () => void;
+  unlockedGrammarTopics?: string[];
 }
 
 export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
   onSelectTopic,
   onBackToUnits,
+  unlockedGrammarTopics,
 }) => {
   return (
     <div className="space-y-6" dir="rtl">
@@ -47,6 +49,9 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
             <p className="text-xs sm:text-sm text-zinc-600 font-arabic mt-1.5 max-w-2xl leading-relaxed">
               شرح مبسط ومباشر لقواعد الأول المتوسط مع كروت منظمة لحالات الإثبات والنفي والاستفهام ونماذج امتحانية شهرية من كتاب الطالب والنشاط.
             </p>
+            <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-xl font-arabic">
+              إعداد وشرح مدرس المادة: أ. حسام محمود منصور
+            </div>
           </div>
           <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-center shrink-0 self-start sm:self-center">
             <span className="text-xs text-zinc-500 font-arabic block">عدد المواضيع</span>
@@ -78,12 +83,33 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
               teal: 'hover:border-teal-500 group-hover:text-teal-600 badge-teal',
             }[topic.color];
 
+            const isUnlocked = !unlockedGrammarTopics || unlockedGrammarTopics.includes(topic.id);
+
             return (
               <div
                 key={topic.id}
-                onClick={() => onSelectTopic(topic.id)}
-                className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 transition-all text-right flex flex-col justify-between hover:border-zinc-900 hover:shadow-md cursor-pointer group relative overflow-hidden"
+                onClick={() => {
+                  if (isUnlocked) {
+                    onSelectTopic(topic.id);
+                  }
+                }}
+                className={`bg-white rounded-2xl border p-5 sm:p-6 transition-all text-right flex flex-col justify-between relative overflow-hidden ${
+                  !isUnlocked
+                    ? 'opacity-75 cursor-not-allowed border-zinc-200'
+                    : 'border-zinc-200 hover:border-zinc-900 hover:shadow-md cursor-pointer group'
+                }`}
               >
+                {/* Lock Overlay if Locked by Teacher */}
+                {!isUnlocked && (
+                  <div className="absolute inset-0 bg-zinc-950/45 backdrop-blur-[1.5px] rounded-2xl flex flex-col items-center justify-center text-white z-10 p-3 select-none">
+                    <div className="w-9 h-9 rounded-xl bg-zinc-900/90 text-amber-400 flex items-center justify-center mb-1.5 shadow-md">
+                      <Lock className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs font-bold font-arabic bg-zinc-900/90 px-2.5 py-1 rounded-lg">
+                      مغلق من قبل مدرس المادة: أ. حسام محمود منصور
+                    </span>
+                  </div>
+                )}
                 <div>
                   {/* Top row: Topic Number & Badge */}
                   <div className="flex items-center justify-between mb-3">

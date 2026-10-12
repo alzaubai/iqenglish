@@ -135,6 +135,12 @@ export default function App() {
   };
 
   const handleSelectGrammarTopic = (topicId: string) => {
+    const isUnlocked =
+      !platformConfig.unlockedGrammarTopics ||
+      platformConfig.unlockedGrammarTopics.includes(topicId);
+    if (!isUnlocked && !isTeacherLoggedIn) {
+      return;
+    }
     setGrammarSelectedTopicId(topicId);
     setGrammarViewState('detail');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -218,6 +224,7 @@ export default function App() {
                   setGrammarViewState('units');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
+                unlockedGrammarTopics={isTeacherLoggedIn ? undefined : platformConfig.unlockedGrammarTopics}
               />
             )}
 
@@ -444,18 +451,18 @@ export default function App() {
       {/* Clean Footer */}
       <footer className="border-t border-zinc-200 bg-white py-5 mt-10" dir="rtl">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center text-xs text-zinc-500 font-arabic">
-          <span>English for Iraq • 1st Intermediate</span>
+          <span>English for Iraq • الصف الأول المتوسط • إعداد وإشراف مدرس المادة: أ. حسام محمود منصور</span>
           <div className="flex flex-wrap items-center justify-center gap-3">
             {isTeacherLoggedIn ? (
               <div className="flex items-center gap-2">
                 <span className="text-zinc-800 bg-zinc-100 px-2.5 py-1 rounded-lg font-bold">
-                  أنت في وضع: أستاذ المادة 👨‍🏫
+                  أنت في وضع: أستاذ المادة
                 </span>
                 <button
                   onClick={() => setIsTeacherDashboardOpen(true)}
                   className="text-zinc-900 hover:underline font-bold cursor-pointer"
                 >
-                  لوحة تحكم الأستاذ ⚙️
+                  لوحة تحكم الأستاذ
                 </button>
                 <button
                   onClick={() => {
@@ -480,7 +487,7 @@ export default function App() {
                   className="text-slate-500 hover:text-slate-800 underline cursor-pointer text-[11px]"
                   title="تسجيل خروج الطالب والعودة لشاشة البداية"
                 >
-                  خروج الطالب 🚪
+                  خروج الطالب
                 </button>
               </div>
             ) : null}

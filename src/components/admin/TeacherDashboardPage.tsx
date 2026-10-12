@@ -25,6 +25,9 @@ import {
   Trash2,
   RefreshCw,
   Sparkles,
+  BarChart3,
+  PenTool,
+  Sliders,
 } from 'lucide-react';
 import {
   PlatformConfig,
@@ -38,11 +41,13 @@ import {
   listenToAllStudents,
   deleteStudentFromFirebase,
   generateRandomAccessCode,
+  DEFAULT_GRAMMAR_TOPIC_IDS,
 } from '../../services/firebase';
 import {
   UNIT_1_QUESTION_BANK,
   CategorizedExamQuestion
 } from '../../data/defaultExamQuestions';
+import { unit1GrammarTopicsList } from '../../data/unit1GrammarTopics';
 
 interface TeacherDashboardPageProps {
   platformConfig: PlatformConfig;
@@ -227,8 +232,8 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
       setIsExamActiveLocal(activateState);
       setBuilderStatusMsg(
         activateState
-          ? 'تم اعتماد الأسئلة وإطلاق الامتحان للطلاب بنجاح ✔️'
-          : 'تم إيقاف وقفل الامتحان عن الطلاب 🔒'
+          ? 'تم اعتماد الأسئلة وإطلاق الامتحان للطلاب بنجاح'
+          : 'تم إيقاف وقفل الامتحان عن الطلاب'
       );
       setTimeout(() => setBuilderStatusMsg(null), 4000);
     } catch (err) {
@@ -257,6 +262,25 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     await updatePlatformConfig({ unlockedLessons: ['lesson-1'] });
   };
 
+  // Toggle Grammar Topic Access
+  const handleToggleGrammarTopicAccess = async (topicId: string) => {
+    const current = platformConfig.unlockedGrammarTopics || DEFAULT_GRAMMAR_TOPIC_IDS;
+    const isCurrentlyUnlocked = current.includes(topicId);
+    const updated = isCurrentlyUnlocked
+      ? current.filter((id) => id !== topicId)
+      : [...current, topicId];
+
+    await updatePlatformConfig({ unlockedGrammarTopics: updated });
+  };
+
+  const handleUnlockAllGrammarTopics = async () => {
+    await updatePlatformConfig({ unlockedGrammarTopics: DEFAULT_GRAMMAR_TOPIC_IDS });
+  };
+
+  const handleLockAllGrammarTopicsExcept1 = async () => {
+    await updatePlatformConfig({ unlockedGrammarTopics: ['topic-past-simple'] });
+  };
+
   // Save Settings
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -265,7 +289,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
         masterCode: newMasterCode.trim().toUpperCase(),
         teacherPin: newTeacherPin.trim(),
       });
-      setSettingsSaveMsg('تم حفظ وتحديث كود التفعيل والرمز السري بنجاح ✔️');
+      setSettingsSaveMsg('تم حفظ وتحديث كود التفعيل والرمز السري بنجاح');
       setTimeout(() => setSettingsSaveMsg(null), 3000);
     } catch {
       setSettingsSaveMsg('تعذر الحفظ، يرجى المحاولة ثانية.');
@@ -278,7 +302,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     setNewMasterCode(freshCode);
     try {
       await updatePlatformConfig({ masterCode: freshCode });
-      setSettingsSaveMsg(`تم توليد واعتماد كود تفعيل جديد بنجاح: ${freshCode} ✔️`);
+      setSettingsSaveMsg(`تم توليد واعتماد كود تفعيل جديد بنجاح: ${freshCode}`);
       setTimeout(() => setSettingsSaveMsg(null), 4000);
     } catch {
       setSettingsSaveMsg('حدث خطأ أثناء حفظ الكود الجديد.');
@@ -361,24 +385,25 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     const sectionName = selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`;
     const dateStr = new Date().toLocaleDateString('ar-IQ');
 
-    let text = `📊 تقرير الامتحان اليومي • الأول المتوسط\n`;
-    text += `📌 ${examTitle}\n`;
-    text += `🏫 الشعبة: ${sectionName}\n`;
-    text += `📅 التاريخ: ${dateStr}\n`;
+    let text = `تقرير الامتحان اليومي • الأول المتوسط\n`;
+    text += `إشراف مدرس المادة: أ. حسام محمود منصور\n`;
+    text += `الامتحان: ${examTitle}\n`;
+    text += `الشعبة: ${sectionName}\n`;
+    text += `التاريخ: ${dateStr}\n`;
     text += `───────────────\n`;
-    text += `👥 المسجلين: ${totalRegisteredCount} طالب\n`;
-    text += `✅ الممتحنون: ${totalSubmissions} طالب (${participationRate}%)\n`;
-    text += `❌ الغائبون: ${totalAbsentCount} طالب\n`;
-    text += `⭐ متوسط الدرجات: ${avgScore} / 10\n`;
+    text += `المسجلين: ${totalRegisteredCount} طالب\n`;
+    text += `الممتحنون: ${totalSubmissions} طالب (${participationRate}%)\n`;
+    text += `الغائبون: ${totalAbsentCount} طالب\n`;
+    text += `متوسط الدرجات: ${avgScore} / 10\n`;
     text += `───────────────\n`;
-    text += `📝 كشف الدرجات:\n`;
+    text += `كشف الدرجات:\n`;
 
     filteredSubmissions.forEach((sub, i) => {
       text += `${i + 1}. ${sub.studentName} (${sub.studentSection}): ${sub.score}/${sub.totalPoints}\n`;
     });
 
     if (absentStudents.length > 0) {
-      text += `\n⚠️ الطلاب الذين لم يمتحنوا بعد:\n`;
+      text += `\nالطلاب الذين لم يمتحنوا بعد:\n`;
       absentStudents.forEach((st, i) => {
         text += `${i + 1}. ${st.fullName} (شعبة ${st.section})\n`;
       });
@@ -396,14 +421,14 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-slate-800 text-white flex items-center justify-center font-bold text-sm shadow-xs font-sans">
-              👨‍🏫
+              <GraduationCap className="w-5 h-5 text-white" />
             </div>
             <div>
               <h1 className="text-base sm:text-lg font-bold text-slate-800 leading-tight">
                 لوحة تحكم أستاذ المادة
               </h1>
               <span className="text-xs text-slate-500 font-arabic block">
-                إدارة المنهاج التفاعلي والامتحانات والدرجات
+                مدرس المادة: أ. حسام محمود منصور • إدارة المنهاج والامتحانات والدرجات
               </span>
             </div>
           </div>
@@ -483,33 +508,37 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
             {/* Top Navigation Tabs */}
             <div className="bg-white rounded-2xl border border-slate-200 p-1.5 flex flex-wrap gap-1">
               {[
-                { id: 'results', label: '📊 نتائج الطلاب والدرجات', count: totalSubmissions },
-                { id: 'builder', label: '📝 صانع الامتحانات التفاعلي', activeBadge: isExamActiveLocal },
-                { id: 'lessons', label: '🔒 التحكم بالدروس المفتوحة' },
-                { id: 'codes', label: '🔑 الأكواد والرمز السري' },
-              ].map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setActiveTab(t.id as any)}
-                  className={`flex-1 min-w-[140px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer font-arabic ${
-                    activeTab === t.id
-                      ? 'bg-slate-800 text-white shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <span>{t.label}</span>
-                  {t.count !== undefined && (
-                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                      activeTab === t.id ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-700'
-                    }`}>
-                      {t.count}
-                    </span>
-                  )}
-                  {t.activeBadge && (
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  )}
-                </button>
-              ))}
+                { id: 'results', label: 'نتائج الطلاب والدرجات', icon: BarChart3, count: totalSubmissions },
+                { id: 'builder', label: 'صانع الامتحانات التفاعلي', icon: PenTool, activeBadge: isExamActiveLocal },
+                { id: 'lessons', label: 'التحكم بالدروس والقواعد', icon: BookOpen },
+                { id: 'codes', label: 'الأكواد والرمز السري', icon: KeyRound },
+              ].map((t) => {
+                const IconComponent = t.icon;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setActiveTab(t.id as any)}
+                    className={`flex-1 min-w-[140px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer font-arabic ${
+                      activeTab === t.id
+                        ? 'bg-slate-800 text-white shadow-xs'
+                        : 'text-slate-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    <IconComponent className="w-4 h-4 shrink-0" />
+                    <span>{t.label}</span>
+                    {t.count !== undefined && (
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
+                        activeTab === t.id ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-700'
+                      }`}>
+                        {t.count}
+                      </span>
+                    )}
+                    {t.activeBadge && (
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             {/* ======================================================== */}
@@ -600,7 +629,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                       {telegramCopied ? (
                         <>
                           <Check className="w-4 h-4 text-emerald-600" />
-                          <span className="text-emerald-700">تم النسخ ✔️</span>
+                          <span className="text-emerald-700">تم النسخ</span>
                         </>
                       ) : (
                         <>
@@ -616,7 +645,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                       title="تصدير كشف درجات الطلاب كملف PDF قابل للطباعة"
                     >
                       <FileDown className="w-4 h-4" />
-                      <span>تصدير PDF 📄</span>
+                      <span>تصدير PDF</span>
                     </button>
                   </div>
                 </div>
@@ -728,7 +757,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                       <div className="py-14 text-center bg-white rounded-2xl border border-slate-200 space-y-2">
                         <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
                         <h4 className="text-sm font-bold text-slate-800 font-arabic">
-                          ممتاز! جميع طلاب هذه الشعبة قد أكملوا الامتحان بنجاح ✔️
+                          ممتاز! جميع طلاب هذه الشعبة قد أكملوا الامتحان بنجاح
                         </h4>
                         <p className="text-xs text-slate-400 font-arabic max-w-sm mx-auto">
                           نسبة الحضور 100%، لا يوجد طلاب غائبون في القائمة.
@@ -795,7 +824,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                             إجمالي الطلاب المسجلين: <strong className="text-slate-800">{filteredRegisteredStudents.length} طالب</strong>
                           </span>
                           <span className="text-[11px] text-slate-500 bg-white px-2 py-1 rounded-lg border border-slate-200">
-                            💡 عند حذف أي طالب، يتم إلغاء كوده فوراً ولا يمكنه الدخول به مجدداً
+                            عند حذف أي طالب، يتم إلغاء كوده فوراً ولا يمكنه الدخول به مجدداً
                           </span>
                         </div>
                         <div className="overflow-x-auto">
@@ -893,7 +922,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                             : 'bg-slate-100 text-slate-600 border border-slate-200'
                         }`}
                       >
-                        {isExamActiveLocal ? 'متاح للطلاب ومباشر الآن 🚀' : 'مغلق حالياً 🔒'}
+                        {isExamActiveLocal ? 'متاح للطلاب ومباشر الآن' : 'مغلق حالياً'}
                       </span>
                     </div>
                   </div>
@@ -905,7 +934,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                         className="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-800 font-bold text-xs cursor-pointer font-arabic transition-colors flex items-center gap-1.5"
                       >
                         <Pause className="w-3.5 h-3.5" />
-                        <span>إيقاف الامتحان 🔒</span>
+                        <span>إيقاف الامتحان</span>
                       </button>
                     ) : (
                       <button
@@ -913,7 +942,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                         className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs cursor-pointer font-arabic transition-colors flex items-center gap-1.5 shadow-xs"
                       >
                         <Play className="w-3.5 h-3.5 fill-current" />
-                        <span>اعتماد وإطلاق الامتحان للطلاب 🚀</span>
+                        <span>اعتماد وإطلاق الامتحان للطلاب</span>
                       </button>
                     )}
                   </div>
@@ -997,7 +1026,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                       className="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold font-arabic cursor-pointer transition-colors flex items-center gap-1.5"
                     >
                       <Shuffle className="w-3.5 h-3.5" />
-                      <span>إعادة توليد نموذج عشوائي 🎲</span>
+                      <span>إعادة توليد نموذج عشوائي</span>
                     </button>
                   </div>
                 </div>
@@ -1086,7 +1115,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                       className="py-3.5 px-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm cursor-pointer shadow-xs transition-colors font-arabic inline-flex items-center gap-2"
                     >
                       <Play className="w-4 h-4 fill-current" />
-                      <span>اعتماد هذا النموذج وإطلاق الامتحان للطلاب 🚀</span>
+                      <span>اعتماد هذا النموذج وإطلاق الامتحان للطلاب</span>
                     </button>
                   </div>
                 </div>
@@ -1094,75 +1123,153 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
             )}
 
             {/* ======================================================== */}
-            {/* TAB 3: LESSON LOCKING / UNLOCKING                        */}
+            {/* TAB 3: LESSONS & GRAMMAR TOPICS LOCKING / UNLOCKING      */}
             {/* ======================================================== */}
             {activeTab === 'lessons' && (
-              <div className="space-y-5 text-right">
-                <div className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <h3 className="text-base font-bold text-slate-800 font-arabic">
-                      التحكم بالدروس المفتوحة للطلاب
-                    </h3>
-                    <p className="text-xs text-slate-500 font-arabic mt-0.5">
-                      يمكنك قفل الدروس المتقدمة حتى لا يسبقك الطلاب في المنهاج، وفتحها تدريجياً حسب تقدمك في الدوام:
-                    </p>
+              <div className="space-y-8 text-right">
+                {/* SECTION 1: LESSONS 1-10 */}
+                <div className="space-y-4">
+                  <div className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h3 className="text-base font-bold text-slate-800 font-arabic flex items-center gap-2">
+                        <BookOpen className="w-4 h-4 text-slate-700" />
+                        <span>أولاً: التحكم بدروس المنهاج (الدروس 1 إلى 10)</span>
+                      </h3>
+                      <p className="text-xs text-slate-500 font-arabic mt-0.5">
+                        يمكنك قفل الدروس المتقدمة حتى لا يسبقك الطلاب في المنهاج، وفتحها تدريجياً حسب تقدمك في الدوام:
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleUnlockAll}
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
+                      >
+                        فتح جميع الدروس
+                      </button>
+                      <button
+                        onClick={handleLockAllExcept1}
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
+                      >
+                        قفل الكل (عدا الدرس 1)
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={handleUnlockAll}
-                      className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
-                    >
-                      فتح جميع الدروس
-                    </button>
-                    <button
-                      onClick={handleLockAllExcept1}
-                      className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
-                    >
-                      قفل الكل (عدا الدرس 1)
-                    </button>
+                  {/* Lesson Cards Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    {Array.from({ length: 10 }, (_, i) => {
+                      const lNum = i + 1;
+                      const lId = `lesson-${lNum}`;
+                      const isUnlocked = (platformConfig.unlockedLessons || []).includes(lId);
+
+                      return (
+                        <div
+                          key={lId}
+                          className={`p-4 rounded-2xl border transition-all flex items-center justify-between ${
+                            isUnlocked
+                              ? 'bg-white border-slate-200 shadow-2xs'
+                              : 'bg-slate-50/70 border-dashed border-slate-300 opacity-80'
+                          }`}
+                        >
+                          <div className="space-y-0.5">
+                            <span className="text-[11px] font-mono font-bold text-slate-400">
+                              Lesson {lNum}
+                            </span>
+                            <h4 className="text-sm font-bold text-slate-800 font-arabic">
+                              الدرس {lNum}
+                            </h4>
+                          </div>
+
+                          <button
+                            onClick={() => handleToggleLessonAccess(lId)}
+                            className={`p-2 rounded-xl border cursor-pointer transition-colors ${
+                              isUnlocked
+                                ? 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
+                                : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
+                            }`}
+                            title={isUnlocked ? 'قفل هذا الدرس' : 'فتح هذا الدرس'}
+                          >
+                            {isUnlocked ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/* Lesson Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                  {Array.from({ length: 10 }, (_, i) => {
-                    const lNum = i + 1;
-                    const lId = `lesson-${lNum}`;
-                    const isUnlocked = (platformConfig.unlockedLessons || []).includes(lId);
+                {/* SECTION 2: GRAMMAR TOPICS 1-5 */}
+                <div className="space-y-4 pt-2">
+                  <div className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h3 className="text-base font-bold text-slate-800 font-arabic flex items-center gap-2">
+                        <Sliders className="w-4 h-4 text-slate-700" />
+                        <span>ثانياً: التحكم بالمواضيع القواعدية (قواعد الوحدة الأولى)</span>
+                      </h3>
+                      <p className="text-xs text-slate-500 font-arabic mt-0.5">
+                        يمكنك قفل أو فتح كل موضوع قواعدي بشكل منفصل للتحكم بما يدرسه الطلاب:
+                      </p>
+                    </div>
 
-                    return (
-                      <div
-                        key={lId}
-                        className={`p-4 rounded-2xl border transition-all flex items-center justify-between ${
-                          isUnlocked
-                            ? 'bg-white border-slate-200 shadow-2xs'
-                            : 'bg-slate-50/70 border-dashed border-slate-300 opacity-80'
-                        }`}
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleUnlockAllGrammarTopics}
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
                       >
-                        <div className="space-y-0.5">
-                          <span className="text-[11px] font-mono font-bold text-slate-400">
-                            Lesson {lNum}
-                          </span>
-                          <h4 className="text-sm font-bold text-slate-800 font-arabic">
-                            الدرس {lNum}
-                          </h4>
-                        </div>
+                        فتح جميع مواضيع القواعد
+                      </button>
+                      <button
+                        onClick={handleLockAllGrammarTopicsExcept1}
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
+                      >
+                        قفل الكل (عدا الموضوع 1)
+                      </button>
+                    </div>
+                  </div>
 
-                        <button
-                          onClick={() => handleToggleLessonAccess(lId)}
-                          className={`p-2 rounded-xl border cursor-pointer transition-colors ${
+                  {/* Grammar Topics Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    {unit1GrammarTopicsList.map((topic) => {
+                      const unlockedTopics =
+                        platformConfig.unlockedGrammarTopics || DEFAULT_GRAMMAR_TOPIC_IDS;
+                      const isUnlocked = unlockedTopics.includes(topic.id);
+
+                      return (
+                        <div
+                          key={topic.id}
+                          className={`p-4 rounded-2xl border transition-all flex items-center justify-between ${
                             isUnlocked
-                              ? 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
-                              : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
+                              ? 'bg-white border-slate-200 shadow-2xs'
+                              : 'bg-slate-50/70 border-dashed border-slate-300 opacity-80'
                           }`}
-                          title={isUnlocked ? 'قفل هذا الدرس' : 'فتح هذا الدرس'}
                         >
-                          {isUnlocked ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-                        </button>
-                      </div>
-                    );
-                  })}
+                          <div className="space-y-0.5">
+                            <span className="text-[11px] font-mono font-bold text-slate-400">
+                              Topic 0{topic.number}
+                            </span>
+                            <h4 className="text-sm font-bold text-slate-800 font-arabic">
+                              {topic.titleAr}
+                            </h4>
+                            <span className="text-[11px] text-slate-500 font-sans block" dir="ltr">
+                              {topic.titleEn}
+                            </span>
+                          </div>
+
+                          <button
+                            onClick={() => handleToggleGrammarTopicAccess(topic.id)}
+                            className={`p-2 rounded-xl border cursor-pointer transition-colors ${
+                              isUnlocked
+                                ? 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'
+                                : 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200'
+                            }`}
+                            title={isUnlocked ? 'قفل هذا الموضوع القواعدي' : 'فتح هذا الموضوع القواعدي'}
+                          >
+                            {isUnlocked ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
@@ -1203,7 +1310,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                           title="توليد كود تفعيل عشوائي جديد بضغطة زر"
                         >
                           <RefreshCw className="w-3.5 h-3.5" />
-                          <span>🎲 توليد كود جديد</span>
+                          <span>توليد كود جديد</span>
                         </button>
                         <button
                           type="button"
@@ -1214,12 +1321,12 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                           {codeCopied ? (
                             <>
                               <Check className="w-3.5 h-3.5 text-emerald-600" />
-                              <span className="text-emerald-700 font-arabic">تم النسخ ✔️</span>
+                              <span className="text-emerald-700 font-arabic">تم النسخ</span>
                             </>
                           ) : (
                             <>
                               <Copy className="w-3.5 h-3.5" />
-                              <span className="font-arabic">نسخ 📋</span>
+                              <span className="font-arabic">نسخ</span>
                             </>
                           )}
                         </button>
@@ -1342,9 +1449,10 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                   كشف نتائج ودرجات الامتحان اليومي لمادة اللغة الإنجليزية
                 </h2>
                 <div className="flex items-center justify-center gap-4 text-xs text-slate-600 font-arabic pt-1">
-                  <span>📌 الامتحان: <strong>{examTitle}</strong></span>
-                  <span>🏫 الشعبة: <strong>{selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`}</strong></span>
-                  <span>📅 التاريخ: <strong>{new Date().toLocaleDateString('ar-IQ')}</strong></span>
+                  <span>الامتحان: <strong>{examTitle}</strong></span>
+                  <span>الشعبة: <strong>{selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`}</strong></span>
+                  <span>مدرس المادة: <strong>أ. حسام محمود منصور</strong></span>
+                  <span>التاريخ: <strong>{new Date().toLocaleDateString('ar-IQ')}</strong></span>
                 </div>
               </div>
 
@@ -1454,7 +1562,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
               {/* Footer Signature Box */}
               <div className="pt-8 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600 font-arabic">
-                <span>توقيع مدرس المادة: .......................................</span>
+                <span>توقيع مدرس المادة: <strong>أ. حسام محمود منصور</strong> .............................</span>
                 <span>توقيع إدارة المدرسة: .......................................</span>
               </div>
             </div>

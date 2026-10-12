@@ -158,15 +158,15 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
         {/* Brand Header */}
         <div className="text-center mb-6">
           <div className="w-12 h-12 rounded-2xl bg-slate-800 text-white flex items-center justify-center font-bold text-base shadow-xs font-sans mx-auto mb-3">
-            {mode === 'teacher' ? '👨‍🏫' : 'E1'}
+            {mode === 'teacher' ? <GraduationCap className="w-6 h-6 text-white" /> : 'E1'}
           </div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-800 font-sans leading-tight">
             English for Iraq
           </h1>
           <p className="text-xs text-slate-500 font-arabic mt-1">
             {mode === 'teacher'
-              ? 'دخول أستاذ المادة • المنهاج التفاعلي ولوحة التحكم'
-              : 'الصف الأول المتوسط • المنهاج التفاعلي'}
+              ? 'دخول أستاذ المادة: أ. حسام محمود منصور • لوحة التحكم'
+              : 'الصف الأول المتوسط • إشراف مدرس المادة: أ. حسام محمود منصور'}
           </p>
         </div>
 
@@ -348,9 +348,10 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                   setMode('teacher');
                   setTeacherErrorMessage(null);
                 }}
-                className="text-xs font-bold text-slate-500 hover:text-slate-800 font-arabic cursor-pointer transition-colors"
+                className="text-xs font-bold text-slate-500 hover:text-slate-800 font-arabic cursor-pointer transition-colors flex items-center justify-center gap-1.5 mx-auto"
               >
-                دخول أستاذ المادة 👨‍🏫
+                <GraduationCap className="w-4 h-4 text-slate-600" />
+                <span>دخول أستاذ المادة</span>
               </button>
             </div>
           </>
@@ -359,7 +360,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
 
       {/* Clean Footer */}
       <footer className="text-center text-xs text-slate-400 font-arabic pt-4" dir="rtl">
-        <span>English for Iraq • 1st Intermediate</span>
+        <span>English for Iraq • الصف الأول المتوسط • إعداد وإشراف مدرس المادة: أ. حسام محمود منصور</span>
       </footer>
     </div>
   );

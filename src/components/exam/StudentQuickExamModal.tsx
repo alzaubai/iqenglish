@@ -222,7 +222,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
                 {exam.title}
               </h3>
               <span className="text-xs text-slate-300 font-arabic block mt-0.5">
-                الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section}
+                الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section} • إشراف: أ. حسام محمود منصور
               </span>
             </div>
           </div>
@@ -242,7 +242,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
             <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-arabic space-y-2 animate-in fade-in">
               <div className="flex items-center gap-2 font-bold text-sm text-amber-800">
                 <Clock className="w-5 h-5 text-amber-600 shrink-0" />
-                <span>قام أستاذ المادة بإنهاء وقت الامتحان ⏱️</span>
+                <span>قام مدرس المادة (أ. حسام محمود منصور) بإنهاء وقت الامتحان</span>
               </div>
               <p className="text-amber-700 leading-relaxed">
                 تم حفظ إجاباتك الحالية واحتساب نتيجتك وإرسالها للأستاذ تلقائياً بنجاح. ستُغلق هذه الشاشة تلقائياً بعد <strong>{countdown}</strong> ثوانٍ.
@@ -268,7 +268,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
               <div>
                 <span className="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 font-arabic inline-block mb-2">
-                  تم تسليم الامتحان بنجاح ✔️
+                  تم تسليم الامتحان بنجاح
                 </span>
                 <h4 className="text-2xl font-bold text-slate-800 font-arabic">
                   أحسنت يا {student.fullName}!
@@ -291,6 +291,9 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
                     ? 'جيد جداً! واصل المراجعة'
                     : 'حاول مراجعة الدروس والقواعد ثانية'}
                 </span>
+                <div className="text-[11px] text-slate-500 font-arabic pt-2 border-t border-slate-200 mt-2">
+                  إشراف وتصحيح مدرس المادة: أ. حسام محمود منصور
+                </div>
               </div>
 
               <button

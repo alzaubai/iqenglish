@@ -5,7 +5,6 @@ import { SpeechEngine } from '../utils/speech';
 interface HolidayActivity {
   id: string;
   imageUrl: string;
-  emoji: string;
   phraseEn: string;
   pastVerb: string;
   phraseAr: string;
@@ -17,61 +16,55 @@ const HOLIDAY_ACTIVITIES: HolidayActivity[] = [
   {
     id: 'act-1',
     imageUrl: '/images/activities/went-fishing.jpg',
-    emoji: '🎣',
     phraseEn: 'went fishing',
     pastVerb: 'went',
     phraseAr: 'ذهب لصيد السمك',
-    who: 'فيصل 🧑',
+    who: 'فيصل',
     tagColor: 'border-teal-200 bg-teal-50 text-teal-800',
   },
   {
     id: 'act-2',
     imageUrl: '/images/activities/went-swimming.jpg',
-    emoji: '🏊‍♂️',
     phraseEn: 'went swimming',
     pastVerb: 'went',
     phraseAr: 'ذهب للسباحة',
-    who: 'فيصل 🧑',
+    who: 'فيصل',
     tagColor: 'border-blue-200 bg-blue-50 text-blue-800',
   },
   {
     id: 'act-3',
     imageUrl: '/images/activities/stayed-at-home.jpg',
-    emoji: '🏡',
     phraseEn: 'stayed at home',
     pastVerb: 'stayed',
     phraseAr: 'بقي في المنزل',
-    who: 'هدى ومنى 👧',
+    who: 'هدى ومنى',
     tagColor: 'border-amber-200 bg-amber-50 text-amber-800',
   },
   {
     id: 'act-4',
     imageUrl: '/images/activities/made-clothes.jpg',
-    emoji: '👗',
     phraseEn: 'made some clothes',
     pastVerb: 'made',
     phraseAr: 'صنعت بعض الملابس',
-    who: 'هدى 👧',
+    who: 'هدى',
     tagColor: 'border-pink-200 bg-pink-50 text-pink-800',
   },
   {
     id: 'act-5',
     imageUrl: '/images/activities/read-books.jpg',
-    emoji: '📚',
     phraseEn: 'read lots of books',
     pastVerb: 'read',
     phraseAr: 'قرأت الكثير من الكتب',
-    who: 'منى 👧',
+    who: 'منى',
     tagColor: 'border-indigo-200 bg-indigo-50 text-indigo-800',
   },
   {
     id: 'act-6',
     imageUrl: '/images/activities/learnt-to-cook.jpg',
-    emoji: '🍳',
     phraseEn: 'learnt to cook',
     pastVerb: 'learnt',
     phraseAr: 'تعلّمت الطبخ',
-    who: 'منى 👧',
+    who: 'منى',
     tagColor: 'border-orange-200 bg-orange-50 text-orange-800',
   },
 ];
@@ -98,7 +91,7 @@ export const HolidayActivitiesShowcase: React.FC = () => {
           </span>
           <div>
             <h3 className="text-base sm:text-lg font-bold text-zinc-900 font-arabic">
-              أنشطة العطلة المصورة في هذا الدرس 🌟
+              أنشطة العطلة المصورة في هذا الدرس
             </h3>
             <p className="text-xs text-zinc-500 font-arabic">
               أهم الأفعال والأنشطة التي قام بها الأصدقاء في العطلة (Student&apos;s Book p. 5)
@@ -107,7 +100,7 @@ export const HolidayActivitiesShowcase: React.FC = () => {
         </div>
 
         <span className="text-[11px] font-bold text-zinc-400 bg-zinc-50 border border-zinc-200 px-3 py-1 rounded-full self-start sm:self-center font-arabic">
-          انقر لسماع النطق 🔊
+          انقر لسماع النطق
         </span>
       </div>
 

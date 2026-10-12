@@ -208,6 +208,9 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
             <span className="text-xs font-bold text-zinc-900 font-arabic block mt-0.5">
               الأول المتوسط
             </span>
+            <span className="text-[11px] text-slate-700 font-bold font-arabic block mt-1">
+              مدرس المادة: أ. حسام محمود منصور
+            </span>
           </div>
         </div>
       </div>
@@ -584,7 +587,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                   ))}
                 </div>
 
-                {/* 📢 كارت ملاحظة جوهري نظيف وأبيض */}
+                {/* كارت ملاحظة جوهري نظيف وأبيض */}
                 {currentTopic.id === 'topic-past-continuous' ? (
                   <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
                     <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
@@ -742,7 +745,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </span>
                       <div>
                         <h4 className="text-base sm:text-lg font-black text-blue-950 font-arabic">
-                          🎯 شلون يجي بالامتحان؟ (تطبيقات امتحانية على الإثبات)
+                          صيغ وتطبيقات امتحانية (تطبيقات امتحانية على الإثبات)
                         </h4>
                         <span className="text-xs text-zinc-500 font-arabic">
                           تفصيخ وبناء عناصر الجملة خطوة بخطوة وتظليل الكلمة التي تغيّرت
@@ -842,7 +845,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                           item.dissection && item.dissection.length > 0 && (
                             <div className="bg-zinc-50/70 border border-zinc-200 rounded-2xl p-3.5 space-y-2">
                               <span className="text-[11px] font-bold text-zinc-600 font-arabic flex items-center gap-1.5">
-                                <span>🔍 تفصيخ عناصر الجملة:</span>
+                                <span>تحليل عناصر الجملة:</span>
                               </span>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 {item.dissection.map((part, pIdx) => (
@@ -867,7 +870,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                         <div className="p-3.5 bg-emerald-50/70 border border-emerald-300 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
                           <div className="space-y-1.5 text-left" dir="ltr">
                             <span className="text-[11px] font-bold text-emerald-800 font-arabic block text-right" dir="rtl">
-                              ✔ الحل النموذجي النهائي (كامل ومضبوط):
+                              الحل النموذجي النهائي:
                             </span>
                             <div className="flex flex-wrap items-center gap-1.5 font-sans text-sm sm:text-base font-bold text-zinc-900">
                               {item.solutionTokens ? (
@@ -910,7 +913,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
 
                         {/* 5. توضيح المعلم */}
                         <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-arabic text-zinc-700 leading-relaxed">
-                          💡 <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
+                          <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
                         </div>
                       </div>
                     ))}
@@ -951,7 +954,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                   ))}
                 </div>
 
-                {/* ⚠️ كارت ملاحظة: القاعدة الذهبية للنفي - تصميم أبيض هادئ ونظيف */}
+                {/* كارت ملاحظة: القاعدة الذهبية للنفي - تصميم أبيض هادئ ونظيف */}
                 {currentTopic.id === 'topic-past-continuous' ? (
                   <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
                     <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
@@ -974,10 +977,10 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
                         <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
-                          ❌ خطأ شائع: He wasn't <span className="line-through text-rose-600 font-bold">play</span>
+                          خطأ شائع: He wasn't <span className="line-through text-rose-600 font-bold">play</span>
                         </div>
                         <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
-                          ✔ الصح دائماً: He wasn't <span className="text-emerald-700 font-black underline">playing</span>
+                          الصحيح دائماً: He wasn't <span className="text-emerald-700 font-black underline">playing</span>
                         </div>
                       </div>
                     </div>
@@ -1004,10 +1007,10 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
                         <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
-                          ❌ خطأ شائع: He didn't <span className="line-through text-rose-600 font-bold">went</span>
+                          خطأ شائع: He didn't <span className="line-through text-rose-600 font-bold">went</span>
                         </div>
                         <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
-                          ✔ الصح دائماً: He didn't <span className="text-emerald-700 font-black underline">go</span>
+                          الصحيح دائماً: He didn't <span className="text-emerald-700 font-black underline">go</span>
                         </div>
                       </div>
                     </div>
@@ -1064,7 +1067,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </span>
                       <div>
                         <h4 className="text-base sm:text-lg font-black text-rose-950 font-arabic">
-                          🎯 شلون يجي بالامتحان؟ (تطبيقات امتحانية على النفي)
+                          صيغ وتطبيقات امتحانية (تطبيقات امتحانية على النفي)
                         </h4>
                         <span className="text-xs text-zinc-500 font-arabic">
                           تفصيخ وبناء الجملة وإبراز وضع didn't وإرجاع الفعل لأصله
@@ -1164,7 +1167,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                           item.dissection && item.dissection.length > 0 && (
                             <div className="bg-zinc-50/70 border border-zinc-200 rounded-2xl p-3.5 space-y-2">
                               <span className="text-[11px] font-bold text-zinc-600 font-arabic flex items-center gap-1.5">
-                                <span>🔍 تفصيخ عناصر الجملة:</span>
+                                <span>تحليل عناصر الجملة:</span>
                               </span>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 {item.dissection.map((part, pIdx) => (
@@ -1189,7 +1192,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                         <div className="p-3.5 bg-emerald-50/70 border border-emerald-300 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
                           <div className="space-y-1.5 text-left" dir="ltr">
                             <span className="text-[11px] font-bold text-emerald-800 font-arabic block text-right" dir="rtl">
-                              ✔ الحل النموذجي النهائي (كامل ومضبوط):
+                              الحل النموذجي النهائي:
                             </span>
                             <div className="flex flex-wrap items-center gap-1.5 font-sans text-sm sm:text-base font-bold text-zinc-900">
                               {item.solutionTokens ? (
@@ -1232,7 +1235,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
 
                         {/* 5. توضيح المعلم */}
                         <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-arabic text-zinc-700 leading-relaxed">
-                          💡 <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
+                          <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
                         </div>
                       </div>
                     ))}
@@ -1273,7 +1276,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                   ))}
                 </div>
 
-                {/* ❓ كارت ملاحظة: خطوات تكوين السؤال - تصميم أبيض هادئ ونظيف */}
+                {/* كارت ملاحظة: خطوات تكوين السؤال - تصميم أبيض هادئ ونظيف */}
                 {currentTopic.id === 'topic-past-continuous' ? (
                   <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
                     <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
@@ -1298,10 +1301,10 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
                         <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
-                          ❌ خطأ شائع: Were they <span className="line-through text-rose-600 font-bold">watch</span> TV?
+                          خطأ شائع: Were they <span className="line-through text-rose-600 font-bold">watch</span> TV?
                         </div>
                         <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
-                          ✔ الصح دائماً: Were they <span className="text-emerald-700 font-black underline">watching</span> TV?
+                          الصحيح دائماً: Were they <span className="text-emerald-700 font-black underline">watching</span> TV?
                         </div>
                       </div>
                     </div>
@@ -1330,10 +1333,10 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
                         <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
-                          ❌ خطأ شائع: Did Ali <span className="line-through text-rose-600 font-bold">played</span>?
+                          خطأ شائع: Did Ali <span className="line-through text-rose-600 font-bold">played</span>?
                         </div>
                         <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
-                          ✔ الصح دائماً: Did Ali <span className="text-emerald-700 font-black underline">play</span>?
+                          الصحيح دائماً: Did Ali <span className="text-emerald-700 font-black underline">play</span>?
                         </div>
                       </div>
                     </div>
@@ -1390,7 +1393,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </span>
                       <div>
                         <h4 className="text-base sm:text-lg font-black text-indigo-950 font-arabic">
-                          🎯 شلون يجي بالامتحان؟ (تطبيقات امتحانية على الاستفهام)
+                          صيغ وتطبيقات امتحانية (تطبيقات امتحانية على الاستفهام)
                         </h4>
                         <span className="text-xs text-zinc-500 font-arabic">
                           تفصيخ وبناء الجملة وتظليل Did والمصدر المجرد وعلامة الاستفهام (?)
@@ -1490,7 +1493,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                           item.dissection && item.dissection.length > 0 && (
                             <div className="bg-zinc-50/70 border border-zinc-200 rounded-2xl p-3.5 space-y-2">
                               <span className="text-[11px] font-bold text-zinc-600 font-arabic flex items-center gap-1.5">
-                                <span>🔍 تفصيخ عناصر الجملة:</span>
+                                <span>تحليل عناصر الجملة:</span>
                               </span>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 {item.dissection.map((part, pIdx) => (
@@ -1515,7 +1518,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                         <div className="p-3.5 bg-emerald-50/70 border border-emerald-300 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
                           <div className="space-y-1.5 text-left" dir="ltr">
                             <span className="text-[11px] font-bold text-emerald-800 font-arabic block text-right" dir="rtl">
-                              ✔ الحل النموذجي النهائي (كامل ومضبوط):
+                              الحل النموذجي النهائي:
                             </span>
                             <div className="flex flex-wrap items-center gap-1.5 font-sans text-sm sm:text-base font-bold text-zinc-900">
                               {item.solutionTokens ? (
@@ -1558,7 +1561,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
 
                         {/* 5. توضيح المعلم */}
                         <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-arabic text-zinc-700 leading-relaxed">
-                          💡 <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
+                          <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
                         </div>
                       </div>
                     ))}
@@ -1710,7 +1713,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                             ) : (
                               <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-left" dir="ltr">
                                 <span className="text-xs font-bold text-emerald-800 font-sans block">
-                                  ✔ {q.correctAnswer}
+                                  {q.correctAnswer}
                                 </span>
                               </div>
                             )}
@@ -1720,7 +1723,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                         {/* Explanation */}
                         {isRevealed && (
                           <div className="mt-3 p-3 rounded-xl text-xs font-arabic bg-zinc-50 border border-zinc-200 text-zinc-700 leading-relaxed">
-                            💡 <span className="font-bold text-zinc-900">توضيح المعلم:</span> {q.explanationAr}
+                            <span className="font-bold text-zinc-900">توضيح المعلم:</span> {q.explanationAr}
                           </div>
                         )}
                       </div>
@@ -1879,7 +1882,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                     {item.dissection && (
                       <div className="space-y-2">
                         <span className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                          <span>🔍</span>
+                          
                           <span>تفصيخ الجملة (تحليل أركانها للطالب):</span>
                         </span>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
@@ -1904,7 +1907,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                     {item.cumulativeSteps && (
                       <div className="space-y-2.5">
                         <span className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-                          <span>🪜</span>
+                          
                           <span>خطوات الحل وبناء الجملة (وحدة جوه وحدة):</span>
                         </span>
                         <div className="space-y-2">
@@ -1943,7 +1946,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                     <div className="p-3.5 bg-emerald-50/70 border border-emerald-300 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
                       <div className="space-y-1.5 text-left" dir="ltr">
                         <span className="text-[11px] font-bold text-emerald-800 font-arabic block text-right" dir="rtl">
-                          ✔ الحل النموذجي النهائي:
+                          الحل النموذجي النهائي:
                         </span>
                         <div className="flex flex-wrap items-center gap-1.5 font-sans text-sm sm:text-base font-bold text-zinc-900">
                           {item.solutionTokens ? (
@@ -1986,7 +1989,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
 
                     {/* 5. توضيح المعلم وملاحظة الامتحان */}
                     <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-arabic text-zinc-700 leading-relaxed">
-                      💡 <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
+                      <span className="font-bold text-zinc-900">شرح طريقة المعالجة:</span> {item.noteAr}
                     </div>
                   </div>
                 ))}
@@ -2082,7 +2085,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
 
                     {isRevealed && (
                       <div className="mt-3 p-3 rounded-xl text-xs font-arabic bg-zinc-50 border border-zinc-200 text-zinc-700 leading-relaxed">
-                        💡 <span className="font-bold text-zinc-900">توضيح:</span> {q.explanationAr}
+                        <span className="font-bold text-zinc-900">توضيح:</span> {q.explanationAr}
                       </div>
                     )}
                   </div>
@@ -2240,7 +2243,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
 
                     {isRevealed && (
                       <div className="mt-3 p-3 rounded-xl text-xs font-arabic bg-zinc-50 border border-zinc-200 text-zinc-700 leading-relaxed">
-                        💡 <span className="font-bold text-zinc-900">توضيح:</span> {q.explanationAr}
+                        <span className="font-bold text-zinc-900">توضيح:</span> {q.explanationAr}
                       </div>
                     )}
                   </div>
@@ -2410,7 +2413,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
 
                     {isRevealed && (
                       <div className="mt-3 p-3 rounded-xl text-xs font-arabic bg-zinc-50 border border-zinc-200 text-zinc-700 leading-relaxed">
-                        💡 <span className="font-bold text-zinc-900">توضيح:</span> {q.explanationAr}
+                        <span className="font-bold text-zinc-900">توضيح:</span> {q.explanationAr}
                       </div>
                     )}
                   </div>

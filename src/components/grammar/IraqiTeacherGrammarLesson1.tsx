@@ -212,7 +212,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
               Subject + Past Verb + Complement
             </div>
             <div className="text-xs text-blue-900 font-arabic pt-2 border-t border-blue-200">
-              💡 <strong>ملاحظة:</strong> ينطبق هذا الترتيب على جميع الضمائر المفردة والجمع.
+              <strong>ملاحظة:</strong> ينطبق هذا الترتيب على جميع الضمائر المفردة والجمع.
             </div>
           </div>
 
@@ -602,7 +602,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
 
                     {isAnswered && (
                       <p className="text-xs text-zinc-600 font-arabic pt-1 leading-relaxed">
-                        💡 <strong>التوضيح:</strong> {q.exp}
+                        <strong>التوضيح:</strong> {q.exp}
                       </p>
                     )}
                   </div>
@@ -644,7 +644,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
               Subject + didn't + Base Verb + Complement
             </div>
             <div className="text-xs text-rose-900 font-arabic pt-2 border-t border-rose-200">
-              💡 <strong>القاعدة الذهبية:</strong> بعد <span className="font-mono font-bold" dir="ltr">didn't</span> يرجع الفعل مجرداً دائماً خالي من ed وبدون أي تغيير شاذ.
+              <strong>القاعدة الذهبية:</strong> بعد <span className="font-mono font-bold" dir="ltr">didn't</span> يرجع الفعل مجرداً دائماً خالي من ed وبدون أي تغيير شاذ.
             </div>
           </div>
 
@@ -804,7 +804,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
 
                     {isAnswered && (
                       <p className="text-xs text-zinc-600 font-arabic pt-1 leading-relaxed">
-                        💡 <strong>التوضيح:</strong> {q.exp}
+                        <strong>التوضيح:</strong> {q.exp}
                       </p>
                     )}
                   </div>
@@ -967,7 +967,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
                       </button>
                     </div>
                     <p className="text-xs text-zinc-600 font-arabic mt-1.5 leading-relaxed">
-                      💡 {item.usage}
+                      {item.usage}
                     </p>
                   </div>
 
@@ -1129,7 +1129,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
 
                     {isAnswered && (
                       <p className="text-xs text-zinc-600 font-arabic pt-1 leading-relaxed">
-                        💡 <strong>التوضيح:</strong> {q.exp}
+                        <strong>التوضيح:</strong> {q.exp}
                       </p>
                     )}
                   </div>
@@ -1146,8 +1146,7 @@ export const IraqiTeacherGrammarLesson1: React.FC = () => {
       <section className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 shadow-xs text-right space-y-4">
         <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
           <span className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
-            💡
-          </span>
+            </span>
           <h3 className="text-lg font-bold text-zinc-900 font-arabic">
             الخلاصة
           </h3>

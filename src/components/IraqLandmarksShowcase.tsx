@@ -22,7 +22,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     nameEn: 'Al-Shaab Stadium',
     nameAr: 'ملعب الشعب الدولي',
     locationEn: 'Baghdad',
-    locationAr: 'بغداد 🏟️',
+    locationAr: 'بغداد',
     imageUrl: '/images/landmarks/landmark-stadium.jpg',
     adjectiveEn: 'fantastic',
     adjectiveAr: 'رائع ومدهش',
@@ -35,7 +35,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     nameEn: 'The Ziggurat of Ur',
     nameAr: 'زقورة أور التاريخية',
     locationEn: 'Ur, Dhi Qar',
-    locationAr: 'ذي قار / أور 🏛️',
+    locationAr: 'ذي قار / أور',
     imageUrl: '/images/landmarks/landmark-ziggurat.jpg',
     adjectiveEn: 'huge & ancient',
     adjectiveAr: 'ضخمة وعريقة',
@@ -48,7 +48,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     nameEn: 'The Marshes',
     nameAr: 'الأهوار العراقية',
     locationEn: 'Southern Iraq',
-    locationAr: 'جنوب العراق 🛶',
+    locationAr: 'جنوب العراق',
     imageUrl: '/images/landmarks/landmark-marshes.jpg',
     adjectiveEn: 'exciting',
     adjectiveAr: 'مثير وحماسي',
@@ -61,7 +61,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     nameEn: 'Erbil Citadel',
     nameAr: 'قلعة أربيل الشهيرة',
     locationEn: 'Erbil',
-    locationAr: 'أربيل 🏰',
+    locationAr: 'أربيل',
     imageUrl: '/images/landmarks/landmark-citadel.jpg',
     adjectiveEn: 'amazing',
     adjectiveAr: 'مذهلة وساحرة',
@@ -74,7 +74,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     nameEn: 'The Ruins of Hatra',
     nameAr: 'آثار مدينة الحضر',
     locationEn: 'Ninawa / Mosul',
-    locationAr: 'الموصل / نينوى 🏛️',
+    locationAr: 'الموصل / نينوى',
     imageUrl: '/images/landmarks/landmark-hatra.jpg',
     adjectiveEn: 'ancient & interesting',
     adjectiveAr: 'أثرية وشيقة',
@@ -87,7 +87,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     nameEn: 'The National Museum',
     nameAr: 'المتحف العراقي',
     locationEn: 'Baghdad',
-    locationAr: 'بغداد 🏺',
+    locationAr: 'بغداد',
     imageUrl: '/images/landmarks/landmark-museum.jpg',
     adjectiveEn: 'interesting',
     adjectiveAr: 'ممتع ومفيد',
@@ -167,7 +167,7 @@ export const IraqLandmarksShowcase: React.FC = () => {
       <div className="p-3.5 rounded-2xl bg-zinc-50/70 border border-zinc-200 space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
-            <span>✨ الصفات المستهدفة بالدرس (Adjectives):</span>
+            <span>الصفات المستهدفة بالدرس (Adjectives):</span>
           </span>
           <span className="text-[11px] text-zinc-400 font-sans" dir="ltr">
             Click to hear pronunciation

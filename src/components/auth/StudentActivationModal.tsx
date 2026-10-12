@@ -152,7 +152,7 @@ export const StudentActivationModal: React.FC<StudentActivationModalProps> = ({
                   autoFocus
                 />
                 <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5">
-                  💡 الكود يُرسل إليك حصراً من قبل أستاذ المادة في الصف أو عبر المجموعة.
+                  الكود يُرسل إليك حصراً من قبل مدرس المادة (أ. حسام محمود منصور) في الصف أو عبر المجموعة.
                 </span>
               </div>
 
@@ -252,7 +252,7 @@ export const StudentActivationModal: React.FC<StudentActivationModalProps> = ({
                 onClick={onOpenTeacherLogin}
                 className="text-xs font-bold text-zinc-500 hover:text-zinc-900 font-arabic cursor-pointer transition-colors"
               >
-                هل أنت أستاذ المادة؟ <span className="underline">دخول لوحة تحكم الأستاذ</span> 🔐
+                هل أنت أستاذ المادة؟ <span className="underline">دخول لوحة تحكم الأستاذ</span>
               </button>
             </div>
           )}

@@ -60,7 +60,7 @@ export const StudentGradesHistoryModal: React.FC<StudentGradesHistoryModalProps>
                 سجل امتحاناتي ودرجاتي
               </h3>
               <span className="text-xs text-slate-300 font-arabic block mt-0.5">
-                الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section}
+                الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section} • إشراف: أ. حسام محمود منصور
               </span>
             </div>
           </div>
@@ -168,7 +168,10 @@ export const StudentGradesHistoryModal: React.FC<StudentGradesHistoryModalProps>
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-slate-50 border-t border-slate-100 text-center">
+        <div className="p-4 bg-slate-50 border-t border-slate-100 text-center space-y-2">
+          <span className="text-[11px] text-slate-500 font-arabic block">
+            إشراف وتصحيح مدرس المادة: أ. حسام محمود منصور
+          </span>
           <button
             onClick={onClose}
             className="py-2 px-6 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs cursor-pointer font-arabic transition-colors"

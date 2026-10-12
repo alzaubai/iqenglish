@@ -73,8 +73,17 @@ export interface ExamSubmission {
   answers: Record<string, string>;
 }
 
+export const DEFAULT_GRAMMAR_TOPIC_IDS = [
+  'topic-past-simple',
+  'topic-past-continuous',
+  'topic-possessive-pronouns',
+  'topic-joining-sentences',
+  'topic-interests',
+];
+
 export interface PlatformConfig {
   unlockedLessons: string[]; // e.g. ['lesson-1', 'lesson-2']
+  unlockedGrammarTopics?: string[]; // e.g. ['topic-past-simple', 'topic-past-continuous', ...]
   grammarUnlocked: boolean;
   masterCode: string;
   allowedCodes: string[];
@@ -97,6 +106,7 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
     'lesson-9',
     'lesson-10',
   ],
+  unlockedGrammarTopics: DEFAULT_GRAMMAR_TOPIC_IDS,
   grammarUnlocked: true,
   masterCode: 'IQ-2026',
   allowedCodes: ['IQ-2026', 'IQ-STAR', 'ENGLISH-1'],

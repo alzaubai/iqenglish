@@ -150,8 +150,8 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
       setIsExamActiveLocal(activateState);
       setExamStatusMsg(
         activateState
-          ? 'تم تفعيل الامتحان بنجاح! سيظهر الآن على هواتف جميع الطلاب فوراً 🚀'
-          : 'تم إيقاف وقفل الامتحان عن الطلاب بنجاح 🔒'
+          ? 'تم تفعيل الامتحان بنجاح! سيظهر الآن على هواتف جميع الطلاب فوراً'
+          : 'تم إيقاف وقفل الامتحان عن الطلاب بنجاح'
       );
       setTimeout(() => setExamStatusMsg(null), 4000);
     } catch (err) {
@@ -168,7 +168,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
         masterCode: newMasterCode.trim().toUpperCase(),
         teacherPin: newTeacherPin.trim(),
       });
-      setSettingsSaveMsg('تم حفظ وتحديث كود التفعيل والرمز السري بنجاح ✔️');
+      setSettingsSaveMsg('تم حفظ وتحديث كود التفعيل والرمز السري بنجاح');
       setTimeout(() => setSettingsSaveMsg(null), 3000);
     } catch {
       setSettingsSaveMsg('تعذر الحفظ، يرجى المحاولة ثانية.');
@@ -213,10 +213,10 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 
             <div>
               <h3 className="text-2xl font-black text-zinc-900 font-arabic">
-                لوحة تحكم الأستاذ 👨‍🏫
+                لوحة تحكم الأستاذ: أ. حسام محمود منصور
               </h3>
               <p className="text-xs text-zinc-500 font-arabic mt-1">
-                منطقة محمية خاصة بأستاذ المادة لإدارة الطلاب، الامتحانات، وفتح الدروس
+                منطقة محمية خاصة بإدارة المنهاج، الامتحانات، وتتبع درجات الطلاب
               </p>
             </div>
 
@@ -254,7 +254,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                   type="submit"
                   className="flex-1 py-3 px-5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm cursor-pointer shadow-sm transition-all"
                 >
-                  دخول اللوحة 🔓
+                  دخول اللوحة
                 </button>
                 <button
                   type="button"
@@ -279,7 +279,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-black font-arabic leading-tight">
-                    لوحة تحكم الأستاذ • إدارة المنهاج
+                    لوحة تحكم الأستاذ: أ. حسام محمود منصور
                   </h3>
                   <span className="text-[11px] text-emerald-400 font-arabic block flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -293,7 +293,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                   onClick={() => setIsAuthenticated(false)}
                   className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold font-arabic cursor-pointer transition-colors"
                 >
-                  قفل 🔒
+                  قفل
                 </button>
                 <button
                   onClick={onClose}
@@ -308,10 +308,10 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
             {/* Navigation Tabs */}
             <div className="bg-zinc-50 border-b border-zinc-200 px-4 sm:px-7 flex flex-wrap gap-1 pt-2">
               {[
-                { id: 'results', label: '📊 نتائج الطلاب والدرجات', count: totalSubmissions },
-                { id: 'exam', label: '🚀 الامتحان السريع', activeBadge: isExamActiveLocal },
-                { id: 'lessons', label: '🔒 التحكم بالدروس', count: platformConfig.unlockedLessons?.length || 10 },
-                { id: 'codes', label: '🔑 الأكواد والرمز السري' },
+                { id: 'results', label: 'نتائج الطلاب والدرجات', count: totalSubmissions },
+                { id: 'exam', label: 'الامتحان السريع', activeBadge: isExamActiveLocal },
+                { id: 'lessons', label: 'التحكم بالدروس', count: platformConfig.unlockedLessons?.length || 10 },
+                { id: 'codes', label: 'الأكواد والرمز السري' },
               ].map((t) => (
                 <button
                   key={t.id}
@@ -488,8 +488,8 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                       <div>
                         <h4 className="text-base font-black font-arabic">
                           {isExamActiveLocal
-                            ? 'الامتحان متاح ونشط حالياً للطلاب 🟢'
-                            : 'الامتحان متوقف ومقفول حالياً 🔴'}
+                            ? 'الامتحان متاح ونشط حالياً للطلاب'
+                            : 'الامتحان متوقف ومقفول حالياً'}
                         </h4>
                         <p className="text-xs text-zinc-600 font-arabic mt-0.5">
                           {isExamActiveLocal
@@ -514,7 +514,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                           className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs cursor-pointer shadow-xs font-arabic transition-all flex items-center gap-1.5"
                         >
                           <Play className="w-4 h-4 fill-current" />
-                          <span>إطلاق الامتحان للطلاب الآن 🚀</span>
+                          <span>إطلاق الامتحان للطلاب الآن</span>
                         </button>
                       )}
                     </div>
@@ -628,13 +628,13 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                         onClick={handleUnlockAllLessons}
                         className="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold font-arabic cursor-pointer transition-colors"
                       >
-                        فتح الكل 🟢
+                        فتح الكل
                       </button>
                       <button
                         onClick={handleLockAllExceptLesson1}
                         className="px-3 py-1.5 rounded-xl border border-zinc-300 hover:bg-zinc-100 text-zinc-700 text-xs font-bold font-arabic cursor-pointer transition-colors"
                       >
-                        قفل الكل عدا الدرس 1 🔒
+                        قفل الكل عدا الدرس 1
                       </button>
                     </div>
                   </div>
@@ -708,7 +708,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                 <form onSubmit={handleSaveSettings} className="space-y-5 text-right max-w-lg mx-auto">
                   <div className="text-center pb-2">
                     <h4 className="text-base font-black text-zinc-900 font-arabic">
-                      إدارة كود التفعيل والرمز السري 🔑
+                      إدارة كود التفعيل والرمز السري
                     </h4>
                     <p className="text-xs text-zinc-500 font-arabic mt-1">
                       يمكنك تغيير الكود الموحد الذي ترسله للطلاب، وتغيير رمز دخول الأستاذ بأي وقت.
@@ -762,7 +762,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                     type="submit"
                     className="w-full py-3.5 px-5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-sm cursor-pointer shadow-sm transition-all"
                   >
-                    حفظ التغييرات ✔️
+                    حفظ التغييرات
                   </button>
                 </form>
               )}

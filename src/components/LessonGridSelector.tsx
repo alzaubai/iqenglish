@@ -32,6 +32,9 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
           <h2 className="text-2xl font-extrabold text-zinc-900 font-arabic">
             الوحدة الأولى (Unit 1): قائمة الدروس (10 دروس كاملة)
           </h2>
+          <p className="text-xs text-zinc-500 font-arabic mt-1">
+            إعداد وإشراف مدرس المادة: أ. حسام محمود منصور
+          </p>
         </div>
         <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-700 font-arabic shrink-0">
           10 دروس تفاعلية
@@ -62,12 +65,12 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
             >
               {/* Lock Overlay if Locked by Teacher */}
               {!isUnlocked && (
-                <div className="absolute inset-0 bg-zinc-950/45 backdrop-blur-[1.5px] rounded-2xl flex flex-col items-center justify-center text-white z-10 p-3 select-none">
+                <div className="absolute inset-0 bg-zinc-950/45 backdrop-blur-[1.5px] rounded-2xl flex flex-col items-center justify-center text-white z-10 p-3 select-none text-center">
                   <div className="w-9 h-9 rounded-xl bg-zinc-900/90 text-amber-400 flex items-center justify-center mb-1.5 shadow-md">
                     <Lock className="w-4 h-4" />
                   </div>
                   <span className="text-xs font-bold font-arabic bg-zinc-900/90 px-2.5 py-1 rounded-lg">
-                    مقفول من الأستاذ 🔒
+                    مغلق من قبل مدرس المادة: أ. حسام محمود منصور
                   </span>
                 </div>
               )}

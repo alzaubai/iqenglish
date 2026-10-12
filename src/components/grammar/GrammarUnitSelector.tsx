@@ -17,9 +17,14 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
       <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-7 shadow-xs text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 text-white text-xs font-bold font-sans">
-              <BookMarked className="w-3.5 h-3.5" />
-              <span>English for Iraq • Grammar Master</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 text-white text-xs font-bold font-sans">
+                <BookMarked className="w-3.5 h-3.5" />
+                <span>English for Iraq • Grammar Master</span>
+              </div>
+              <span className="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full font-arabic">
+                إعداد مدرس المادة: أ. حسام محمود منصور
+              </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mt-3 font-arabic">
               القواعد والشروحات التفصيلية
