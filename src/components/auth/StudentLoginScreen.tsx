@@ -177,8 +177,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
     setTeacherErrorMessage(null);
 
     const cleanPin = teacherPinInput.trim();
-    // Use configured PIN; default '2026' only applies when no PIN has been set yet
-    const targetPin = platformConfig.teacherPin || '2026';
+    // Use configured PIN; default '161993' permanently
+    const targetPin = platformConfig.teacherPin || '161993';
 
     if (!cleanPin) {
       setTeacherErrorMessage('يرجى إدخال الرمز السري للأستاذ');
@@ -187,6 +187,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
 
     // Only accept the configured PIN - no hardcoded backdoor
     if (cleanPin === targetPin) {
+      localStorage.setItem('iq_teacher_token', targetPin);
       confetti({
         particleCount: 50,
         spread: 70,
@@ -239,12 +240,12 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                   setTeacherPinInput(e.target.value);
                   if (teacherErrorMessage) setTeacherErrorMessage(null);
                 }}
-                placeholder="2026"
+                placeholder="••••••"
                 className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-slate-700 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-slate-800 placeholder:text-slate-300 transition-colors"
                 autoFocus
               />
               <span className="text-[11px] text-slate-400 font-arabic block pt-0.5">
-                الرمز الافتراضي هو: <strong className="font-mono text-slate-600">2026</strong> (يمكنك تغييره لاحقاً من لوحة التحكم).
+                خاص بمدرس المادة حصراً.
               </span>
             </div>
 

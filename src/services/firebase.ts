@@ -107,7 +107,7 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   masterCode: 'IQ-7788',
   allowedCodes: ['IQ-2026', 'IQ-STAR', 'ENGLISH-1', 'IQ-7788'],
   revokedCodes: [],
-  teacherPin: '2026', // Teacher Master PIN
+  teacherPin: '161993', // Teacher Master PIN
   activeExamId: null,
 };
 

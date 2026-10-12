@@ -6,6 +6,9 @@ export const STORAGE_KEYS = {
   // Teacher session flag ('true' if teacher is logged in)
   TEACHER_LOGGED_IN: 'iq_is_teacher',
 
+  // Teacher token validating active PIN session
+  TEACHER_TOKEN: 'iq_teacher_token',
+
   // Student profile session JSON
   STUDENT_PROFILE: 'iq_student_profile',
 

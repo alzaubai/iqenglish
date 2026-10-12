@@ -64,7 +64,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 
   // Master Code / PIN Edit State
   const [newMasterCode, setNewMasterCode] = useState(platformConfig.masterCode || 'IQ-2026');
-  const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '2026');
+  const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '161993');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
   // Listen to submissions for the current active exam
@@ -97,11 +97,12 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
   const handleVerifyPin = (e: React.FormEvent) => {
     e.preventDefault();
     // Only accept the configured PIN - no hardcoded backdoor fallback
-    const correctPin = platformConfig.teacherPin || '2026';
+    const correctPin = platformConfig.teacherPin || '161993';
     if (pinInput.trim() === correctPin) {
       setIsAuthenticated(true);
       setPinError(false);
       setPinInput('');
+      localStorage.setItem('iq_teacher_token', correctPin);
     } else {
       setPinError(true);
     }
@@ -239,7 +240,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                   autoFocus
                 />
                 <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5 text-center">
-                  (الرمز الافتراضي المبدئي: <strong className="font-mono text-zinc-700">2026</strong>)
+                  خاص بمدرس المادة حصراً.
                 </span>
               </div>
 
@@ -751,7 +752,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                       type="text"
                       value={newTeacherPin}
                       onChange={(e) => setNewTeacherPin(e.target.value)}
-                      placeholder="2026"
+                      placeholder="161993"
                       className="w-full px-4 py-3 rounded-2xl border-2 border-zinc-200 focus:border-zinc-900 focus:ring-0 font-mono font-black text-lg tracking-wider text-zinc-900 text-center"
                     />
                     <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5">

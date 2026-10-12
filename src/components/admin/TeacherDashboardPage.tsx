@@ -127,7 +127,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
   // Master Code / PIN Edit State
   const [newMasterCode, setNewMasterCode] = useState(platformConfig.masterCode || 'IQ-2026');
-  const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '2026');
+  const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '161993');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
   // Local optimistic lock states to eliminate race conditions and stale closure reverts
@@ -230,11 +230,12 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const handleVerifyPin = (e: React.FormEvent) => {
     e.preventDefault();
     // Only accept the configured PIN - no hardcoded backdoor fallback
-    const correctPin = platformConfig.teacherPin || '2026';
+    const correctPin = platformConfig.teacherPin || '161993';
     if (pinInput.trim() === correctPin) {
       setIsAuthenticated(true);
       setPinError(false);
       setPinInput('');
+      localStorage.setItem('iq_teacher_token', correctPin);
     } else {
       setPinError(true);
     }
@@ -396,10 +397,12 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const pinToSave = newTeacherPin.trim() || '161993';
       await updatePlatformConfig({
         masterCode: newMasterCode.trim().toUpperCase(),
-        teacherPin: newTeacherPin.trim(),
+        teacherPin: pinToSave,
       });
+      localStorage.setItem('iq_teacher_token', pinToSave);
       setSettingsSaveMsg('تم حفظ وتحديث كود التفعيل والرمز السري بنجاح');
       setTimeout(() => setSettingsSaveMsg(null), 3000);
     } catch {
@@ -719,12 +722,12 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     setPinInput(e.target.value);
                     if (pinError) setPinError(false);
                   }}
-                  placeholder="2026"
+                  placeholder="••••••"
                   className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-slate-800 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-slate-800 placeholder:text-slate-300 transition-colors"
                   autoFocus
                 />
                 <span className="text-[11px] text-slate-400 font-arabic block pt-0.5">
-                  الرمز الافتراضي هو: <strong className="font-mono text-slate-600">2026</strong>
+                  خاص بمدرس المادة حصراً.
                 </span>
               </div>
 
@@ -1931,7 +1934,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                         type="text"
                         value={newTeacherPin}
                         onChange={(e) => setNewTeacherPin(e.target.value)}
-                        placeholder="2026"
+                        placeholder="161993"
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-800 focus:border-slate-800 focus:ring-0"
                       />
                       <span className="text-[11px] text-slate-400 font-arabic block">

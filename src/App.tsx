@@ -47,9 +47,11 @@ import { MandatoryExamOverlay } from './components/exam/MandatoryExamOverlay';
 export default function App() {
   // Authentication & Platform State
   const [studentSession, setStudentSession] = useState<StudentSession | null>(getStoredStudentSession());
-  const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState<boolean>(
-    () => localStorage.getItem(STORAGE_KEYS.TEACHER_LOGGED_IN) === 'true'
-  );
+  const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState<boolean>(() => {
+    const isTeacher = localStorage.getItem(STORAGE_KEYS.TEACHER_LOGGED_IN) === 'true';
+    const token = localStorage.getItem(STORAGE_KEYS.TEACHER_TOKEN);
+    return isTeacher && token === '161993';
+  });
   const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState(false);
   const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(() => getCachedPlatformConfig());
   const [activeExam, setActiveExam] = useState<QuickExam | null>(null);
@@ -214,6 +216,7 @@ export default function App() {
         onActivated={(session) => setStudentSession(session)}
         onTeacherLoginSuccess={() => {
           localStorage.setItem(STORAGE_KEYS.TEACHER_LOGGED_IN, 'true');
+          localStorage.setItem(STORAGE_KEYS.TEACHER_TOKEN, '161993');
           setIsTeacherLoggedIn(true);
           setIsTeacherDashboardOpen(false); // Directly enters the MAIN PAGE!
         }}
@@ -239,6 +242,7 @@ export default function App() {
         isTeacher={isTeacherLoggedIn}
         onLogoutTeacher={() => {
           localStorage.removeItem(STORAGE_KEYS.TEACHER_LOGGED_IN);
+          localStorage.removeItem(STORAGE_KEYS.TEACHER_TOKEN);
           setIsTeacherLoggedIn(false);
         }}
         isExamActive={Boolean(activeExam && activeExam.isActive)}
