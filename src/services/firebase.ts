@@ -12,6 +12,8 @@ import {
   orderBy,
   addDoc,
   serverTimestamp,
+  increment,
+  getDocs,
   type Unsubscribe,
 } from 'firebase/firestore';
 
@@ -37,6 +39,9 @@ export interface StudentSession {
   section: string;
   code: string;
   registeredAt: string;
+  lastSeenAt?: any;
+  totalTimeSpentMinutes?: number;
+  visitCount?: number;
 }
 
 export interface ExamQuestion {
@@ -178,6 +183,38 @@ export const setStoredStudentSession = (session: StudentSession | null) => {
   }
 };
 
+// Look up existing student in Firebase to prevent duplicates upon re-entry
+export const findExistingStudent = async (
+  fullName: string,
+  section: string
+): Promise<StudentSession | null> => {
+  try {
+    const colRef = collection(db, 'students');
+    const snapshot = await getDocs(colRef);
+    const cleanTargetName = fullName.trim().toLowerCase();
+    const cleanTargetSection = section.trim();
+
+    for (const docSnap of snapshot.docs) {
+      const data = docSnap.data() as Omit<StudentSession, 'id'>;
+      if (
+        data.fullName &&
+        data.fullName.trim().toLowerCase() === cleanTargetName &&
+        data.section &&
+        data.section.trim() === cleanTargetSection
+      ) {
+        return {
+          id: docSnap.id,
+          ...data,
+        };
+      }
+    }
+    return null;
+  } catch (err) {
+    console.error('Error finding existing student:', err);
+    return null;
+  }
+};
+
 export const registerStudentInFirebase = async (
   student: StudentSession
 ): Promise<void> => {
@@ -187,6 +224,7 @@ export const registerStudentInFirebase = async (
       studentDoc,
       {
         ...student,
+        visitCount: increment(1),
         lastSeenAt: serverTimestamp(),
       },
       { merge: true }
@@ -194,6 +232,62 @@ export const registerStudentInFirebase = async (
   } catch (err) {
     console.error('Failed to register student in Firebase:', err);
   }
+};
+
+// Record periodic student heartbeat to track actual learning time
+export const recordStudentHeartbeat = async (
+  studentId: string,
+  durationMinutes: number = 1
+): Promise<void> => {
+  if (!studentId) return;
+  try {
+    const studentDoc = doc(db, 'students', studentId);
+    await updateDoc(studentDoc, {
+      totalTimeSpentMinutes: increment(durationMinutes),
+      lastSeenAt: serverTimestamp(),
+    });
+  } catch (err) {
+    // Silently catch if document is missing
+  }
+};
+
+// Global Site Analytics
+const ANALYTICS_DOC_PATH = 'settings/platform_analytics';
+
+export const recordSiteVisit = async (): Promise<void> => {
+  try {
+    const docRef = doc(db, ANALYTICS_DOC_PATH);
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) {
+      await setDoc(docRef, { totalVisits: 1, lastVisitAt: serverTimestamp() });
+    } else {
+      await updateDoc(docRef, {
+        totalVisits: increment(1),
+        lastVisitAt: serverTimestamp(),
+      });
+    }
+  } catch (err) {
+    console.error('Failed to record site visit:', err);
+  }
+};
+
+export const listenToPlatformAnalytics = (
+  callback: (analytics: { totalVisits: number }) => void
+): Unsubscribe => {
+  const docRef = doc(db, ANALYTICS_DOC_PATH);
+  return onSnapshot(
+    docRef,
+    (snapshot) => {
+      if (snapshot.exists()) {
+        callback(snapshot.data() as { totalVisits: number });
+      } else {
+        callback({ totalVisits: 0 });
+      }
+    },
+    () => {
+      callback({ totalVisits: 0 });
+    }
+  );
 };
 
 export const deleteStudentFromFirebase = async (

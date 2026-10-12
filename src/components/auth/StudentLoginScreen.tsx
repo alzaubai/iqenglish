@@ -14,7 +14,8 @@ import {
   StudentSession,
   PlatformConfig,
   setStoredStudentSession,
-  registerStudentInFirebase
+  registerStudentInFirebase,
+  findExistingStudent,
 } from '../../services/firebase';
 
 interface StudentLoginScreenProps {
@@ -111,17 +112,33 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
 
     setIsSubmitting(true);
     try {
-      const studentId = `std_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-      const newSession: StudentSession = {
-        id: studentId,
-        fullName: cleanName,
-        section: section,
-        code: cleanCode,
-        registeredAt: new Date().toISOString(),
-      };
+      // 1. Check if student already exists with this name and section to prevent duplicates
+      const existingStudent = await findExistingStudent(cleanName, section);
 
-      setStoredStudentSession(newSession);
-      await registerStudentInFirebase(newSession);
+      let sessionToSave: StudentSession;
+      if (existingStudent) {
+        // Reuse existing student ID to preserve all historical grades and avoid duplicate records
+        sessionToSave = {
+          ...existingStudent,
+          fullName: cleanName,
+          section: section,
+          code: cleanCode,
+        };
+      } else {
+        const studentId = `std_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+        sessionToSave = {
+          id: studentId,
+          fullName: cleanName,
+          section: section,
+          code: cleanCode,
+          registeredAt: new Date().toISOString(),
+          totalTimeSpentMinutes: 0,
+          visitCount: 1,
+        };
+      }
+
+      setStoredStudentSession(sessionToSave);
+      await registerStudentInFirebase(sessionToSave);
 
       confetti({
         particleCount: 45,
@@ -129,7 +146,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
         origin: { y: 0.6 },
       });
 
-      onActivated(newSession);
+      onActivated(sessionToSave);
     } catch (err) {
       console.error(err);
       setErrorMessage('حدث خطأ أثناء الحفظ، يرجى المحاولة ثانية');

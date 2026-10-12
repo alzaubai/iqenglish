@@ -31,6 +31,8 @@ import {
   listenToActiveExam,
   QuickExam,
   listenToSingleStudent,
+  recordSiteVisit,
+  recordStudentHeartbeat,
 } from './services/firebase';
 import { STORAGE_KEYS } from './constants/storageKeys';
 import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
@@ -53,11 +55,26 @@ export default function App() {
 
   // Realtime Listeners for Firebase Platform Config & Active Exam
   useEffect(() => {
+    recordSiteVisit(); // Track platform total visits
     const unsub = listenToPlatformConfig((cfg) => {
       setPlatformConfig(cfg);
     });
     return () => unsub();
   }, []);
+
+  // Student active study time heartbeat (runs every 60 seconds)
+  useEffect(() => {
+    if (!studentSession?.id || isTeacherLoggedIn) return;
+
+    // Send immediate heartbeat on entry
+    recordStudentHeartbeat(studentSession.id, 1);
+
+    const interval = setInterval(() => {
+      recordStudentHeartbeat(studentSession.id, 1);
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [studentSession?.id, isTeacherLoggedIn]);
 
   useEffect(() => {
     if (platformConfig.activeExamId) {
