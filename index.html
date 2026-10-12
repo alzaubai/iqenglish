@@ -29,9 +29,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Purge legacy/deprecated caches -->
+    <script>
+      if ('caches' in window) {
+        caches.delete('iqenglish-static-v2').catch(function(){});
+        caches.delete('iqenglish-cache-v1').catch(function(){});
+      }
+    </script>
+
     <!-- Dedicated Clean Print Styles -->
     <style>@media print{body *{visibility:hidden!important}#printable-exam-report,#printable-exam-report *{visibility:visible!important}#printable-exam-report{color:#000!important;width:100%!important;box-shadow:none!important;background:#fff!important;margin:0!important;padding:8mm 6mm!important;position:fixed!important;top:0!important;left:0!important}@page{size:A4 landscape;margin:6mm}}</style>
-    <script type="module" crossorigin src="/iqenglish/assets/index-Cs_mVoGp.js"></script>
+    <script type="module" crossorigin src="/iqenglish/assets/index-BLuD2Fcy.js"></script>
     <link rel="stylesheet" crossorigin href="/iqenglish/assets/index-BfHZikNi.css">
   </head>
   <body>
