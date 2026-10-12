@@ -12,6 +12,7 @@ import {
   Search,
   RotateCcw,
   BookOpen,
+  BookMarked,
   Play,
   Pause,
   Shuffle,
@@ -247,7 +248,8 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   // Swap a single question with another unused question
   const handleSwapSingleQuestion = (indexToSwap: number) => {
     const currentQ = selectedQuestions[indexToSwap];
-    const currentSelectedIds = selectedQuestions.map((q) => q.id);
+    if (!currentQ) return;
+    const currentSelectedIds = selectedQuestions.filter(Boolean).map((q) => q.id);
 
     const candidates = UNIT_1_QUESTION_BANK.filter((q) => {
       if (currentSelectedIds.includes(q.id)) return false;
@@ -1273,9 +1275,9 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                   </div>
 
                   <div className="space-y-3">
-                    {selectedQuestions.map((q, idx) => (
+                    {selectedQuestions.filter(Boolean).map((q, idx) => (
                       <div
-                        key={q.id + idx}
+                        key={(q.id || '') + idx}
                         className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 space-y-3 shadow-xs"
                       >
                         <div className="flex items-start justify-between gap-3">
@@ -1309,7 +1311,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
                         {/* Options */}
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1" dir="ltr">
-                          {q.options.map((opt, oIdx) => (
+                          {(q.options || []).map((opt, oIdx) => (
                             <div
                               key={oIdx}
                               className={`p-2 rounded-lg text-xs font-sans text-left flex items-center justify-between border ${
