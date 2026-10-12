@@ -87,7 +87,9 @@ export interface PlatformConfig {
   grammarUnlocked: boolean;
   masterCode: string;
   allowedCodes: string[];
-  revokedCodes?: string[]; // Codes that have been revoked and blocked
+  revokedCodes?: string[]; // Legacy: globally revoked codes (kept for backward compat)
+  // Per-student bans: when a specific student is deleted, only they are blocked (by studentId+code pair)
+  revokedStudents?: { studentId: string; code: string; name: string }[];
   teacherPin: string;
   activeExamId: string | null;
 }
@@ -196,24 +198,34 @@ export const registerStudentInFirebase = async (
 
 export const deleteStudentFromFirebase = async (
   studentId: string,
-  studentCode?: string
+  studentCode?: string,
+  studentName?: string
 ): Promise<void> => {
   try {
-    // 1. Delete student document
+    // 1. Delete student document from Firestore
     const studentDoc = doc(db, 'students', studentId);
     await deleteDoc(studentDoc);
 
-    // 2. Revoke the student's code so they cannot reuse it
+    // 2. Add a per-student ban record (not a global code ban!)
+    // This blocks ONLY this specific student from re-entering with the same code.
+    // Other students who share the same code (e.g. master code) are NOT affected.
     if (studentCode) {
       const cleanCode = studentCode.trim().toUpperCase();
       const configDoc = doc(db, CONFIG_DOC_PATH);
       const snap = await getDoc(configDoc);
       if (snap.exists()) {
         const currentData = snap.data() as PlatformConfig;
-        const currentRevoked = currentData.revokedCodes || [];
-        if (!currentRevoked.includes(cleanCode)) {
+        const currentRevoked = currentData.revokedStudents || [];
+        // Only add if not already in the list
+        const alreadyRevoked = currentRevoked.some(
+          (r) => r.studentId === studentId
+        );
+        if (!alreadyRevoked) {
           await updateDoc(configDoc, {
-            revokedCodes: [...currentRevoked, cleanCode],
+            revokedStudents: [
+              ...currentRevoked,
+              { studentId, code: cleanCode, name: studentName || '' },
+            ],
           });
         }
       }
@@ -361,6 +373,30 @@ export const listenToStudentSubmissions = (
     },
     (err) => {
       console.warn('Error listening to student submissions:', err);
+      callback([]);
+    }
+  );
+};
+
+export const listenToAllSubmissions = (
+  callback: (submissions: ExamSubmission[]) => void
+): Unsubscribe => {
+  const colRef = collection(db, 'submissions');
+  const q = query(colRef, orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const results: ExamSubmission[] = [];
+      snapshot.forEach((docSnap) => {
+        results.push({
+          id: docSnap.id,
+          ...(docSnap.data() as Omit<ExamSubmission, 'id'>),
+        });
+      });
+      callback(results);
+    },
+    (err) => {
+      console.warn('Error listening to all submissions:', err);
       callback([]);
     }
   );

@@ -96,8 +96,9 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
   // Handle PIN Submission
   const handleVerifyPin = (e: React.FormEvent) => {
     e.preventDefault();
+    // Only accept the configured PIN - no hardcoded backdoor fallback
     const correctPin = platformConfig.teacherPin || '2026';
-    if (pinInput.trim() === correctPin || pinInput.trim() === '2026') {
+    if (pinInput.trim() === correctPin) {
       setIsAuthenticated(true);
       setPinError(false);
       setPinInput('');

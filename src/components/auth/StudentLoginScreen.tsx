@@ -92,6 +92,23 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
       return;
     }
 
+    const cleanCode = enteredCode.trim().toUpperCase();
+
+    // Check if this specific student (name + code) was previously deleted/revoked
+    // This blocks only the deleted student - other students using the same code are unaffected
+    const isStudentRevoked = (platformConfig.revokedStudents || []).some(
+      (r) =>
+        r.code.toUpperCase() === cleanCode &&
+        r.name.trim().toLowerCase() === cleanName.toLowerCase()
+    );
+
+    if (isStudentRevoked) {
+      setErrorMessage(
+        'تم إلغاء تفعيل حسابك بهذا الكود من قبل أستاذ المادة. يرجى مراجعة الأستاذ لاستلام كود جديد.'
+      );
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const studentId = `std_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
@@ -99,7 +116,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
         id: studentId,
         fullName: cleanName,
         section: section,
-        code: enteredCode.trim().toUpperCase(),
+        code: cleanCode,
         registeredAt: new Date().toISOString(),
       };
 
@@ -127,6 +144,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
     setTeacherErrorMessage(null);
 
     const cleanPin = teacherPinInput.trim();
+    // Use configured PIN; default '2026' only applies when no PIN has been set yet
     const targetPin = platformConfig.teacherPin || '2026';
 
     if (!cleanPin) {
@@ -134,7 +152,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
       return;
     }
 
-    if (cleanPin === targetPin || cleanPin === '2026') {
+    // Only accept the configured PIN - no hardcoded backdoor
+    if (cleanPin === targetPin) {
       confetti({
         particleCount: 50,
         spread: 70,
@@ -142,7 +161,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
       });
       onTeacherLoginSuccess();
     } else {
-      setTeacherErrorMessage('الرمز السري غير صحيح. الرمز الافتراضي هو 2026');
+      setTeacherErrorMessage('الرمز السري غير صحيح، يرجى المحاولة ثانية.');
     }
   };
 
