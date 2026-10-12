@@ -2,6 +2,12 @@ import { ExamQuestion } from '../services/firebase';
 
 export interface CategorizedExamQuestion extends ExamQuestion {
   lessonId: 'lesson-1' | 'lesson-2' | 'lesson-3' | 'lesson-4' | 'lesson-5' | 'grammar';
+  grammarTopicId?:
+    | 'topic-past-simple'
+    | 'topic-past-continuous'
+    | 'topic-possessive-pronouns'
+    | 'topic-joining-sentences'
+    | 'topic-interests';
   lessonTitleAr: string;
   exerciseRef: string; // Direct reference to Activity Book exercise
 }
@@ -420,12 +426,14 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
   },
 
   // =========================================================================
-  // Grammar: تمارين القواعد للوحدة الأولى من كتاب النشاط
+  // Grammar: تمارين القواعد للوحدة الأولى من كتاب النشاط مقسمة حسب المواضيع
   // =========================================================================
+  // 1. الماضي البسيط (Past Simple)
   {
-    id: 'gr-ex-1',
+    id: 'gr-ps-1',
     lessonId: 'grammar',
-    lessonTitleAr: 'القواعد • كتاب النشاط',
+    grammarTopicId: 'topic-past-simple',
+    lessonTitleAr: 'القواعد • الماضي البسيط',
     exerciseRef: 'قواعد الوحدة 1 (Past Simple: was/were)',
     questionEn: 'We ______ at the school library yesterday afternoon.',
     questionAr: 'تمارين قواعد كتاب النشاط: اختر فعل الكينونة المناسب للماضي مع الضمير We:',
@@ -435,9 +443,10 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
     explanationAr: 'قواعد كتاب النشاط: الضمائر الجمع (We, They, You) تأخذ were في الماضي.',
   },
   {
-    id: 'gr-ex-2',
+    id: 'gr-ps-2',
     lessonId: 'grammar',
-    lessonTitleAr: 'القواعد • كتاب النشاط',
+    grammarTopicId: 'topic-past-simple',
+    lessonTitleAr: 'القواعد • الماضي البسيط',
     exerciseRef: 'قواعد الوحدة 1 (Past Simple: was/were negative)',
     questionEn: 'Sara ______ at home yesterday because she was ill in hospital.',
     questionAr: 'تمارين قواعد كتاب النشاط: نفي المفرد في الماضي (لم تكن في المنزل):',
@@ -447,9 +456,10 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
     explanationAr: 'قواعد كتاب النشاط: المفرد الغائب ينفى بـ (wasn\'t).',
   },
   {
-    id: 'gr-ex-3',
+    id: 'gr-ps-3',
     lessonId: 'grammar',
-    lessonTitleAr: 'القواعد • كتاب النشاط',
+    grammarTopicId: 'topic-past-simple',
+    lessonTitleAr: 'القواعد • الماضي البسيط',
     exerciseRef: 'قواعد الوحدة 1 (Past Simple Question)',
     questionEn: '______ you watch the football match last night? — Yes, I did.',
     questionAr: 'تمارين قواعد كتاب النشاط: أداة السؤال للماضي البسيط:',
@@ -459,9 +469,10 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
     explanationAr: 'قواعد كتاب النشاط: السؤال عن فعل ماض يبدأ بـ Did متبوعاً بفعل مجرد.',
   },
   {
-    id: 'gr-ex-4',
+    id: 'gr-ps-4',
     lessonId: 'grammar',
-    lessonTitleAr: 'القواعد • كتاب النشاط',
+    grammarTopicId: 'topic-past-simple',
+    lessonTitleAr: 'القواعد • الماضي البسيط',
     exerciseRef: 'قواعد الوحدة 1 (Negative: didn\'t + infinitive)',
     questionEn: "They didn't ______ to the market last Friday.",
     questionAr: 'تمارين قواعد كتاب النشاط: بعد didn\'t نختار دائماً الفعل المجرد:',
@@ -470,10 +481,136 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
     points: 2,
     explanationAr: 'قواعد كتاب النشاط: بعد didn\'t يأتي فعل مضارع مجرد خالٍ من أي إضافة (go).',
   },
+
+  // 2. الماضي المستمر (Past Continuous)
   {
-    id: 'gr-ex-5',
+    id: 'gr-pc-1',
     lessonId: 'grammar',
-    lessonTitleAr: 'القواعد • كتاب النشاط',
+    grammarTopicId: 'topic-past-continuous',
+    lessonTitleAr: 'القواعد • الماضي المستمر',
+    exerciseRef: 'قواعد الوحدة 1 (Past Continuous: was/were + V-ing)',
+    questionEn: 'While I was doing my homework, my brother ______ television.',
+    questionAr: 'تمارين قواعد كتاب النشاط: حدث مستمر في الماضي مع الفاعل المفرد (my brother):',
+    options: ['was watching', 'were watching', 'watched', 'watches'],
+    correctAnswer: 'was watching',
+    points: 2,
+    explanationAr: 'الماضي المستمر مع المفرد يتكون من was + فعل ينتهي بـ ing.',
+  },
+  {
+    id: 'gr-pc-2',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-past-continuous',
+    lessonTitleAr: 'القواعد • الماضي المستمر',
+    exerciseRef: 'قواعد الوحدة 1 (Past Continuous: Question form)',
+    questionEn: 'What ______ you doing at eight o\'clock yesterday evening?',
+    questionAr: 'تمارين قواعد كتاب النشاط: تكوين سؤال الماضي المستمر مع الضمير you:',
+    options: ['were', 'was', 'did', 'are'],
+    correctAnswer: 'were',
+    points: 2,
+    explanationAr: 'مع الضمير you نستخدم were في السؤال عن الماضي المستمر.',
+  },
+  {
+    id: 'gr-pc-3',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-past-continuous',
+    lessonTitleAr: 'القواعد • الماضي المستمر',
+    exerciseRef: 'قواعد الوحدة 1 (Past Continuous: It was raining)',
+    questionEn: 'It ______ raining heavily when we arrived at the citadel.',
+    questionAr: 'تمارين قواعد كتاب النشاط: كانت تمطر بغزارة (الماضي المستمر مع It):',
+    options: ['was', 'were', 'is', 'did'],
+    correctAnswer: 'was',
+    points: 2,
+    explanationAr: 'الضمير It يأخذ was في زمن الماضي المستمر (It was raining).',
+  },
+
+  // 3. ضمائر وصفات التملك (Possessive Pronouns & Adjectives)
+  {
+    id: 'gr-pr-1',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-possessive-pronouns',
+    lessonTitleAr: 'القواعد • ضمائر التملك',
+    exerciseRef: 'قواعد الوحدة 1 (Possessive Pronouns: mine)',
+    questionEn: 'This blue pen belongs to me. It is ______.',
+    questionAr: 'تمارين قواعد كتاب النشاط: ضمير التملك للمتكلم في نهاية الجملة (يخصني):',
+    options: ['mine', 'my', 'me', 'I'],
+    correctAnswer: 'mine',
+    points: 2,
+    explanationAr: 'ضمير التملك العائد على المتكلم الذي ينهي الجملة بدون اسم بعده هو mine.',
+  },
+  {
+    id: 'gr-pr-2',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-possessive-pronouns',
+    lessonTitleAr: 'القواعد • ضمائر التملك',
+    exerciseRef: 'قواعد الوحدة 1 (Possessive Pronouns: hers)',
+    questionEn: 'Layla lost her bag yesterday. Is this bag ______?',
+    questionAr: 'تمارين قواعد كتاب النشاط: هل هذه الحقيبة تعود لليلى (لها)؟',
+    options: ['hers', 'her', 'she', 'him'],
+    correctAnswer: 'hers',
+    points: 2,
+    explanationAr: 'ضمير التملك للمؤنث الغائب في نهاية الجملة هو hers.',
+  },
+  {
+    id: 'gr-pr-3',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-possessive-pronouns',
+    lessonTitleAr: 'القواعد • ضمائر التملك',
+    exerciseRef: 'قواعد الوحدة 1 (Possessive Pronouns: theirs)',
+    questionEn: 'That house belongs to Mr. and Mrs. Smith. It is ______.',
+    questionAr: 'تمارين قواعد كتاب النشاط: ذلك المنزل يعود لهما، إذن هو ملكهما:',
+    options: ['theirs', 'their', 'them', 'they'],
+    correctAnswer: 'theirs',
+    points: 2,
+    explanationAr: 'ضمير التملك للجمع الغائب هو theirs.',
+  },
+
+  // 4. أدوات الربط (Joining Sentences: and / but / so)
+  {
+    id: 'gr-jn-1',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-joining-sentences',
+    lessonTitleAr: 'القواعد • أدوات الربط',
+    exerciseRef: 'قواعد الوحدة 1 (Joining: but for contrast)',
+    questionEn: 'He was very tired, ______ he finished his school project.',
+    questionAr: 'تمارين قواعد كتاب النشاط: أداة الربط للتناقض (لكن):',
+    options: ['but', 'and', 'so', 'or'],
+    correctAnswer: 'but',
+    points: 2,
+    explanationAr: 'أداة الربط but تستخدم لربط جملتين متناقضتين بالمعنى.',
+  },
+  {
+    id: 'gr-jn-2',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-joining-sentences',
+    lessonTitleAr: 'القواعد • أدوات الربط',
+    exerciseRef: 'قواعد الوحدة 1 (Joining: so for result)',
+    questionEn: 'We arrived in Baghdad at night, ______ we just went straight to bed.',
+    questionAr: 'تمارين قواعد كتاب النشاط: أداة الربط الدالة على النتيجة (لذلك):',
+    options: ['so', 'because', 'although', 'but'],
+    correctAnswer: 'so',
+    points: 2,
+    explanationAr: 'قواعد كتاب النشاط: أداة الربط الدالة على النتيجة هي so.',
+  },
+  {
+    id: 'gr-jn-3',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-joining-sentences',
+    lessonTitleAr: 'القواعد • أدوات الربط',
+    exerciseRef: 'قواعد الوحدة 1 (Joining: and for addition)',
+    questionEn: 'In Babylon, we saw the ancient ruins ______ took many photos.',
+    questionAr: 'تمارين قواعد كتاب النشاط: أداة العطف والربط للإضافة (و):',
+    options: ['and', 'but', 'so', 'because'],
+    correctAnswer: 'and',
+    points: 2,
+    explanationAr: 'أداة الربط and تستخدم لعطف وإضافة فكرة على أخرى.',
+  },
+
+  // 5. الاهتمامات والرغبات والصفات (Interests & -ing)
+  {
+    id: 'gr-in-1',
+    lessonId: 'grammar',
+    grammarTopicId: 'topic-interests',
+    lessonTitleAr: 'القواعد • الاهتمامات والصفات',
     exerciseRef: 'قواعد الوحدة 1 (الصفات: -ed و -ing)',
     questionEn: 'The football match at Al-Shaab Stadium was very ______.',
     questionAr: 'تمارين قواعد كتاب النشاط: مباراة كرة القدم هي مسبب الشعور، فنختار:',
@@ -483,9 +620,10 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
     explanationAr: 'قواعد كتاب النشاط: الشيء المسبب للشعور نختار له صفة تنتهي بـ ing (exciting).',
   },
   {
-    id: 'gr-ex-6',
+    id: 'gr-in-2',
     lessonId: 'grammar',
-    lessonTitleAr: 'القواعد • كتاب النشاط',
+    grammarTopicId: 'topic-interests',
+    lessonTitleAr: 'القواعد • الاهتمامات والصفات',
     exerciseRef: 'قواعد الوحدة 1 (الصفات: -ed و -ing)',
     questionEn: 'He is very ______ in ancient Babylonian history.',
     questionAr: 'تمارين قواعد كتاب النشاط: عند وجود حرف الجر in بعد الفراغ نختار صفة المهتم العاقل:',
@@ -495,15 +633,16 @@ export const UNIT_1_QUESTION_BANK: CategorizedExamQuestion[] = [
     explanationAr: 'قواعد كتاب النشاط: الشخص المتأثر بالشعور مع حرف الجر in نختار (interested in).',
   },
   {
-    id: 'gr-ex-7',
+    id: 'gr-in-3',
     lessonId: 'grammar',
-    lessonTitleAr: 'القواعد • كتاب النشاط',
-    exerciseRef: 'قواعد الوحدة 1 (أدوات الربط: so)',
-    questionEn: 'We arrived in Baghdad at night, ______ we just went straight to bed.',
-    questionAr: 'تمارين قواعد كتاب النشاط: أداة الربط الدالة على النتيجة (لذلك):',
-    options: ['so', 'because', 'although', 'but'],
-    correctAnswer: 'so',
+    grammarTopicId: 'topic-interests',
+    lessonTitleAr: 'القواعد • الاهتمامات والصفات',
+    exerciseRef: 'قواعد الوحدة 1 (Interests: enjoy + V-ing)',
+    questionEn: 'In his free time, Ahmed enjoys ______ historical books.',
+    questionAr: 'تمارين قواعد كتاب النشاط: بعد أفعال الرغبة مثل enjoy يأتي دائماً فعل بصيغة ing:',
+    options: ['reading', 'reads', 'read', 'is reading'],
+    correctAnswer: 'reading',
     points: 2,
-    explanationAr: 'قواعد كتاب النشاط: أداة الربط الدالة على النتيجة هي so.',
+    explanationAr: 'بعد enjoy و like نختار الفعل المضاف له ing (reading).',
   },
 ];

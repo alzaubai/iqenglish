@@ -106,6 +106,13 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     'lesson-3',
     'grammar',
   ]);
+  const [selectedGrammarTopicSources, setSelectedGrammarTopicSources] = useState<string[]>([
+    'topic-past-simple',
+    'topic-past-continuous',
+    'topic-possessive-pronouns',
+    'topic-joining-sentences',
+    'topic-interests',
+  ]);
   const [questionCountTarget, setQuestionCountTarget] = useState<number>(5);
   const [selectedQuestions, setSelectedQuestions] = useState<CategorizedExamQuestion[]>([]);
   const [isExamActiveLocal, setIsExamActiveLocal] = useState(false);
@@ -207,11 +214,30 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     }
   };
 
-  // Generate Questions from Selected Sources
+  // Toggle Grammar Topic Source in Builder
+  const handleToggleGrammarTopicSource = (topicKey: string) => {
+    if (selectedGrammarTopicSources.includes(topicKey)) {
+      if (selectedGrammarTopicSources.length > 1) {
+        setSelectedGrammarTopicSources(
+          selectedGrammarTopicSources.filter((k) => k !== topicKey)
+        );
+      }
+    } else {
+      setSelectedGrammarTopicSources([...selectedGrammarTopicSources, topicKey]);
+    }
+  };
+
+  // Generate Questions from Selected Sources (incorporating specific grammar topics)
   const handleGenerateQuestions = () => {
-    const availablePool = UNIT_1_QUESTION_BANK.filter((q) =>
-      selectedLessonSources.includes(q.lessonId)
-    );
+    const availablePool = UNIT_1_QUESTION_BANK.filter((q) => {
+      if (q.lessonId === 'grammar') {
+        return (
+          selectedLessonSources.includes('grammar') &&
+          (!q.grammarTopicId || selectedGrammarTopicSources.includes(q.grammarTopicId))
+        );
+      }
+      return selectedLessonSources.includes(q.lessonId);
+    });
 
     const shuffled = [...availablePool].sort(() => 0.5 - Math.random());
     const picked = shuffled.slice(0, questionCountTarget);
@@ -223,11 +249,16 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     const currentQ = selectedQuestions[indexToSwap];
     const currentSelectedIds = selectedQuestions.map((q) => q.id);
 
-    const candidates = UNIT_1_QUESTION_BANK.filter(
-      (q) =>
-        selectedLessonSources.includes(q.lessonId) &&
-        !currentSelectedIds.includes(q.id)
-    );
+    const candidates = UNIT_1_QUESTION_BANK.filter((q) => {
+      if (currentSelectedIds.includes(q.id)) return false;
+      if (q.lessonId === 'grammar') {
+        return (
+          selectedLessonSources.includes('grammar') &&
+          (!q.grammarTopicId || selectedGrammarTopicSources.includes(q.grammarTopicId))
+        );
+      }
+      return selectedLessonSources.includes(q.lessonId);
+    });
 
     const sameLessonCandidates = candidates.filter((q) => q.lessonId === currentQ.lessonId);
     const pool = sameLessonCandidates.length > 0 ? sameLessonCandidates : candidates;
@@ -238,7 +269,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
       updatedList[indexToSwap] = newQuestion;
       setSelectedQuestions(updatedList);
     } else {
-      setBuilderStatusMsg('لا يوجد أسئلة بديلة أخرى في هذا الدرس حالياً.');
+      setBuilderStatusMsg('لا يوجد أسئلة بديلة أخرى في هذا الموضوع حالياً.');
       setTimeout(() => setBuilderStatusMsg(null), 3000);
     }
   };
@@ -447,6 +478,70 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     navigator.clipboard.writeText(text);
     setTelegramCopied(true);
     setTimeout(() => setTelegramCopied(false), 3000);
+  };
+
+  // Export Monthly Grade Sheet to CSV/Excel
+  const handleExportExcel = () => {
+    const BOM = '\uFEFF';
+    let csv = `كشف درجات: ${monthlyReportTitle}\n`;
+    csv += `مدرس المادة: أ. حسام محمود منصور\n`;
+    csv += `الشعبة: ${selectedSectionFilter === 'all' ? 'جميع الشُعب' : 'شعبة ' + selectedSectionFilter}\n`;
+    csv += `التاريخ: ${new Date().toLocaleDateString('ar-IQ')}\n\n`;
+
+    const headers = ['ت', 'اسم الطالب', 'الشعبة'];
+    for (let i = 1; i <= monthlyExamCount; i++) {
+      headers.push(`الامتحان ${i}`);
+    }
+    headers.push('معدل السعي');
+    headers.push('الملاحظات');
+    csv += headers.join(',') + '\n';
+
+    filteredRegisteredStudents.forEach((st, idx) => {
+      const stSubs = allHistoricalSubmissions
+        .filter((s) => {
+          const matchId = st.id && s.studentId && s.studentId === st.id;
+          const matchName =
+            s.studentName.trim().toLowerCase() === st.fullName.trim().toLowerCase();
+          return matchId || matchName;
+        })
+        .sort((a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime());
+
+      const attendedScores = stSubs.map((s) => (s.score / s.totalPoints) * 10);
+      const avgCalc =
+        attendedScores.length > 0
+          ? (
+              attendedScores.reduce((acc, curr) => acc + curr, 0) /
+              attendedScores.length
+            ).toFixed(1)
+          : '—';
+
+      const row = [idx + 1, `"${st.fullName}"`, `"${st.section}"`];
+      for (let i = 0; i < monthlyExamCount; i++) {
+        const subForSlot = stSubs[i];
+        if (subForSlot) {
+          row.push(Math.round((subForSlot.score / subForSlot.totalPoints) * 10).toString());
+        } else {
+          row.push('—');
+        }
+      }
+      row.push(avgCalc);
+      row.push(
+        attendedScores.length === 0
+          ? 'لم يمتحن'
+          : attendedScores.length >= monthlyExamCount
+          ? 'مكتمل'
+          : `امتحن (${attendedScores.length}/${monthlyExamCount})`
+      );
+      csv += row.join(',') + '\n';
+    });
+
+    const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${monthlyReportTitle}_${selectedSectionFilter}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -1067,6 +1162,72 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     })}
                   </div>
 
+                  {/* Grammar Topics Sub-Selector (when grammar is included) */}
+                  {selectedLessonSources.includes('grammar') && (
+                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 mt-2 animate-in fade-in duration-200">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-bold text-slate-800 font-arabic flex items-center gap-1.5">
+                          <BookMarked className="w-4 h-4 text-slate-700" />
+                          <span>تحديد المواضيع القواعدية المطلوبة في الامتحان:</span>
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSelectedGrammarTopicSources([
+                                'topic-past-simple',
+                                'topic-past-continuous',
+                                'topic-possessive-pronouns',
+                                'topic-joining-sentences',
+                                'topic-interests',
+                              ])
+                            }
+                            className="text-[11px] text-blue-600 hover:underline font-arabic cursor-pointer font-bold"
+                          >
+                            تحديد الكل
+                          </button>
+                        </div>
+                      </div>
+                      <p className="text-[11px] text-slate-500 font-arabic">
+                        اختر فقط مواضيع القواعد التي درستها لطلابك ليتم توليد الأسئلة منها حصراً:
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {[
+                          { id: 'topic-past-simple', label: '1. الماضي البسيط (Past Simple)' },
+                          { id: 'topic-past-continuous', label: '2. الماضي المستمر (Past Continuous)' },
+                          { id: 'topic-possessive-pronouns', label: '3. ضمائر وصفات التملك (Pronouns)' },
+                          { id: 'topic-joining-sentences', label: '4. أدوات الربط (and / but / so)' },
+                          { id: 'topic-interests', label: '5. الاهتمامات والصفات (Interests & -ing)' },
+                        ].map((t) => {
+                          const isTopicSelected = selectedGrammarTopicSources.includes(t.id);
+                          return (
+                            <button
+                              key={t.id}
+                              type="button"
+                              onClick={() => handleToggleGrammarTopicSource(t.id)}
+                              className={`px-3 py-1.5 rounded-xl border text-xs font-arabic transition-all cursor-pointer flex items-center gap-1.5 ${
+                                isTopicSelected
+                                  ? 'bg-slate-900 text-white border-slate-900 font-bold shadow-2xs'
+                                  : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-600'
+                              }`}
+                            >
+                              <span
+                                className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center text-[9px] ${
+                                  isTopicSelected
+                                    ? 'border-white bg-white text-slate-900 font-bold'
+                                    : 'border-slate-300'
+                                }`}
+                              >
+                                {isTopicSelected ? '✓' : ''}
+                              </span>
+                              <span>{t.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Question Count & Re-roll Button */}
                   <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
@@ -1684,6 +1845,17 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
               </div>
 
               <div className="flex items-center gap-2">
+                {pdfReportMode === 'monthly' && (
+                  <button
+                    onClick={handleExportExcel}
+                    className="py-1.5 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic shadow-xs transition-colors"
+                    title="تصدير كشف الدرجات كملف Excel كامل يحتوي على أسماء جميع الطلاب والدرجات"
+                  >
+                    <FileDown className="w-4 h-4 text-white" />
+                    <span>تصدير Excel</span>
+                  </button>
+                )}
+
                 <button
                   onClick={() => window.print()}
                   className="py-1.5 px-3.5 rounded-xl bg-white text-slate-800 font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic shadow-xs hover:bg-slate-100 transition-colors"
@@ -1921,9 +2093,9 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                             {Array.from({ length: monthlyExamCount }, (_, i) => (
                               <th
                                 key={i}
-                                className="p-2 text-center border-l border-slate-200 font-mono text-[11px] min-w-[38px]"
+                                className="p-2 text-center border-l border-slate-200 font-arabic font-bold text-[11px] min-w-[55px] text-slate-800"
                               >
-                                ي{i + 1}
+                                الامتحان {i + 1}
                               </th>
                             ))}
                             <th className="p-2 text-center border-l border-slate-200 font-bold text-slate-900 bg-slate-200/60 min-w-[65px]">
