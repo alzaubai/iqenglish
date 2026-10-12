@@ -29,6 +29,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Purge legacy/deprecated caches -->
+    <script>
+      if ('caches' in window) {
+        caches.delete('iqenglish-static-v2').catch(function(){});
+        caches.delete('iqenglish-cache-v1').catch(function(){});
+      }
+    </script>
+
     <!-- Dedicated Clean Print Styles -->
     <style>
       @media print {
