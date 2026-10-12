@@ -5,6 +5,7 @@ import {
   ChevronRight,
   ChevronLeft,
   ArrowRight,
+  Lock,
 } from 'lucide-react';
 import { unit1Lessons, unitsList } from './data/unit1Data';
 import { lessons3to10ActivityData } from './data/activityBookAllLessons';
@@ -25,6 +26,7 @@ import {
   StudentSession,
   PlatformConfig,
   DEFAULT_PLATFORM_CONFIG,
+  getCachedPlatformConfig,
   getStoredStudentSession,
   setStoredStudentSession,
   listenToPlatformConfig,
@@ -48,7 +50,7 @@ export default function App() {
     () => localStorage.getItem(STORAGE_KEYS.TEACHER_LOGGED_IN) === 'true'
   );
   const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState(false);
-  const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(DEFAULT_PLATFORM_CONFIG);
+  const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(() => getCachedPlatformConfig());
   const [activeExam, setActiveExam] = useState<QuickExam | null>(null);
   const [isStudentExamModalOpen, setIsStudentExamModalOpen] = useState(false);
   const [isStudentHistoryModalOpen, setIsStudentHistoryModalOpen] = useState(false);
@@ -123,6 +125,11 @@ export default function App() {
   };
 
   const handleSelectLesson = (lessonId: string) => {
+    const isUnlocked = (platformConfig.unlockedLessons || ['lesson-1']).includes(lessonId);
+    if (!isUnlocked) {
+      alert('عذراً، هذا الدرس مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
+      return;
+    }
     setSelectedLessonId(lessonId);
     setCurriculumViewState('detail');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -131,7 +138,13 @@ export default function App() {
   const handlePrevLesson = () => {
     const currentIndex = unit1Lessons.findIndex((l) => l.id === selectedLessonId);
     if (currentIndex > 0) {
-      setSelectedLessonId(unit1Lessons[currentIndex - 1].id);
+      const prevLesson = unit1Lessons[currentIndex - 1];
+      const isUnlocked = (platformConfig.unlockedLessons || ['lesson-1']).includes(prevLesson.id);
+      if (!isUnlocked) {
+        alert('عذراً، هذا الدرس مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
+        return;
+      }
+      setSelectedLessonId(prevLesson.id);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -139,7 +152,13 @@ export default function App() {
   const handleNextLesson = () => {
     const currentIndex = unit1Lessons.findIndex((l) => l.id === selectedLessonId);
     if (currentIndex < unit1Lessons.length - 1) {
-      setSelectedLessonId(unit1Lessons[currentIndex + 1].id);
+      const nextLesson = unit1Lessons[currentIndex + 1];
+      const isUnlocked = (platformConfig.unlockedLessons || ['lesson-1']).includes(nextLesson.id);
+      if (!isUnlocked) {
+        alert('عذراً، هذا الدرس مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
+        return;
+      }
+      setSelectedLessonId(nextLesson.id);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -153,9 +172,11 @@ export default function App() {
 
   const handleSelectGrammarTopic = (topicId: string) => {
     const isUnlocked =
-      !platformConfig.unlockedGrammarTopics ||
-      platformConfig.unlockedGrammarTopics.includes(topicId);
-    if (!isUnlocked && !isTeacherLoggedIn) {
+      Array.isArray(platformConfig.unlockedGrammarTopics) && platformConfig.unlockedGrammarTopics.length > 0
+        ? platformConfig.unlockedGrammarTopics.includes(topicId)
+        : topicId === 'topic-past-simple';
+    if (!isUnlocked) {
+      alert('عذراً، هذا الموضوع مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
       return;
     }
     setGrammarSelectedTopicId(topicId);
@@ -241,7 +262,7 @@ export default function App() {
                   setGrammarViewState('units');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                unlockedGrammarTopics={isTeacherLoggedIn ? undefined : platformConfig.unlockedGrammarTopics}
+                unlockedGrammarTopics={platformConfig.unlockedGrammarTopics}
               />
             )}
 
@@ -261,6 +282,7 @@ export default function App() {
                   setGrammarSelectedTopicId(topicId);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
+                unlockedGrammarTopics={platformConfig.unlockedGrammarTopics}
               />
             )}
           </div>
@@ -289,7 +311,52 @@ export default function App() {
             )}
 
             {/* VIEW 3: LESSON DETAIL VIEW (AUDIO + ACTIVITY BOOK EXERCISES) */}
-            {curriculumViewState === 'detail' && (
+            {curriculumViewState === 'detail' && (() => {
+              const isCurrentLessonUnlocked = (platformConfig.unlockedLessons || ['lesson-1']).includes(selectedLessonId);
+              const currentLessonIndex = unit1Lessons.findIndex((l) => l.id === selectedLessonId);
+              const prevLesson = currentLessonIndex > 0 ? unit1Lessons[currentLessonIndex - 1] : null;
+              const nextLesson = currentLessonIndex < unit1Lessons.length - 1 ? unit1Lessons[currentLessonIndex + 1] : null;
+              const isPrevUnlocked = prevLesson ? (platformConfig.unlockedLessons || ['lesson-1']).includes(prevLesson.id) : false;
+              const isNextUnlocked = nextLesson ? (platformConfig.unlockedLessons || ['lesson-1']).includes(nextLesson.id) : false;
+
+              if (!isCurrentLessonUnlocked) {
+                return (
+                  <div className="space-y-6 sm:space-y-7" dir="rtl">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-zinc-200 shadow-2xs">
+                      <button
+                        onClick={() => setCurriculumViewState('lessons')}
+                        className="px-3.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center gap-1.5 cursor-pointer font-arabic transition-colors"
+                      >
+                        <ArrowRight className="w-3.5 h-3.5" />
+                        <span>قائمة الدروس (10 دروس)</span>
+                      </button>
+                    </div>
+
+                    <div className="bg-white rounded-3xl border border-zinc-200 p-8 sm:p-12 shadow-xs text-center space-y-4 max-w-lg mx-auto my-8">
+                      <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-xs">
+                        <Lock className="w-8 h-8" />
+                      </div>
+                      <h3 className="text-xl font-bold text-slate-800 font-arabic">
+                        هذا الدرس مغلق حالياً
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-600 font-arabic leading-relaxed">
+                        تم قفل هذا الدرس من قبل مدرس المادة: أ. حسام محمود منصور
+                      </p>
+                      <div className="pt-2">
+                        <button
+                          onClick={() => setCurriculumViewState('lessons')}
+                          className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-arabic cursor-pointer transition-colors inline-flex items-center gap-2 shadow-xs"
+                        >
+                          <ArrowRight className="w-4 h-4" />
+                          <span>العودة لقائمة الدروس المتاحة</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
               <div className="space-y-6 sm:space-y-7">
                 {/* Top Navigation Bar: Back to 10 lessons */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-zinc-200 shadow-2xs">
@@ -313,13 +380,13 @@ export default function App() {
                   <div className="flex items-center gap-1.5 self-end sm:self-auto">
                     <button
                       onClick={handlePrevLesson}
-                      disabled={currentLesson.lessonNumber === 1}
+                      disabled={currentLesson.lessonNumber === 1 || !isPrevUnlocked}
                       className={`p-2 rounded-lg border text-xs font-bold transition-all ${
-                        currentLesson.lessonNumber === 1
+                        currentLesson.lessonNumber === 1 || !isPrevUnlocked
                           ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
                           : 'border-zinc-300 text-zinc-700 hover:bg-zinc-100 cursor-pointer bg-white'
                       }`}
-                      title="الدرس السابق"
+                      title={currentLesson.lessonNumber === 1 ? 'الدرس الأول' : !isPrevUnlocked ? 'الدرس السابق مغلق' : 'الدرس السابق'}
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
@@ -328,13 +395,13 @@ export default function App() {
                     </span>
                     <button
                       onClick={handleNextLesson}
-                      disabled={currentLesson.lessonNumber === 10}
+                      disabled={currentLesson.lessonNumber === 10 || !isNextUnlocked}
                       className={`p-2 rounded-lg border text-xs font-bold transition-all ${
-                        currentLesson.lessonNumber === 10
+                        currentLesson.lessonNumber === 10 || !isNextUnlocked
                           ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
                           : 'border-zinc-300 text-zinc-700 hover:bg-zinc-100 cursor-pointer bg-white'
                       }`}
-                      title="الدرس التالي"
+                      title={currentLesson.lessonNumber === 10 ? 'الدرس الأخير' : !isNextUnlocked ? 'الدرس التالي مغلق' : 'الدرس التالي'}
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
@@ -428,9 +495,9 @@ export default function App() {
                 <div className="bg-white rounded-2xl border border-zinc-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-2.5">
                   <button
                     onClick={handlePrevLesson}
-                    disabled={currentLesson.lessonNumber === 1}
+                    disabled={currentLesson.lessonNumber === 1 || !isPrevUnlocked}
                     className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all font-arabic ${
-                      currentLesson.lessonNumber === 1
+                      currentLesson.lessonNumber === 1 || !isPrevUnlocked
                         ? 'opacity-30 cursor-not-allowed text-zinc-400 bg-zinc-100'
                         : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 cursor-pointer'
                     }`}
@@ -448,9 +515,9 @@ export default function App() {
 
                   <button
                     onClick={handleNextLesson}
-                    disabled={currentLesson.lessonNumber === 10}
+                    disabled={currentLesson.lessonNumber === 10 || !isNextUnlocked}
                     className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all font-arabic ${
-                      currentLesson.lessonNumber === 10
+                      currentLesson.lessonNumber === 10 || !isNextUnlocked
                         ? 'opacity-30 cursor-not-allowed text-zinc-400 bg-zinc-100'
                         : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 cursor-pointer'
                     }`}
@@ -460,7 +527,8 @@ export default function App() {
                   </button>
                 </div>
               </div>
-            )}
+              );
+            })()}
           </div>
         )}
       </main>

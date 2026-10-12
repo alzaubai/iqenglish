@@ -99,33 +99,46 @@ export interface PlatformConfig {
   activeExamId: string | null;
 }
 
-// Default initial configuration
+// Default initial configuration - strictly only Lesson 1 & Topic 1 open by default
 export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
-  unlockedLessons: [
-    'lesson-1',
-    'lesson-2',
-    'lesson-3',
-    'lesson-4',
-    'lesson-5',
-    'lesson-6',
-    'lesson-7',
-    'lesson-8',
-    'lesson-9',
-    'lesson-10',
-  ],
-  unlockedGrammarTopics: DEFAULT_GRAMMAR_TOPIC_IDS,
+  unlockedLessons: ['lesson-1'],
+  unlockedGrammarTopics: ['topic-past-simple'],
   grammarUnlocked: true,
-  masterCode: 'IQ-2026',
-  allowedCodes: ['IQ-2026', 'IQ-STAR', 'ENGLISH-1'],
+  masterCode: 'IQ-7788',
+  allowedCodes: ['IQ-2026', 'IQ-STAR', 'ENGLISH-1', 'IQ-7788'],
   revokedCodes: [],
   teacherPin: '2026', // Teacher Master PIN
   activeExamId: null,
 };
 
 // -------------------------------------------------------------
-// Helper Functions for Platform Configuration
+// Helper Functions for Platform Configuration & Local Cache
 // -------------------------------------------------------------
 const CONFIG_DOC_PATH = 'settings/platform_config';
+const CONFIG_CACHE_KEY = 'iq_platform_config_cache';
+
+export const getCachedPlatformConfig = (): PlatformConfig => {
+  try {
+    const raw = localStorage.getItem(CONFIG_CACHE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.unlockedLessons)) {
+        return parsed as PlatformConfig;
+      }
+    }
+  } catch (e) {
+    console.warn('Error reading cached platform config:', e);
+  }
+  return DEFAULT_PLATFORM_CONFIG;
+};
+
+export const setCachedPlatformConfig = (cfg: PlatformConfig): void => {
+  try {
+    localStorage.setItem(CONFIG_CACHE_KEY, JSON.stringify(cfg));
+  } catch (e) {
+    console.warn('Error writing cached platform config:', e);
+  }
+};
 
 export const listenToPlatformConfig = (
   callback: (config: PlatformConfig) => void
@@ -135,16 +148,19 @@ export const listenToPlatformConfig = (
     docRef,
     (snapshot) => {
       if (snapshot.exists()) {
-        callback(snapshot.data() as PlatformConfig);
+        const data = snapshot.data() as PlatformConfig;
+        setCachedPlatformConfig(data);
+        callback(data);
       } else {
         // Create initial config if does not exist
         setDoc(docRef, DEFAULT_PLATFORM_CONFIG).catch(console.error);
+        setCachedPlatformConfig(DEFAULT_PLATFORM_CONFIG);
         callback(DEFAULT_PLATFORM_CONFIG);
       }
     },
     (err) => {
-      console.warn('Firebase config listener fallback to default:', err);
-      callback(DEFAULT_PLATFORM_CONFIG);
+      console.warn('Firebase config listener fallback to cache/default:', err);
+      callback(getCachedPlatformConfig());
     }
   );
 };
@@ -152,6 +168,11 @@ export const listenToPlatformConfig = (
 export const updatePlatformConfig = async (
   partialConfig: Partial<PlatformConfig>
 ): Promise<void> => {
+  // Update local cache immediately to prevent UI lag or race condition
+  const currentCached = getCachedPlatformConfig();
+  const updatedCache = { ...currentCached, ...partialConfig };
+  setCachedPlatformConfig(updatedCache);
+
   const docRef = doc(db, CONFIG_DOC_PATH);
   const snap = await getDoc(docRef);
   if (!snap.exists()) {

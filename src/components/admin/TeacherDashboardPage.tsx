@@ -130,6 +130,27 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '2026');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
+  // Local optimistic lock states to eliminate race conditions and stale closure reverts
+  const [localUnlockedLessons, setLocalUnlockedLessons] = useState<string[]>(
+    () => platformConfig.unlockedLessons || ['lesson-1']
+  );
+  const [localUnlockedGrammarTopics, setLocalUnlockedGrammarTopics] = useState<string[]>(
+    () => platformConfig.unlockedGrammarTopics || ['topic-past-simple']
+  );
+
+  // Keep local lock state in sync with platformConfig when updated
+  useEffect(() => {
+    if (platformConfig.unlockedLessons && platformConfig.unlockedLessons.length > 0) {
+      setLocalUnlockedLessons(platformConfig.unlockedLessons);
+    }
+  }, [platformConfig.unlockedLessons]);
+
+  useEffect(() => {
+    if (platformConfig.unlockedGrammarTopics && platformConfig.unlockedGrammarTopics.length > 0) {
+      setLocalUnlockedGrammarTopics(platformConfig.unlockedGrammarTopics);
+    }
+  }, [platformConfig.unlockedGrammarTopics]);
+
   // Listen to all registered students (only after PIN authentication)
   useEffect(() => {
     if (!isAuthenticated) {
@@ -321,43 +342,54 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     }
   };
 
-  // Toggle Lesson Access
+  // Toggle Lesson Access (Airtight functional updater with immediate Firebase & cache persistence)
   const handleToggleLessonAccess = async (lessonId: string) => {
-    const current = platformConfig.unlockedLessons || [];
-    const isCurrentlyUnlocked = current.includes(lessonId);
-    const updated = isCurrentlyUnlocked
-      ? current.filter((id) => id !== lessonId)
-      : [...current, lessonId];
+    setLocalUnlockedLessons((prev) => {
+      const isCurrentlyUnlocked = prev.includes(lessonId);
+      const updated = isCurrentlyUnlocked
+        ? prev.filter((id) => id !== lessonId)
+        : [...prev, lessonId];
 
-    await updatePlatformConfig({ unlockedLessons: updated });
+      updatePlatformConfig({ unlockedLessons: updated }).catch(console.error);
+      return updated;
+    });
   };
 
   const handleUnlockAll = async () => {
     const all = Array.from({ length: 10 }, (_, i) => `lesson-${i + 1}`);
+    setLocalUnlockedLessons(all);
     await updatePlatformConfig({ unlockedLessons: all });
   };
 
   const handleLockAllExcept1 = async () => {
-    await updatePlatformConfig({ unlockedLessons: ['lesson-1'] });
+    const only1 = ['lesson-1'];
+    setLocalUnlockedLessons(only1);
+    await updatePlatformConfig({ unlockedLessons: only1 });
   };
 
-  // Toggle Grammar Topic Access
+  // Toggle Grammar Topic Access (Airtight functional updater with immediate Firebase & cache persistence)
   const handleToggleGrammarTopicAccess = async (topicId: string) => {
-    const current = platformConfig.unlockedGrammarTopics || DEFAULT_GRAMMAR_TOPIC_IDS;
-    const isCurrentlyUnlocked = current.includes(topicId);
-    const updated = isCurrentlyUnlocked
-      ? current.filter((id) => id !== topicId)
-      : [...current, topicId];
+    setLocalUnlockedGrammarTopics((prev) => {
+      const isCurrentlyUnlocked = prev.includes(topicId);
+      const updated = isCurrentlyUnlocked
+        ? prev.filter((id) => id !== topicId)
+        : [...prev, topicId];
 
-    await updatePlatformConfig({ unlockedGrammarTopics: updated });
+      updatePlatformConfig({ unlockedGrammarTopics: updated }).catch(console.error);
+      return updated;
+    });
   };
 
   const handleUnlockAllGrammarTopics = async () => {
-    await updatePlatformConfig({ unlockedGrammarTopics: DEFAULT_GRAMMAR_TOPIC_IDS });
+    const all = [...DEFAULT_GRAMMAR_TOPIC_IDS];
+    setLocalUnlockedGrammarTopics(all);
+    await updatePlatformConfig({ unlockedGrammarTopics: all });
   };
 
   const handleLockAllGrammarTopicsExcept1 = async () => {
-    await updatePlatformConfig({ unlockedGrammarTopics: ['topic-past-simple'] });
+    const only1 = ['topic-past-simple'];
+    setLocalUnlockedGrammarTopics(only1);
+    await updatePlatformConfig({ unlockedGrammarTopics: only1 });
   };
 
   // Save Settings
@@ -1479,7 +1511,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     {Array.from({ length: 10 }, (_, i) => {
                       const lNum = i + 1;
                       const lId = `lesson-${lNum}`;
-                      const isUnlocked = (platformConfig.unlockedLessons || []).includes(lId);
+                      const isUnlocked = localUnlockedLessons.includes(lId);
 
                       return (
                         <div
@@ -1548,9 +1580,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                   {/* Grammar Topics Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {unit1GrammarTopicsList.map((topic) => {
-                      const unlockedTopics =
-                        platformConfig.unlockedGrammarTopics || DEFAULT_GRAMMAR_TOPIC_IDS;
-                      const isUnlocked = unlockedTopics.includes(topic.id);
+                      const isUnlocked = localUnlockedGrammarTopics.includes(topic.id);
 
                       return (
                         <div

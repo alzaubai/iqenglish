@@ -83,7 +83,10 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
               teal: 'hover:border-teal-500 group-hover:text-teal-600 badge-teal',
             }[topic.color];
 
-            const isUnlocked = !unlockedGrammarTopics || unlockedGrammarTopics.includes(topic.id);
+            const isUnlocked =
+              Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
+                ? unlockedGrammarTopics.includes(topic.id)
+                : topic.id === 'topic-past-simple';
 
             return (
               <div

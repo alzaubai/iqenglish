@@ -9,6 +9,9 @@ export const STORAGE_KEYS = {
   // Student profile session JSON
   STUDENT_PROFILE: 'iq_student_profile',
 
+  // Cached platform config (locks, allowed codes, active exam)
+  PLATFORM_CONFIG_CACHE: 'iq_platform_config_cache',
+
   // Generator for dynamic exam completion key
   examDone: (examId: string, studentId: string): string =>
     `iq_exam_done_${examId}_${studentId}`,

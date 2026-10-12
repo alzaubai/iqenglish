@@ -15,7 +15,8 @@ import {
   BookOpen,
   Award,
   Search,
-  Filter
+  Filter,
+  Lock,
 } from 'lucide-react';
 import { unit1GrammarTopicsList, GrammarTopicData, ExamPracticeItem } from '../../data/unit1GrammarTopics';
 import { SpeechEngine } from '../../utils/speech';
@@ -25,6 +26,7 @@ interface GrammarTopicDetailProps {
   onBackToTopics: () => void;
   onBackToUnits: () => void;
   onSelectTopic: (topicId: string) => void;
+  unlockedGrammarTopics?: string[];
 }
 
 export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
@@ -32,6 +34,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
   onBackToTopics,
   onBackToUnits,
   onSelectTopic,
+  unlockedGrammarTopics,
 }) => {
   const currentTopic =
     unit1GrammarTopicsList.find((t) => t.id === topicId) || unit1GrammarTopicsList[0];
@@ -40,6 +43,23 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
   const prevTopic = currentIndex > 0 ? unit1GrammarTopicsList[currentIndex - 1] : null;
   const nextTopic =
     currentIndex < unit1GrammarTopicsList.length - 1 ? unit1GrammarTopicsList[currentIndex + 1] : null;
+
+  const isCurrentTopicUnlocked =
+    Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
+      ? unlockedGrammarTopics.includes(currentTopic.id)
+      : currentTopic.id === 'topic-past-simple';
+
+  const isPrevUnlocked = prevTopic
+    ? Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
+      ? unlockedGrammarTopics.includes(prevTopic.id)
+      : prevTopic.id === 'topic-past-simple'
+    : false;
+
+  const isNextUnlocked = nextTopic
+    ? Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
+      ? unlockedGrammarTopics.includes(nextTopic.id)
+      : nextTopic.id === 'topic-past-simple'
+    : false;
 
   // Active sub-tab state depending on topic type
   const [activeTab, setActiveTab] = useState<string>(
@@ -126,6 +146,52 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
     setRevealedAnswers({});
   };
 
+  // Strict Lock Guard: If the current topic is locked, display the locked state
+  if (!isCurrentTopicUnlocked) {
+    return (
+      <div className="space-y-6" dir="rtl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-zinc-200 shadow-2xs">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onBackToTopics}
+              className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center gap-1.5 cursor-pointer font-arabic transition-colors"
+            >
+              <ArrowRight className="w-3.5 h-3.5" />
+              <span>قائمة مواضيع الوحدة الأولى</span>
+            </button>
+            <button
+              onClick={onBackToUnits}
+              className="px-3 py-1.5 rounded-xl bg-zinc-50 hover:bg-zinc-100 text-zinc-600 text-xs font-medium cursor-pointer font-arabic hidden sm:inline"
+            >
+              قائمة الوحدات
+            </button>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-3xl border border-zinc-200 p-8 sm:p-12 shadow-xs text-center space-y-4 max-w-lg mx-auto my-8">
+          <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-xs">
+            <Lock className="w-8 h-8" />
+          </div>
+          <h3 className="text-xl font-bold text-slate-800 font-arabic">
+            هذا الموضوع القواعدي مغلق حالياً
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-600 font-arabic leading-relaxed">
+            تم قفل هذا الموضوع القواعدي من قبل مدرس المادة: أ. حسام محمود منصور
+          </p>
+          <div className="pt-2">
+            <button
+              onClick={onBackToTopics}
+              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-arabic cursor-pointer transition-colors inline-flex items-center gap-2 shadow-xs"
+            >
+              <ArrowRight className="w-4 h-4" />
+              <span>العودة لقائمة المواضيع المتاحة</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6" dir="rtl">
       {/* 1. TOP NAVIGATION & TOPIC SWITCHER BAR */}
@@ -149,14 +215,18 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
         {/* Quick switcher between the 5 topics */}
         <div className="flex items-center gap-1.5 self-end sm:self-auto">
           <button
-            onClick={() => prevTopic && onSelectTopic(prevTopic.id)}
-            disabled={!prevTopic}
+            onClick={() => {
+              if (prevTopic && isPrevUnlocked) {
+                onSelectTopic(prevTopic.id);
+              }
+            }}
+            disabled={!prevTopic || !isPrevUnlocked}
             className={`p-2 rounded-xl border text-xs font-bold transition-all ${
-              !prevTopic
+              !prevTopic || !isPrevUnlocked
                 ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
                 : 'border-zinc-300 text-zinc-700 hover:bg-zinc-100 cursor-pointer bg-white'
             }`}
-            title="الموضوع السابق"
+            title={!prevTopic ? 'الموضوع السابق' : !isPrevUnlocked ? 'الموضوع السابق مغلق' : 'الموضوع السابق'}
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -166,14 +236,18 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
           </span>
 
           <button
-            onClick={() => nextTopic && onSelectTopic(nextTopic.id)}
-            disabled={!nextTopic}
+            onClick={() => {
+              if (nextTopic && isNextUnlocked) {
+                onSelectTopic(nextTopic.id);
+              }
+            }}
+            disabled={!nextTopic || !isNextUnlocked}
             className={`p-2 rounded-xl border text-xs font-bold transition-all ${
-              !nextTopic
+              !nextTopic || !isNextUnlocked
                 ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
                 : 'border-zinc-300 text-zinc-700 hover:bg-zinc-100 cursor-pointer bg-white'
             }`}
-            title="الموضوع التالي"
+            title={!nextTopic ? 'الموضوع التالي' : !isNextUnlocked ? 'الموضوع التالي مغلق' : 'الموضوع التالي'}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
