@@ -36,6 +36,7 @@ import {
   listenToSingleStudent,
   recordSiteVisit,
   recordStudentHeartbeat,
+  TEACHER_PIN_HASH_DEFAULT,
 } from './services/firebase';
 import { STORAGE_KEYS } from './constants/storageKeys';
 import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
@@ -50,7 +51,7 @@ export default function App() {
   const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState<boolean>(() => {
     const isTeacher = localStorage.getItem(STORAGE_KEYS.TEACHER_LOGGED_IN) === 'true';
     const token = localStorage.getItem(STORAGE_KEYS.TEACHER_TOKEN);
-    return isTeacher && token === '161993';
+    return isTeacher && Boolean(token && (token === TEACHER_PIN_HASH_DEFAULT || token.length === 64));
   });
   const [isTeacherDashboardOpen, setIsTeacherDashboardOpen] = useState(false);
   const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(() => getCachedPlatformConfig());
@@ -216,7 +217,6 @@ export default function App() {
         onActivated={(session) => setStudentSession(session)}
         onTeacherLoginSuccess={() => {
           localStorage.setItem(STORAGE_KEYS.TEACHER_LOGGED_IN, 'true');
-          localStorage.setItem(STORAGE_KEYS.TEACHER_TOKEN, '161993');
           setIsTeacherLoggedIn(true);
           setIsTeacherDashboardOpen(false); // Directly enters the MAIN PAGE!
         }}

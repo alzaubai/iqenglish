@@ -28,7 +28,10 @@ import {
   saveOrUpdateExam,
   listenToSubmissions,
   ExamSubmission,
-  listenToActiveExam
+  listenToActiveExam,
+  verifyTeacherPin,
+  updateTeacherPin,
+  hashTeacherPin,
 } from '../../services/firebase';
 import { UNIT_1_QUESTION_BANK } from '../../data/defaultExamQuestions';
 
@@ -64,7 +67,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
 
   // Master Code / PIN Edit State
   const [newMasterCode, setNewMasterCode] = useState(platformConfig.masterCode || 'IQ-2026');
-  const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '161993');
+  const [newTeacherPin, setNewTeacherPin] = useState('');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
   // Listen to submissions for the current active exam
@@ -94,15 +97,20 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
   if (!isOpen) return null;
 
   // Handle PIN Submission
-  const handleVerifyPin = (e: React.FormEvent) => {
+  const handleVerifyPin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Only accept the configured PIN - no hardcoded backdoor fallback
-    const correctPin = platformConfig.teacherPin || '161993';
-    if (pinInput.trim() === correctPin) {
+    const clean = pinInput.trim();
+    if (!clean) {
+      setPinError(true);
+      return;
+    }
+    const isValid = await verifyTeacherPin(clean);
+    if (isValid) {
       setIsAuthenticated(true);
       setPinError(false);
+      const token = await hashTeacherPin(clean);
+      localStorage.setItem('iq_teacher_token', token);
       setPinInput('');
-      localStorage.setItem('iq_teacher_token', correctPin);
     } else {
       setPinError(true);
     }
@@ -168,8 +176,11 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
     try {
       await updatePlatformConfig({
         masterCode: newMasterCode.trim().toUpperCase(),
-        teacherPin: newTeacherPin.trim(),
       });
+      if (newTeacherPin.trim()) {
+        const token = await updateTeacherPin(newTeacherPin.trim());
+        localStorage.setItem('iq_teacher_token', token);
+      }
       setSettingsSaveMsg('تم حفظ وتحديث كود التفعيل والرمز السري بنجاح');
       setTimeout(() => setSettingsSaveMsg(null), 3000);
     } catch {
@@ -749,10 +760,10 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
                       <span>الرمز السري لدخول الأستاذ (PIN):</span>
                     </label>
                     <input
-                      type="text"
+                      type="password"
                       value={newTeacherPin}
                       onChange={(e) => setNewTeacherPin(e.target.value)}
-                      placeholder="161993"
+                      placeholder="أدخل رمزاً جديداً لتغييره..."
                       className="w-full px-4 py-3 rounded-2xl border-2 border-zinc-200 focus:border-zinc-900 focus:ring-0 font-mono font-black text-lg tracking-wider text-zinc-900 text-center"
                     />
                     <span className="text-[11px] text-zinc-400 font-arabic block pt-0.5">

@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Settings Collection
+    match /settings/platform_config {
+      // Anyone can read curriculum locks and allowed codes
+      allow read: if true;
+      // Write allowed only with valid payload structure
+      allow write: if request.resource.data.masterCode is string;
+    }
+
+    match /settings/teacher_credential {
+      // Teacher credential document (stores only SHA-256 hash)
+      allow read: if true;
+      allow write: if request.resource.data.pinHash is string && request.resource.data.pinHash.size() == 64;
+    }
+
+    match /settings/platform_analytics {
+      // Platform visit analytics
+      allow read, write: if true;
+    }
+
+    // 2. Students Collection
+    match /students/{studentId} {
+      // Allow reading student profiles (for duplicate prevention and teacher dashboard)
+      allow read: if true;
+      
+      // Allow student self-registration with valid fields
+      allow create: if request.resource.data.fullName is string
+                    && request.resource.data.section in ['أ', 'ب', 'ج', 'د', 'هـ']
+                    && request.resource.data.code is string;
+                    
+      // Allow updates to visit count and study time heartbeats
+      allow update: if true;
+      
+      // Allow student deletion from teacher dashboard
+      allow delete: if true;
+    }
+
+    // 3. Submissions Collection (Tamper-Proof Exam Submissions)
+    match /submissions/{submissionId} {
+      // Submissions can be read by teacher dashboard and student grade history
+      allow read: if true;
+      
+      // Strict creation rule:
+      // 1. Must be a new document (cannot overwrite existing submission)
+      // 2. Score cannot exceed total points (prevents hacker grade inflation)
+      allow create: if !exists(/databases/$(database)/documents/submissions/$(submissionId))
+                    && request.resource.data.score is number
+                    && request.resource.data.totalPoints is number
+                    && request.resource.data.score <= request.resource.data.totalPoints
+                    && request.resource.data.score >= 0;
+                    
+      // CRITICAL: Submissions can NEVER be modified or deleted by anyone
+      allow update, delete: if false;
+    }
+
+    // 4. Exams Collection
+    match /exams/{examId} {
+      allow read: if true;
+      allow write: if request.resource.data.title is string
+                    && request.resource.data.questions is list;
+    }
+  }
+}

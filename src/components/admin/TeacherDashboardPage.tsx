@@ -50,6 +50,9 @@ import {
   generateRandomAccessCode,
   DEFAULT_GRAMMAR_TOPIC_IDS,
   listenToPlatformAnalytics,
+  verifyTeacherPin,
+  updateTeacherPin,
+  hashTeacherPin,
 } from '../../services/firebase';
 import {
   UNIT_1_QUESTION_BANK,
@@ -127,7 +130,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
   // Master Code / PIN Edit State
   const [newMasterCode, setNewMasterCode] = useState(platformConfig.masterCode || 'IQ-2026');
-  const [newTeacherPin, setNewTeacherPin] = useState(platformConfig.teacherPin || '161993');
+  const [newTeacherPin, setNewTeacherPin] = useState('');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
   // Local optimistic lock states to eliminate race conditions and stale closure reverts
@@ -227,15 +230,20 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   }, []);
 
   // Handle PIN Submission
-  const handleVerifyPin = (e: React.FormEvent) => {
+  const handleVerifyPin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Only accept the configured PIN - no hardcoded backdoor fallback
-    const correctPin = platformConfig.teacherPin || '161993';
-    if (pinInput.trim() === correctPin) {
+    const clean = pinInput.trim();
+    if (!clean) {
+      setPinError(true);
+      return;
+    }
+    const isValid = await verifyTeacherPin(clean);
+    if (isValid) {
       setIsAuthenticated(true);
       setPinError(false);
+      const token = await hashTeacherPin(clean);
+      localStorage.setItem('iq_teacher_token', token);
       setPinInput('');
-      localStorage.setItem('iq_teacher_token', correctPin);
     } else {
       setPinError(true);
     }
@@ -397,12 +405,13 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const pinToSave = newTeacherPin.trim() || '161993';
       await updatePlatformConfig({
         masterCode: newMasterCode.trim().toUpperCase(),
-        teacherPin: pinToSave,
       });
-      localStorage.setItem('iq_teacher_token', pinToSave);
+      if (newTeacherPin.trim()) {
+        const token = await updateTeacherPin(newTeacherPin.trim());
+        localStorage.setItem('iq_teacher_token', token);
+      }
       setSettingsSaveMsg('تم حفظ وتحديث كود التفعيل والرمز السري بنجاح');
       setTimeout(() => setSettingsSaveMsg(null), 3000);
     } catch {
@@ -613,6 +622,14 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     headers.push('الملاحظات');
     csv += headers.join(',') + '\n';
 
+    const sanitizeCsvCell = (str: string): string => {
+      const clean = (str || '').replace(/"/g, '""');
+      if (/^[=+\-@\t\r]/.test(clean)) {
+        return `'${clean}`;
+      }
+      return clean;
+    };
+
     filteredRegisteredStudents.forEach((st, idx) => {
       const stSubs = allHistoricalSubmissions
         .filter((s) => {
@@ -632,7 +649,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
             ).toFixed(1)
           : '—';
 
-      const row = [idx + 1, `"${st.fullName}"`, `"${st.section}"`];
+      const row = [idx + 1, `"${sanitizeCsvCell(st.fullName)}"`, `"${sanitizeCsvCell(st.section)}"`];
       for (let i = 0; i < monthlyExamCount; i++) {
         const subForSlot = stSubs[i];
         if (subForSlot) {
@@ -1931,10 +1948,10 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                         <span>الرمز السري للأستاذ (PIN):</span>
                       </label>
                       <input
-                        type="text"
+                        type="password"
                         value={newTeacherPin}
                         onChange={(e) => setNewTeacherPin(e.target.value)}
-                        placeholder="161993"
+                        placeholder="أدخل رمزاً جديداً لتغييره..."
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-800 focus:border-slate-800 focus:ring-0"
                       />
                       <span className="text-[11px] text-slate-400 font-arabic block">

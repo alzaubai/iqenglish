@@ -12,7 +12,8 @@ import confetti from 'canvas-confetti';
 import {
   QuickExam,
   StudentSession,
-  submitStudentExamResult
+  submitStudentExamResult,
+  checkExistingExamSubmission,
 } from '../../services/firebase';
 import { STORAGE_KEYS } from '../../constants/storageKeys';
 
@@ -46,20 +47,36 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
   const selectedAnswersRef = useRef(selectedAnswers);
   selectedAnswersRef.current = selectedAnswers;
 
-  // Check if previously submitted locally
+  // Check if previously submitted locally or in remote database
   useEffect(() => {
-    if (!exam) return;
+    if (!exam || !student) return;
     const localKey = STORAGE_KEYS.examDone(exam.id, student.id);
     const saved = localStorage.getItem(localKey);
     if (saved) {
-      const parsed = JSON.parse(saved);
-      setIsSubmitted(true);
-      setEarnedScore(parsed.score);
-      setTotalPoints(parsed.totalPoints);
-    } else {
-      setIsSubmitted(false);
-      setSelectedAnswers({});
+      try {
+        const parsed = JSON.parse(saved);
+        setIsSubmitted(true);
+        setEarnedScore(parsed.score);
+        setTotalPoints(parsed.totalPoints);
+        return;
+      } catch {}
     }
+
+    // Verify against Firestore to prevent clearing cookies / Incognito retakes
+    checkExistingExamSubmission(exam.id, student.id).then((remoteSub) => {
+      if (remoteSub) {
+        setIsSubmitted(true);
+        setEarnedScore(remoteSub.score);
+        setTotalPoints(remoteSub.totalPoints);
+        localStorage.setItem(
+          localKey,
+          JSON.stringify({ score: remoteSub.score, totalPoints: remoteSub.totalPoints })
+        );
+      } else {
+        setIsSubmitted(false);
+        setSelectedAnswers({});
+      }
+    });
   }, [exam?.id, student?.id]);
 
   // Watch for teacher stopping the active exam while student is solving

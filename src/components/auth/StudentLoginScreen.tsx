@@ -17,6 +17,8 @@ import {
   registerStudentInFirebase,
   findExistingStudent,
   verifyStudentCodeOnline,
+  verifyTeacherPin,
+  hashTeacherPin,
 } from '../../services/firebase';
 
 interface StudentLoginScreenProps {
@@ -172,22 +174,20 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
   };
 
   // Teacher PIN Verification -> Enters directly to MAIN PAGE with Teacher Controls!
-  const handleVerifyTeacherPin = (e: React.FormEvent) => {
+  const handleVerifyTeacherPin = async (e: React.FormEvent) => {
     e.preventDefault();
     setTeacherErrorMessage(null);
 
     const cleanPin = teacherPinInput.trim();
-    // Use configured PIN; default '161993' permanently
-    const targetPin = platformConfig.teacherPin || '161993';
-
     if (!cleanPin) {
       setTeacherErrorMessage('يرجى إدخال الرمز السري للأستاذ');
       return;
     }
 
-    // Only accept the configured PIN - no hardcoded backdoor
-    if (cleanPin === targetPin) {
-      localStorage.setItem('iq_teacher_token', targetPin);
+    const isValid = await verifyTeacherPin(cleanPin);
+    if (isValid) {
+      const token = await hashTeacherPin(cleanPin);
+      localStorage.setItem('iq_teacher_token', token);
       confetti({
         particleCount: 50,
         spread: 70,

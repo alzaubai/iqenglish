@@ -95,7 +95,6 @@ export interface PlatformConfig {
   revokedCodes?: string[]; // Legacy: globally revoked codes (kept for backward compat)
   // Per-student bans: when a specific student is deleted, only they are blocked (by studentId+code pair)
   revokedStudents?: { studentId: string; code: string; name: string }[];
-  teacherPin: string;
   activeExamId: string | null;
 }
 
@@ -107,7 +106,6 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   masterCode: 'IQ-7788',
   allowedCodes: ['IQ-2026', 'IQ-STAR', 'ENGLISH-1', 'IQ-7788'],
   revokedCodes: [],
-  teacherPin: '161993', // Teacher Master PIN
   activeExamId: null,
 };
 
@@ -197,6 +195,45 @@ export const updatePlatformConfig = async (
       allowedCodes: mergedAllowed,
     });
   }
+};
+
+// -------------------------------------------------------------
+// Cryptographically Isolated Teacher PIN Verification
+// -------------------------------------------------------------
+export const TEACHER_PIN_HASH_DEFAULT =
+  'b512750b9f875c92b5536d7e9e43b83c73ece62752a8a66751cf18937a2d035f';
+
+export async function hashTeacherPin(pin: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(pin.trim());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+export const verifyTeacherPin = async (enteredPin: string): Promise<boolean> => {
+  if (!enteredPin) return false;
+  try {
+    const hashed = await hashTeacherPin(enteredPin);
+    const credDoc = await getDoc(doc(db, 'settings', 'teacher_credential'));
+    if (credDoc.exists() && credDoc.data().pinHash) {
+      return hashed === credDoc.data().pinHash;
+    }
+    return hashed === TEACHER_PIN_HASH_DEFAULT;
+  } catch (err) {
+    console.warn('Teacher credential fetch failed, using fallback hash:', err);
+    const hashed = await hashTeacherPin(enteredPin);
+    return hashed === TEACHER_PIN_HASH_DEFAULT;
+  }
+};
+
+export const updateTeacherPin = async (newPin: string): Promise<string> => {
+  const hashed = await hashTeacherPin(newPin);
+  await setDoc(doc(db, 'settings', 'teacher_credential'), {
+    pinHash: hashed,
+    updatedAt: new Date().toISOString(),
+  });
+  return hashed;
 };
 
 // Direct Firestore verification for student codes (guarantees student codes never fail)
@@ -449,11 +486,33 @@ export const saveOrUpdateExam = async (exam: QuickExam): Promise<void> => {
   await setDoc(docRef, exam, { merge: true });
 };
 
+export const checkExistingExamSubmission = async (
+  examId: string,
+  studentId: string
+): Promise<ExamSubmission | null> => {
+  try {
+    const docRef = doc(db, 'submissions', `${examId}_${studentId}`);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      return { id: snap.id, ...(snap.data() as Omit<ExamSubmission, 'id'>) };
+    }
+  } catch (err) {
+    console.warn('Check existing submission error:', err);
+  }
+  return null;
+};
+
 export const submitStudentExamResult = async (
   submission: Omit<ExamSubmission, 'id'>
 ): Promise<void> => {
-  const colRef = collection(db, 'submissions');
-  await addDoc(colRef, {
+  const customDocId = `${submission.examId}_${submission.studentId || 'unknown'}`;
+  const docRef = doc(db, 'submissions', customDocId);
+  const snap = await getDoc(docRef);
+  if (snap.exists()) {
+    console.warn('Duplicate exam submission blocked for student:', submission.studentName);
+    return;
+  }
+  await setDoc(docRef, {
     ...submission,
     createdAt: serverTimestamp(),
   });

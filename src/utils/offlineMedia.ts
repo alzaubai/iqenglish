@@ -55,11 +55,11 @@ export async function prefetchLessonMedia(lesson: LessonData): Promise<void> {
     }
 
     if (Array.isArray(lesson.transcripts)) {
-      for (const t of lesson.transcripts) {
+      for (const t of lesson.transcripts as any[]) {
         if (t.audioUrl) urlsToPrefetch.push(t.audioUrl);
         if (t.comicStripImage) urlsToPrefetch.push(t.comicStripImage);
         if (Array.isArray(t.lines)) {
-          for (const line of t.lines) {
+          for (const line of t.lines as any[]) {
             if (line.imageUrl) urlsToPrefetch.push(line.imageUrl);
             if (line.audioSegmentUrl) urlsToPrefetch.push(line.audioSegmentUrl);
           }
