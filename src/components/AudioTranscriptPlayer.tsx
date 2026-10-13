@@ -210,6 +210,26 @@ const getCharacterProfile = (speaker: string, gender?:'male' |'female'): Charact
         activeRing: 'border-emerald-400 ring-2 ring-emerald-300/80 bg-emerald-50/40',
         borderNormal: 'border-zinc-200 hover:border-emerald-200',
       };
+    case 'karen':
+      return {
+        nameAr: 'كارين',
+        tag: 'صديقة مراسلة من سيدني، أستراليا',
+        gender: 'female',
+        isAlternating: false,
+        accentBadge: 'bg-amber-100 text-amber-900 border-amber-200',
+        activeRing: 'border-amber-400 ring-2 ring-amber-300/80 bg-amber-50/40',
+        borderNormal: 'border-zinc-200 hover:border-amber-200',
+      };
+    case 'sana':
+      return {
+        nameAr: 'سناء',
+        tag: 'تتحدث عن يومها المميز على شاطئ البحر',
+        gender: 'female',
+        isAlternating: false,
+        accentBadge: 'bg-teal-100 text-teal-900 border-teal-200',
+        activeRing: 'border-teal-400 ring-2 ring-teal-300/80 bg-teal-50/40',
+        borderNormal: 'border-zinc-200 hover:border-teal-200',
+      };
     default: {
       const isFem = gender ==='female';
       return {
@@ -553,6 +573,116 @@ const LINE_SCENE_IMAGES: Record<string, LineSceneIllustration> = {
     captionAr:'نادر وعائلته يزورون بيت الجد والجدة في لقاء عائلي دافئ ومبهج',
     badgeLabelAr:'زيارة الجد والجدة (always)',
     badgeColor:'bg-purple-50 text-purple-800 border-purple-200',
+  },
+
+  // Lesson 6 - Track 9: Adel and Bassem's conversation
+  'l6-1': {
+    imageUrl: '/images/dialogue/l6-1.jpg',
+    captionAr: 'عادل يدعو باسم للذهاب إلى المركز التجاري (المول)',
+    badgeLabelAr: 'دعوة إلى المول',
+    badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  },
+  'l6-2': {
+    imageUrl: '/images/dialogue/l6-2.jpg',
+    captionAr: 'باسم يضع الصور في دفتر قصاصاته (Scrapbook)',
+    badgeLabelAr: 'دفتر القصاصات',
+    badgeColor: 'bg-sky-50 text-sky-800 border-sky-200',
+  },
+  'l6-3': {
+    imageUrl: '/images/dialogue/l6-3.jpg',
+    captionAr: 'عادل يتساءل بفضول: صور مواقع تاريخية في العراق؟',
+    badgeLabelAr: 'مواقع تاريخية؟',
+    badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
+  },
+  'l6-4': {
+    imageUrl: '/images/dialogue/l6-4.jpg',
+    captionAr: 'باسم يعرض ألبومه بفخر: أزور مدناً وألتقط صوراً للآثار',
+    badgeLabelAr: 'صور الآثار العراقية',
+    badgeColor: 'bg-blue-50 text-blue-800 border-blue-200',
+  },
+  'l6-5': {
+    imageUrl: '/images/dialogue/l6-5.jpg',
+    captionAr: 'عادل يتعجب: هل لديك الكثير؟ ولكن لماذا الآثار؟',
+    badgeLabelAr: 'لماذا الآثار بالذات؟',
+    badgeColor: 'bg-rose-50 text-rose-800 border-rose-200',
+  },
+  'l6-6': {
+    imageUrl: '/images/dialogue/l6-6.jpg',
+    captionAr: 'باسم يبتسم ويحتضن ألبومه: لدي الكثير لأنني أحبها',
+    badgeLabelAr: 'شغف بالآثار',
+    badgeColor: 'bg-purple-50 text-purple-800 border-purple-200',
+  },
+
+  // Lesson 6 - Track 10: Tongue-twister
+  'l6-t-1': {
+    imageUrl: '/images/dialogue/l6-t-1.jpg',
+    captionAr: 'هي تبيع أصداف البحر على شاطئ البحر (تمرين صوت /s/)',
+    badgeLabelAr: 'صوت /s/ (Seashells)',
+    badgeColor: 'bg-teal-50 text-teal-800 border-teal-200',
+  },
+  'l6-t-2': {
+    imageUrl: '/images/dialogue/l6-t-2.jpg',
+    captionAr: 'أصداف البحر على رمال الشاطئ (تمرين صوت /ʃ/)',
+    badgeLabelAr: 'صوت /ʃ/ (Shells)',
+    badgeColor: 'bg-cyan-50 text-cyan-800 border-cyan-200',
+  },
+
+  // Lesson 7 - Track 11: Sana's fantastic day
+  'l7-1': {
+    imageUrl: '/images/dialogue/l7-1.jpg',
+    captionAr: 'سناء وصديقاتها في يوم مشمس وممتع معاً',
+    badgeLabelAr: 'يوم رائع مع الصديقات',
+    badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
+  },
+  'l7-2': {
+    imageUrl: '/images/dialogue/l7-2.jpg',
+    captionAr: 'صيد السمك المريح للأعصاب في الصباح الهادئ',
+    badgeLabelAr: 'صيد السمك (fishing)',
+    badgeColor: 'bg-teal-50 text-teal-800 border-teal-200',
+  },
+  'l7-3': {
+    imageUrl: '/images/dialogue/l7-3.jpg',
+    captionAr: 'المشي على الشاطئ، جمع الأصداف، وتصوير القوارب',
+    badgeLabelAr: 'شاطئ وقوارب (boats)',
+    badgeColor: 'bg-sky-50 text-sky-800 border-sky-200',
+  },
+  'l7-4': {
+    imageUrl: '/images/dialogue/l7-4.jpg',
+    captionAr: 'لعب كرة القدم في الحديقة وسماع الموسيقى والنزهة',
+    badgeLabelAr: 'كرة قدم ونزهة في الحديقة',
+    badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  },
+
+  // Lesson 8: Karen's letter from Australia
+  'l8-1': {
+    imageUrl: '/images/dialogue/l8-1.jpg',
+    captionAr: 'كارين تكتب رسالتها من سيدني وتطل على دار الأوبرا',
+    badgeLabelAr: 'رسالة من سيدني (Sydney)',
+    badgeColor: 'bg-blue-50 text-blue-800 border-blue-200',
+  },
+  'l8-2': {
+    imageUrl: '/images/dialogue/l8-2.jpg',
+    captionAr: 'التخييم في الطبيعة الأسترالية وقضاء الوقت مع جين',
+    badgeLabelAr: 'تخييم في الطبيعة (camping)',
+    badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
+  },
+  'l8-3': {
+    imageUrl: '/images/dialogue/l8-3.jpg',
+    captionAr: 'المشي في المتنزهات والتقاط الصور وزيارة المتحف',
+    badgeLabelAr: 'متنزه ومتحف (museum)',
+    badgeColor: 'bg-stone-50 text-stone-800 border-stone-200',
+  },
+  'l8-4': {
+    imageUrl: '/images/dialogue/l8-4.jpg',
+    captionAr: 'عشاء عائلي وتناول السمك المشوي على الفحم (باربيكيو)',
+    badgeLabelAr: 'سمك مشوي (barbecue)',
+    badgeColor: 'bg-rose-50 text-rose-800 border-rose-200',
+  },
+  'l8-5': {
+    imageUrl: '/images/dialogue/l8-5.jpg',
+    captionAr: 'كارين تتصفح ألبوم صور بلدان العالم وتطلب صور العراق',
+    badgeLabelAr: 'ألبوم صور معالم العراق',
+    badgeColor: 'bg-purple-50 text-purple-800 border-purple-200',
   },
 
   // Lesson 10 - Track 12: Story time - My new friend, the swift
