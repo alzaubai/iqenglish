@@ -197,8 +197,18 @@ const getCharacterProfile = (speaker: string, gender?:'male' |'female'): Charact
         gender:'male',
         isAlternating: false,
         accentBadge:'bg-blue-100 text-blue-900 border-blue-200',
-        activeRing:'border-blue-400 ring-2 ring-blue-300/80 bg-blue-50/40',
-        borderNormal:'border-zinc-200 hover:border-blue-200',
+        activeRing: 'border-blue-400 ring-2 ring-blue-300/80 bg-blue-50/40',
+        borderNormal: 'border-zinc-200 hover:border-blue-200',
+      };
+    case 'narrator':
+      return {
+        nameAr: 'الراوي (صديق السمامة)',
+        tag: 'طالب أنقذ طائر السمامة واعتنى به وأطلقه حراً',
+        gender: 'male',
+        isAlternating: false,
+        accentBadge: 'bg-emerald-100 text-emerald-900 border-emerald-200',
+        activeRing: 'border-emerald-400 ring-2 ring-emerald-300/80 bg-emerald-50/40',
+        borderNormal: 'border-zinc-200 hover:border-emerald-200',
       };
     default: {
       const isFem = gender ==='female';
@@ -543,6 +553,56 @@ const LINE_SCENE_IMAGES: Record<string, LineSceneIllustration> = {
     captionAr:'نادر وعائلته يزورون بيت الجد والجدة في لقاء عائلي دافئ ومبهج',
     badgeLabelAr:'زيارة الجد والجدة (always)',
     badgeColor:'bg-purple-50 text-purple-800 border-purple-200',
+  },
+
+  // Lesson 10 - Track 12: Story time - My new friend, the swift
+  'l10-1': {
+    imageUrl: '/images/dialogue/l10-1.jpg',
+    captionAr: 'العودة من المدرسة وملاحظة شيء ما بين الشجيرات',
+    badgeLabelAr: 'حركة بين الشجيرات',
+    badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  },
+  'l10-2': {
+    imageUrl: '/images/dialogue/l10-2.jpg',
+    captionAr: 'التوقف واكتشاف طائر صغير ملقى على الأرض يبدو ميتاً',
+    badgeLabelAr: 'طائر صغير على الأرض',
+    badgeColor: 'bg-stone-50 text-stone-800 border-stone-200',
+  },
+  'l10-3': {
+    imageUrl: '/images/dialogue/l10-3.jpg',
+    captionAr: 'لف الطائر برفق في وشاح وأخذه للمنزل لتدفئته وحمايته',
+    badgeLabelAr: 'إنقاذ بالوشاح',
+    badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
+  },
+  'l10-4': {
+    imageUrl: '/images/dialogue/l10-4.jpg',
+    captionAr: 'الطائر يقفز محاولاً الطيران مع ظهور إصابة في جناحه',
+    badgeLabelAr: 'جناح مصاب',
+    badgeColor: 'bg-rose-50 text-rose-800 border-rose-200',
+  },
+  'l10-5': {
+    imageUrl: '/images/dialogue/l10-5.jpg',
+    captionAr: 'البحث مع الأم واكتشاف أن الطائر هو طائر السمامة',
+    badgeLabelAr: 'طائر السمامة (swift)',
+    badgeColor: 'bg-blue-50 text-blue-800 border-blue-200',
+  },
+  'l10-6': {
+    imageUrl: '/images/dialogue/l10-6.jpg',
+    captionAr: 'حقيقة مذهلة: السمامة تقضي حتى 10 أشهر محلقة في الهواء',
+    badgeLabelAr: '10 أشهر طيران',
+    badgeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+  },
+  'l10-7': {
+    imageUrl: '/images/dialogue/l10-7.jpg',
+    captionAr: 'إطعام الطائر الحشرات وتغيير الماء حتى استعاد عافيته وقوته',
+    badgeLabelAr: 'عناية يومية وطاقة',
+    badgeColor: 'bg-teal-50 text-teal-800 border-teal-200',
+  },
+  'l10-8': {
+    imageUrl: '/images/dialogue/l10-8.jpg',
+    captionAr: 'فتح الصندوق وانطلاق السمامة حرة محلقة من النافذة نحو السماء',
+    badgeLabelAr: 'انطلاق نحو الحرية',
+    badgeColor: 'bg-sky-50 text-sky-800 border-sky-200',
   },
 };
 
