@@ -504,12 +504,14 @@ export const CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
     { en: 'My father never drives fast.', ar: 'وأبي لا يقود بسرعة أبداً.' },
   ],
 
-  // ===================== LESSON 10 =====================
+  // ===================== LESSON 10 (Story time: My new friend, the swift) =====================
   'l10-1': [
-    { en: 'Last month,', ar: 'الشهر الماضي،' },
+    { en: 'Last month,', ar: 'في الشهر الماضي،' },
     { en: 'I was coming home from school', ar: 'كنت عائداً إلى المنزل من المدرسة' },
     { en: 'when something caught my attention', ar: 'عندما لفت انتباهي شيء ما' },
     { en: 'in the bushes.', ar: 'بين الشجيرات.' },
+  ],
+  'l10-2': [
     { en: 'I stopped', ar: 'توقفت' },
     { en: 'to take a look.', ar: 'لألقي نظرة،' },
     { en: 'There on the ground,', ar: 'وكان هناك على الأرض' },
@@ -517,30 +519,39 @@ export const CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
     { en: 'was a little bird.', ar: 'طائر صغير' },
     { en: 'It looked dead.', ar: 'بدا وكأنه ميت.' },
   ],
-  'l10-2': [
-    { en: 'I gently wrapped the bird in a scarf', ar: 'لففت الطائر بلطف في وشاح' },
-    { en: 'and took it home.', ar: 'وأخذته إلى المنزل.' },
-    { en: 'Instead of being dead,', ar: 'وبدلاً من أن يكون ميتاً،' },
-    { en: 'it jumped out', ar: 'قفز' },
-    { en: 'and tried to fly,', ar: 'وحاول الطيران،' },
-    { en: 'but one wing was hurt.', ar: 'لكن أحد جناحيه كان مصاباً.' },
-  ],
   'l10-3': [
-    { en: 'Mum and I did some research.', ar: 'أنا وأمي بحثنا عن معلومات،' },
-    { en: 'The bird was a swift.', ar: 'وكان الطائر طائر سمامة (swift).' },
-    { en: 'The article said', ar: 'قال المقال' },
-    { en: 'that swifts almost never put their feet on the ground', ar: 'إن طيور السمامة نادراً ما تضع أقدامها على الأرض' },
-    { en: 'because it is too dangerous.', ar: 'لأنه أمر خطير للغاية،' },
-    { en: 'They can spend up to ten months flying!', ar: 'ويمكنها قضاء ما يصل إلى 10 أشهر طائرة في الهواء!' },
+    { en: 'I gently wrapped the bird', ar: 'لففت الطائر بلطف' },
+    { en: 'in a scarf', ar: 'في وشاح' },
+    { en: 'and took it home.', ar: 'وأخذته معي إلى المنزل.' },
   ],
   'l10-4': [
+    { en: 'Instead of being dead,', ar: 'وبدلاً من أن يكون ميتاً،' },
+    { en: 'it jumped out', ar: 'قفز' },
+    { en: 'and tried to fly,', ar: 'محاولاً الطيران،' },
+    { en: 'but one wing was hurt.', ar: 'لكن أحد جناحيه كان مصاباً.' },
+  ],
+  'l10-5': [
+    { en: 'Mum and I', ar: 'قمت أنا وأمي' },
+    { en: 'did some research.', ar: 'بالبحث' },
+    { en: 'The bird was a swift.', ar: 'واكتشفنا أن الطائر هو طائر السمامة.' },
+  ],
+  'l10-6': [
+    { en: 'The article said', ar: 'ذكر المقال' },
+    { en: 'that swifts almost never put their feet on the ground', ar: 'أن طيور السمامة نادراً ما تضع أقدامها على الأرض' },
+    { en: 'because it is too dangerous.', ar: 'لأنه أمر خطير،' },
+    { en: 'They can spend', ar: 'ويمكنها قضاء' },
+    { en: 'up to ten months flying!', ar: 'ما يصل إلى 10 أشهر طائرة في الهواء!' },
+  ],
+  'l10-7': [
     { en: 'Every day,', ar: 'كل يوم،' },
     { en: 'I went out to look for insects', ar: 'كنت أخرج للبحث عن الحشرات' },
-    { en: 'and changed the water.', ar: 'وأغير الماء.' },
-    { en: 'The swift got stronger and stronger.', ar: 'صار الطائر أقوى فأقوى،' },
-    { en: 'One day,', ar: 'وفي أحد الأيام' },
+    { en: 'and changed the water.', ar: 'وأغير له الماء،' },
+    { en: 'The swift got stronger and stronger.', ar: 'فأصبح طائر السمامة أقوى فأقوى.' },
+  ],
+  'l10-8': [
+    { en: 'One day,', ar: 'وفي أحد الأيام،' },
     { en: 'when I opened the box,', ar: 'عندما فتحت الصندوق،' },
-    { en: 'it flew straight out of the window.', ar: 'طار مباشرة خارج النافذة.' },
-    { en: 'I helped it get strong again.', ar: 'لقد ساعدته ليستعيد قوته.' },
+    { en: 'it flew straight out of the window.', ar: 'طار مباشرة إلى خارج النافذة.' },
+    { en: 'I helped it get strong again.', ar: 'لقد ساعدته ليستعيد قوته ويحلق حراً.' },
   ],
 };

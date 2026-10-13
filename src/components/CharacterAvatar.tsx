@@ -56,6 +56,12 @@ const CHARACTER_IMAGE_MAP: Record<string, string> = {
   ليث: '/images/characters/laith.jpg',
   nader: '/images/characters/nader.jpg',
   نادر: '/images/characters/nader.jpg',
+  narrator: '/images/characters/narrator.jpg',
+  الراوي: '/images/characters/narrator.jpg',
+  karen: '/images/characters/karen.jpg',
+  كارين: '/images/characters/karen.jpg',
+  sana: '/images/characters/sana.jpg',
+  سناء: '/images/characters/sana.jpg',
 };
 
 export const CharacterAvatar: React.FC<CharacterAvatarProps> = ({
