@@ -63,8 +63,8 @@ self.addEventListener('fetch', (event) => {
 
   // 3. ONLY intercept Media Assets (Audio recordings & Lesson Illustrations)
   const isMedia =
-    url.pathname.includes('/iqenglish/audio/') ||
-    url.pathname.includes('/iqenglish/images/') ||
+    url.pathname.includes('/audio/') ||
+    url.pathname.includes('/images/') ||
     url.pathname.endsWith('.mp3') ||
     url.pathname.endsWith('.wav') ||
     url.pathname.endsWith('.jpg') ||
