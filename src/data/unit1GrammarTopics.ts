@@ -163,7 +163,6 @@ export const unit1GrammarTopicsList: GrammarTopicData[] = [
         { marker: 'yesterday', ar: 'أمس / البارحة', exampleEn: 'Ali played football yesterday.' },
         { marker: 'last (night / week / year)', ar: 'الماضي: الليلة الماضية / الأسبوع الماضي / العام الماضي', exampleEn: 'He went to the mall last night.' },
         { marker: 'ago', ar: 'مضت (تأتي بعد المدة الزمنية: two days ago)', exampleEn: 'They visited the museum two days ago.' },
-        { marker: 'in the holidays', ar: 'في العطلة', exampleEn: 'I went to Iraq in the holidays.' },
       ],
       spellingRules: [
         {

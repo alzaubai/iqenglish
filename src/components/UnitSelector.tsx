@@ -15,8 +15,11 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
     <div className="space-y-6" dir="rtl">
       <div className="text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight font-arabic">
-            الوحدات الدراسية (Units)
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight font-arabic flex flex-wrap items-baseline gap-2">
+            <span>الوحدات الدراسية</span>
+            <span dir="ltr" className="inline-block text-lg sm:text-xl font-bold text-zinc-500 font-sans">
+              (Units)
+            </span>
           </h1>
           <span className="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl font-arabic self-start sm:self-auto">
             مدرس المادة: أ. حسام محمود منصور

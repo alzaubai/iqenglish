@@ -149,7 +149,7 @@ export const GenericLessonExercises: React.FC<GenericLessonExercisesProps> = ({
                     <select
                       value={currentAns}
                       onChange={(e) => handleSelectAnswer(item.id, e.target.value)}
-                      className={`text-xs font-bold p-2.5 border rounded-lg bg-white font-sans ${
+                      className={`text-base sm:text-xs font-bold p-2.5 min-h-[42px] border rounded-lg bg-white font-sans ${
                         checkedThisEx
                           ? isItemCorrect
                             ? 'border-emerald-500 text-emerald-800'

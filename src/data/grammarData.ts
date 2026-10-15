@@ -22,7 +22,7 @@ export const grammarUnitsList: GrammarUnit[] = [
             id: 'u1-l1-past-simple',
             titleAr: 'زمن الماضي البسيط (Past Simple Tense)',
             titleEn: 'Past Simple Tense',
-            summaryAr: 'يُستخدم للتعبير عن أحداث وقعت وانتهت في الماضي في وقت محدد. من دلائل هذا الزمن: yesterday (أمس)، ago (مضت)، last week/month/year (الماضي)، in the holidays (في العطلة).',
+            summaryAr: 'يُستخدم للتعبير عن أحداث وقعت وانتهت في الماضي في وقت محدد. من دلائل هذا الزمن: yesterday (أمس)، ago (مضت)، last week/month/year (الماضي).',
             rules: [
               {
                 id: 'rule-affirmative',
@@ -154,7 +154,7 @@ export const grammarUnitsList: GrammarUnit[] = [
               'عند وجود (did) أو (didn\'t) في الجملة، اختر دائماً الفعل المجرد الخالي من أي إضافة (بدون ed أو ing أو s). مثال: He didn\'t (went / go) to school -> الجواب: go.',
               'إذا كان الفعل ينتهي بحرف ساكن وقبله حرف علة واحد ومشدد، نكرر الحرف الأخير قبل إضافة ed (مثل: stop -> stopped).',
               'إذا كان الفعل ينتهي بحرف y وقبله حرف ساكن، يُقلب إلى i ثم نضيف ed (مثل: study -> studied). أما إذا كان قبله حرف علة فيبقى كما هو (مثل: play, stay -> played, stayed).',
-              'انتبه للكلمات الدالة على الماضي في أسئلة الامتحانات الشهرية ونصف السنة: yesterday, last week, ago, in the holidays.',
+              'انتبه للكلمات الدالة على الماضي في أسئلة الامتحانات الشهرية ونصف السنة: yesterday, last week, ago.',
             ],
             quiz: [
               {

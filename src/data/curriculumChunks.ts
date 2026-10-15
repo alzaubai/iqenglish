@@ -1,3 +1,5 @@
+import { UNIT2_CURRICULUM_CHUNKS } from './unit2CurriculumChunks';
+
 export interface LineChunk {
   en: string; // The English phrase chunk
   ar: string; // The exact matching Arabic text in line.textAr
@@ -583,4 +585,7 @@ export const CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
     { en: 'but I was also happy,', ar: 'لكني كنت سعيداً أيضاً،' },
     { en: 'because I helped it get strong again.', ar: 'لأنني ساعدته على استعادة قوته مجدداً.' },
   ],
+
+  // ===================== UNIT 2 (ALL LESSONS) =====================
+  ...UNIT2_CURRICULUM_CHUNKS,
 };

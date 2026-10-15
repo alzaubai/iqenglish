@@ -202,8 +202,8 @@ const getCharacterProfile = (speaker: string, gender?:'male' |'female'): Charact
       };
     case 'narrator':
       return {
-        nameAr: 'الراوي (صديق السمامة)',
-        tag: 'طالب أنقذ طائر السمامة واعتنى به وأطلقه حراً',
+        nameAr: 'الراوي',
+        tag: 'قراءة نصوص وقطع المنهج',
         gender: 'male',
         isAlternating: false,
         accentBadge: 'bg-emerald-100 text-emerald-900 border-emerald-200',
@@ -229,6 +229,86 @@ const getCharacterProfile = (speaker: string, gender?:'male' |'female'): Charact
         accentBadge: 'bg-teal-100 text-teal-900 border-teal-200',
         activeRing: 'border-teal-400 ring-2 ring-teal-300/80 bg-teal-50/40',
         borderNormal: 'border-zinc-200 hover:border-teal-200',
+      };
+    case 'grandson':
+      return {
+        nameAr: 'الحفيد',
+        tag: 'يسأل جده عما سيفعلونه غدا وفي المستقبل',
+        gender: 'male',
+        isAlternating: false,
+        accentBadge: 'bg-blue-100 text-blue-900 border-blue-200',
+        activeRing: 'border-blue-400 ring-2 ring-blue-300/80 bg-blue-50/40',
+        borderNormal: 'border-zinc-200 hover:border-blue-200',
+      };
+    case 'grandfather':
+      return {
+        nameAr: 'الجد',
+        tag: 'يجيب حفيده بقوافي لطيفة ومحببة',
+        gender: 'male',
+        isAlternating: true,
+        accentBadge: 'bg-amber-100 text-amber-900 border-amber-200',
+        activeRing: 'border-amber-400 ring-2 ring-amber-300/80 bg-amber-50/40',
+        borderNormal: 'border-zinc-200 hover:border-amber-200',
+      };
+    case 'yassir':
+      return {
+        nameAr: 'ياسر',
+        tag: 'طالب عراقي في المتنزه ورحلة لندن',
+        gender: 'male',
+        isAlternating: false,
+        accentBadge: 'bg-emerald-100 text-emerald-900 border-emerald-200',
+        activeRing: 'border-emerald-400 ring-2 ring-emerald-300/80 bg-emerald-50/40',
+        borderNormal: 'border-zinc-200 hover:border-emerald-200',
+      };
+    case 'simon':
+      return {
+        nameAr: 'سايمون',
+        tag: 'طالب إنجليزي يعيش والده في البصرة',
+        gender: 'male',
+        isAlternating: true,
+        accentBadge: 'bg-sky-100 text-sky-900 border-sky-200',
+        activeRing: 'border-sky-400 ring-2 ring-sky-300/80 bg-sky-50/40',
+        borderNormal: 'border-zinc-200 hover:border-sky-200',
+      };
+    case 'father':
+      return {
+        nameAr: 'والد ياسر',
+        tag: 'يشرح لسايمون عن رمضان وعيد الفطر',
+        gender: 'male',
+        isAlternating: false,
+        accentBadge: 'bg-indigo-100 text-indigo-900 border-indigo-200',
+        activeRing: 'border-indigo-400 ring-2 ring-indigo-300/80 bg-indigo-50/40',
+        borderNormal: 'border-zinc-200 hover:border-indigo-200',
+      };
+    case 'radio presenter':
+      return {
+        nameAr: 'مذيعة النشرة',
+        tag: 'تقدم النشرة الجوية لمدينة لندن',
+        gender: 'female',
+        isAlternating: false,
+        accentBadge: 'bg-teal-100 text-teal-900 border-teal-200',
+        activeRing: 'border-teal-400 ring-2 ring-teal-300/80 bg-teal-50/40',
+        borderNormal: 'border-zinc-200 hover:border-teal-200',
+      };
+    case 'girl':
+      return {
+        nameAr: 'المحاورة',
+        tag: 'تطرح أسئلة حول رياضة التزلج الجماعي',
+        gender: 'female',
+        isAlternating: false,
+        accentBadge: 'bg-rose-100 text-rose-900 border-rose-200',
+        activeRing: 'border-rose-400 ring-2 ring-rose-300/80 bg-rose-50/40',
+        borderNormal: 'border-zinc-200 hover:border-rose-200',
+      };
+    case 'halla':
+      return {
+        nameAr: 'هالة',
+        tag: 'أخت ياسر الكبرى في رحلة عين لندن',
+        gender: 'female',
+        isAlternating: true,
+        accentBadge: 'bg-purple-100 text-purple-900 border-purple-200',
+        activeRing: 'border-purple-400 ring-2 ring-purple-300/80 bg-purple-50/40',
+        borderNormal: 'border-zinc-200 hover:border-purple-200',
       };
     default: {
       const isFem = gender ==='female';
@@ -734,6 +814,70 @@ const LINE_SCENE_IMAGES: Record<string, LineSceneIllustration> = {
     badgeLabelAr: 'انطلاق نحو الحرية',
     badgeColor: 'bg-sky-50 text-sky-800 border-sky-200',
   },
+
+  // ==========================================
+  // UNIT 2 - LESSON 1: Our four seasons
+  // Track 13: Four Seasons in England
+  // ==========================================
+  'u2-l1-t13-1': {
+    imageUrl: '/images/lessons/u2-lesson-1.jpg',
+    captionAr: 'الفصول الأربعة في إنجلترا: الشتاء، الربيع، الصيف، والخريف',
+    badgeLabelAr: 'الفصول الأربعة',
+    badgeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+  },
+  'u2-l1-t13-2': {
+    imageUrl: '/images/seasons/winter.jpg',
+    captionAr: 'الشتاء في إنجلترا: بارد دائماً مع تساقط الثلوج (0°C)',
+    badgeLabelAr: 'الشتاء (Winter • 0°C)',
+    badgeColor: 'bg-blue-50 text-blue-800 border-blue-200',
+  },
+  'u2-l1-t13-3': {
+    imageUrl: '/images/seasons/spring.jpg',
+    captionAr: 'الربيع في إنجلترا: دافئ في الغالب مع أمطار منعشة (15°C)',
+    badgeLabelAr: 'الربيع (Spring • 15°C)',
+    badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  },
+  'u2-l1-t13-4': {
+    imageUrl: '/images/seasons/summer.jpg',
+    captionAr: 'الصيف في إنجلترا: مشمس عادةً وحار في بعض الأحيان (25°C)',
+    badgeLabelAr: 'الصيف (Summer • 25°C)',
+    badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
+  },
+  'u2-l1-t13-5': {
+    imageUrl: '/images/seasons/autumn.jpg',
+    captionAr: 'الخريف في إنجلترا: معتدل البرودة وعاصف بالرياح (10°C)',
+    badgeLabelAr: 'الخريف (Autumn • 10°C)',
+    badgeColor: 'bg-orange-50 text-orange-800 border-orange-200',
+  },
+
+  // ==========================================
+  // UNIT 2 - LESSON 1: London Weather Forecast
+  // Track 14: London Weather Forecast
+  // ==========================================
+  'u2-l1-t14-1': {
+    imageUrl: '/images/weather/london-presenter.jpg',
+    captionAr: 'مذيعة النشرة في الاستوديو تقدم النشرة الجوية لمدينة لندن',
+    badgeLabelAr: 'استوديو النشرة الجوية',
+    badgeColor: 'bg-teal-50 text-teal-800 border-teal-200',
+  },
+  'u2-l1-t14-2': {
+    imageUrl: '/images/weather/london-morning.jpg',
+    captionAr: 'صباح لندن: طقس معتدل وغائم مع بعض الأمطار والمظلات',
+    badgeLabelAr: 'صباح ماطر (Morning)',
+    badgeColor: 'bg-sky-50 text-sky-800 border-sky-200',
+  },
+  'u2-l1-t14-3': {
+    imageUrl: '/images/weather/london-afternoon.jpg',
+    captionAr: 'فترة بعد الظهر: طقس جاف ومشمس عند نهر التايمز (18°C)',
+    badgeLabelAr: 'بعد الظهر مشمس (18°C)',
+    badgeColor: 'bg-yellow-50 text-yellow-800 border-yellow-200',
+  },
+  'u2-l1-t14-4': {
+    imageUrl: '/images/weather/london-evening.jpg',
+    captionAr: 'مساء لندن البارد: أضواء الشوارع وساعة بيغ بن في هواء المساء المنعش',
+    badgeLabelAr: 'مساء بارد (Evening)',
+    badgeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+  },
 };
 
 export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
@@ -798,9 +942,31 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
     }
   };
 
+  // Preload audio files for the active track into memory for instant, seamless playback
+  useEffect(() => {
+    if (!activeTrack?.lines) return;
+    const preloadedElements: HTMLAudioElement[] = [];
+
+    activeTrack.lines.forEach((line) => {
+      if (line.audioFileUrl) {
+        const audio = new Audio();
+        audio.preload = 'auto';
+        audio.src = line.audioFileUrl;
+        preloadedElements.push(audio);
+      }
+    });
+
+    return () => {
+      preloadedElements.forEach((audio) => {
+        audio.src = '';
+      });
+    };
+  }, [activeTrack?.id]);
+
   /**
    * Play lines sequentially with exact millisecond synchronization:
-   * Line box highlights in Blue (male) or Pink (female) exactly while that person speaks.
+   * STRICT ELEVENLABS MODE: Plays real studio recordings only.
+   * Google Web Speech fallback is strictly disabled for recordings.
    */
   const playQueueLine = (index: number) => {
     if (!isPlayingRef.current) return;
@@ -813,16 +979,17 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
 
     queueIndexRef.current = index;
     const line = lines[index];
-    setCurrentLineId(line.id);
 
     // If pre-recorded studio audio file exists for this individual line
     if (line.audioFileUrl) {
+      setCurrentLineId(line.id);
+
       if (currentAudioRef.current) {
         currentAudioRef.current.pause();
         currentAudioRef.current = null;
       }
       const audio = new Audio(line.audioFileUrl);
-      audio.preload ='auto';
+      audio.preload = 'auto';
       audio.playbackRate = speechRateRef.current;
       currentAudioRef.current = audio;
 
@@ -830,47 +997,29 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
         if (!isPlayingRef.current) return;
         setTimeout(() => {
           playQueueLine(index + 1);
-        }, 280);
+        }, 250);
       };
 
       audio.onerror = () => {
-        // Fallback to speech engine if network error
-        SpeechEngine.speakText(line.textEn, {
-          speaker: line.speaker,
-          gender: line.gender,
-          rate: speechRateRef.current,
-          onEnd: () => {
-            if (!isPlayingRef.current) return;
-            setTimeout(() => playQueueLine(index + 1), 280);
-          },
-        });
+        console.warn(`[Studio Audio] Could not load audio for ${line.id}, moving to next line.`);
+        if (!isPlayingRef.current) return;
+        setTimeout(() => playQueueLine(index + 1), 250);
       };
 
-      audio.play().catch(() => {
-        SpeechEngine.speakText(line.textEn, {
-          speaker: line.speaker,
-          gender: line.gender,
-          rate: speechRateRef.current,
-          onEnd: () => {
-            if (!isPlayingRef.current) return;
-            setTimeout(() => playQueueLine(index + 1), 280);
-          },
-        });
+      audio.play().catch((err) => {
+        console.warn(`[Studio Audio] Playback interrupted for ${line.id}:`, err);
+        if (!isPlayingRef.current) return;
+        setTimeout(() => playQueueLine(index + 1), 250);
       });
       return;
     }
 
-    // Fallback if no studio file for line
-    SpeechEngine.speakText(line.textEn, {
-      speaker: line.speaker,
-      gender: line.gender,
-      rate: speechRateRef.current,
-      onEnd: () => {
-        if (!isPlayingRef.current) return;
-        setTimeout(() => playQueueLine(index + 1), 280);
-      },
-      onError: () => stopPlayback(),
-    });
+    // If line has no studio recording, skip to next line without using robotic voice
+    setTimeout(() => {
+      if (isPlayingRef.current) {
+        playQueueLine(index + 1);
+      }
+    }, 200);
   };
 
   const playEntireTrack = () => {
@@ -887,13 +1036,16 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
     playQueueLine(0);
   };
 
+  /**
+   * Play single line audio strictly from ElevenLabs studio recording
+   */
   const playSingleLine = (line: TranscriptLine) => {
     stopPlayback();
-    setCurrentLineId(line.id);
 
     if (line.audioFileUrl) {
+      setCurrentLineId(line.id);
       const lineAudio = new Audio(line.audioFileUrl);
-      lineAudio.preload ='auto';
+      lineAudio.preload = 'auto';
       lineAudio.playbackRate = speechRateRef.current;
       currentAudioRef.current = lineAudio;
 
@@ -903,37 +1055,17 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
       };
 
       lineAudio.onerror = () => {
+        console.warn(`[Studio Audio] Failed to play single line ${line.id}`);
         setCurrentLineId(null);
         currentAudioRef.current = null;
-        SpeechEngine.speakText(line.textEn, {
-          speaker: line.speaker,
-          gender: line.gender,
-          rate: speechRateRef.current,
-          onEnd: () => setCurrentLineId(null),
-        });
       };
 
-      lineAudio.play().catch(() => {
+      lineAudio.play().catch((err) => {
+        console.warn('[Studio Audio] Play single line prevented:', err);
         setCurrentLineId(null);
         currentAudioRef.current = null;
-        SpeechEngine.speakText(line.textEn, {
-          speaker: line.speaker,
-          gender: line.gender,
-          rate: speechRateRef.current,
-          onEnd: () => setCurrentLineId(null),
-        });
       });
-      return;
     }
-
-    SpeechEngine.speakText(line.textEn, {
-      speaker: line.speaker,
-      gender: line.gender,
-      rate: speechRateRef.current,
-      onEnd: () => {
-        setCurrentLineId(null);
-      },
-    });
   };
 
   /**
@@ -1345,27 +1477,28 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
                           );
                         })
                       ) : (
-                        line.textEn.split('').map((w, wIdx) => {
-                          const cleanW = w.replace(/[^\w'-]/g,'');
+                        line.textEn.split(/\s+/).filter(Boolean).map((w, wIdx) => {
+                          const cleanW = w.replace(/[^\w'-]/g, '');
                           const isWordActive =
                             activeWordInfo?.lineId === line.id &&
                             activeWordInfo?.englishWord.toLowerCase() === cleanW.toLowerCase();
 
                           return (
-                            <span
+                            <button
                               key={wIdx}
+                              type="button"
                               onClick={(e) => handleWordClick(w, line, wIdx, e)}
                               title={`انقر لنطق "${cleanW}" وإظهار ترجمتها المقابلة`}
-                              className={`inline-block mr-1.5 px-1.5 py-0.5 rounded-md cursor-pointer transition-all duration-200 select-none hover:bg-zinc-200 active:scale-95 ${
+                              className={`inline-flex items-center px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-xl text-xs sm:text-base font-bold cursor-pointer transition-all duration-200 select-none border max-w-full break-words ${
                                 isWordActive
-                                  ? profile.gender ==='female'
-                                    ?'bg-pink-600 text-white font-bold ring-2 ring-pink-300 shadow-sm scale-110'
-                                    :'bg-blue-600 text-white font-bold ring-2 ring-blue-300 shadow-sm scale-110'
-                                  :''
+                                  ? profile.gender === 'female'
+                                    ? 'bg-pink-600 text-white font-bold ring-2 ring-pink-300 border-pink-700 shadow-sm scale-105'
+                                    : 'bg-blue-600 text-white font-bold ring-2 ring-blue-300 border-blue-700 shadow-sm scale-105'
+                                  : 'bg-zinc-100/90 hover:bg-zinc-200 text-zinc-900 border-zinc-200/90 hover:border-zinc-300 active:scale-95'
                               }`}
                             >
                               {w}
-                            </span>
+                            </button>
                           );
                         })
                       )}

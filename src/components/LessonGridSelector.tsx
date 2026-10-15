@@ -21,22 +21,29 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
     <div className="space-y-6" dir="rtl">
       {/* Header with back button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-200">
-        <div>
+        <div className="flex items-center gap-3">
           <button
             onClick={onBackToUnits}
-            className="text-xs font-bold text-zinc-500 hover:text-zinc-900 flex items-center gap-1 mb-1 cursor-pointer font-arabic"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-800 flex items-center justify-center cursor-pointer transition-all border border-zinc-200/80 shadow-2xs shrink-0"
+            title="العودة لقائمة الوحدات"
+            aria-label="العودة لقائمة الوحدات"
           >
-            <ArrowRight className="w-3.5 h-3.5" />
-            <span>العودة لقائمة الوحدات</span>
+            <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
           </button>
-          <h2 className="text-2xl font-extrabold text-zinc-900 font-arabic">
-            الوحدة الأولى (Unit 1): قائمة الدروس (10 دروس كاملة)
-          </h2>
-          <p className="text-xs text-zinc-500 font-arabic mt-1">
-            إعداد وإشراف مدرس المادة: أ. حسام محمود منصور
-          </p>
+          <div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-900 font-arabic flex flex-wrap items-baseline gap-1.5">
+              <span>{lessons[0]?.unitNumber === 2 ? 'الوحدة الثانية' : 'الوحدة الأولى'}</span>
+              <span dir="ltr" className="inline-block text-sm sm:text-base font-bold text-zinc-600 font-sans">
+                {lessons[0]?.unitNumber === 2 ? '(Unit 2)' : '(Unit 1)'}
+              </span>
+              <span>: قائمة الدروس</span>
+            </h2>
+            <p className="text-xs text-zinc-500 font-arabic mt-0.5">
+              إعداد وإشراف مدرس المادة: أ. حسام محمود منصور
+            </p>
+          </div>
         </div>
-        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-700 font-arabic shrink-0">
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-700 font-arabic shrink-0 self-start sm:self-auto">
           10 دروس تفاعلية
         </div>
       </div>

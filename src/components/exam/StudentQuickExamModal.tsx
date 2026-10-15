@@ -39,13 +39,42 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
   const [totalPoints, setTotalPoints] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [hasConfirmedPartialSubmit, setHasConfirmedPartialSubmit] = useState(false);
 
   // Forced shutdown state when teacher ends exam mid-session
   const [isForceEnding, setIsForceEnding] = useState(false);
   const [countdown, setCountdown] = useState(EXAM_FORCE_CLOSE_COUNTDOWN_SECONDS);
+  const [isTimeExpired, setIsTimeExpired] = useState(false);
   const hasAutoSubmittedRef = useRef(false);
   const selectedAnswersRef = useRef(selectedAnswers);
   selectedAnswersRef.current = selectedAnswers;
+
+  // Exam Duration Countdown Timer (in seconds)
+  const durationTotalSeconds = (exam.durationMinutes || 15) * 60;
+  const [examTimeRemaining, setExamTimeRemaining] = useState<number>(() => {
+    try {
+      const savedStart = sessionStorage.getItem(`exam_start_${exam.id}_${student.id}`);
+      if (savedStart) {
+        const elapsed = Math.floor((Date.now() - parseInt(savedStart, 10)) / 1000);
+        return Math.max(0, durationTotalSeconds - elapsed);
+      }
+      sessionStorage.setItem(`exam_start_${exam.id}_${student.id}`, Date.now().toString());
+    } catch {}
+    return durationTotalSeconds;
+  });
+
+  // Calculate score for whatever questions are currently answered (unanswered = 0 points)
+  const calculateCurrentScore = (answers: Record<string, string>) => {
+    let score = 0;
+    exam.questions.forEach((q) => {
+      const userAns = answers[q.id];
+      if (userAns && userAns.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase()) {
+        score += q.points || 2;
+      }
+    });
+    const totalPossiblePoints = exam.questions.reduce((acc, q) => acc + (q.points || 2), 0);
+    return { score, totalPossiblePoints };
+  };
 
   // Check if previously submitted locally or in remote database
   useEffect(() => {
@@ -79,6 +108,37 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     });
   }, [exam?.id, student?.id]);
 
+  // Exam Duration countdown timer
+  useEffect(() => {
+    if (!isOpen || isSubmitted || isForceEnding) return;
+
+    if (examTimeRemaining <= 0) {
+      if (!hasAutoSubmittedRef.current) {
+        hasAutoSubmittedRef.current = true;
+        setIsTimeExpired(true);
+        handleAutoSubmitProgress('timeout');
+      }
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setExamTimeRemaining((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          if (!hasAutoSubmittedRef.current) {
+            hasAutoSubmittedRef.current = true;
+            setIsTimeExpired(true);
+            handleAutoSubmitProgress('timeout');
+          }
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isOpen, isSubmitted, isForceEnding, examTimeRemaining]);
+
   // Watch for teacher stopping the active exam while student is solving
   useEffect(() => {
     if (!isOpen || !exam || exam.isActive || isSubmitted || hasAutoSubmittedRef.current) {
@@ -88,17 +148,13 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     // Teacher has stopped the exam! Auto-submit current progress
     hasAutoSubmittedRef.current = true;
     setIsForceEnding(true);
+    handleAutoSubmitProgress('teacher_stopped');
+  }, [exam?.isActive, isOpen, exam, student, isSubmitted]);
 
+  // Auto-submit current progress and grade whatever questions were answered
+  const handleAutoSubmitProgress = async (reason: 'timeout' | 'teacher_stopped') => {
     const currentAnswers = selectedAnswersRef.current;
-    let autoScore = 0;
-    exam.questions.forEach((q) => {
-      const userAns = currentAnswers[q.id];
-      if (userAns && userAns.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase()) {
-        autoScore += q.points || 2;
-      }
-    });
-
-    const totalPossiblePoints = exam.questions.reduce((acc, q) => acc + (q.points || 2), 0);
+    const { score: autoScore, totalPossiblePoints } = calculateCurrentScore(currentAnswers);
 
     // Save submission to remote Firestore
     submitStudentExamResult({
@@ -128,9 +184,9 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     setEarnedScore(autoScore);
     setTotalPoints(totalPossiblePoints);
     setIsSubmitted(true);
-  }, [exam?.isActive, isOpen, exam, student, isSubmitted]);
+  };
 
-  // Countdown timer when force-ending
+  // Countdown timer when force-ending by teacher
   useEffect(() => {
     if (!isForceEnding) return;
 
@@ -157,27 +213,25 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       [questionId]: option,
     }));
     setValidationError(null);
+    setHasConfirmedPartialSubmit(false);
   };
 
   const handleSubmitExam = async () => {
-    // Check if all questions are answered
+    // Check if some questions are unanswered
     const unanswered = exam.questions.filter((q) => !selectedAnswers[q.id]);
-    if (unanswered.length > 0) {
-      setValidationError(`يرجى الإجابة عن جميع الأسئلة (${unanswered.length} أسئلة متبقية)`);
+    if (unanswered.length > 0 && !hasConfirmedPartialSubmit) {
+      setValidationError(
+        `تنبيه: لديك ${unanswered.length} أسئلة لم تقم بالإجابة عليها. إذا قمت بالتسليم الآن سيتم احتساب درجات الأسئلة التي حللتها فقط وتثبيتها. اضغط زر التسليم مرة ثانية للتأكيد النهائي أو أكمل إجابة الأسئلة المتبقية.`
+      );
+      setHasConfirmedPartialSubmit(true);
       return;
     }
 
     setIsSubmitting(true);
     setValidationError(null);
 
-    // Calculate score
-    let score = 0;
-    exam.questions.forEach((q) => {
-      const userAns = selectedAnswers[q.id];
-      if (userAns && userAns.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase()) {
-        score += q.points || 2;
-      }
-    });
+    // Calculate score for answered questions
+    const { score, totalPossiblePoints } = calculateCurrentScore(selectedAnswers);
 
     try {
       // 1. Submit to Firebase Firestore
@@ -189,7 +243,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         studentSection: student.section,
         studentCode: student.code,
         score: score,
-        totalPoints: totalPossible,
+        totalPoints: totalPossiblePoints,
         submittedAt: new Date().toISOString(),
         answers: selectedAnswers,
       });
@@ -200,13 +254,13 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         localKey,
         JSON.stringify({
           score: score,
-          totalPoints: totalPossible,
+          totalPoints: totalPossiblePoints,
           submittedAt: new Date().toISOString(),
         })
       );
 
       setEarnedScore(score);
-      setTotalPoints(totalPossible);
+      setTotalPoints(totalPossiblePoints);
       setIsSubmitted(true);
 
       confetti({
@@ -221,6 +275,11 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       setIsSubmitting(false);
     }
   };
+
+  // Formatted countdown timer
+  const minutesRemaining = Math.floor(examTimeRemaining / 60);
+  const secondsRemaining = examTimeRemaining % 60;
+  const formattedTimeRemaining = `${minutesRemaining.toString().padStart(2, '0')}:${secondsRemaining.toString().padStart(2, '0')}`;
 
   return (
     <div
@@ -244,16 +303,45 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white cursor-pointer transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            {!isSubmitted && (
+              <div
+                className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 border transition-all ${
+                  examTimeRemaining <= 120
+                    ? 'bg-rose-500/20 text-rose-200 border-rose-400 animate-pulse'
+                    : 'bg-white/10 text-white border-white/20'
+                }`}
+                title="الوقت المتبقي للامتحان"
+              >
+                <Clock className="w-3.5 h-3.5 text-amber-300" />
+                <span>{formattedTimeRemaining}</span>
+              </div>
+            )}
+
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white cursor-pointer transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Body */}
         <div className="p-5 sm:p-7 max-h-[75vh] overflow-y-auto space-y-6">
+          {/* TIME EXPIRED NOTICE BANNER */}
+          {isTimeExpired && (
+            <div className="p-4 rounded-2xl bg-slate-100 border border-slate-300 text-slate-800 text-xs font-arabic space-y-1.5 animate-in fade-in">
+              <div className="flex items-center gap-2 font-bold text-sm text-slate-800">
+                <Clock className="w-5 h-5 text-amber-600 shrink-0" />
+                <span>انتهى وقت الامتحان المقرر</span>
+              </div>
+              <p className="text-slate-600 leading-relaxed">
+                تم حفظ إجاباتك الحالية واحتساب درجات الأسئلة التي حللتها وإرسالها للأستاذ بنجاح.
+              </p>
+            </div>
+          )}
+
           {/* TEACHER STOPPED EXAM NOTICE BANNER */}
           {isForceEnding && (
             <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-arabic space-y-2 animate-in fade-in">

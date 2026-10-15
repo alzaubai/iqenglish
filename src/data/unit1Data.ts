@@ -17,8 +17,8 @@ export const unitsList: UnitData[] = [
     titleEn: 'Unit 2: Dates and seasons',
     titleAr: 'الوحدة الثانية: التواريخ والفصول',
     descriptionEn: 'Four seasons, months, weather forecast, future with will',
-    descriptionAr: 'فصول السنة، الأشهر، الطقس والمستقبل مع will',
-    isAvailable: false,
+    descriptionAr: 'فصول السنة، الأشهر، الطقس والمستقبل مع will (10 دروس كاملة)',
+    isAvailable: true,
     lessonsCount: 10,
   },
   {

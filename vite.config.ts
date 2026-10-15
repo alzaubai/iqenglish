@@ -25,7 +25,7 @@ export default defineConfig(() => {
     plugins: [prefixPublicAssets(base), react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname, '.'),
       },
     },
     server: {
