@@ -52,10 +52,9 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {lessons.map((lesson) => {
           const isSelected = selectedLessonId === lesson.id;
-          const isUnlocked =
-            Array.isArray(unlockedLessonIds) && unlockedLessonIds.length > 0
-              ? unlockedLessonIds.includes(lesson.id)
-              : lesson.id === 'lesson-1';
+          const isUnlocked = Array.isArray(unlockedLessonIds)
+            ? unlockedLessonIds.includes(lesson.id)
+            : lesson.id === 'lesson-1' || lesson.id === 'u2-lesson-1';
 
           return (
             <button

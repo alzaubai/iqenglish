@@ -173,7 +173,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
   // Local optimistic lock states to eliminate race conditions and stale closure reverts
   const [localUnlockedLessons, setLocalUnlockedLessons] = useState<string[]>(
-    () => platformConfig.unlockedLessons || ['lesson-1']
+    () => platformConfig.unlockedLessons || ['lesson-1', 'u2-lesson-1']
   );
   const [localUnlockedGrammarTopics, setLocalUnlockedGrammarTopics] = useState<string[]>(
     () => platformConfig.unlockedGrammarTopics || ['topic-past-simple']
@@ -181,13 +181,13 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
   // Keep local lock state in sync with platformConfig when updated
   useEffect(() => {
-    if (platformConfig.unlockedLessons && platformConfig.unlockedLessons.length > 0) {
+    if (Array.isArray(platformConfig.unlockedLessons)) {
       setLocalUnlockedLessons(platformConfig.unlockedLessons);
     }
   }, [platformConfig.unlockedLessons]);
 
   useEffect(() => {
-    if (platformConfig.unlockedGrammarTopics && platformConfig.unlockedGrammarTopics.length > 0) {
+    if (Array.isArray(platformConfig.unlockedGrammarTopics)) {
       setLocalUnlockedGrammarTopics(platformConfig.unlockedGrammarTopics);
     }
   }, [platformConfig.unlockedGrammarTopics]);

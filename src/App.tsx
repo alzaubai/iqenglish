@@ -155,10 +155,9 @@ export default function App() {
   const isExternalSubscriber = Boolean(studentSession?.isExternalSubscriber);
   const effectiveUnlockedLessons = isExternalSubscriber
     ? [...unit1Lessons.map((l) => l.id), ...unit2Lessons.map((l) => l.id)]
-    : [
-        ...(platformConfig.unlockedLessons || ['lesson-1']),
-        ...unit2Lessons.map((l) => l.id),
-      ];
+    : Array.isArray(platformConfig.unlockedLessons)
+      ? platformConfig.unlockedLessons
+      : ['lesson-1', 'u2-lesson-1'];
   const effectiveUnlockedGrammarTopics = isExternalSubscriber
     ? [
         'topic-past-simple',

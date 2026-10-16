@@ -150,9 +150,9 @@ export interface PlatformConfig {
   activeExamId: string | null;
 }
 
-// Default initial configuration - strictly only Lesson 1 & Topic 1 open by default
+// Default initial configuration - strictly only Lesson 1 of Unit 1 & Unit 2 open by default
 export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
-  unlockedLessons: ['lesson-1'],
+  unlockedLessons: ['lesson-1', 'u2-lesson-1'],
   unlockedGrammarTopics: ['topic-past-simple'],
   grammarUnlocked: true,
   masterCode: 'IQ-7788',
