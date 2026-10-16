@@ -156,10 +156,10 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   unlockedGrammarTopics: ['topic-past-simple'],
   grammarUnlocked: true,
   masterCode: 'IQ-7788',
-  allowedCodes: ['IQ-2026', 'IQ-STAR', 'ENGLISH-1', 'IQ-7788'],
+  allowedCodes: ['IQ-STAR', 'ENGLISH-1', 'IQ-7788'],
   singleUseCodes: [],
   externalSubscriptions: [],
-  revokedCodes: [],
+  revokedCodes: ['IQ-2026', 'IQ-XXXX'],
   activeExamId: null,
 };
 

@@ -86,6 +86,11 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
       return;
     }
 
+    if (cleanCode === 'IQ-2026' || cleanCode === 'IQ-XXXX') {
+      setErrorMessage('هذا كود توضيحي فقط وغير صالح للتفعيل. يرجى إدخال الكود الفعلي المستلم من أستاذ المادة.');
+      return;
+    }
+
     const isRevoked = (platformConfig.revokedCodes || []).some(
       (c) => c.toUpperCase() === cleanCode
     );
@@ -142,7 +147,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
       return;
     }
 
-    const isMaster = cleanCode === (platformConfig.masterCode || 'IQ-2026').toUpperCase();
+    const isMaster = cleanCode === (platformConfig.masterCode || 'IQ-7788').toUpperCase();
     const isAllowed = (platformConfig.allowedCodes || []).some(
       (c) => c.toUpperCase() === cleanCode
     );
@@ -460,12 +465,12 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
                       setEnteredCode(e.target.value);
                       if (errorMessage) setErrorMessage(null);
                     }}
-                    placeholder="IQ-2026"
+                    placeholder="IQ-XXXX"
                     className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-slate-700 focus:ring-0 text-center font-mono font-bold text-base tracking-widest text-slate-800 uppercase placeholder:text-slate-300 transition-colors"
                     autoFocus
                   />
                   <span className="text-[11px] text-slate-400 font-arabic block pt-0.5">
-                    الكود يُعطى لطلاب الأستاذ حصراً.
+                    الكود يُعطى لطلاب الأستاذ حصراً (مثال شكلي: IQ-XXXX).
                   </span>
                 </div>
 

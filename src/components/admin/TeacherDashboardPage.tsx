@@ -167,7 +167,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const [builderStatusMsg, setBuilderStatusMsg] = useState<string | null>(null);
 
   // Master Code / PIN Edit State
-  const [newMasterCode, setNewMasterCode] = useState(platformConfig.masterCode || 'IQ-2026');
+  const [newMasterCode, setNewMasterCode] = useState(platformConfig.masterCode || 'IQ-7788');
   const [newTeacherPin, setNewTeacherPin] = useState('');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
@@ -2256,7 +2256,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                           type="text"
                           value={newMasterCode}
                           onChange={(e) => setNewMasterCode(e.target.value)}
-                          placeholder="IQ-2026"
+                          placeholder="IQ-XXXX"
                           className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 font-mono font-bold text-slate-800 focus:border-slate-800 focus:ring-0 uppercase tracking-wider"
                         />
                         <button
