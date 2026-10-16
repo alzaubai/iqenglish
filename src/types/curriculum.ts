@@ -50,4 +50,5 @@ export interface UnitData {
   descriptionAr: string;
   isAvailable: boolean;
   lessonsCount: number;
+  imageUrl?: string;
 }

@@ -156,16 +156,28 @@ export const UNIT2_CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
   // ===================== LESSON 4 =====================
   // Track 18: Thirty days has September
   'u2-l4-t18-1': [
-    { en: 'Thirty days has', ar: 'ثلاثون يوماً في' },
-    { en: 'September, April,', ar: 'أيلول، ونيسان،' },
-    { en: 'June and November.', ar: 'وحزيران، وتشرين الثاني.' },
+    { en: 'Thirty days', ar: 'ثلاثون يوماً' },
+    { en: 'has September,', ar: 'في أيلول (سبتمبر)،' },
   ],
   'u2-l4-t18-2': [
-    { en: 'All the rest have thirty-one,', ar: 'وكل الأشهر الباقية فيها 31 يوماً،' },
-    { en: 'except February alone,', ar: 'عدا شباط وحده؛' },
-    { en: 'with only twenty-eight days clear', ar: 'ففيه 28 يوماً صريحة' },
-    { en: 'and twenty-nine', ar: 'و29 يوماً' },
-    { en: 'in each leap year.', ar: 'في كل سنة كبيسة.' },
+    { en: 'April, June', ar: 'ونيسان، وحزيران،' },
+    { en: 'and November.', ar: 'وتشرين الثاني.' },
+  ],
+  'u2-l4-t18-3': [
+    { en: 'All the rest', ar: 'وكل الأشهر الباقية' },
+    { en: 'have thirty-one,', ar: 'فيها واحد وثلاثون،' },
+  ],
+  'u2-l4-t18-4': [
+    { en: 'Except February', ar: 'عدا شباط (فبراير)' },
+    { en: 'alone,', ar: 'وحده،' },
+  ],
+  'u2-l4-t18-5': [
+    { en: 'With only twenty-eight days', ar: 'ففيه ثمانية وعشرون يوماً' },
+    { en: 'clear,', ar: 'صريحة،' },
+  ],
+  'u2-l4-t18-6': [
+    { en: 'And twenty-nine', ar: 'وتسعة وعشرون' },
+    { en: 'in each leap year!', ar: 'في كل سنة كبيسة!' },
   ],
 
   // Track 19: Birthdays

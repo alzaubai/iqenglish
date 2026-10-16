@@ -10,6 +10,7 @@ export const unitsList: UnitData[] = [
     descriptionAr: 'العطل، الأنشطة والماضي البسيط، ظروف التكرار، والقصص (10 دروس كاملة)',
     isAvailable: true,
     lessonsCount: 10,
+    imageUrl: '/images/unit1-cover.jpg',
   },
   {
     id: 'unit-2',
@@ -20,6 +21,7 @@ export const unitsList: UnitData[] = [
     descriptionAr: 'فصول السنة، الأشهر، الطقس والمستقبل مع will (10 دروس كاملة)',
     isAvailable: true,
     lessonsCount: 10,
+    imageUrl: '/images/unit2-cover.jpg',
   },
   {
     id: 'unit-3',

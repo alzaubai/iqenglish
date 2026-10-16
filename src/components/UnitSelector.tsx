@@ -39,13 +39,24 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                 if (unit.isAvailable) onSelectUnit(unit.id);
               }}
               disabled={!unit.isAvailable}
-              className={`p-6 rounded-2xl border-2 text-right transition-all flex flex-col justify-between ${
+              className={`group p-5 sm:p-6 rounded-2xl border-2 text-right transition-all flex flex-col justify-between ${
                 unit.isAvailable
                   ? 'bg-white hover:border-zinc-900 border-zinc-200 shadow-sm cursor-pointer hover:shadow-md'
                   : 'bg-zinc-50 border-zinc-200/70 opacity-60 cursor-not-allowed'
               }`}
             >
               <div>
+                {unit.imageUrl && (
+                  <div className="w-full h-44 sm:h-52 rounded-xl overflow-hidden mb-4 bg-zinc-100 border border-zinc-200/80 shadow-2xs">
+                    <img
+                      src={unit.imageUrl}
+                      alt={unit.titleAr}
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between mb-3">
                   <span
                     className={`text-xs font-bold px-2.5 py-1 rounded-lg ${
