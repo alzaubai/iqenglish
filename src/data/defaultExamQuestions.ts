@@ -5,9 +5,12 @@ export interface CategorizedExamQuestion extends ExamQuestion {
   grammarTopicId?:
     | 'topic-past-simple'
     | 'topic-past-continuous'
+    | 'topic-present-simple'
+    | 'topic-adverbs-frequency'
     | 'topic-possessive-pronouns'
     | 'topic-joining-sentences'
-    | 'topic-interests';
+    | 'topic-interests'
+    | 'topic-adverbs-frequency';
   lessonTitleAr: string;
   exerciseRef: string; // Direct reference to Activity Book exercise
 }

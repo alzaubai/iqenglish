@@ -94,6 +94,8 @@ export interface ExamSubmission {
 export const DEFAULT_GRAMMAR_TOPIC_IDS = [
   'topic-past-simple',
   'topic-past-continuous',
+  'topic-present-simple',
+  'topic-adverbs-frequency',
   'topic-possessive-pronouns',
   'topic-joining-sentences',
   'topic-interests',
@@ -204,10 +206,8 @@ export const listenToPlatformConfig = (
         setCachedPlatformConfig(data);
         callback(data);
       } else {
-        // Create initial config if does not exist
-        setDoc(docRef, DEFAULT_PLATFORM_CONFIG).catch(console.error);
-        setCachedPlatformConfig(DEFAULT_PLATFORM_CONFIG);
-        callback(DEFAULT_PLATFORM_CONFIG);
+        // Safe read-only fallback to local cache. NEVER write defaults to Firestore from a listener!
+        callback(getCachedPlatformConfig());
       }
     },
     (err) => {
@@ -220,34 +220,46 @@ export const listenToPlatformConfig = (
 export const updatePlatformConfig = async (
   partialConfig: Partial<PlatformConfig>
 ): Promise<void> => {
-  // Update local cache immediately to prevent UI lag or race condition
+  // Update local cache immediately to prevent UI lag
   const currentCached = getCachedPlatformConfig();
   const updatedCache = { ...currentCached, ...partialConfig };
   setCachedPlatformConfig(updatedCache);
 
   const docRef = doc(db, CONFIG_DOC_PATH);
-  const snap = await getDoc(docRef);
-  if (!snap.exists()) {
-    await setDoc(docRef, { ...DEFAULT_PLATFORM_CONFIG, ...partialConfig });
-  } else {
-    const currentData = snap.data() as PlatformConfig;
-    const currentAllowed = currentData.allowedCodes || [];
-    const newAllowed = partialConfig.allowedCodes || [];
-    const mergedAllowed = Array.from(
-      new Set(
-        [
-          ...currentAllowed,
-          ...newAllowed,
-          currentData.masterCode,
-          partialConfig.masterCode,
-        ].filter(Boolean)
-      )
-    );
+  try {
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) {
+      // First time initialization only with merge
+      await setDoc(docRef, { ...DEFAULT_PLATFORM_CONFIG, ...partialConfig }, { merge: true });
+    } else {
+      const currentData = snap.data() as PlatformConfig;
+      const currentAllowed = currentData.allowedCodes || [];
+      const newAllowed = partialConfig.allowedCodes || [];
+      const mergedAllowed = Array.from(
+        new Set(
+          [
+            ...currentAllowed,
+            ...newAllowed,
+            currentData.masterCode,
+            partialConfig.masterCode,
+          ].filter(Boolean)
+        )
+      );
 
-    await updateDoc(docRef, {
-      ...partialConfig,
-      allowedCodes: mergedAllowed,
-    });
+      // Safe merge: ONLY modify the keys present in partialConfig, never overwrite other fields!
+      await setDoc(
+        docRef,
+        {
+          ...partialConfig,
+          allowedCodes: mergedAllowed,
+        },
+        { merge: true }
+      );
+    }
+  } catch (err) {
+    console.error('Failed to update platform config in Firestore:', err);
+    // Last resort fallback with merge
+    await setDoc(docRef, partialConfig, { merge: true }).catch(console.error);
   }
 };
 
@@ -787,7 +799,7 @@ export const generateExternalSubscriptionCode = async (
   if (snap.exists()) {
     await updateDoc(docRef, { externalSubscriptions: updatedSubs });
   } else {
-    await setDoc(docRef, { ...DEFAULT_PLATFORM_CONFIG, externalSubscriptions: updatedSubs });
+    await setDoc(docRef, { externalSubscriptions: updatedSubs }, { merge: true });
   }
 
   // Update memory cache

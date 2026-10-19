@@ -162,9 +162,14 @@ export default function App() {
     ? [
         'topic-past-simple',
         'topic-past-continuous',
+        'topic-present-simple',
+        'topic-adverbs-frequency',
         'topic-possessive-pronouns',
         'topic-joining-sentences',
         'topic-interests',
+        'u2-topic-future-will',
+        'u2-topic-comparatives',
+        'u2-topic-dates-ordinals',
       ]
     : platformConfig.unlockedGrammarTopics || ['topic-past-simple'];
 
@@ -348,6 +353,7 @@ export default function App() {
             {/* VIEW 2: TOPICS LIST OF SELECTED UNIT (5 Clear Topics) */}
             {grammarViewState === 'topics' && (
               <GrammarTopicSelector
+                unitId={grammarSelectedUnitId}
                 onSelectTopic={handleSelectGrammarTopic}
                 onBackToUnits={() => {
                   setGrammarViewState('units');

@@ -1739,11 +1739,450 @@ export const unit1GrammarTopicsList: GrammarTopicData[] = [
   },
 
   // =========================================================================
-  // TOPIC 3: POSSESSIVE PRONOUNS (ضمائر التملك)
+  // TOPIC 3: PRESENT SIMPLE (المضارع البسيط)
+  // =========================================================================
+  {
+    id: 'topic-present-simple',
+    number: 3,
+    titleAr: 'المضارع البسيط',
+    titleEn: 'Present Simple Tense',
+    taglineAr: 'العادات اليومية والحقائق العامة مع قاعدة s الشخص الثالث والنفي بـ don\'t و doesn\'t',
+    category: 'الأزمنة',
+    badge: 'أساس المنهاج',
+    color: 'blue',
+    summaryAr: 'نستخدم زمن المضارع البسيط (Present Simple) للتعبير عن العادات والروتين اليومي والحقائق الثابتة. يأخذ الفعل (s أو es) إذا كان الفاعل مفرداً، ويبقى مجرداً مع الفاعل الجمع والضمير I.',
+    topicType: 'tense',
+    overview: {
+      usageTitleAr: 'متى ولماذا نستخدم زمن المضارع البسيط؟',
+      usageDescAr: 'نستخدم المضارع البسيط للتحدث عن:\n1. العادات والنشاطات اليومية المتكررة (Daily Routines): مثل الاستيقاظ والذهاب للمدرسة.\n2. الحقائق الثابتة والعلمية (General Facts): مثل دوران الأرض أو غليان الماء.\n3. الحالات الدائمة (Permanent States): مثل مكان السكن أو العمل.',
+      quickNoteAr: 'القاعدة الذهبية: الفاعل المفرد (He, She, It, Ali) يحب حرف (s)، بينما الفاعل الجمع (They, We, You) والضمير (I) يفضلون الفعل المجرد الخالي من الإضافات.',
+      spellingTitleAr: 'قواعد إضافة (s / es) الشخص الثالث للفاعل المفرد',
+      spellingSubtitleAr: 'أربع حالات إملائية مهمة جداً لأسئلة الإملاء والامتحانات الشهرية',
+      timeMarkers: [
+        { marker: 'every (day/week/month)', ar: 'كل (يوم/أسبوع/شهر) - أكثر دلالة شائعة', exampleEn: 'I go to school every day.' },
+        { marker: 'always / usually / often', ar: 'دائماً / عادةً / غالباً (ظروف التكرار)', exampleEn: 'He always gets up early in the morning.' },
+        { marker: 'sometimes / never', ar: 'أحياناً / أبداً', exampleEn: 'They sometimes play football on Fridays.' },
+        { marker: 'on Sundays / on Fridays', ar: 'في أيام محددة (تكرار وروتين)', exampleEn: 'We visit our grandparents on Fridays.' },
+      ],
+      spellingRules: [
+        {
+          titleAr: '1. القاعدة العامة (معظم الأفعال)',
+          descAr: 'نضيف حرف (s) فقط لنهاية معظم الأفعال مع الفاعل المفرد:',
+          examples: [
+            { base: 'play', changed: 'plays', ar: 'يلعب ➔ يلعب (للمفرد)' },
+            { base: 'read', changed: 'reads', ar: 'يقرأ ➔ يقرأ' },
+            { base: 'write', changed: 'writes', ar: 'يكتب ➔ يكتب' },
+            { base: 'visit', changed: 'visits', ar: 'يزور ➔ يزور' },
+          ],
+        },
+        {
+          titleAr: '2. الأفعال المنتهية بـ (ch, sh, ss, x, o, z)',
+          descAr: 'نضيف لها (es) لتسهيل النطق:',
+          examples: [
+            { base: 'watch', changed: 'watches', ar: 'يشاهد ➔ يشاهد (للمفرد)' },
+            { base: 'wash', changed: 'washes', ar: 'يغسل ➔ يغسل' },
+            { base: 'pass', changed: 'passes', ar: 'يمرر / ينجح ➔ يمرر' },
+            { base: 'go', changed: 'goes', ar: 'يذهب ➔ يذهب' },
+            { base: 'do', changed: 'does', ar: 'يفعل ➔ يفعل' },
+          ],
+        },
+        {
+          titleAr: '3. الأفعال المنتهية بـ y وقبله حرف صحيح',
+          descAr: 'نقلب حرف y إلى i ثم نضيف es:',
+          examples: [
+            { base: 'study', changed: 'studies', ar: 'يدرس ➔ يدرس (للمفرد)' },
+            { base: 'fly', changed: 'flies', ar: 'يطير ➔ يطير' },
+            { base: 'cry', changed: 'cries', ar: 'يبكي ➔ يبكي' },
+          ],
+        },
+        {
+          titleAr: '4. الفعل الشاذ الوحيد في المضارع (have)',
+          descAr: 'يتحول have مع الفاعل المفرد (He, She, It) إلى has:',
+          examples: [
+            { base: 'have', changed: 'has', ar: 'يملك / يتناول ➔ للمفرد has' },
+          ],
+        },
+      ],
+      textbookVerbs: [
+        { base: 'play', past: 'plays', ar: 'يلعب', type: 'regular', note: 'مفرد: +s' },
+        { base: 'watch', past: 'watches', ar: 'يشاهد', type: 'irregular', note: 'ينتهي بـ ch: +es' },
+        { base: 'go', past: 'goes', ar: 'يذهب', type: 'irregular', note: 'ينتهي بـ o: +es' },
+        { base: 'do', past: 'does', ar: 'يفعل / يعمل', type: 'irregular', note: 'ينتهي بـ o: +es' },
+        { base: 'study', past: 'studies', ar: 'يدرس', type: 'irregular', note: 'قلب y إلى i + es' },
+        { base: 'have', past: 'has', ar: 'يملك / يتناول', type: 'irregular', note: 'شاذ: have ➔ has' },
+        { base: 'help', past: 'helps', ar: 'يساعد', type: 'regular', note: 'مفرد: +s' },
+        { base: 'live', past: 'lives', ar: 'يعيش / يسكن', type: 'regular', note: 'مفرد: +s' },
+        { base: 'get up', past: 'gets up', ar: 'يستيقظ', type: 'regular', note: 'مفرد: +s' },
+      ],
+    },
+    affirmative: {
+      formulaChips: [
+        { text: 'الفاعل المفرد (He, She, It, Ali)' },
+        { text: '+' },
+        { text: 'Verb-(s / es)', isHighlight: true, note: 'إضافة s الشخص الثالث' },
+        { text: '+' },
+        { text: 'Complement' },
+        { text: 'أو' },
+        { text: 'الفاعل الجمع و I (They, We, You, I)' },
+        { text: '+' },
+        { text: 'Base Verb (فعل مجرد)', isHighlight: true, note: 'بدون أي إضافة' },
+        { text: '+' },
+        { text: 'Complement' },
+      ],
+      explanationAr: 'في الإثبات، نميز نوع الفاعل أولاً:\n1. إذا كان الفاعل مفرداً (He, She, It أو اسم مفرد مثل Ali, My father)، نضيف للفعل (s أو es).\n2. إذا كان الفاعل جمعاً (They, We, You) أو الضمير (I)، يبقى الفعل مجرداً كما هو.',
+      examples: [
+        { en: 'Ali plays football in the park every Friday.', ar: 'علي يلعب كرة القدم في المتنزه كل يوم جمعة. (الفاعل مفرد Ali ➔ plays)', highlight: 'plays' },
+        { en: 'She watches TV in the evening.', ar: 'هي تشاهد التلفاز في المساء. (الفاعل She ➔ watches)', highlight: 'watches' },
+        { en: 'They live in Baghdad.', ar: 'هم يعيشون في بغداد. (الفاعل جمع They ➔ live مجرد)', highlight: 'live' },
+        { en: 'I get up at six o\'clock every morning.', ar: 'أنا أستيقظ عند الساعة السادسة كل صباح. (الضمير I ➔ get up مجرد)', highlight: 'get up' },
+      ],
+      examApplications: [
+        {
+          id: 'ps-app-1',
+          problemEn: 'Huda (go) to school by bus every day. (Correct the verb)',
+          instructionAr: 'صحح الفعل بين القوسين لوجود الفاعل المفرد Huda والظرف every day',
+          solutionEn: 'Huda goes to school by bus every day.',
+          noteAr: 'الفاعل مفرد Huda والزمن مضارع بسيط (every day)، والفعل go ينتهي بـ o فنضيف es فتصبح goes.',
+        },
+        {
+          id: 'ps-app-2',
+          problemEn: 'We (plays) tennis on Saturdays. (Correct the mistake)',
+          instructionAr: 'صحح الخطأ في الجملة',
+          solutionEn: 'We play tennis on Saturdays.',
+          noteAr: 'الفاعل جمع (We) لا يقبل s الشخص الثالث، فيجب أن يكون الفعل مجرداً (play).',
+        },
+      ],
+    },
+    negative: {
+      formulaChips: [
+        { text: 'المفرد (He, She, It)' },
+        { text: '+' },
+        { text: "doesn't (does not)", isHighlight: true },
+        { text: '+' },
+        { text: 'Base Verb (فعل مجرد)', isHighlight: true, note: 'حذف الـ s إجباري' },
+        { text: 'أو' },
+        { text: 'الجمع و I (They, We, You, I)' },
+        { text: '+' },
+        { text: "don't (do not)", isHighlight: true },
+        { text: '+' },
+        { text: 'Base Verb (فعل مجرد)', isHighlight: true },
+      ],
+      explanationAr: 'في النفي نستخدم فعلين مساعدين منفيين:\n• نستخدم (doesn\'t) مع الفاعل المفرد (He, She, It)، ويجب إرجاع الفعل الرئيسي إلى مصدر مجرد وحذف الـ s فوراً!\n• نستخدم (don\'t) مع الفاعل الجمع والضمير (I, We, You, They) متبوعاً بفعل مجرد.',
+      warningAr: 'أكبر خطأ امتحاني: وضع s بعد doesn\'t (خطأ: He doesn\'t plays ❌ | الصحيح: He doesn\'t play ✔️)',
+      examples: [
+        { en: 'He doesn\'t like fish.', ar: 'هو لا يحب السمك. (حذفنا s من likes بعد doesn\'t)', highlight: "doesn't like" },
+        { en: 'She doesn\'t watch horror films.', ar: 'هي لا تشاهد أفلام الرعب.', highlight: "doesn't watch" },
+        { en: 'They don\'t wake up late on weekdays.', ar: 'هم لا يستيقظون متأخرين في أيام الأسبوع.', highlight: "don't wake up" },
+        { en: 'I don\'t drink tea at night.', ar: 'أنا لا أشرب الشاي ليلاً.', highlight: "don't drink" },
+      ],
+      examApplications: [
+        {
+          id: 'ps-neg-app-1',
+          problemEn: 'Zaid speaks French well. (Negative)',
+          instructionAr: 'حوّل الجملة إلى نفي',
+          solutionEn: 'Zaid doesn\'t speak French well.',
+          noteAr: 'الفاعل مفرد Zaid فنضع doesn\'t، ونحذف s الشخص الثالث من speaks فتصبح speak.',
+        },
+        {
+          id: 'ps-neg-app-2',
+          problemEn: 'They like fast food. (Change into negative)',
+          instructionAr: 'انفِ الجملة',
+          solutionEn: 'They don\'t like fast food.',
+          noteAr: 'الفاعل جمع They فننفي باستخدام don\'t ويبقى الفعل like مجرداً.',
+        },
+      ],
+    },
+    question: {
+      formulaChips: [
+        { text: 'Does' },
+        { text: '+' },
+        { text: 'الفاعل المفرد (He, She, It)' },
+        { text: '+' },
+        { text: 'Base Verb (فعل مجرد)', isHighlight: true },
+        { text: '+' },
+        { text: '? / أجب بـ Yes/No' },
+        { text: 'أو' },
+        { text: 'Do' },
+        { text: '+' },
+        { text: 'الجمع أو you (They, We, You)' },
+        { text: '+' },
+        { text: 'Base Verb (مجرد)', isHighlight: true },
+        { text: '+' },
+        { text: '?' },
+      ],
+      explanationAr: 'لتكوين السؤال بنعم أو لا (Yes / No Question):\n• نبدأ بـ (Does) إذا كان الفاعل مفرداً، ويرجع الفعل لمصدر مجرد.\n• نبدأ بـ (Do) إذا كان الفاعل جمعاً أو you.\nوالإجابات القصيرة:\n- Yes, he does. / No, he doesn\'t.\n- Yes, they do. / No, they don\'t.',
+      examples: [
+        { en: 'Does Ali live in Basra? — Yes, he does. / No, he doesn\'t.', ar: 'هل يعيش علي في البصرة؟ — نعم / كلا.', highlight: 'Does Ali live' },
+        { en: 'Do you study English every day? — Yes, I do.', ar: 'هل تدرس الإنجليزية كل يوم؟ — نعم، أدرس.', highlight: 'Do you study' },
+        { en: 'Where does your father work?', ar: 'أين يعمل والدك؟ (سؤال بأداة Where مع does والمجرد work)', highlight: 'Where does your father work' },
+        { en: 'What do they do at weekends?', ar: 'ماذا يفعلون في عطلات نهاية الأسبوع؟', highlight: 'What do they do' },
+      ],
+      examApplications: [
+        {
+          id: 'ps-q-app-1',
+          problemEn: 'Muna helps her mother. (Question)',
+          instructionAr: 'حوّل الجملة إلى سؤال',
+          solutionEn: 'Does Muna help her mother?',
+          noteAr: 'الفاعل مفرد Muna فنبدأ بـ Does، ونحذف الـ s من helps لتصبح help، ونضع علامة الاستفهام (?).',
+        },
+        {
+          id: 'ps-q-app-2',
+          problemEn: 'Do they play chess? (Short Answer: Yes)',
+          instructionAr: 'أجب إجابة قصيرة بالإثبات',
+          solutionEn: 'Yes, they do.',
+          noteAr: 'السؤال بدأ بـ Do والفاعل they، فالإجابة القصيرة المثبتة هي: Yes, they do.',
+        },
+      ],
+    },
+    examPractice: [
+      {
+        id: 'ps-p1',
+        type: 'choice',
+        questionEn: 'My brother ______ to school by bus every day.',
+        questionAr: 'اختر الفعل المناسب مع الفاعل المفرد My brother وظرف الزمان every day:',
+        options: ['goes', 'go', 'going', 'went'],
+        correctAnswer: 'goes',
+        explanationAr: 'الفاعل مفرد (My brother) والزمن مضارع بسيط لوجود every day، لذا نختار الفعل المضاف له es وهو (goes).',
+      },
+      {
+        id: 'ps-p2',
+        type: 'choice',
+        questionEn: 'They ______ like winter because it is cold.',
+        questionAr: 'اختر أداة النفي المناسبة للفاعل الجمع They في المضارع البسيط:',
+        options: ["don't", "doesn't", "aren't", "isn't"],
+        correctAnswer: "don't",
+        explanationAr: 'الفاعل جمع (They) لذا ننفي باستخدام (don\'t) متبوعة بفعل مجرد.',
+      },
+      {
+        id: 'ps-p3',
+        type: 'correct',
+        questionEn: 'Sara (study) English every evening. (Correct the verb)',
+        questionAr: 'صحح الفعل بين القوسين مع الفاعل المفرد Sara:',
+        options: ['studies', 'study', 'studying'],
+        correctAnswer: 'studies',
+        explanationAr: 'الفاعل مفرد Sara والفعل study ينتهي بـ y قبله حرف صحيح، فنقلب y إلى i ونضيف es فتصبح (studies).',
+      },
+      {
+        id: 'ps-p4',
+        type: 'transform',
+        questionEn: 'Ali plays football on Friday. (Negative)',
+        questionAr: 'حوّل الجملة إلى نفي:',
+        options: ["Ali doesn't play football on Friday.", "Ali don't play football on Friday.", "Ali not plays football on Friday."],
+        correctAnswer: "Ali doesn't play football on Friday.",
+        explanationAr: 'نضع doesn\'t بعد الفاعل المفرد ونحذف s الشخص الثالث من plays ليصبح مجرداً play.',
+      },
+      {
+        id: 'ps-p5',
+        type: 'choice',
+        questionEn: '______ your brother speak English well?',
+        questionAr: 'اختر الفعل المساعد المناسب للسؤال مع الفاعل المفرد your brother:',
+        options: ['Does', 'Do', 'Is', 'Are'],
+        correctAnswer: 'Does',
+        explanationAr: 'الفاعل مفرد (your brother) لذا نسأل بـ (Does) متبوعاً بفعل مجرد.',
+      },
+      {
+        id: 'ps-p6',
+        type: 'choice',
+        questionEn: 'He doesn\'t ______ coffee in the morning.',
+        questionAr: 'اختر صيغة الفعل الصحيحة بعد أداة النفي doesn\'t:',
+        options: ['drink', 'drinks', 'drinking', 'drank'],
+        correctAnswer: 'drink',
+        explanationAr: 'بعد doesn\'t يجب أن يكون الفعل دائماً في المصدر المجرد الخالي من أي إضافة (drink).',
+      },
+      {
+        id: 'ps-p7',
+        type: 'transform',
+        questionEn: 'They live in Erbil. (Make a question)',
+        questionAr: 'حوّل الجملة إلى سؤال:',
+        options: ['Do they live in Erbil?', 'Does they live in Erbil?', 'Are they live in Erbil?'],
+        correctAnswer: 'Do they live in Erbil?',
+        explanationAr: 'الفاعل جمع They فنبدأ السؤال بـ Do ونضع علامة الاستفهام في النهاية.',
+      },
+      {
+        id: 'ps-p8',
+        type: 'choice',
+        questionEn: 'Does she have a new car? — Yes, ______.',
+        questionAr: 'اختر الإجابة القصيرة الصحيحة:',
+        options: ['she does', 'she do', 'she has', 'she is'],
+        correctAnswer: 'she does',
+        explanationAr: 'السؤال بدأ بـ Does والفاعل she، فتكون الإجابة القصيرة: Yes, she does.',
+      },
+    ],
+  },
+
+  // =========================================================================
+  // TOPIC 4: ADVERBS OF FREQUENCY (ظروف التكرار)
+  // =========================================================================
+  {
+    id: 'topic-adverbs-frequency',
+    number: 4,
+    titleAr: 'ظروف التكرار',
+    titleEn: 'Adverbs of Frequency',
+    taglineAr: 'بيان نسبة تكرار الفعل وموقعها مع الفعل الرئيسي وأفعال الكينونة be',
+    category: 'الظروف',
+    badge: 'سؤال امتحاني ثابت',
+    color: 'emerald',
+    summaryAr: 'تُستخدم ظروف التكرار (always, usually, often, sometimes, never) لبيان كم مرة يتكرر حدوث الفعل في زمن المضارع البسيط. تأتي قبل الفعل الرئيسي وبعد أفعال الكينونة (am, is, are).',
+    topicType: 'interests',
+    interestsSections: [
+      {
+        titleAr: '1. ظروف التكرار الخمسة ومعانيها ونسبها المئوية',
+        formulaChips: [
+          { text: 'always (دائماً - 100%)', isHighlight: true },
+          { text: 'usually (عادةً - 80%)' },
+          { text: 'often (غالباً - 70%)' },
+          { text: 'sometimes (أحياناً - 50%)' },
+          { text: 'never (أبداً / قط - 0%)', isHighlight: true }
+        ],
+        explanationAr: 'تُستخدم هذه الكلمات الخمس للتعبير عن العادات ومدى تكرارنا للأنشطة اليومية في زمن المضارع البسيط، وتتراوح من الشيء المؤكد دائماً (always 100%) إلى الشيء الذي لا يحدث إطلاقاً (never 0%).',
+        examples: [
+          { en: 'I always do my homework after school.', ar: 'أنا دائماً أحل واجباتي بعد المدرسة.', highlight: 'always' },
+          { en: 'We usually go to the mosque on Fridays.', ar: 'نحن عادةً نذهب إلى المسجد في أيام الجمعة.', highlight: 'usually' },
+          { en: 'He often plays football in the park.', ar: 'هو غالباً يلعب كرة القدم في المتنزه.', highlight: 'often' },
+          { en: 'We sometimes watch TV in the evening.', ar: 'نحن أحياناً نشاهد التلفاز في المساء.', highlight: 'sometimes' },
+          { en: 'She never forgets her school bag.', ar: 'هي لا تنسى حقيبتها المدرسية أبداً.', highlight: 'never' }
+        ]
+      },
+      {
+        titleAr: '2. القاعدة الأولى: موقع ظرف التكرار قبل الفعل الرئيسي (Before the Main Verb)',
+        formulaChips: [
+          { text: 'الفاعل (Subject)' },
+          { text: '+' },
+          { text: 'ظرف التكرار (always / usually / often / sometimes / never)', isHighlight: true, note: 'قبل الفعل' },
+          { text: '+' },
+          { text: 'الفعل الرئيسي (Main Verb)', isHighlight: true },
+          { text: '+' },
+          { text: 'التكملة (Complement)' }
+        ],
+        explanationAr: 'توضع ظروف التكرار دائماً قبل الفعل الرئيسي في الجملة.\nتنبيه هام جداً بالامتحان: إذا كان الفاعل مفرداً (He, She, It, Ali)، يجب إضافة s الشخص الثالث للفعل الرئيسي بعد ظرف التكرار!',
+        examples: [
+          { en: 'They always drink tea after breakfast.', ar: 'هم دائماً يشربون الشاي بعد الفطور. (always جاءت قبل الفعل الرئيسي drink)', highlight: 'always drink' },
+          { en: 'Ali usually gets up at six o\'clock.', ar: 'علي عادةً يستيقظ عند الساعة السادسة. (الفاعل مفرد Ali ➔ أضفنا s للفعل gets)', highlight: 'usually gets up' },
+          { en: 'My brother sometimes helps my father in the garden.', ar: 'أخي أحياناً يساعد أبي في الحديقة.', highlight: 'sometimes helps' },
+          { en: 'They never walk to school; they take the bus.', ar: 'هم لا يمشون إلى المدرسة أبداً؛ يركبون الحافلة.', highlight: 'never walk' }
+        ]
+      },
+      {
+        titleAr: '3. القاعدة الثانية: موقع ظرف التكرار بعد فعل الكينونة be (After am / is / are)',
+        formulaChips: [
+          { text: 'الفاعل (Subject)' },
+          { text: '+' },
+          { text: 'am / is / are (فعل الكينونة)', isHighlight: true },
+          { text: '+' },
+          { text: 'ظرف التكرار (always / usually / often...)', isHighlight: true, note: 'بعد be مباشرة' },
+          { text: '+' },
+          { text: 'الصفة أو التكملة' }
+        ],
+        explanationAr: 'إذا كانت الجملة تحتوي على أحد أفعال الكينونة (am, is, are)، فإن ظرف التكرار يأتي بعدها مباشرة وليس قبلها!\nهذه النقطة هي أكثر سؤال مكرر في الاختيارات الامتحانية (is always وليس always is).',
+        examples: [
+          { en: 'He is always cheerful and smiling.', ar: 'هو دائماً بشوش ومبتسم. (is always الصحيحة، ولا يجوز always is)', highlight: 'is always' },
+          { en: 'They are usually late for dinner.', ar: 'هم عادةً متأخرون على العشاء. (are usually)', highlight: 'are usually' },
+          { en: 'It is often very cold in winter.', ar: 'الجو غالباً بارد جداً في الشتاء. (is often)', highlight: 'is often' },
+          { en: 'She is never angry with her sisters.', ar: 'هي لا تغضب أبداً من أخواتها. (is never)', highlight: 'is never' }
+        ]
+      },
+      {
+        titleAr: '4. ظرف النفي (never) والسؤال بأداة التكرار (How often)',
+        formulaChips: [
+          { text: 'never = نفي قاطع بدون not', isHighlight: true },
+          { text: '•' },
+          { text: 'How often + do / does + الفاعل + فعل مجرد + ?', isHighlight: true }
+        ],
+        explanationAr: '1. كلمة (never) تعطي معنى النفي التام بدون استخدام not أو don\'t / doesn\'t، ولا يجوز الجمع بين not و never في نفس الجملة.\n2. للسؤال عن عدد المرات أو نسبة تكرار الفعل، نستخدم أداة الاستفهام (How often = كم مرة)، وتكون الإجابة باستخدام أحد ظروف التكرار.',
+        examples: [
+          { en: 'I never eat fast food.', ar: 'أنا لا آكل الوجبات السريعة أبداً. (الجملة منفية بـ never ولا نحتاج don\'t)', highlight: 'never eat' },
+          { en: 'How often do you go to the cinema? — I never go.', ar: 'كم مرة تذهب إلى السينما؟ — أنا لا أذهب أبداً.', highlight: 'How often' },
+          { en: 'How often does he clean his room? — He always cleans it.', ar: 'كم مرة ينظف غرفته؟ — هو دائماً ينظفها.', highlight: 'How often does he clean' }
+        ]
+      }
+    ],
+    examPractice: [
+      {
+        id: 'adv-q1',
+        type: 'choice',
+        questionEn: 'He ______ cheerful and polite.',
+        questionAr: 'اختر الترتيب الصحيح لظرف التكرار مع فعل الكينونة is:',
+        options: ['is always', 'always is', 'always', 'be always'],
+        correctAnswer: 'is always',
+        explanationAr: 'يأتي ظرف التكرار دائماً بعد فعل الكينونة (am/is/are) فنختار (is always).'
+      },
+      {
+        id: 'adv-q2',
+        type: 'choice',
+        questionEn: 'They ______ go to the mosque on Fridays.',
+        questionAr: 'اختر الترتيب الصحيح لظرف التكرار مع الفعل الرئيسي go:',
+        options: ['usually', 'are usually', 'usually are', 'goes usually'],
+        correctAnswer: 'usually',
+        explanationAr: 'ظرف التكرار يأتي قبل الفعل الرئيسي مباشرة (They usually go).'
+      },
+      {
+        id: 'adv-q3',
+        type: 'correct',
+        questionEn: 'Ali always (get) up at 6:30. (Correct the verb)',
+        questionAr: 'صحح الفعل بين القوسين لوجود الفاعل المفرد Ali مع ظرف التكرار:',
+        options: ['gets', 'getting', 'got'],
+        correctAnswer: 'gets',
+        explanationAr: 'مع الفاعل المفرد الغائب (Ali) نضيف s الشخص الثالث للفعل الرئيسي في المضارع البسيط فتصبح (gets).'
+      },
+      {
+        id: 'adv-q4',
+        type: 'choice',
+        questionEn: 'She is ______ late for her English class.',
+        questionAr: 'اختر ظرف التكرار المناسب بعد فعل الكينونة is:',
+        options: ['never', 'not never', 'doesn\'t', 'never is'],
+        correctAnswer: 'never',
+        explanationAr: 'نختار (never) لأنها تأتي بعد is، ولا نستخدم not مع never.'
+      },
+      {
+        id: 'adv-q5',
+        type: 'transform',
+        questionEn: 'We drink coffee in the evening. (Insert: sometimes)',
+        questionAr: 'أدخل ظرف التكرار (sometimes) في مكانه الصحيح في الجملة:',
+        options: ['We sometimes drink coffee in the evening.', 'We drink sometimes coffee in the evening.', 'Sometimes we coffee drink.'],
+        correctAnswer: 'We sometimes drink coffee in the evening.',
+        explanationAr: 'نضع sometimes قبل الفعل الرئيسي drink فتصبح الجملة: We sometimes drink coffee in the evening.'
+      },
+      {
+        id: 'adv-q6',
+        type: 'choice',
+        questionEn: '______ do you visit your grandparents? — We usually visit them on Friday.',
+        questionAr: 'اختر أداة الاستفهام المناسبة للسؤال عن تكرار الزيارة:',
+        options: ['How often', 'How many', 'How much', 'How long'],
+        correctAnswer: 'How often',
+        explanationAr: 'نسأل عن نسبة تكرار الفعل وعدد المرات بأداة الاستفهام (How often) لوجود ظرف التكرار usually في الجواب.'
+      },
+      {
+        id: 'adv-q7',
+        type: 'choice',
+        questionEn: 'My father never ______ to loud music.',
+        questionAr: 'اختر صيغة الفعل المناسبة مع الفاعل المفرد My father:',
+        options: ['listens', 'listen', 'listening', 'listened'],
+        correctAnswer: 'listens',
+        explanationAr: 'الفاعل مفرد (My father) لذلك يأخذ الفعل s الشخص الثالث بعد never فيصبح (listens).'
+      },
+      {
+        id: 'adv-q8',
+        type: 'choice',
+        questionEn: 'Which sentence is grammatically CORRECT?',
+        questionAr: 'أي جملة من الجمل التالية صحيحة قواعدياً؟',
+        options: [
+          'He is always happy.',
+          'He always is happy.',
+          'He is happy always.',
+          'Always he is happy.'
+        ],
+        correctAnswer: 'He is always happy.',
+        explanationAr: 'الجملة الصحيحة هي (He is always happy) لأن ظرف التكرار always يأتي بعد فعل الكينونة is.'
+      }
+    ]
+  },
+
+  // =========================================================================
+  // TOPIC 5: POSSESSIVE PRONOUNS (ضمائر التملك)
   // =========================================================================
   {
     id: 'topic-possessive-pronouns',
-    number: 3,
+    number: 5,
     titleAr: 'ضمائر التملك',
     titleEn: 'Possessive Pronouns',
     taglineAr: 'إظهار التملك للمتكلم والمخاطب والغائب (mine, yours, ours...)',
@@ -2123,11 +2562,11 @@ export const unit1GrammarTopicsList: GrammarTopicData[] = [
   },
 
   // =========================================================================
-  // TOPIC 4: JOINING SENTENCES (أدوات الربط)
+  // TOPIC 6: JOINING SENTENCES (أدوات الربط)
   // =========================================================================
   {
     id: 'topic-joining-sentences',
-    number: 4,
+    number: 6,
     titleAr: 'أدوات الربط',
     titleEn: 'Joining Sentences: and / but / or',
     taglineAr: 'دمج الجمل وتوضيح العلاقة بين الأفكار',
@@ -2239,11 +2678,11 @@ export const unit1GrammarTopicsList: GrammarTopicData[] = [
   },
 
   // =========================================================================
-  // TOPIC 5: TALKING ABOUT INTERESTS (التعبير عن الاهتمام)
+  // TOPIC 7: TALKING ABOUT INTERESTS (التعبير عن الاهتمام)
   // =========================================================================
   {
     id: 'topic-interests',
-    number: 5,
+    number: 7,
     titleAr: 'التعبير عن الاهتمام والهوايات',
     titleEn: 'Talking about your Interests',
     taglineAr: 'استخدام like, love, enjoy والعبارة interested in',

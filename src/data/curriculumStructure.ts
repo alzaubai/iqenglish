@@ -35,9 +35,11 @@ export const CURRICULUM_UNITS: ExamUnit[] = [
     grammarTopics: [
       { id: 'topic-past-simple', titleAr: '1. الماضي البسيط (Past Simple)', titleEn: 'Past Simple Tense' },
       { id: 'topic-past-continuous', titleAr: '2. الماضي المستمر (Past Continuous)', titleEn: 'Past Continuous Tense' },
-      { id: 'topic-possessive-pronouns', titleAr: '3. ضمائر وصفات التملك (Pronouns)', titleEn: 'Possessive Pronouns' },
-      { id: 'topic-joining-sentences', titleAr: '4. أدوات الربط (and / but / or)', titleEn: 'Joining Sentences' },
-      { id: 'topic-interests', titleAr: '5. الاهتمامات والصفات (Interests & -ing)', titleEn: 'Interests and Gerunds' },
+      { id: 'topic-present-simple', titleAr: '3. المضارع البسيط (Present Simple)', titleEn: 'Present Simple Tense' },
+      { id: 'topic-adverbs-frequency', titleAr: '4. ظروف التكرار (Adverbs of Frequency)', titleEn: 'Adverbs of Frequency' },
+      { id: 'topic-possessive-pronouns', titleAr: '5. ضمائر وصفات التملك (Pronouns)', titleEn: 'Possessive Pronouns' },
+      { id: 'topic-joining-sentences', titleAr: '6. أدوات الربط (and / but / or)', titleEn: 'Joining Sentences' },
+      { id: 'topic-interests', titleAr: '7. الاهتمامات والصفات (Interests & -ing)', titleEn: 'Interests and Gerunds' },
     ],
     lessons: [
       { id: 'lesson-1', lessonNumber: 1, titleAr: 'الدرس 1: العطل (The holidays)', titleEn: 'Lesson 1: The holidays', subtitleAr: 'كتاب النشاط ص 4 وكتاب الطالب ص 5' },
@@ -60,9 +62,9 @@ export const CURRICULUM_UNITS: ExamUnit[] = [
     subtitleAr: 'فصول السنة، الأشهر، الطقس والمستقبل مع will',
     hasQuestions: false,
     grammarTopics: [
-      { id: 'u2-future-will', titleAr: 'المستقبل البسيط مع will', titleEn: 'Future Simple with will' },
-      { id: 'u2-preferences', titleAr: 'التفضيل والاقتراح (Preferences & Suggestions)', titleEn: 'Preferences and Suggestions' },
-      { id: 'u2-like-hate', titleAr: 'أفعال الرغبة والمشاعر (like, love, hate + ing)', titleEn: 'Verbs of feeling' },
+      { id: 'u2-topic-future-will', titleAr: '1. المستقبل البسيط مع will', titleEn: 'Future Simple with will' },
+      { id: 'u2-topic-comparatives', titleAr: '2. المقارنة والتفضيل (Comparatives & Superlatives)', titleEn: 'Comparatives & Superlatives' },
+      { id: 'u2-topic-dates-ordinals', titleAr: '3. الأعداد الترتيبية والتواريخ (Dates & Ordinals)', titleEn: 'Ordinal Numbers & Dates' },
     ],
     lessons: [
       { id: 'u2-lesson-1', lessonNumber: 1, titleAr: 'الدرس 1: فصولنا الأربعة (Our four seasons)', titleEn: 'Lesson 1: Our four seasons', subtitleAr: 'كتاب الطالب ص 16 وكتاب النشاط ص 22 و 23' },

@@ -157,6 +157,8 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const [selectedGrammarTopicSources, setSelectedGrammarTopicSources] = useState<string[]>([
     'topic-past-simple',
     'topic-past-continuous',
+    'topic-present-simple',
+    'topic-adverbs-frequency',
     'topic-possessive-pronouns',
     'topic-joining-sentences',
     'topic-interests',
@@ -317,6 +319,8 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
       setSelectedGrammarTopicSources([
         'topic-past-simple',
         'topic-past-continuous',
+        'topic-present-simple',
+        'topic-adverbs-frequency',
         'topic-possessive-pronouns',
         'topic-joining-sentences',
         'topic-interests',
@@ -381,6 +385,8 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     setSelectedGrammarTopicSources([
       'topic-past-simple',
       'topic-past-continuous',
+      'topic-present-simple',
+      'topic-adverbs-frequency',
       'topic-possessive-pronouns',
       'topic-joining-sentences',
       'topic-interests',

@@ -1,18 +1,25 @@
 import React from 'react';
 import { ArrowRight, BookOpen, Sparkles, CheckCircle2, ChevronLeft, Lock } from 'lucide-react';
 import { unit1GrammarTopicsList, GrammarTopicData } from '../../data/unit1GrammarTopics';
+import { unit2GrammarTopicsList } from '../../data/unit2GrammarTopics';
 
 interface GrammarTopicSelectorProps {
+  unitId?: string;
   onSelectTopic: (topicId: string) => void;
   onBackToUnits: () => void;
   unlockedGrammarTopics?: string[];
 }
 
 export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
+  unitId = 'unit-1',
   onSelectTopic,
   onBackToUnits,
   unlockedGrammarTopics,
 }) => {
+  const isUnit2 = unitId === 'unit-2';
+  const activeTopics = isUnit2 ? unit2GrammarTopicsList : unit1GrammarTopicsList;
+  const defaultUnlockedId = isUnit2 ? 'u2-topic-future-will' : 'topic-past-simple';
+
   return (
     <div className="space-y-6" dir="rtl">
       {/* Top Breadcrumb Navigation */}
@@ -27,11 +34,11 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
           </button>
           <span className="text-zinc-300">/</span>
           <span className="text-xs font-bold text-zinc-700 font-arabic">
-            الوحدة الأولى (Unit 1)
+            {isUnit2 ? 'الوحدة الثانية (Unit 2)' : 'الوحدة الأولى (Unit 1)'}
           </span>
         </div>
         <div className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-xl font-arabic self-start sm:self-auto">
-          الصف الأول المتوسط • 5 مواضيع قواعدية
+          الصف الأول المتوسط • {activeTopics.length} مواضيع قواعدية
         </div>
       </div>
 
@@ -41,13 +48,15 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 text-white text-xs font-mono font-bold">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>UNIT 1 GRAMMAR TOPICS</span>
+              <span>{isUnit2 ? 'UNIT 2 GRAMMAR TOPICS' : 'UNIT 1 GRAMMAR TOPICS'}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mt-2.5 font-arabic">
-              المواضيع القواعدية للوحدة الأولى
+              {isUnit2 ? 'المواضيع القواعدية للوحدة الثانية' : 'المواضيع القواعدية للوحدة الأولى'}
             </h2>
             <p className="text-xs sm:text-sm text-zinc-600 font-arabic mt-1.5 max-w-2xl leading-relaxed">
-              شرح مبسط ومباشر لقواعد الأول المتوسط مع كروت منظمة لحالات الإثبات والنفي والاستفهام ونماذج امتحانية شهرية من كتاب الطالب والنشاط.
+              {isUnit2
+                ? 'شرح مبسط ومباشر لمواضيع الوحدة الثانية الثلاثة: المستقبل البسيط مع will، درجات المقارنة والتفضيل، وقراءة وكتابة التواريخ والأعداد الترتيبية.'
+                : 'شرح مبسط ومباشر لقواعد الأول المتوسط مع كروت منظمة لحالات الإثبات والنفي والاستفهام ونماذج امتحانية شهرية من كتاب الطالب والنشاط.'}
             </p>
             <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-xl font-arabic">
               إعداد وشرح مدرس المادة: أ. حسام محمود منصور
@@ -55,7 +64,9 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
           </div>
           <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-center shrink-0 self-start sm:self-center">
             <span className="text-xs text-zinc-500 font-arabic block">عدد المواضيع</span>
-            <span className="text-2xl font-black text-zinc-900 font-mono block mt-0.5">5 مواضيع</span>
+            <span className="text-2xl font-black text-zinc-900 font-mono block mt-0.5">
+              {activeTopics.length} مواضيع
+            </span>
             <span className="text-[11px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full inline-block mt-1 font-arabic">
               مكتملة مع التمارين
             </span>
@@ -63,18 +74,18 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
         </div>
       </div>
 
-      {/* 5 Grammar Topics Cards Grid */}
+      {/* Grammar Topics Cards Grid */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1 text-right">
           <h3 className="text-sm font-bold text-zinc-800 font-arabic flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-zinc-900" />
             <span>اختر الموضوع لدراسته بالتفصيل مع الكروت التفاعلية:</span>
           </h3>
-          <span className="text-xs text-zinc-500 font-arabic">5 مواضيع مخصصة</span>
+          <span className="text-xs text-zinc-500 font-arabic">{activeTopics.length} مواضيع مخصصة</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {unit1GrammarTopicsList.map((topic: GrammarTopicData) => {
+          {activeTopics.map((topic: GrammarTopicData) => {
             const colorStyles = {
               blue: 'hover:border-blue-500 group-hover:text-blue-600 badge-blue',
               emerald: 'hover:border-emerald-500 group-hover:text-emerald-600 badge-emerald',
@@ -86,7 +97,7 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
             const isUnlocked =
               Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
                 ? unlockedGrammarTopics.includes(topic.id)
-                : topic.id === 'topic-past-simple';
+                : topic.id === defaultUnlockedId;
 
             return (
               <div

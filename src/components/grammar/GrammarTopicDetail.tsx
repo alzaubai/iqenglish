@@ -19,6 +19,7 @@ import {
   Lock,
 } from 'lucide-react';
 import { unit1GrammarTopicsList, GrammarTopicData, ExamPracticeItem } from '../../data/unit1GrammarTopics';
+import { unit2GrammarTopicsList } from '../../data/unit2GrammarTopics';
 import { SpeechEngine } from '../../utils/speech';
 
 interface GrammarTopicDetailProps {
@@ -36,29 +37,36 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
   onSelectTopic,
   unlockedGrammarTopics,
 }) => {
+  const isUnit2 = topicId.startsWith('u2-');
+  const activeUnitTopics = isUnit2 ? unit2GrammarTopicsList : unit1GrammarTopicsList;
   const currentTopic =
-    unit1GrammarTopicsList.find((t) => t.id === topicId) || unit1GrammarTopicsList[0];
+    activeUnitTopics.find((t) => t.id === topicId) ||
+    unit1GrammarTopicsList.find((t) => t.id === topicId) ||
+    unit2GrammarTopicsList.find((t) => t.id === topicId) ||
+    unit1GrammarTopicsList[0];
 
-  const currentIndex = unit1GrammarTopicsList.findIndex((t) => t.id === currentTopic.id);
-  const prevTopic = currentIndex > 0 ? unit1GrammarTopicsList[currentIndex - 1] : null;
+  const currentIndex = activeUnitTopics.findIndex((t) => t.id === currentTopic.id);
+  const prevTopic = currentIndex > 0 ? activeUnitTopics[currentIndex - 1] : null;
   const nextTopic =
-    currentIndex < unit1GrammarTopicsList.length - 1 ? unit1GrammarTopicsList[currentIndex + 1] : null;
+    currentIndex < activeUnitTopics.length - 1 ? activeUnitTopics[currentIndex + 1] : null;
+
+  const defaultUnlockedId = isUnit2 ? 'u2-topic-future-will' : 'topic-past-simple';
 
   const isCurrentTopicUnlocked =
     Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
       ? unlockedGrammarTopics.includes(currentTopic.id)
-      : currentTopic.id === 'topic-past-simple';
+      : currentTopic.id === defaultUnlockedId;
 
   const isPrevUnlocked = prevTopic
     ? Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
       ? unlockedGrammarTopics.includes(prevTopic.id)
-      : prevTopic.id === 'topic-past-simple'
+      : prevTopic.id === defaultUnlockedId
     : false;
 
   const isNextUnlocked = nextTopic
     ? Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
       ? unlockedGrammarTopics.includes(nextTopic.id)
-      : nextTopic.id === 'topic-past-simple'
+      : nextTopic.id === defaultUnlockedId
     : false;
 
   // Active sub-tab state depending on topic type
@@ -157,7 +165,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
               className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center gap-1.5 cursor-pointer font-arabic transition-colors"
             >
               <ArrowRight className="w-3.5 h-3.5" />
-              <span>قائمة مواضيع الوحدة الأولى</span>
+              <span>قائمة مواضيع {isUnit2 ? 'الوحدة الثانية' : 'الوحدة الأولى'}</span>
             </button>
             <button
               onClick={onBackToUnits}
@@ -202,7 +210,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
             className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center gap-1.5 cursor-pointer font-arabic transition-colors"
           >
             <ArrowRight className="w-3.5 h-3.5" />
-            <span>قائمة مواضيع الوحدة الأولى</span>
+            <span>قائمة مواضيع {isUnit2 ? 'الوحدة الثانية' : 'الوحدة الأولى'}</span>
           </button>
           <button
             onClick={onBackToUnits}
@@ -298,7 +306,31 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
         <div className="space-y-6">
           {/* Tabs bar */}
           <div className="bg-white p-2 rounded-2xl border border-zinc-200 shadow-2xs flex flex-wrap gap-2">
-            {(currentTopic.overview
+            {(currentTopic.id === 'u2-topic-comparatives'
+              ? [
+                  { id: 'overview', title: '1. المقدمة وقواعد الإملاء الستة' },
+                  { id: 'affirmative', title: '2. المقارنة (Comparative: than)' },
+                  { id: 'negative', title: '3. التفضيل (Superlative: the)' },
+                  { id: 'question', title: '4. أسئلة المقارنة (Which)' },
+                  { id: 'practice', title: '5. تمارين امتحانية شهرية' },
+                ]
+              : currentTopic.id === 'u2-topic-future-will'
+              ? [
+                  { id: 'overview', title: '1. المقدمة ودلالات المستقبل وأفعال الكتاب' },
+                  { id: 'affirmative', title: '2. الإثبات (will + مجرد)' },
+                  { id: 'negative', title: "3. النفي (won't + مجرد)" },
+                  { id: 'question', title: '4. الاستفهام (Will + فاعل + مجرد)' },
+                  { id: 'practice', title: '5. تمارين امتحانية شهرية' },
+                ]
+              : currentTopic.id === 'topic-present-simple'
+              ? [
+                  { id: 'overview', title: '1. المقدمة وقواعد s الشخص الثالث' },
+                  { id: 'affirmative', title: '2. الإثبات (Affirmative)' },
+                  { id: 'negative', title: "3. النفي (don't / doesn't)" },
+                  { id: 'question', title: '4. الاستفهام (Do / Does)' },
+                  { id: 'practice', title: '5. تمارين امتحانية شهرية' },
+                ]
+              : currentTopic.overview
               ? [
                   { id: 'overview', title: '1. المقدمة والدلالات وأفعال الكتاب' },
                   { id: 'affirmative', title: '2. الإثبات (Affirmative)' },
@@ -354,7 +386,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                   <div className="flex items-center gap-2 text-xs text-blue-700 font-arabic pt-1">
                     <Sparkles className="w-4 h-4 shrink-0" />
                     <span>
-                      {currentTopic.overview.quickNoteAr || 'ملاحظة فهم سريعة: الحدث انتهى تماماً في الماضي قبل أن تبدأ بالكلام الآن.'}
+                      {currentTopic.overview.quickNoteAr || 'ملاحظة فهم سريعة: راجع القاعدة وأمثلتها بدقة قبل الانتقال إلى التمارين.'}
                     </span>
                   </div>
                 </div>
@@ -369,10 +401,14 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                     </span>
                     <div>
                       <h4 className="text-base sm:text-lg font-black text-amber-950 font-arabic">
-                        دلالات زمن {currentTopic.titleAr} (Time Markers)
+                        {currentTopic.id === 'u2-topic-comparatives'
+                          ? 'الكلمات المفتاحية والدلالات في المقارنة والتفضيل'
+                          : `دلالات زمن ${currentTopic.titleAr} (Time Markers)`}
                       </h4>
                       <span className="text-xs text-zinc-500 font-arabic">
-                        إذا وجدت إحدى هذه الكلمات في جملة الامتحان ➔ فالحل يكون في زمن {currentTopic.titleAr}!
+                        {currentTopic.id === 'u2-topic-comparatives'
+                          ? 'الكلمات التي تحدد اختيار المقارنة (than) أو التفضيل (the) في الامتحان'
+                          : `إذا وجدت إحدى هذه الكلمات في جملة الامتحان ➔ فالحل يكون في زمن ${currentTopic.titleAr}!`}
                       </span>
                     </div>
                   </div>
@@ -422,7 +458,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                     </span>
                     <div>
                       <h4 className="text-base sm:text-lg font-black text-emerald-950 font-arabic">
-                        قواعد إضافة {currentTopic.overview.spellingTitleAr || '(ed) للأفعال القياسية'}
+                        {currentTopic.overview.spellingTitleAr || 'قواعد إضافة (ed) للأفعال القياسية'}
                       </h4>
                       <span className="text-xs text-zinc-500 font-arabic">
                         {currentTopic.overview.spellingSubtitleAr || 'مهمة جداً في سؤال الإملاء وسؤال تصحيح الفعل للامتحانات الشهرية'}
@@ -468,7 +504,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                 </div>
               </div>
 
-              {/* Card 1.4: جدول أفعال كتاب الصف الأول المتوسط المقررة */}
+              {/* Card 1.4: جدول أفعال وصفات كتاب الصف الأول المتوسط المقررة */}
               {currentTopic.overview.textbookVerbs && (
                 <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
@@ -479,11 +515,23 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                         </span>
                         <div>
                           <h4 className="text-base sm:text-lg font-black text-indigo-950 font-arabic">
-                            جدول أفعال كتاب الصف الأول المتوسط (المقررة في المنهاج)
+                            {currentTopic.id === 'u2-topic-future-will'
+                              ? 'أفعال الطقس والأنشطة المستقبلية مع will (المقررة في المنهاج)'
+                              : currentTopic.id === 'u2-topic-comparatives'
+                              ? 'جدول صفات المقارنة والتفضيل المقررة في المنهاج'
+                              : currentTopic.id === 'topic-present-simple'
+                              ? 'جدول أفعال المضارع البسيط وإضافة s الشخص الثالث (المقررة في المنهاج)'
+                              : 'جدول أفعال كتاب الصف الأول المتوسط (المقررة في المنهاج)'}
                           </h4>
                           <span className="text-xs text-zinc-500 font-arabic">
                             {currentTopic.id === 'topic-past-continuous'
                               ? 'أفعال منهجية مقررة مع تصريف المستمر (V-ing) وتطبيق قواعد الإملاء'
+                              : currentTopic.id === 'u2-topic-future-will'
+                              ? 'جميع الأفعال بعد will تأتي مصدراً مجرداً (Base) خالياً تماماً من أي إضافة أو شذوذ'
+                              : currentTopic.id === 'u2-topic-comparatives'
+                              ? 'صفات المقارنة والتفضيل المنهجية للطقس والرياضات مستخرجة من كتاب الطالب والنشاط'
+                              : currentTopic.id === 'topic-present-simple'
+                              ? 'أفعال روتينية وحياتية مع تطبيق قواعد إضافة s الشخص الثالث وحالات es والشذوذ'
                               : 'أفعال قياسية (Regular) وأفعال شاذة (Irregular) مستخرجة من كتاب الطالب وكتاب النشاط'}
                           </span>
                         </div>
@@ -491,50 +539,65 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                     </div>
                     <div className="flex items-center gap-2 self-start sm:self-auto">
                       <span className="text-xs font-bold px-3 py-1 bg-indigo-50 text-indigo-900 rounded-xl font-arabic border border-indigo-200">
-                        {currentTopic.overview.textbookVerbs.length} فعل منهجي
+                        {currentTopic.overview.textbookVerbs.length} {currentTopic.id === 'u2-topic-comparatives' ? 'صفة منهجية' : 'فعل منهجي'}
                       </span>
                     </div>
                   </div>
 
                   {/* Filter and Search Bar */}
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-zinc-50/70 p-3 rounded-2xl border border-zinc-200 shadow-2xs">
-                    {/* Filter buttons */}
-                    <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-zinc-200">
-                      <button
-                        onClick={() => setVerbFilter('all')}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold font-arabic transition-all cursor-pointer ${
-                          verbFilter === 'all'
-                            ? 'bg-zinc-900 text-white shadow-xs'
-                            : 'text-zinc-600 hover:text-zinc-900'
-                        }`}
-                      >
-                        الكل ({currentTopic.overview.textbookVerbs.length})
-                      </button>
-                      <button
-                        onClick={() => setVerbFilter('regular')}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold font-arabic transition-all cursor-pointer ${
-                          verbFilter === 'regular'
-                            ? 'bg-blue-600 text-white shadow-xs'
-                            : 'text-zinc-600 hover:text-zinc-900'
-                        }`}
-                      >
-                        {currentTopic.id === 'topic-past-continuous'
-                          ? `إضافة مباشرة (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'regular').length})`
-                          : `قياسية Regular (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'regular').length})`}
-                      </button>
-                      <button
-                        onClick={() => setVerbFilter('irregular')}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold font-arabic transition-all cursor-pointer ${
-                          verbFilter === 'irregular'
-                            ? 'bg-purple-600 text-white shadow-xs'
-                            : 'text-zinc-600 hover:text-zinc-900'
-                        }`}
-                      >
-                        {currentTopic.id === 'topic-past-continuous'
-                          ? `تغيير إملائي (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'irregular').length})`
-                          : `شاذة Irregular (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'irregular').length})`}
-                      </button>
-                    </div>
+                    {/* Filter buttons or notice */}
+                    {currentTopic.id === 'u2-topic-future-will' ? (
+                      <div className="px-3.5 py-1.5 rounded-xl bg-blue-50 text-blue-800 text-xs font-bold font-arabic border border-blue-200 flex items-center gap-2">
+                        <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <span>قاعدة ذهبية: جميع الأفعال بعد will تبقى مصادر مجردة (Base) بدون أي تغيير أو شذوذ</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-zinc-200">
+                        <button
+                          onClick={() => setVerbFilter('all')}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold font-arabic transition-all cursor-pointer ${
+                            verbFilter === 'all'
+                              ? 'bg-zinc-900 text-white shadow-xs'
+                              : 'text-zinc-600 hover:text-zinc-900'
+                          }`}
+                        >
+                          الكل ({currentTopic.overview.textbookVerbs.length})
+                        </button>
+                        <button
+                          onClick={() => setVerbFilter('regular')}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold font-arabic transition-all cursor-pointer ${
+                            verbFilter === 'regular'
+                              ? 'bg-blue-600 text-white shadow-xs'
+                              : 'text-zinc-600 hover:text-zinc-900'
+                          }`}
+                        >
+                          {currentTopic.id === 'topic-past-continuous'
+                            ? `إضافة مباشرة (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'regular').length})`
+                            : currentTopic.id === 'u2-topic-comparatives'
+                            ? `منتظمة er/est (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'regular').length})`
+                            : currentTopic.id === 'topic-present-simple'
+                            ? `إضافة s فقط (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'regular').length})`
+                            : `قياسية Regular (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'regular').length})`}
+                        </button>
+                        <button
+                          onClick={() => setVerbFilter('irregular')}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold font-arabic transition-all cursor-pointer ${
+                            verbFilter === 'irregular'
+                              ? 'bg-purple-600 text-white shadow-xs'
+                              : 'text-zinc-600 hover:text-zinc-900'
+                          }`}
+                        >
+                          {currentTopic.id === 'topic-past-continuous'
+                            ? `تغيير إملائي (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'irregular').length})`
+                            : currentTopic.id === 'u2-topic-comparatives'
+                            ? `شاذة Irregular (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'irregular').length})`
+                            : currentTopic.id === 'topic-present-simple'
+                            ? `إضافة es أو شاذة (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'irregular').length})`
+                            : `شاذة Irregular (${currentTopic.overview.textbookVerbs.filter(v => v.type === 'irregular').length})`}
+                        </button>
+                      </div>
+                    )}
 
                     {/* Search input */}
                     <div className="relative flex-1 max-w-xs">
@@ -554,15 +617,39 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                     <table className="w-full text-right border-collapse text-xs">
                       <thead>
                         <tr className="bg-zinc-50 text-zinc-900 font-bold font-arabic border-b border-zinc-200">
-                          <th className="p-3">الفعل المجرد (Base)</th>
                           <th className="p-3">
-                            {currentTopic.id === 'topic-past-continuous' ? 'صيغة المستمر (V-ing)' : 'صيغة الماضي (Past)'}
+                            {currentTopic.id === 'u2-topic-comparatives' ? 'الصفة (Adjective)' : 'المصدر المجرد (Base)'}
+                          </th>
+                          <th className="p-3">
+                            {currentTopic.id === 'topic-past-continuous'
+                              ? 'صيغة المستمر (V-ing)'
+                              : currentTopic.id === 'u2-topic-future-will'
+                              ? 'صيغة المستقبل (will + Base)'
+                              : currentTopic.id === 'u2-topic-comparatives'
+                              ? 'المقارنة والتفضيل (er / est)'
+                              : currentTopic.id === 'topic-present-simple'
+                              ? 'صيغة المفرد (Verb + s/es)'
+                              : 'صيغة الماضي (Past)'}
                           </th>
                           <th className="p-3">المعنى بالعربية</th>
                           <th className="p-3">
-                            {currentTopic.id === 'topic-past-continuous' ? 'قاعدة الإضافة' : 'النوع'}
+                            {currentTopic.id === 'u2-topic-comparatives'
+                              ? 'نوع الصفة / القاعدة'
+                              : currentTopic.id === 'topic-past-continuous'
+                              ? 'قاعدة الإضافة'
+                              : currentTopic.id === 'u2-topic-future-will'
+                              ? 'حالة الفعل بعد will'
+                              : currentTopic.id === 'topic-present-simple'
+                              ? 'قاعدة إضافة s'
+                              : 'النوع'}
                           </th>
-                          <th className="p-3">الموقع في الكتاب</th>
+                          <th className="p-3">
+                            {currentTopic.id === 'u2-topic-future-will'
+                              ? 'جملة منهجية من الوحدة الثانية'
+                              : currentTopic.id === 'topic-present-simple'
+                              ? 'الملاحظة الإملائية'
+                              : 'ملاحظات وموقع المنهج'}
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-zinc-200">
@@ -593,9 +680,17 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                                     {v.past}
                                   </span>
                                   <button
-                                    onClick={() => handleSpeak(v.past.split(' ')[0])}
+                                    onClick={() => handleSpeak(currentTopic.id === 'u2-topic-future-will' ? v.past : v.past.replace('/', 'and'))}
                                     className="p-1 rounded bg-zinc-100 hover:bg-zinc-200 text-zinc-600 cursor-pointer"
-                                    title="استمع لصيغة الماضي"
+                                    title={
+                                      currentTopic.id === 'u2-topic-comparatives'
+                                        ? 'استمع لصيغة المقارنة والتفضيل'
+                                        : currentTopic.id === 'u2-topic-future-will'
+                                        ? 'استمع لصيغة المستقبل'
+                                        : currentTopic.id === 'topic-past-continuous'
+                                        ? 'استمع لصيغة المستمر'
+                                        : 'استمع للصيغة'
+                                    }
                                   >
                                     <Volume2 className="w-3.5 h-3.5" />
                                   </button>
@@ -605,7 +700,31 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                                 {v.ar}
                               </td>
                               <td className="p-3 font-arabic">
-                                {v.type === 'regular' ? (
+                                {currentTopic.id === 'u2-topic-comparatives' ? (
+                                  v.type === 'regular' ? (
+                                    <span className="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[11px]">
+                                      منتظم (er / est)
+                                    </span>
+                                  ) : (
+                                    <span className="px-2.5 py-0.5 rounded-md bg-purple-100 text-purple-800 font-bold text-[11px]">
+                                      شاذ (يحفظ)
+                                    </span>
+                                  )
+                                ) : currentTopic.id === 'u2-topic-future-will' ? (
+                                  <span className="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px]">
+                                    مصدر مجرد (Base)
+                                  </span>
+                                ) : currentTopic.id === 'topic-present-simple' ? (
+                                  v.type === 'regular' ? (
+                                    <span className="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px]">
+                                      إضافة s فقط
+                                    </span>
+                                  ) : (
+                                    <span className="px-2.5 py-0.5 rounded-md bg-purple-100 text-purple-800 font-bold text-[11px]">
+                                      إضافة es أو شاذ
+                                    </span>
+                                  )
+                                ) : v.type === 'regular' ? (
                                   <span className="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 font-bold text-[11px]">
                                     قياسي (ed)
                                   </span>
@@ -636,10 +755,12 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
               <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
                 <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
                   <h4 className="text-base sm:text-lg font-black text-blue-950 font-arabic">
-                    صيغة القاعدة في حالة الإثبات (Affirmative)
+                    {currentTopic.id === 'u2-topic-comparatives'
+                      ? 'صيغة المقارنة بين اثنين (Comparative with than)'
+                      : 'صيغة القاعدة في حالة الإثبات (Affirmative)'}
                   </h4>
                   <span className="text-xs font-mono font-bold px-3 py-1 bg-blue-50 text-blue-800 rounded-xl border border-blue-200" dir="ltr">
-                    Affirmative Formula
+                    {currentTopic.id === 'u2-topic-comparatives' ? 'Comparative Formula' : 'Affirmative Formula'}
                   </span>
                 </div>
 
@@ -706,7 +827,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                     </div>
                   </div>
-                ) : (
+                ) : currentTopic.id === 'topic-past-simple' ? (
                   <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
                     <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
                       <span className="p-2 bg-blue-50 text-blue-600 rounded-xl shrink-0 border border-blue-100">
@@ -750,7 +871,96 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                     </div>
                   </div>
-                )}
+                ) : currentTopic.id === 'u2-topic-future-will' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-blue-50 text-blue-600 rounded-xl shrink-0 border border-blue-100">
+                        <Sparkles className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          ملاحظة هامة: الفعل بعد will يبقى مجرداً دائماً
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          مهما كان الفاعل مفرداً أو جمعاً (He, She, It, They)
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2">
+                      <p className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed">
+                        القاعدة الذهبية للمستقبل: كلمة <span className="bg-blue-50 text-blue-700 border border-blue-200 font-mono font-bold px-2 py-0.5 rounded-md">will</span> أو اختصارها <span className="bg-blue-50 text-blue-700 border border-blue-200 font-mono font-bold px-2 py-0.5 rounded-md">'ll</span> يأتي بعدها الفعل دائماً في المصدر المجرد (Base) خالي تماماً من أي إضافة!
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
+                          خطأ شائع: It will <span className="line-through text-rose-600 font-bold">rains</span> / <span className="line-through text-rose-600 font-bold">raining</span>
+                        </div>
+                        <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
+                          الصحيح دائماً: It will <span className="text-emerald-700 font-black underline">rain</span> tomorrow
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : currentTopic.id === 'u2-topic-comparatives' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-blue-50 text-blue-600 rounded-xl shrink-0 border border-blue-100">
+                        <Sparkles className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          ملاحظة هامة: كلمة (than) هي المفتاح السحري للمقارنة
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          بين صفة قصيرة (-er) أو صفة طويلة (more + adj)
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2">
+                      <p className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed">
+                        عندما ترى كلمة <span className="bg-blue-50 text-blue-700 border border-blue-200 font-mono font-bold px-2 py-0.5 rounded-md">than</span> (بمعنى: مِن) بعد الفراغ في الامتحان، اختر أو اكتب دائماً صيغة المقارنة:
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-blue-50/70 border border-blue-200 rounded-xl text-blue-800 text-left">
+                          صفة قصيرة: cold ➔ <span className="text-blue-700 font-bold">colder than</span>
+                        </div>
+                        <div className="p-2.5 bg-indigo-50/70 border border-indigo-200 rounded-xl text-indigo-800 text-left">
+                          صفة طويلة: interesting ➔ <span className="text-indigo-700 font-bold">more interesting than</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : currentTopic.id === 'topic-present-simple' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-blue-50 text-blue-600 rounded-xl shrink-0 border border-blue-100">
+                        <Sparkles className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          قاعدة المفرد والجمع في المضارع البسيط
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          متى نضيف s ومتى يبقى الفعل مجرداً؟
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2">
+                      <p className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed">
+                        • مع الفاعل المفرد (He, She, It, Ali, My father): نضيف للفعل <span className="bg-blue-50 text-blue-700 border border-blue-200 font-mono font-bold px-2 py-0.5 rounded-md">s / es</span>.
+                        <br />
+                        • مع الفاعل الجمع والضمير I (They, We, You, I, The students): الفعل يبقى <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono font-bold px-2 py-0.5 rounded-md">Base (مجرداً)</span> بدون أي زيادة.
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-blue-50/70 border border-blue-200 rounded-xl text-blue-800 text-left">
+                          مفرد: He <span className="text-blue-700 font-bold underline">watches</span> TV every day.
+                        </div>
+                        <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
+                          جمع / I: They <span className="text-emerald-700 font-black underline">watch</span> TV every day.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
 
                 <div className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed whitespace-pre-line bg-zinc-50/70 p-4 rounded-2xl border border-zinc-200">
                   {currentTopic.affirmative.explanationAr}
@@ -759,7 +969,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                 {/* Spoken Examples with Time Markers */}
                 <div className="space-y-3 pt-2">
                   <span className="text-xs font-bold text-blue-900 font-arabic block">
-                    أمثلة ناطقة مع دلالات الزمن:
+                    {currentTopic.id === 'u2-topic-comparatives' ? 'أمثلة المقارنة الناطقة في جمل المنهج:' : 'أمثلة ناطقة مع دلالات الزمن:'}
                   </span>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {currentTopic.affirmative.examples.map((ex, idx) => (
@@ -1003,10 +1213,12 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
               <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
                 <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
                   <h4 className="text-base sm:text-lg font-black text-rose-950 font-arabic">
-                    صيغة القاعدة في حالة النفي (Negative)
+                    {currentTopic.id === 'u2-topic-comparatives'
+                      ? 'صيغة التفضيل بين مجموعة (Superlative with the)'
+                      : 'صيغة القاعدة في حالة النفي (Negative)'}
                   </h4>
                   <span className="text-xs font-mono font-bold px-3 py-1 bg-rose-50 text-rose-800 rounded-xl border border-rose-200" dir="ltr">
-                    Negative Formula
+                    {currentTopic.id === 'u2-topic-comparatives' ? 'Superlative Formula' : 'Negative Formula'}
                   </span>
                 </div>
 
@@ -1059,7 +1271,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                     </div>
                   </div>
-                ) : (
+                ) : currentTopic.id === 'topic-past-simple' ? (
                   <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
                     <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
                       <span className="p-2 bg-rose-50 text-rose-600 rounded-xl shrink-0 border border-rose-100">
@@ -1089,7 +1301,97 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                     </div>
                   </div>
-                )}
+                ) : currentTopic.id === 'u2-topic-future-will' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-rose-50 text-rose-600 rounded-xl shrink-0 border border-rose-100">
+                        <AlertTriangle className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          ملاحظة هامة جداً: اختصار نفي المستقبل (won't)
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          سؤال إملاء وتحويل وزاري متكرر
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2.5">
+                      <p className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed">
+                        نفي will not يُختصر دائماً إلى <span className="bg-rose-50 text-rose-700 border border-rose-200 font-mono font-bold px-2 py-0.5 rounded-md">won't</span> مع الفاصلة العليا، ويبقى الفعل بعدها مجرداً (Base) تماماً دون أي إضافة!
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
+                          إملاء خاطئ: <span className="line-through text-rose-600 font-bold">willn't</span>
+                        </div>
+                        <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
+                          الإملاء الصحيح: <span className="text-emerald-700 font-black underline">won't</span> + مجرد
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : currentTopic.id === 'u2-topic-comparatives' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-rose-50 text-rose-600 rounded-xl shrink-0 border border-rose-100">
+                        <AlertTriangle className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          ملاحظة هامة جداً: أداة التعريف (the) إجبارية قبل صيغة التفضيل
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          أهم قاعدة لأسئلة الاختيارات الوزارية والشهرية
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2.5">
+                      <p className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed">
+                        إذا رأيت أداة التعريف <span className="bg-rose-50 text-rose-700 border border-rose-200 font-mono font-bold px-2 py-0.5 rounded-md">the</span> قبل الفراغ، فاختر فوراً الصفة المنتهية بـ <span className="font-mono font-bold text-rose-700">-est</span> أو المسبوقة بـ <span className="font-mono font-bold text-rose-700">most</span>!
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
+                          خطأ شائع: July is the <span className="line-through text-rose-600 font-bold">hotter</span> month
+                        </div>
+                        <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
+                          الصحيح دائماً: July is the <span className="text-emerald-700 font-black underline">hottest</span> month
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : currentTopic.id === 'topic-present-simple' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-rose-50 text-rose-600 rounded-xl shrink-0 border border-rose-100">
+                        <AlertTriangle className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          قاعدة ذهبية في نفي المضارع: حذف s الشخص الثالث
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          بعد doesn't و don't يرجع الفعل دائماً إلى أصله المجرد (Base)
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2.5">
+                      <p className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed">
+                        عند النفي بـ <span className="bg-rose-50 text-rose-700 border border-rose-200 font-mono font-bold px-2 py-0.5 rounded-md">doesn't</span> مع المفرد، نسحب حرف الـ (s/es) من الفعل ليعود مجرداً خالي من أي إضافة!
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
+                          خطأ شائع: He doesn't <span className="line-through text-rose-600 font-bold">plays</span> tennis
+                        </div>
+                        <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
+                          الصحيح دائماً: He doesn't <span className="text-emerald-700 font-black underline">play</span> tennis
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
 
                 <div className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed bg-zinc-50/70 p-4 rounded-2xl border border-zinc-200">
                   {currentTopic.negative.explanationAr}
@@ -1098,7 +1400,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                 {/* Negative Examples */}
                 <div className="space-y-3 pt-2">
                   <span className="text-xs font-bold text-rose-900 font-arabic block">
-                    أمثلة النفي الناطقة مع دلالات الزمن:
+                    {currentTopic.id === 'u2-topic-comparatives' ? 'أمثلة التفضيل الناطقة في جمل المنهج:' : 'أمثلة النفي الناطقة مع دلالات الزمن:'}
                   </span>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {currentTopic.negative.examples.map((ex, idx) => (
@@ -1144,7 +1446,13 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                           صيغ وتطبيقات امتحانية (تطبيقات امتحانية على النفي)
                         </h4>
                         <span className="text-xs text-zinc-500 font-arabic">
-                          تفصيخ وبناء الجملة وإبراز وضع didn't وإرجاع الفعل لأصله
+                          {currentTopic.id === 'u2-topic-future-will'
+                            ? "تفصيخ وبناء الجملة وإبراز وضع won't والفعل المجرد"
+                            : currentTopic.id === 'topic-past-continuous'
+                            ? "تفصيخ وبناء الجملة وإبراز wasn't / weren't مع (ing)"
+                            : currentTopic.id === 'u2-topic-comparatives'
+                            ? "تفصيخ وبناء صيغة التفضيل (the ... est / most)"
+                            : "تفصيخ وبناء الجملة وإبراز وضع didn't وإرجاع الفعل لأصله"}
                         </span>
                       </div>
                     </div>
@@ -1325,10 +1633,12 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
               <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
                 <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
                   <h4 className="text-base sm:text-lg font-black text-indigo-950 font-arabic">
-                    صيغة السؤال (Question)
+                    {currentTopic.id === 'u2-topic-comparatives'
+                      ? 'صيغة السؤال في المقارنة والتفضيل (Which)'
+                      : 'صيغة السؤال (Question)'}
                   </h4>
                   <span className="text-xs font-mono font-bold px-3 py-1 bg-indigo-50 text-indigo-800 rounded-xl border border-indigo-200" dir="ltr">
-                    Question Formula
+                    {currentTopic.id === 'u2-topic-comparatives' ? 'Which / Comparison Question' : 'Question Formula'}
                   </span>
                 </div>
 
@@ -1383,7 +1693,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                     </div>
                   </div>
-                ) : (
+                ) : currentTopic.id === 'topic-past-simple' ? (
                   <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
                     <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
                       <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shrink-0 border border-indigo-100">
@@ -1415,7 +1725,94 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                       </div>
                     </div>
                   </div>
-                )}
+                ) : currentTopic.id === 'u2-topic-future-will' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shrink-0 border border-indigo-100">
+                        <HelpCircle className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          ملاحظة هامة: خطوات تكوين السؤال في زمن المستقبل
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          تقديم Will في البداية مع الفعل المجرد
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2.5">
+                      <div className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed space-y-1.5">
+                        <p>1. نبدأ السؤال بتقديم <span className="bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono font-bold px-2 py-0.5 rounded-md">Will</span> بحرف كبير في بداية الجملة قبل الفاعل.</p>
+                        <p>2. يبقى الفعل الرئيسي مجرداً (Base) خالي من أي إضافة.</p>
+                        <p>3. نضع علامة الاستفهام <span className="bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono font-bold px-2 py-0.5 rounded-md">?</span> في النهاية.</p>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
+                          خطأ شائع: Will it <span className="line-through text-rose-600 font-bold">rains</span> tomorrow?
+                        </div>
+                        <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
+                          الصحيح دائماً: Will it <span className="text-emerald-700 font-black underline">rain</span> tomorrow?
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : currentTopic.id === 'u2-topic-comparatives' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shrink-0 border border-indigo-100">
+                        <HelpCircle className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          ملاحظة هامة: السؤال بـ (Which = أي) للاختيار والمقارنة
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          أسئلة قطع الكتاب وفصول السنة والرياضات
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2.5">
+                      <div className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed space-y-1.5">
+                        <p>1. نستخدم <span className="bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono font-bold px-2 py-0.5 rounded-md">Which</span> عندما نسأل للاختيار والمقارنة بين أمرين: <span className="font-mono text-zinc-900" dir="ltr">Which month is colder, January or July?</span></p>
+                        <p>2. نسأل عن التفضيل المطلق بـ: <span className="font-mono text-zinc-900" dir="ltr">Which is the fastest sport?</span></p>
+                      </div>
+                    </div>
+                  </div>
+                ) : currentTopic.id === 'topic-present-simple' ? (
+                  <div className="bg-white border border-zinc-200 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5 text-right">
+                    <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
+                      <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shrink-0 border border-indigo-100">
+                        <HelpCircle className="w-5 h-5" />
+                      </span>
+                      <div>
+                        <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
+                          قاعدة تكوين السؤال في المضارع البسيط (Do / Does)
+                        </h5>
+                        <span className="text-xs text-zinc-500 font-arabic">
+                          استخدام Does مع المفرد و Do مع الجمع مع إرجاع الفعل مجرداً
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="bg-zinc-50/70 p-3.5 rounded-xl border border-zinc-200/80 space-y-2.5">
+                      <div className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed space-y-1.5">
+                        <p>1. نستخدم <span className="bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono font-bold px-2 py-0.5 rounded-md">Does</span> في البداية مع المفرد (He, She, It, Ali).</p>
+                        <p>2. نستخدم <span className="bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono font-bold px-2 py-0.5 rounded-md">Do</span> في البداية مع الجمع و I و you (They, We, You).</p>
+                        <p>3. قاعدة ذهبية: الفعل بعد Does و Do يرجع <span className="font-bold text-indigo-700 underline">مجرداً خالي من s</span> تماماً!</p>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
+                        <div className="p-2.5 bg-rose-50/70 border border-rose-200 rounded-xl text-rose-800 text-left">
+                          خطأ شائع: Does he <span className="line-through text-rose-600 font-bold">plays</span> tennis?
+                        </div>
+                        <div className="p-2.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-emerald-800 font-bold text-left">
+                          الصحيح دائماً: Does he <span className="text-emerald-700 font-black underline">play</span> tennis?
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
 
                 <div className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed bg-zinc-50/70 p-4 rounded-2xl border border-zinc-200">
                   {currentTopic.question.explanationAr}
@@ -1424,7 +1821,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                 {/* Question Examples */}
                 <div className="space-y-3 pt-2">
                   <span className="text-xs font-bold text-indigo-900 font-arabic block">
-                    أمثلة السؤال الناطقة والإجابات القصيرة:
+                    {currentTopic.id === 'u2-topic-comparatives' ? 'أمثلة الأسئلة الناطقة في جمل المنهج:' : 'أمثلة السؤال الناطقة والإجابات القصيرة:'}
                   </span>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {currentTopic.question.examples.map((ex, idx) => (
@@ -1470,7 +1867,13 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
                           صيغ وتطبيقات امتحانية (تطبيقات امتحانية على الاستفهام)
                         </h4>
                         <span className="text-xs text-zinc-500 font-arabic">
-                          تفصيخ وبناء الجملة وتظليل Did والمصدر المجرد وعلامة الاستفهام (?)
+                          {currentTopic.id === 'u2-topic-future-will'
+                            ? "تفصيخ وبناء الجملة وتظليل Will والمصدر المجرد وعلامة الاستفهام (?)"
+                            : currentTopic.id === 'topic-past-continuous'
+                            ? "تفصيخ وبناء الجملة وتظليل Was/Were والفعل (ing) وعلامة الاستفهام (?)"
+                            : currentTopic.id === 'u2-topic-comparatives'
+                            ? "صيغة السؤال في المقارنة والتفضيل مع Which وعلامة الاستفهام (?)"
+                            : "تفصيخ وبناء الجملة وتظليل Did والمصدر المجرد وعلامة الاستفهام (?)"}
                         </span>
                       </div>
                     </div>
@@ -2338,14 +2741,26 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
             <div className="flex items-center justify-between border-b border-teal-100 pb-3">
               <div>
                 <span className="text-xs font-bold text-teal-700 font-arabic block">
-                  التعبير عن الهوايات وما نحبه
+                  {currentTopic.id === 'u2-topic-dates-ordinals'
+                    ? 'الأعداد الترتيبية وقراءة وكتابة التواريخ'
+                    : currentTopic.id === 'topic-adverbs-frequency'
+                    ? 'قواعد ظروف التكرار وموقعها في الجملة'
+                    : 'التعبير عن الهوايات وما نحبه'}
                 </span>
                 <h4 className="text-base sm:text-lg font-black text-teal-950 font-arabic mt-0.5">
-                  قواعد like, love, enjoy والعبارة interested in
+                  {currentTopic.id === 'u2-topic-dates-ordinals'
+                    ? 'الأعداد الترتيبية (1st, 2nd, 3rd) والتواريخ وحروف الجر (in / on / at)'
+                    : currentTopic.id === 'topic-adverbs-frequency'
+                    ? 'ظروف التكرار (always, usually, often, sometimes, never)'
+                    : 'قواعد like, love, enjoy والعبارة interested in'}
                 </h4>
               </div>
               <span className="text-xs font-mono font-bold px-3 py-1 bg-teal-100 text-teal-800 rounded-xl" dir="ltr">
-                Interests
+                {currentTopic.id === 'u2-topic-dates-ordinals'
+                  ? 'Dates & Ordinals'
+                  : currentTopic.id === 'topic-adverbs-frequency'
+                  ? 'Adverbs of Frequency'
+                  : 'Interests'}
               </span>
             </div>
 
@@ -2408,7 +2823,11 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
           <div className="bg-gradient-to-br from-teal-50 via-white to-emerald-50 border-2 border-teal-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
             <div className="flex items-center justify-between border-b border-teal-100 pb-3">
               <h4 className="text-base sm:text-lg font-black text-teal-950 font-arabic">
-                تمارين امتحانية شهرية على التعبير عن الاهتمام
+                {currentTopic.id === 'u2-topic-dates-ordinals'
+                  ? 'تمارين امتحانية شهرية على الأعداد الترتيبية والتواريخ'
+                  : currentTopic.id === 'topic-adverbs-frequency'
+                  ? 'تمارين امتحانية شهرية على ظروف التكرار'
+                  : 'تمارين امتحانية شهرية على التعبير عن الاهتمام'}
               </h4>
               <button
                 onClick={handleResetPractice}
