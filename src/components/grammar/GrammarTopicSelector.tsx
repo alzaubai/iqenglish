@@ -96,7 +96,8 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
 
             const isUnlocked =
               Array.isArray(unlockedGrammarTopics) && unlockedGrammarTopics.length > 0
-                ? unlockedGrammarTopics.includes(topic.id)
+                ? unlockedGrammarTopics.includes(topic.id) ||
+                  (isUnit2 && !unlockedGrammarTopics.some((t) => t.startsWith('u2-')) && topic.id === defaultUnlockedId)
                 : topic.id === defaultUnlockedId;
 
             return (

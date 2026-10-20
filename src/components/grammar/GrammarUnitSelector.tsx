@@ -34,9 +34,9 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
             </p>
           </div>
           <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 text-center shrink-0">
-            <span className="text-xs text-zinc-500 font-arabic block">الوحدة النشطة</span>
-            <span className="text-2xl font-black text-zinc-900 font-sans block mt-0.5">Unit 1</span>
-            <span className="text-[11px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full inline-block mt-1">
+            <span className="text-xs text-zinc-500 font-arabic block">الوحدات المكتملة</span>
+            <span className="text-2xl font-black text-zinc-900 font-sans block mt-0.5">Unit 1 & 2</span>
+            <span className="text-[11px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full inline-block mt-1 font-arabic">
               مكتملة ومتاحة الآن
             </span>
           </div>
@@ -97,7 +97,11 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
               {/* Action Button */}
               <div className="mt-5 pt-4 border-t border-zinc-100 flex items-center justify-between">
                 <span className="text-xs font-medium text-zinc-500 font-arabic">
-                  {isUnit1 ? '5 مواضيع قواعدية' : 'غير مفعل حالياً'}
+                  {unit.id === 'unit-1'
+                    ? '7 مواضيع قواعدية'
+                    : unit.id === 'unit-2'
+                    ? '3 مواضيع قواعدية'
+                    : 'غير مفعل حالياً'}
                 </span>
                 {unit.isAvailable ? (
                   <button className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-900 group-hover:underline font-arabic cursor-pointer">

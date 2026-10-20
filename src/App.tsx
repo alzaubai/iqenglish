@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import {
   Volume2,
   BookOpen,
@@ -44,6 +44,7 @@ import {
 } from './services/firebase';
 import { STORAGE_KEYS } from './constants/storageKeys';
 import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
+import { MaintenanceScreen } from './components/auth/MaintenanceScreen';
 import { TeacherDashboardPage } from './components/admin/TeacherDashboardPage';
 import { StudentQuickExamModal } from './components/exam/StudentQuickExamModal';
 import { StudentGradesHistoryModal } from './components/exam/StudentGradesHistoryModal';
@@ -153,12 +154,12 @@ export default function App() {
   ]);
 
   const isExternalSubscriber = Boolean(studentSession?.isExternalSubscriber);
-  const effectiveUnlockedLessons = isExternalSubscriber
+  const effectiveUnlockedLessons = (isExternalSubscriber || isTeacherLoggedIn)
     ? [...unit1Lessons.map((l) => l.id), ...unit2Lessons.map((l) => l.id)]
     : Array.isArray(platformConfig.unlockedLessons)
       ? platformConfig.unlockedLessons
       : ['lesson-1', 'u2-lesson-1'];
-  const effectiveUnlockedGrammarTopics = isExternalSubscriber
+  const effectiveUnlockedGrammarTopics = (isExternalSubscriber || isTeacherLoggedIn)
     ? [
         'topic-past-simple',
         'topic-past-continuous',
@@ -171,7 +172,9 @@ export default function App() {
         'u2-topic-comparatives',
         'u2-topic-dates-ordinals',
       ]
-    : platformConfig.unlockedGrammarTopics || ['topic-past-simple'];
+    : platformConfig.unlockedGrammarTopics && platformConfig.unlockedGrammarTopics.length > 0
+      ? platformConfig.unlockedGrammarTopics
+      : ['topic-past-simple', 'u2-topic-future-will'];
 
   const currentLesson =
     activeUnitLessons.find((l) => l.id === selectedLessonId) || activeUnitLessons[0];
@@ -211,7 +214,7 @@ export default function App() {
   const handleSelectLesson = (lessonId: string) => {
     const isUnlocked = effectiveUnlockedLessons.includes(lessonId);
     if (!isUnlocked) {
-      alert('عذراً، هذا الدرس مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
+      alert('Ø¹Ø°Ø±Ø§Ù‹ØŒ Ù‡Ø°Ø§ Ø§Ù„Ø¯Ø±Ø³ Ù…ØºÙ„Ù‚ Ø­Ø§Ù„ÙŠØ§Ù‹ Ù…Ù† Ù‚Ø¨Ù„ Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø©: Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±');
       return;
     }
     setSelectedLessonId(lessonId);
@@ -225,7 +228,7 @@ export default function App() {
       const prevLesson = activeUnitLessons[currentIndex - 1];
       const isUnlocked = effectiveUnlockedLessons.includes(prevLesson.id);
       if (!isUnlocked) {
-        alert('عذراً، هذا الدرس مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
+        alert('Ø¹Ø°Ø±Ø§Ù‹ØŒ Ù‡Ø°Ø§ Ø§Ù„Ø¯Ø±Ø³ Ù…ØºÙ„Ù‚ Ø­Ø§Ù„ÙŠØ§Ù‹ Ù…Ù† Ù‚Ø¨Ù„ Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø©: Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±');
         return;
       }
       setSelectedLessonId(prevLesson.id);
@@ -239,7 +242,7 @@ export default function App() {
       const nextLesson = activeUnitLessons[currentIndex + 1];
       const isUnlocked = effectiveUnlockedLessons.includes(nextLesson.id);
       if (!isUnlocked) {
-        alert('عذراً، هذا الدرس مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
+        alert('Ø¹Ø°Ø±Ø§Ù‹ØŒ Ù‡Ø°Ø§ Ø§Ù„Ø¯Ø±Ø³ Ù…ØºÙ„Ù‚ Ø­Ø§Ù„ÙŠØ§Ù‹ Ù…Ù† Ù‚Ø¨Ù„ Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø©: Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±');
         return;
       }
       setSelectedLessonId(nextLesson.id);
@@ -257,7 +260,7 @@ export default function App() {
   const handleSelectGrammarTopic = (topicId: string) => {
     const isUnlocked = effectiveUnlockedGrammarTopics.includes(topicId);
     if (!isUnlocked) {
-      alert('عذراً، هذا الموضوع مغلق حالياً من قبل مدرس المادة: أ. حسام محمود منصور');
+      alert('Ø¹Ø°Ø±Ø§Ù‹ØŒ Ù‡Ø°Ø§ Ø§Ù„Ù…ÙˆØ¶ÙˆØ¹ Ù…ØºÙ„Ù‚ Ø­Ø§Ù„ÙŠØ§Ù‹ Ù…Ù† Ù‚Ø¨Ù„ Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø©: Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±');
       return;
     }
     setGrammarSelectedTopicId(topicId);
@@ -281,7 +284,23 @@ export default function App() {
     );
   }
 
-  // 2. Authentication Gate: Neither student nor teacher is logged in yet
+  // 2. Platform Maintenance Mode Gate:
+  // If maintenance mode is active, BLOCK ALL STUDENTS & VISITORS unless teacher is logged in!
+  const isMaintenanceActive = Boolean(platformConfig.isMaintenanceMode ?? true);
+  if (isMaintenanceActive && !isTeacherLoggedIn) {
+    return (
+      <MaintenanceScreen
+        maintenanceMessageAr={platformConfig.maintenanceMessageAr}
+        onTeacherLoginSuccess={() => {
+          localStorage.setItem(STORAGE_KEYS.TEACHER_LOGGED_IN, 'true');
+          setIsTeacherLoggedIn(true);
+          setIsTeacherDashboardOpen(false);
+        }}
+      />
+    );
+  }
+
+  // 3. Authentication Gate: Neither student nor teacher is logged in yet
   if (!studentSession && !isTeacherLoggedIn) {
     return (
       <StudentLoginScreen
@@ -331,7 +350,7 @@ export default function App() {
             <div className="max-w-5xl mx-auto flex items-center justify-center gap-2 text-xs font-bold text-amber-900">
               <Clock className="w-4 h-4 text-amber-700 shrink-0" />
               <span>
-                فترة تجريبية مجانية للمنصة: متبقي لك ({trialMinutesRemaining} دقيقة)
+                ÙØªØ±Ø© ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ù…Ø¬Ø§Ù†ÙŠØ© Ù„Ù„Ù…Ù†ØµØ©: Ù…ØªØ¨Ù‚ÙŠ Ù„Ùƒ ({trialMinutesRemaining} Ø¯Ù‚ÙŠÙ‚Ø©)
               </span>
             </div>
           </div>
@@ -424,13 +443,13 @@ export default function App() {
                         <button
                           onClick={() => setCurriculumViewState('lessons')}
                           className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-800 flex items-center justify-center cursor-pointer transition-all border border-zinc-200/80 shadow-2xs"
-                          title="العودة لقائمة الدروس"
-                          aria-label="العودة لقائمة الدروس"
+                          title="Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¯Ø±ÙˆØ³"
+                          aria-label="Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¯Ø±ÙˆØ³"
                         >
                           <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
                         </button>
                         <span className="text-xs sm:text-sm font-bold text-zinc-700 font-arabic">
-                          {selectedUnitId === 'unit-2' ? 'الوحدة الثانية' : 'الوحدة الأولى'}
+                          {selectedUnitId === 'unit-2' ? 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø«Ø§Ù†ÙŠØ©' : 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø£ÙˆÙ„Ù‰'}
                         </span>
                       </div>
                     </div>
@@ -440,10 +459,10 @@ export default function App() {
                         <Lock className="w-8 h-8" />
                       </div>
                       <h3 className="text-xl font-bold text-slate-800 font-arabic">
-                        هذا الدرس مغلق حالياً
+                        Ù‡Ø°Ø§ Ø§Ù„Ø¯Ø±Ø³ Ù…ØºÙ„Ù‚ Ø­Ø§Ù„ÙŠØ§Ù‹
                       </h3>
                       <p className="text-xs sm:text-sm text-slate-600 font-arabic leading-relaxed">
-                        تم قفل هذا الدرس من قبل مدرس المادة: أ. حسام محمود منصور
+                        ØªÙ… Ù‚ÙÙ„ Ù‡Ø°Ø§ Ø§Ù„Ø¯Ø±Ø³ Ù…Ù† Ù‚Ø¨Ù„ Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø©: Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±
                       </p>
                       <div className="pt-2">
                         <button
@@ -451,7 +470,7 @@ export default function App() {
                           className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-arabic cursor-pointer transition-colors inline-flex items-center gap-2 shadow-xs"
                         >
                           <ArrowRight className="w-4 h-4" />
-                          <span>العودة لقائمة الدروس المتاحة</span>
+                          <span>Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¯Ø±ÙˆØ³ Ø§Ù„Ù…ØªØ§Ø­Ø©</span>
                         </button>
                       </div>
                     </div>
@@ -467,13 +486,13 @@ export default function App() {
                     <button
                       onClick={() => setCurriculumViewState('lessons')}
                       className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-800 flex items-center justify-center cursor-pointer transition-all border border-zinc-200/80 shadow-2xs"
-                      title="العودة لقائمة الدروس"
-                      aria-label="العودة لقائمة الدروس"
+                      title="Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¯Ø±ÙˆØ³"
+                      aria-label="Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¯Ø±ÙˆØ³"
                     >
                       <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
                     </button>
                     <span className="text-xs sm:text-sm font-bold text-zinc-700 font-arabic">
-                      {selectedUnitId === 'unit-2' ? 'الوحدة الثانية' : 'الوحدة الأولى'}
+                      {selectedUnitId === 'unit-2' ? 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø«Ø§Ù†ÙŠØ©' : 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø£ÙˆÙ„Ù‰'}
                     </span>
                   </div>
 
@@ -487,12 +506,12 @@ export default function App() {
                           ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
                           : 'border-zinc-300 text-zinc-700 hover:bg-zinc-100 cursor-pointer bg-white'
                       }`}
-                      title={currentLesson.lessonNumber === 1 ? 'الدرس الأول' : !isPrevUnlocked ? 'الدرس السابق مغلق' : 'الدرس السابق'}
+                      title={currentLesson.lessonNumber === 1 ? 'Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„Ø£ÙˆÙ„' : !isPrevUnlocked ? 'Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„Ø³Ø§Ø¨Ù‚ Ù…ØºÙ„Ù‚' : 'Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„Ø³Ø§Ø¨Ù‚'}
                     >
                       <ChevronRight className="w-4 h-4" />
                     </button>
                     <span className="text-xs font-bold px-2 py-1 bg-zinc-100 text-zinc-800 rounded font-arabic">
-                      الدرس {currentLesson.lessonNumber} من 10
+                      Ø§Ù„Ø¯Ø±Ø³ {currentLesson.lessonNumber} Ù…Ù† 10
                     </span>
                     <button
                       onClick={handleNextLesson}
@@ -502,7 +521,7 @@ export default function App() {
                           ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
                           : 'border-zinc-300 text-zinc-700 hover:bg-zinc-100 cursor-pointer bg-white'
                       }`}
-                      title={currentLesson.lessonNumber === 10 ? 'الدرس الأخير' : !isNextUnlocked ? 'الدرس التالي مغلق' : 'الدرس التالي'}
+                      title={currentLesson.lessonNumber === 10 ? 'Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„Ø£Ø®ÙŠØ±' : !isNextUnlocked ? 'Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„ØªØ§Ù„ÙŠ Ù…ØºÙ„Ù‚' : 'Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„ØªØ§Ù„ÙŠ'}
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
@@ -523,7 +542,7 @@ export default function App() {
                     )}
                     <div className="space-y-1">
                       <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-zinc-900 text-white font-mono inline-block">
-                        UNIT {currentLesson.unitNumber} • LESSON {currentLesson.lessonNumber}
+                        UNIT {currentLesson.unitNumber} â€¢ LESSON {currentLesson.lessonNumber}
                       </span>
                       <h2 className="text-2xl font-extrabold text-zinc-900 mt-1 font-arabic">
                         {currentLesson.titleAr.includes('(') ? (
@@ -564,7 +583,7 @@ export default function App() {
                       <Volume2 className="w-4 h-4" />
                     </div>
                     <h3 className="text-base font-bold text-zinc-900 font-arabic flex flex-wrap items-baseline gap-1.5">
-                      <span>1. الاستماع والقراءة التفاعلية</span>
+                      <span>1. Ø§Ù„Ø§Ø³ØªÙ…Ø§Ø¹ ÙˆØ§Ù„Ù‚Ø±Ø§Ø¡Ø© Ø§Ù„ØªÙØ§Ø¹Ù„ÙŠØ©</span>
                       <span dir="ltr" className="inline-block text-xs font-semibold text-zinc-500 font-sans">
                         (Listening &amp; Reading)
                       </span>
@@ -596,7 +615,7 @@ export default function App() {
                       <BookOpen className="w-4 h-4" />
                     </div>
                     <h3 className="text-base font-bold text-zinc-900 font-arabic flex flex-wrap items-baseline gap-1.5">
-                      <span>2. تمارين كتاب النشاط التفاعلية</span>
+                      <span>2. ØªÙ…Ø§Ø±ÙŠÙ† ÙƒØªØ§Ø¨ Ø§Ù„Ù†Ø´Ø§Ø· Ø§Ù„ØªÙØ§Ø¹Ù„ÙŠØ©</span>
                       <span dir="ltr" className="inline-block text-xs font-semibold text-zinc-500 font-sans">
                         (Activity Book Exercises)
                       </span>
@@ -640,14 +659,14 @@ export default function App() {
                     }`}
                   >
                     <ChevronRight className="w-4 h-4" />
-                    <span>الدرس السابق</span>
+                    <span>Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„Ø³Ø§Ø¨Ù‚</span>
                   </button>
 
                   <button
                     onClick={() => setCurriculumViewState('lessons')}
                     className="text-xs font-bold text-zinc-600 hover:text-zinc-900 underline font-arabic text-center order-last sm:order-none w-full sm:w-auto mt-1 sm:mt-0"
                   >
-                    قائمة دروس {selectedUnitId === 'unit-2' ? 'الوحدة الثانية' : 'الوحدة الأولى'} (10 دروس)
+                    Ù‚Ø§Ø¦Ù…Ø© Ø¯Ø±ÙˆØ³ {selectedUnitId === 'unit-2' ? 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø«Ø§Ù†ÙŠØ©' : 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø£ÙˆÙ„Ù‰'} (10 Ø¯Ø±ÙˆØ³)
                   </button>
 
                   <button
@@ -659,7 +678,7 @@ export default function App() {
                         : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-800 cursor-pointer'
                     }`}
                   >
-                    <span>الدرس التالي</span>
+                    <span>Ø§Ù„Ø¯Ø±Ø³ Ø§Ù„ØªØ§Ù„ÙŠ</span>
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                 </div>
@@ -677,13 +696,13 @@ export default function App() {
             <div className="max-w-xl mx-auto p-6 text-center font-arabic">
               <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-xs space-y-3">
                 <p className="text-slate-700 font-bold text-sm">
-                  أنت مسجل حالياً كأستاذ المادة. للاطلاع على درجات وسجلات جميع الطلاب، يرجى فتح لوحة تحكم الأستاذ.
+                  Ø£Ù†Øª Ù…Ø³Ø¬Ù„ Ø­Ø§Ù„ÙŠØ§Ù‹ ÙƒØ£Ø³ØªØ§Ø° Ø§Ù„Ù…Ø§Ø¯Ø©. Ù„Ù„Ø§Ø·Ù„Ø§Ø¹ Ø¹Ù„Ù‰ Ø¯Ø±Ø¬Ø§Øª ÙˆØ³Ø¬Ù„Ø§Øª Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø·Ù„Ø§Ø¨ØŒ ÙŠØ±Ø¬Ù‰ ÙØªØ­ Ù„ÙˆØ­Ø© ØªØ­ÙƒÙ… Ø§Ù„Ø£Ø³ØªØ§Ø°.
                 </p>
                 <button
                   onClick={() => setIsTeacherDashboardOpen(true)}
                   className="px-4 py-2.5 rounded-xl bg-slate-800 text-white font-bold text-xs hover:bg-slate-700 transition-colors cursor-pointer"
                 >
-                  فتح لوحة تحكم الأستاذ
+                  ÙØªØ­ Ù„ÙˆØ­Ø© ØªØ­ÙƒÙ… Ø§Ù„Ø£Ø³ØªØ§Ø°
                 </button>
               </div>
             </div>
@@ -694,18 +713,18 @@ export default function App() {
       {/* Clean Footer */}
       <footer className="border-t border-zinc-200 bg-white py-5 mt-10" dir="rtl">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center text-xs text-zinc-500 font-arabic">
-          <span>English for Iraq • الصف الأول المتوسط • إعداد وإشراف مدرس المادة: أ. حسام محمود منصور</span>
+          <span>English for Iraq â€¢ Ø§Ù„ØµÙ Ø§Ù„Ø£ÙˆÙ„ Ø§Ù„Ù…ØªÙˆØ³Ø· â€¢ Ø¥Ø¹Ø¯Ø§Ø¯ ÙˆØ¥Ø´Ø±Ø§Ù Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø©: Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±</span>
           <div className="flex flex-wrap items-center justify-center gap-3">
             {isTeacherLoggedIn ? (
               <div className="flex items-center gap-2">
                 <span className="text-zinc-800 bg-zinc-100 px-2.5 py-1 rounded-lg font-bold">
-                  أنت في وضع: أستاذ المادة
+                  Ø£Ù†Øª ÙÙŠ ÙˆØ¶Ø¹: Ø£Ø³ØªØ§Ø° Ø§Ù„Ù…Ø§Ø¯Ø©
                 </span>
                 <button
                   onClick={() => setIsTeacherDashboardOpen(true)}
                   className="text-zinc-900 hover:underline font-bold cursor-pointer"
                 >
-                  لوحة تحكم الأستاذ
+                  Ù„ÙˆØ­Ø© ØªØ­ÙƒÙ… Ø§Ù„Ø£Ø³ØªØ§Ø°
                 </button>
                 <button
                   onClick={() => {
@@ -714,13 +733,13 @@ export default function App() {
                   }}
                   className="text-zinc-500 hover:text-zinc-900 underline cursor-pointer"
                 >
-                  خروج
+                  Ø®Ø±ÙˆØ¬
                 </button>
               </div>
             ) : studentSession ? (
               <div className="flex items-center gap-2">
                 <span className="text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">
-                  الطالب: <strong>{studentSession.fullName}</strong> (شعبة {studentSession.section})
+                  Ø§Ù„Ø·Ø§Ù„Ø¨: <strong>{studentSession.fullName}</strong> (Ø´Ø¹Ø¨Ø© {studentSession.section})
                 </span>
                 <button
                   onClick={() => {
@@ -728,9 +747,9 @@ export default function App() {
                     setStudentSession(null);
                   }}
                   className="text-slate-500 hover:text-slate-800 underline cursor-pointer text-[11px]"
-                  title="تسجيل خروج الطالب والعودة لشاشة البداية"
+                  title="ØªØ³Ø¬ÙŠÙ„ Ø®Ø±ÙˆØ¬ Ø§Ù„Ø·Ø§Ù„Ø¨ ÙˆØ§Ù„Ø¹ÙˆØ¯Ø© Ù„Ø´Ø§Ø´Ø© Ø§Ù„Ø¨Ø¯Ø§ÙŠØ©"
                 >
-                  خروج الطالب
+                  Ø®Ø±ÙˆØ¬ Ø§Ù„Ø·Ø§Ù„Ø¨
                 </button>
               </div>
             ) : null}
@@ -752,14 +771,14 @@ export default function App() {
               </div>
               <h3 className="text-lg font-bold text-slate-800 font-arabic">
                 {studentSession.subscriptionDuration === '1_hour'
-                  ? 'انتهت فترة التجربة المجانية (ساعة واحدة)'
-                  : 'انتهت فترة اشتراكك الإلكتروني'}
+                  ? 'Ø§Ù†ØªÙ‡Øª ÙØªØ±Ø© Ø§Ù„ØªØ¬Ø±Ø¨Ø© Ø§Ù„Ù…Ø¬Ø§Ù†ÙŠØ© (Ø³Ø§Ø¹Ø© ÙˆØ§Ø­Ø¯Ø©)'
+                  : 'Ø§Ù†ØªÙ‡Øª ÙØªØ±Ø© Ø§Ø´ØªØ±Ø§ÙƒÙƒ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ'}
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 font-arabic leading-relaxed">
-                عزيزي الطالب <strong className="text-slate-800">{studentSession.fullName}</strong>،{' '}
+                Ø¹Ø²ÙŠØ²ÙŠ Ø§Ù„Ø·Ø§Ù„Ø¨ <strong className="text-slate-800">{studentSession.fullName}</strong>ØŒ{' '}
                 {studentSession.subscriptionDuration === '1_hour'
-                  ? 'لقد انتهت فترة المعاينة التجريبية للمنصة (60 دقيقة). للاشتراك ومواصلة التعلم، يرجى التواصل مع مدرس المادة أ. حسام محمود منصور.'
-                  : 'لقد انتهت صلاحية الكود الخاص باشتراكك. لتجديد الاشتراك ومواصلة التعلم، يرجى التواصل مع مدرس المادة أ. حسام محمود منصور.'}
+                  ? 'Ù„Ù‚Ø¯ Ø§Ù†ØªÙ‡Øª ÙØªØ±Ø© Ø§Ù„Ù…Ø¹Ø§ÙŠÙ†Ø© Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ù„Ù„Ù…Ù†ØµØ© (60 Ø¯Ù‚ÙŠÙ‚Ø©). Ù„Ù„Ø§Ø´ØªØ±Ø§Ùƒ ÙˆÙ…ÙˆØ§ØµÙ„Ø© Ø§Ù„ØªØ¹Ù„Ù…ØŒ ÙŠØ±Ø¬Ù‰ Ø§Ù„ØªÙˆØ§ØµÙ„ Ù…Ø¹ Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø© Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±.'
+                  : 'Ù„Ù‚Ø¯ Ø§Ù†ØªÙ‡Øª ØµÙ„Ø§Ø­ÙŠØ© Ø§Ù„ÙƒÙˆØ¯ Ø§Ù„Ø®Ø§Øµ Ø¨Ø§Ø´ØªØ±Ø§ÙƒÙƒ. Ù„ØªØ¬Ø¯ÙŠØ¯ Ø§Ù„Ø§Ø´ØªØ±Ø§Ùƒ ÙˆÙ…ÙˆØ§ØµÙ„Ø© Ø§Ù„ØªØ¹Ù„Ù…ØŒ ÙŠØ±Ø¬Ù‰ Ø§Ù„ØªÙˆØ§ØµÙ„ Ù…Ø¹ Ù…Ø¯Ø±Ø³ Ø§Ù„Ù…Ø§Ø¯Ø© Ø£. Ø­Ø³Ø§Ù… Ù…Ø­Ù…ÙˆØ¯ Ù…Ù†ØµÙˆØ±.'}
               </p>
               <div className="pt-2">
                 <button
@@ -769,7 +788,7 @@ export default function App() {
                   }}
                   className="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm cursor-pointer shadow-xs transition-colors font-arabic"
                 >
-                  تسجيل الخروج وإدخال كود جديد
+                  ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬ ÙˆØ¥Ø¯Ø®Ø§Ù„ ÙƒÙˆØ¯ Ø¬Ø¯ÙŠØ¯
                 </button>
               </div>
             </div>
@@ -811,3 +830,4 @@ export default function App() {
     </div>
   );
 }
+

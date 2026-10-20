@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
+﻿import { initializeApp, getApps, getApp } from 'firebase/app';
 import {
   getFirestore,
   initializeFirestore,
@@ -99,6 +99,9 @@ export const DEFAULT_GRAMMAR_TOPIC_IDS = [
   'topic-possessive-pronouns',
   'topic-joining-sentences',
   'topic-interests',
+  'u2-topic-future-will',
+  'u2-topic-comparatives',
+  'u2-topic-dates-ordinals',
 ];
 
 export interface SingleUseCode {
@@ -114,18 +117,18 @@ export interface SingleUseCode {
 export type SubscriptionDuration = '1_hour' | '1_month' | '3_months' | '6_months' | '1_year';
 
 export const SUBSCRIPTION_DURATIONS_MAP: Record<SubscriptionDuration, { labelAr: string; days: number; prefix: string }> = {
-  '1_hour': { labelAr: 'تجريبي (ساعة واحدة)', days: 1 / 24, prefix: 'TRIAL-1H' },
-  '1_month': { labelAr: 'شهر واحد (30 يوم)', days: 30, prefix: 'SUB-1M' },
-  '3_months': { labelAr: '3 أشهر (90 يوم)', days: 90, prefix: 'SUB-3M' },
-  '6_months': { labelAr: '6 أشهر (180 يوم)', days: 180, prefix: 'SUB-6M' },
-  '1_year': { labelAr: 'سنة كاملة (365 يوم)', days: 365, prefix: 'SUB-1Y' },
+  '1_hour': { labelAr: 'ØªØ¬Ø±ÙŠØ¨ÙŠ (Ø³Ø§Ø¹Ø© ÙˆØ§Ø­Ø¯Ø©)', days: 1 / 24, prefix: 'TRIAL-1H' },
+  '1_month': { labelAr: 'Ø´Ù‡Ø± ÙˆØ§Ø­Ø¯ (30 ÙŠÙˆÙ…)', days: 30, prefix: 'SUB-1M' },
+  '3_months': { labelAr: '3 Ø£Ø´Ù‡Ø± (90 ÙŠÙˆÙ…)', days: 90, prefix: 'SUB-3M' },
+  '6_months': { labelAr: '6 Ø£Ø´Ù‡Ø± (180 ÙŠÙˆÙ…)', days: 180, prefix: 'SUB-6M' },
+  '1_year': { labelAr: 'Ø³Ù†Ø© ÙƒØ§Ù…Ù„Ø© (365 ÙŠÙˆÙ…)', days: 365, prefix: 'SUB-1Y' },
 };
 
 export interface ExternalSubscriptionCode {
   code: string; // e.g. "SUB-3M-9K2L"
   duration: SubscriptionDuration;
   durationDays: number;
-  note?: string; // Optional buyer name or note from teacher (e.g. "حيدر - بغداد")
+  note?: string; // Optional buyer name or note from teacher (e.g. "Ø­ÙŠØ¯Ø± - Ø¨ØºØ¯Ø§Ø¯")
   createdAt: string;
   isUsed: boolean;
   usedByStudentName?: string;
@@ -150,12 +153,14 @@ export interface PlatformConfig {
   // Per-student bans: when a specific student is deleted, only they are blocked (by studentId+code pair)
   revokedStudents?: { studentId: string; code: string; name: string }[];
   activeExamId: string | null;
+  isMaintenanceMode?: boolean;
+  maintenanceMessageAr?: string;
 }
 
 // Default initial configuration - strictly only Lesson 1 of Unit 1 & Unit 2 open by default
 export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   unlockedLessons: ['lesson-1', 'u2-lesson-1'],
-  unlockedGrammarTopics: ['topic-past-simple'],
+  unlockedGrammarTopics: ['topic-past-simple', 'u2-topic-future-will'],
   grammarUnlocked: true,
   masterCode: 'IQ-7788',
   allowedCodes: ['IQ-STAR', 'ENGLISH-1', 'IQ-7788'],
@@ -163,6 +168,8 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   externalSubscriptions: [],
   revokedCodes: ['IQ-2026', 'IQ-XXXX'],
   activeExamId: null,
+  isMaintenanceMode: true,
+  maintenanceMessageAr: 'المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة: أ. حسام محمود منصور.',
 };
 
 // -------------------------------------------------------------
@@ -473,37 +480,37 @@ export const registerStudentInFirebase = async (
   }
 };
 
-// Map Arabic name to 4 sections (أ، ب، ج، د) based on alphabetical order of the first letter
-export const mapArabicNameToSection = (fullName: string): 'أ' | 'ب' | 'ج' | 'د' => {
-  if (!fullName || typeof fullName !== 'string') return 'أ';
+// Map Arabic name to 4 sections (Ø£ØŒ Ø¨ØŒ Ø¬ØŒ Ø¯) based on alphabetical order of the first letter
+export const mapArabicNameToSection = (fullName: string): 'Ø£' | 'Ø¨' | 'Ø¬' | 'Ø¯' => {
+  if (!fullName || typeof fullName !== 'string') return 'Ø£';
   const clean = fullName.trim();
-  if (!clean) return 'أ';
+  if (!clean) return 'Ø£';
 
   let firstChar = clean.charAt(0);
 
-  // If student entered "ال" at the start, check the character after "ال" (e.g. "المهدي" -> "م")
-  if (clean.startsWith('ال') && clean.length > 2) {
+  // If student entered "Ø§Ù„" at the start, check the character after "Ø§Ù„" (e.g. "Ø§Ù„Ù…Ù‡Ø¯ÙŠ" -> "Ù…")
+  if (clean.startsWith('Ø§Ù„') && clean.length > 2) {
     firstChar = clean.charAt(2);
   }
 
-  // Group أ: أ, إ, آ, ا, ء, ب, ت, ث, ج, ح, خ
-  const groupA = ['أ', 'إ', 'آ', 'ا', 'ء', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ'];
-  // Group ب: د, ذ, ر, ز, س, ش
-  const groupB = ['د', 'ذ', 'ر', 'ز', 'س', 'ش'];
-  // Group ج: ص, ض, ط, ظ, ع, غ, ف
-  const groupC = ['ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف'];
-  // Group د: ق, ك, ل, م, ن, ه, هـ, و, ؤ, ى, ئ, ي
-  const groupD = ['ق', 'ك', 'ل', 'م', 'ن', 'ه', 'هـ', 'و', 'ؤ', 'ى', 'ئ', 'ي'];
+  // Group Ø£: Ø£, Ø¥, Ø¢, Ø§, Ø¡, Ø¨, Øª, Ø«, Ø¬, Ø­, Ø®
+  const groupA = ['Ø£', 'Ø¥', 'Ø¢', 'Ø§', 'Ø¡', 'Ø¨', 'Øª', 'Ø«', 'Ø¬', 'Ø­', 'Ø®'];
+  // Group Ø¨: Ø¯, Ø°, Ø±, Ø², Ø³, Ø´
+  const groupB = ['Ø¯', 'Ø°', 'Ø±', 'Ø²', 'Ø³', 'Ø´'];
+  // Group Ø¬: Øµ, Ø¶, Ø·, Ø¸, Ø¹, Øº, Ù
+  const groupC = ['Øµ', 'Ø¶', 'Ø·', 'Ø¸', 'Ø¹', 'Øº', 'Ù'];
+  // Group Ø¯: Ù‚, Ùƒ, Ù„, Ù…, Ù†, Ù‡, Ù‡Ù€, Ùˆ, Ø¤, Ù‰, Ø¦, ÙŠ
+  const groupD = ['Ù‚', 'Ùƒ', 'Ù„', 'Ù…', 'Ù†', 'Ù‡', 'Ù‡Ù€', 'Ùˆ', 'Ø¤', 'Ù‰', 'Ø¦', 'ÙŠ'];
 
-  if (groupA.includes(firstChar)) return 'أ';
-  if (groupB.includes(firstChar)) return 'ب';
-  if (groupC.includes(firstChar)) return 'ج';
-  if (groupD.includes(firstChar)) return 'د';
+  if (groupA.includes(firstChar)) return 'Ø£';
+  if (groupB.includes(firstChar)) return 'Ø¨';
+  if (groupC.includes(firstChar)) return 'Ø¬';
+  if (groupD.includes(firstChar)) return 'Ø¯';
 
-  return 'أ';
+  return 'Ø£';
 };
 
-// Migrate any students and submissions in Section H to sections (أ، ب، ج، د) automatically
+// Migrate any students and submissions in Section H to sections (Ø£ØŒ Ø¨ØŒ Ø¬ØŒ Ø¯) automatically
 export const migrateSectionHStudents = async (): Promise<{
   migratedStudents: number;
   migratedSubmissions: number;
@@ -517,7 +524,7 @@ export const migrateSectionHStudents = async (): Promise<{
     for (const d of stdSnaps.docs) {
       const data = d.data();
       const sec = (data.section || '').trim();
-      if (sec === 'هـ' || sec === 'ه' || sec === 'هاء') {
+      if (sec === 'Ù‡Ù€' || sec === 'Ù‡' || sec === 'Ù‡Ø§Ø¡') {
         const newSec = mapArabicNameToSection(data.fullName || '');
         await updateDoc(doc(db, 'students', d.id), {
           section: newSec,
@@ -532,7 +539,7 @@ export const migrateSectionHStudents = async (): Promise<{
     for (const d of subSnaps.docs) {
       const data = d.data();
       const sec = (data.studentSection || '').trim();
-      if (sec === 'هـ' || sec === 'ه' || sec === 'هاء') {
+      if (sec === 'Ù‡Ù€' || sec === 'Ù‡' || sec === 'Ù‡Ø§Ø¡') {
         const newSec = mapArabicNameToSection(data.studentName || '');
         await updateDoc(doc(db, 'submissions', d.id), {
           studentSection: newSec,
@@ -545,9 +552,9 @@ export const migrateSectionHStudents = async (): Promise<{
     const storedSession = getStoredStudentSession();
     if (
       storedSession &&
-      (storedSession.section === 'هـ' ||
-        storedSession.section === 'ه' ||
-        storedSession.section === 'هاء')
+      (storedSession.section === 'Ù‡Ù€' ||
+        storedSession.section === 'Ù‡' ||
+        storedSession.section === 'Ù‡Ø§Ø¡')
     ) {
       const newSec = mapArabicNameToSection(storedSession.fullName);
       setStoredStudentSession({
@@ -560,7 +567,7 @@ export const migrateSectionHStudents = async (): Promise<{
     const cachedStudents = getCachedStudents();
     let cacheUpdated = false;
     const updatedCache = cachedStudents.map((s) => {
-      if (s.section === 'هـ' || s.section === 'ه' || s.section === 'هاء') {
+      if (s.section === 'Ù‡Ù€' || s.section === 'Ù‡' || s.section === 'Ù‡Ø§Ø¡') {
         cacheUpdated = true;
         return { ...s, section: mapArabicNameToSection(s.fullName) };
       }
@@ -743,13 +750,13 @@ export const getOrCreateDeviceId = (): string => {
 };
 
 export const getDeviceSummary = (): string => {
-  if (typeof navigator === 'undefined') return 'جهاز غير معروف';
+  if (typeof navigator === 'undefined') return 'Ø¬Ù‡Ø§Ø² ØºÙŠØ± Ù…Ø¹Ø±ÙˆÙ';
   const ua = navigator.userAgent;
   if (/iPad|iPhone|iPod/.test(ua)) return 'iPhone / iPad (iOS)';
-  if (/Android/.test(ua)) return 'هاتف Android';
-  if (/Windows/.test(ua)) return 'حاسوب Windows';
-  if (/Macintosh/.test(ua)) return 'حاسوب Mac';
-  return 'متصفح هاتف / حاسوب';
+  if (/Android/.test(ua)) return 'Ù‡Ø§ØªÙ Android';
+  if (/Windows/.test(ua)) return 'Ø­Ø§Ø³ÙˆØ¨ Windows';
+  if (/Macintosh/.test(ua)) return 'Ø­Ø§Ø³ÙˆØ¨ Mac';
+  return 'Ù…ØªØµÙØ­ Ù‡Ø§ØªÙ / Ø­Ø§Ø³ÙˆØ¨';
 };
 
 export const generateExternalSubscriptionCode = async (
@@ -823,7 +830,7 @@ export const activateExternalSubscription = async (
   const index = currentSubs.findIndex((s) => s.code.toUpperCase() === cleanCode);
 
   if (index < 0) {
-    return { success: false, expiresAt: '', message: 'كود الاشتراك غير موجود في النظام.' };
+    return { success: false, expiresAt: '', message: 'ÙƒÙˆØ¯ Ø§Ù„Ø§Ø´ØªØ±Ø§Ùƒ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯ ÙÙŠ Ø§Ù„Ù†Ø¸Ø§Ù….' };
   }
 
   const existingSub = currentSubs[index];
@@ -836,7 +843,7 @@ export const activateExternalSubscription = async (
         return {
           success: false,
           expiresAt: existingSub.expiresAt || '',
-          message: 'عذراً، هذا الحساب مقفل على جهاز آخر. يرجى التواصل مع أ. حسام لفك قفل الجهاز ونقله إلى هذا الهاتف.',
+          message: 'Ø¹Ø°Ø±Ø§Ù‹ØŒ Ù‡Ø°Ø§ Ø§Ù„Ø­Ø³Ø§Ø¨ Ù…Ù‚ÙÙ„ Ø¹Ù„Ù‰ Ø¬Ù‡Ø§Ø² Ø¢Ø®Ø±. ÙŠØ±Ø¬Ù‰ Ø§Ù„ØªÙˆØ§ØµÙ„ Ù…Ø¹ Ø£. Ø­Ø³Ø§Ù… Ù„ÙÙƒ Ù‚ÙÙ„ Ø§Ù„Ø¬Ù‡Ø§Ø² ÙˆÙ†Ù‚Ù„Ù‡ Ø¥Ù„Ù‰ Ù‡Ø°Ø§ Ø§Ù„Ù‡Ø§ØªÙ.',
         };
       }
       // Re-login on the same device
@@ -845,7 +852,7 @@ export const activateExternalSubscription = async (
       return {
         success: false,
         expiresAt: '',
-        message: `هذا الكود مستخدم بالفعل لطالب آخر (${existingSub.usedByStudentName}) ولا يمكن استخدامه باسم مختلف.`,
+        message: `Ù‡Ø°Ø§ Ø§Ù„ÙƒÙˆØ¯ Ù…Ø³ØªØ®Ø¯Ù… Ø¨Ø§Ù„ÙØ¹Ù„ Ù„Ø·Ø§Ù„Ø¨ Ø¢Ø®Ø± (${existingSub.usedByStudentName}) ÙˆÙ„Ø§ ÙŠÙ…ÙƒÙ† Ø§Ø³ØªØ®Ø¯Ø§Ù…Ù‡ Ø¨Ø§Ø³Ù… Ù…Ø®ØªÙ„Ù.`,
       };
     }
   }
@@ -1242,4 +1249,6 @@ export const listenToAllExams = (
     }
   );
 };
+
+
 

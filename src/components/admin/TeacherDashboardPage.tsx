@@ -173,6 +173,50 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const [newTeacherPin, setNewTeacherPin] = useState('');
   const [settingsSaveMsg, setSettingsSaveMsg] = useState<string | null>(null);
 
+  // Platform Maintenance / Closure Mode State
+  const [isMaintenanceActiveLocal, setIsMaintenanceActiveLocal] = useState<boolean>(() =>
+    Boolean(platformConfig.isMaintenanceMode ?? true)
+  );
+  const [maintenanceMessageInput, setMaintenanceMessageInput] = useState<string>(
+    platformConfig.maintenanceMessageAr || 'المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة: أ. حسام محمود منصور.'
+  );
+  const [isTogglingMaintenance, setIsTogglingMaintenance] = useState(false);
+  const [maintenanceStatusToast, setMaintenanceStatusToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof platformConfig.isMaintenanceMode === 'boolean') {
+      setIsMaintenanceActiveLocal(platformConfig.isMaintenanceMode);
+    }
+    if (platformConfig.maintenanceMessageAr) {
+      setMaintenanceMessageInput(platformConfig.maintenanceMessageAr);
+    }
+  }, [platformConfig.isMaintenanceMode, platformConfig.maintenanceMessageAr]);
+
+  const handleToggleMaintenanceMode = async () => {
+    const nextState = !isMaintenanceActiveLocal;
+    setIsMaintenanceActiveLocal(nextState);
+    setIsTogglingMaintenance(true);
+    try {
+      await updatePlatformConfig({
+        isMaintenanceMode: nextState,
+        maintenanceMessageAr: maintenanceMessageInput.trim() || undefined,
+      });
+      setMaintenanceStatusToast(
+        nextState
+          ? 'تم إغلاق المنصة بنجاح بوجه جميع الطلبة والزوار 🔒'
+          : 'تم فتح المنصة بنجاح وأصبحت متاحة للجميع 🟢'
+      );
+      setTimeout(() => setMaintenanceStatusToast(null), 4000);
+    } catch (e) {
+      console.error(e);
+      setIsMaintenanceActiveLocal(!nextState);
+      setMaintenanceStatusToast('حدث خطأ أثناء تحديث حالة المنصة.');
+      setTimeout(() => setMaintenanceStatusToast(null), 3000);
+    } finally {
+      setIsTogglingMaintenance(false);
+    }
+  };
+
   // Local optimistic lock states to eliminate race conditions and stale closure reverts
   const [localUnlockedLessons, setLocalUnlockedLessons] = useState<string[]>(
     () => platformConfig.unlockedLessons || ['lesson-1', 'u2-lesson-1']
@@ -579,6 +623,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     try {
       await updatePlatformConfig({
         masterCode: newMasterCode.trim().toUpperCase(),
+        maintenanceMessageAr: maintenanceMessageInput.trim() || undefined,
       });
       if (newTeacherPin.trim()) {
         const token = await updateTeacherPin(newTeacherPin.trim());
@@ -1243,6 +1288,73 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
           /* AUTHENTICATED TEACHER DASHBOARD PAGE                     */
           /* ======================================================== */
           <div className="space-y-6">
+            {/* PLATFORM MAINTENANCE / CLOSURE BANNER */}
+            <div className={`rounded-2xl border p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 transition-all shadow-xs ${
+              isMaintenanceActiveLocal
+                ? 'bg-rose-50 border-rose-200 text-rose-950'
+                : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+            }`}>
+              <div className="flex items-center gap-3.5 text-right w-full md:w-auto">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs ${
+                  isMaintenanceActiveLocal ? 'bg-rose-600 text-white' : 'bg-emerald-600 text-white'
+                }`}>
+                  {isMaintenanceActiveLocal ? <ShieldAlert className="w-6 h-6 animate-pulse" /> : <ShieldCheck className="w-6 h-6" />}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h4 className="text-sm sm:text-base font-black font-arabic">
+                      {isMaintenanceActiveLocal ? 'حالة المنصة: مغلقة بوجه الطلاب حالياً 🔒' : 'حالة المنصة: مفتوحة ومتاحة لجميع الطلاب 🟢'}
+                    </h4>
+                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full font-arabic ${
+                      isMaintenanceActiveLocal ? 'bg-rose-200/80 text-rose-800 border border-rose-300' : 'bg-emerald-200/80 text-emerald-800 border border-emerald-300'
+                    }`}>
+                      {isMaintenanceActiveLocal ? 'مغلقة إلى إشعار آخر' : 'مفتوحة للجميع'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 font-arabic mt-1 leading-relaxed">
+                    {isMaintenanceActiveLocal
+                      ? 'عند دخول أي طالب أو زائر، تظهر له شاشة الإغلاق الرسمية: "المنصة مغلقة إلى إشعار آخر". حسابك الإداري فقط من يستطيع الدخول.'
+                      : 'المنصة متاحة الآن بشكل طبيعي ويمكن للطلاب الدخول وحل الدروس والامتحانات.'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 w-full md:w-auto shrink-0 justify-end">
+                <button
+                  type="button"
+                  onClick={handleToggleMaintenanceMode}
+                  disabled={isTogglingMaintenance}
+                  className={`w-full md:w-auto px-5 py-3 rounded-xl font-bold text-xs sm:text-sm font-arabic cursor-pointer transition-all shadow-sm flex items-center justify-center gap-2 shrink-0 disabled:opacity-50 ${
+                    isMaintenanceActiveLocal
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                      : 'bg-rose-600 hover:bg-rose-500 text-white'
+                  }`}>
+                  {isTogglingMaintenance ? (
+                    <span>جاري التحديث...</span>
+                  ) : isMaintenanceActiveLocal ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>إعادة فتح المنصة للطلاب الآن</span>
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-4 h-4" />
+                      <span>إغلاق المنصة بوجه الجميع</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {maintenanceStatusToast && (
+              <div className="p-3.5 rounded-xl bg-slate-900 text-white text-xs font-bold font-arabic flex items-center justify-between shadow-lg">
+                <span>{maintenanceStatusToast}</span>
+                <button onClick={() => setMaintenanceStatusToast(null)} className="text-slate-400 hover:text-white">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+
             {/* Top Navigation Tabs */}
             <div className="bg-white rounded-2xl border border-slate-200 p-1.5 flex flex-wrap gap-1">
               {[
