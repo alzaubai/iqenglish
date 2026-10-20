@@ -3,7 +3,6 @@ import {
   Lock,
   ShieldAlert,
   KeyRound,
-  Sparkles,
   AlertCircle,
   X,
   ArrowLeft,
@@ -116,37 +115,25 @@ export const MaintenanceScreen: React.FC<MaintenanceScreenProps> = ({
               </span>
             </div>
 
-            <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-bold font-arabic">
+            <div className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-bold font-arabic">
               <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
-              <span>إشعار إداري عاجل • المنصة مغلقة مؤقتاً</span>
+              <span>إشعار إداري عاجل</span>
             </div>
           </div>
 
           {/* Heading */}
-          <div className="space-y-2">
+          <div className="space-y-3 py-2">
             <h1 className="text-2xl sm:text-3xl font-black text-white font-arabic tracking-tight">
               المنصة مغلقة إلى إشعار آخر
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 font-arabic leading-relaxed max-w-md mx-auto">
               {maintenanceMessageAr ||
-                'عذراً، تم إيقاف الوصول إلى المنصة التعليمية لجميع الطلبة والزوار بأمر مدرس المادة.'}
-            </p>
-          </div>
-
-          {/* Details Notice Box */}
-          <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-4 text-right space-y-2">
-            <div className="flex items-center gap-2 text-amber-400 font-bold text-xs font-arabic">
-              <Sparkles className="w-3.5 h-3.5 shrink-0" />
-              <span>تنويه لأعزاءنا الطلبة وأولياء الأمور:</span>
-            </div>
-            <p className="text-xs text-slate-400 font-arabic leading-relaxed">
-              تجري حالياً أعمال صيانة وتحديث شاملة، وتجهيز أسئلة الامتحانات والمواد التعليمية.
-              سيتم الإعلان عن موعد استئناف فتح المنصة من قبل الأستاذ عبر القنوات المعتمدة.
+                'نود إعلامكم بأن المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة.'}
             </p>
           </div>
 
           {/* Teacher Signature */}
-          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-arabic">
+          <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-arabic">
             <span className="flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4 text-slate-500" />
               <span>إشراف مدرس المادة:</span>
