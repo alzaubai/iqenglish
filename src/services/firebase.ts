@@ -169,7 +169,7 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   revokedCodes: ['IQ-2026', 'IQ-XXXX'],
   activeExamId: null,
   isMaintenanceMode: true,
-  maintenanceMessageAr: 'المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة: أ. حسام محمود منصور.',
+  maintenanceMessageAr: 'المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة.',
 };
 
 // -------------------------------------------------------------

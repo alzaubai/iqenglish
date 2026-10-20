@@ -60,7 +60,7 @@ export const StudentGradesHistoryModal: React.FC<StudentGradesHistoryModalProps>
                 سجل امتحاناتي ودرجاتي
               </h3>
               <span className="text-xs text-slate-300 font-arabic block mt-0.5">
-                الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section} • إشراف: أ. حسام محمود منصور
+                الطالب: <strong className="text-white">{student.fullName}</strong> • شعبة {student.section}
               </span>
             </div>
           </div>
@@ -170,7 +170,7 @@ export const StudentGradesHistoryModal: React.FC<StudentGradesHistoryModalProps>
         {/* Footer */}
         <div className="p-4 bg-slate-50 border-t border-slate-100 text-center space-y-2">
           <span className="text-[11px] text-slate-500 font-arabic block">
-            إشراف وتصحيح مدرس المادة: أ. حسام محمود منصور
+            إشراف وتصحيح مدرس المادة
           </span>
           <button
             onClick={onClose}

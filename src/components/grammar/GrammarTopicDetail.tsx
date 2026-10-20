@@ -184,7 +184,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
             هذا الموضوع القواعدي مغلق حالياً
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 font-arabic leading-relaxed">
-            تم قفل هذا الموضوع القواعدي من قبل مدرس المادة: أ. حسام محمود منصور
+            تم قفل هذا الموضوع القواعدي من قبل مدرس المادة
           </p>
           <div className="pt-2">
             <button
@@ -290,9 +290,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
             <span className="text-xs font-bold text-zinc-900 font-arabic block mt-0.5">
               الأول المتوسط
             </span>
-            <span className="text-[11px] text-slate-700 font-bold font-arabic block mt-1">
-              مدرس المادة: أ. حسام محمود منصور
-            </span>
+            
           </div>
         </div>
       </div>

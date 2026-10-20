@@ -22,9 +22,7 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
                 <BookMarked className="w-3.5 h-3.5" />
                 <span>English for Iraq • Grammar Master</span>
               </div>
-              <span className="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full font-arabic">
-                إعداد مدرس المادة: أ. حسام محمود منصور
-              </span>
+              
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mt-3 font-arabic">
               القواعد والشروحات التفصيلية

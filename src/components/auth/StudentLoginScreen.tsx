@@ -386,8 +386,8 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
           </h1>
           <p className="text-xs text-slate-500 font-arabic mt-1">
             {mode === 'teacher'
-              ? 'دخول أستاذ المادة: أ. حسام محمود منصور • لوحة التحكم'
-              : 'الصف الأول المتوسط • إشراف مدرس المادة: أ. حسام محمود منصور'}
+              ? 'دخول أستاذ المادة • لوحة التحكم'
+              : 'الصف الأول المتوسط'}
           </p>
         </div>
 
@@ -622,7 +622,7 @@ export const StudentLoginScreen: React.FC<StudentLoginScreenProps> = ({
 
       {/* Clean Footer */}
       <footer className="text-center text-xs text-slate-400 font-arabic pt-4" dir="rtl">
-        <span>English for Iraq • الصف الأول المتوسط • إعداد وإشراف مدرس المادة: أ. حسام محمود منصور</span>
+        <span>English for Iraq • الصف الأول المتوسط</span>
       </footer>
     </div>
   );

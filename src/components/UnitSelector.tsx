@@ -22,7 +22,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
             </span>
           </h1>
           <span className="text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl font-arabic self-start sm:self-auto">
-            مدرس المادة: أ. حسام محمود منصور
+            الصف الأول المتوسط
           </span>
         </div>
         <p className="text-xs sm:text-sm text-zinc-500 font-arabic mt-1">

@@ -132,14 +132,7 @@ export const MaintenanceScreen: React.FC<MaintenanceScreenProps> = ({
             </p>
           </div>
 
-          {/* Teacher Signature */}
-          <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-arabic">
-            <span className="flex items-center gap-1.5">
-              <GraduationCap className="w-4 h-4 text-slate-500" />
-              <span>إشراف مدرس المادة:</span>
-            </span>
-            <span className="font-bold text-slate-200">أ. حسام محمود منصور</span>
-          </div>
+
         </div>
       </main>
 
@@ -172,7 +165,7 @@ export const MaintenanceScreen: React.FC<MaintenanceScreenProps> = ({
                     تسجيل دخول المشرف الإداري
                   </h3>
                   <span className="text-[11px] text-slate-400">
-                    خاص بالأستاذ حسام محمود منصور فقط
+                    خاص بالمشرف الإداري فقط
                   </span>
                 </div>
               </div>

@@ -58,9 +58,7 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
                 ? 'شرح مبسط ومباشر لمواضيع الوحدة الثانية الثلاثة: المستقبل البسيط مع will، درجات المقارنة والتفضيل، وقراءة وكتابة التواريخ والأعداد الترتيبية.'
                 : 'شرح مبسط ومباشر لقواعد الأول المتوسط مع كروت منظمة لحالات الإثبات والنفي والاستفهام ونماذج امتحانية شهرية من كتاب الطالب والنشاط.'}
             </p>
-            <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1 rounded-xl font-arabic">
-              إعداد وشرح مدرس المادة: أ. حسام محمود منصور
-            </div>
+            
           </div>
           <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-center shrink-0 self-start sm:self-center">
             <span className="text-xs text-zinc-500 font-arabic block">عدد المواضيع</span>
@@ -121,7 +119,7 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
                       <Lock className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-bold font-arabic bg-zinc-900/90 px-2.5 py-1 rounded-lg">
-                      مغلق من قبل مدرس المادة: أ. حسام محمود منصور
+                      مغلق من قبل مدرس المادة
                     </span>
                   </div>
                 )}

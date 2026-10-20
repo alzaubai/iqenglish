@@ -1,6 +1,5 @@
 /**
  * Offline Media & Audio Cache Engine
- * إعداد وإشراف مدرس المادة: أ. حسام محمود منصور
  * Automatically pre-downloads lesson recordings and images in the background so they play instantly offline.
  */
 

@@ -59,7 +59,7 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-arabic mt-0.5">
-                الصف الأول المتوسط • إعداد وإشراف: أ. حسام محمود منصور
+                الصف الأول المتوسط
               </p>
             </div>
           </div>

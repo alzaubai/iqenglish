@@ -178,7 +178,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     Boolean(platformConfig.isMaintenanceMode ?? true)
   );
   const [maintenanceMessageInput, setMaintenanceMessageInput] = useState<string>(
-    platformConfig.maintenanceMessageAr || 'المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة: أ. حسام محمود منصور.'
+    platformConfig.maintenanceMessageAr || 'المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة.'
   );
   const [isTogglingMaintenance, setIsTogglingMaintenance] = useState(false);
   const [maintenanceStatusToast, setMaintenanceStatusToast] = useState<string | null>(null);
@@ -991,7 +991,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     let text = `إشعار رسمي لأولياء الأمور الكرام\n`;
     text += `مادة اللغة الإنكليزية • الصف الأول المتوسط\n`;
     text += `ثانوية المتميزين للبنين\n`;
-    text += `مدرس المادة: الأستاذ حسام محمود منصور\n\n`;
+    text += ``;
     text += `الموضوع: تبليغ بالطلبة الذين لم يشاركوا في ${examName} المقرر بتاريخ: ${dateStr}${timeStr}:\n\n`;
 
     Object.keys(grouped).sort().forEach((sec) => {
@@ -1003,7 +1003,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     });
 
     text += `يرجى من أولياء الأمور الكرام متابعة أبنائهم وحثهم على أداء الامتحانات والواجبات المدرسية أولاً بأول لضمان عدم تأثر درجات السعي السنوي.\n\n`;
-    text += `مع وافر التقدير والاحترام.\nالأستاذ حسام محمود منصور`;
+    text += `مع وافر التقدير والاحترام.`;
 
     navigator.clipboard.writeText(text);
     setAbsentNoticeCopied(true);
@@ -1097,7 +1097,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
     const dateStr = new Date().toLocaleDateString('ar-IQ');
 
     let text = `تقرير الامتحان اليومي • الأول المتوسط\n`;
-    text += `إشراف مدرس المادة: أ. حسام محمود منصور\n`;
+    text += ``;
     text += `الامتحان: ${examTitle}\n`;
     text += `الشعبة: ${sectionName}\n`;
     text += `التاريخ: ${dateStr}\n`;
@@ -1129,7 +1129,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
   const handleExportExcel = () => {
     const BOM = '\uFEFF';
     let csv = `كشف درجات: ${monthlyReportTitle}\n`;
-    csv += `مدرس المادة: أ. حسام محمود منصور\n`;
+    csv += ``;
     csv += `الشعبة: ${selectedSectionFilter === 'all' ? 'جميع الشُعب' : 'شعبة ' + selectedSectionFilter}\n`;
     csv += `التاريخ: ${new Date().toLocaleDateString('ar-IQ')}\n\n`;
 
@@ -1211,7 +1211,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                 لوحة تحكم أستاذ المادة
               </h1>
               <span className="text-xs text-slate-500 font-arabic block">
-                مدرس المادة: أ. حسام محمود منصور • إدارة المنهاج والامتحانات والدرجات
+                إدارة المنهاج والامتحانات والدرجات
               </span>
             </div>
           </div>
@@ -3053,7 +3053,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
               {/* Sub-header with teacher attribution */}
               <div className="bg-slate-50 px-5 py-2.5 border-b border-slate-200 flex items-center justify-between text-xs text-slate-600 font-arabic">
-                <span>إشراف مدرس المادة: <strong>أ. حسام محمود منصور</strong></span>
+                <span>إشراف مدرس المادة</span>
                 <span>الصف: <strong>الأول المتوسط</strong></span>
               </div>
 
@@ -3163,7 +3163,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
               {/* Modal Footer */}
               <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
                 <span className="text-xs text-slate-500 font-arabic">
-                  مدرس المادة: أ. حسام محمود منصور
+                  مدرس المادة
                 </span>
                 <button
                   type="button"
@@ -3305,7 +3305,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     <div className="flex items-center justify-center gap-4 text-xs text-slate-600 font-arabic pt-1">
                       <span>الامتحان: <strong>{examTitle}</strong></span>
                       <span>الشعبة: <strong>{selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`}</strong></span>
-                      <span>مدرس المادة: <strong>أ. حسام محمود منصور</strong></span>
+                      <span>مدرس المادة</span>
                       <span>التاريخ: <strong>{new Date().toLocaleDateString('ar-IQ')}</strong></span>
                     </div>
                   </div>
@@ -3431,7 +3431,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
                     <div className="flex items-center justify-center gap-4 text-xs text-slate-600 font-arabic pt-1">
                       <span>الشعبة: <strong>{selectedSectionFilter === 'all' ? 'جميع الشُعب' : `شعبة ${selectedSectionFilter}`}</strong></span>
                       <span>إجمالي الطلاب: <strong>{filteredRegisteredStudents.length} طالب</strong></span>
-                      <span>مدرس المادة: <strong>أ. حسام محمود منصور</strong></span>
+                      <span>مدرس المادة</span>
                       <span>التاريخ: <strong>{new Date().toLocaleDateString('ar-IQ')}</strong></span>
                     </div>
                   </div>
@@ -3546,7 +3546,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
               {/* Footer Signature Box */}
               <div className="pt-8 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600 font-arabic">
-                <span>توقيع مدرس المادة: <strong>أ. حسام محمود منصور</strong> .............................</span>
+                <span>توقيع مدرس المادة: .............................</span>
                 <span>توقيع إدارة المدرسة: .......................................</span>
               </div>
             </div>

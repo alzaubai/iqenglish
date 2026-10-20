@@ -38,9 +38,7 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
               </span>
               <span>: قائمة الدروس</span>
             </h2>
-            <p className="text-xs text-zinc-500 font-arabic mt-0.5">
-              إعداد وإشراف مدرس المادة: أ. حسام محمود منصور
-            </p>
+            
           </div>
         </div>
         <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-700 font-arabic shrink-0 self-start sm:self-auto">
@@ -79,7 +77,7 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
                     <Lock className="w-4 h-4" />
                   </div>
                   <span className="text-xs font-bold font-arabic bg-zinc-900/90 px-2.5 py-1 rounded-lg">
-                    مغلق من قبل مدرس المادة: أ. حسام محمود منصور
+                    مغلق من قبل مدرس المادة
                   </span>
                 </div>
               )}

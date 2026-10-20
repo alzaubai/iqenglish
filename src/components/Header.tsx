@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
                 English for Iraq
               </span>
               <span className="text-[10px] sm:text-xs text-slate-500 font-arabic block leading-tight truncate">
-                الصف الأول المتوسط • إشراف أ. حسام محمود منصور
+                الصف الأول المتوسط
               </span>
             </div>
           </div>
