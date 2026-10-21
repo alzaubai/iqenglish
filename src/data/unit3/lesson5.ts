@@ -17,6 +17,8 @@ export const lesson5: LessonData = {
       audioTrackNumber: 28,
       bookReference: "Student's Book p. 30",
       description: 'Official matching exercise connecting feelings (sick, angry, upset, happy, excited, frightened, sad, worried) to recent actions.',
+      audioFileUrl: '/audio/unit-3/track28.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l5-t1',
@@ -24,6 +26,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: "What's the matter, Yassir?",
           textAr: 'ما الأمر يا ياسر؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t1.mp3',
         },
         {
           id: 'u3-l5-t2',
@@ -31,6 +34,7 @@ export const lesson5: LessonData = {
           gender: 'male',
           textEn: "I feel sick. I've eaten too much chocolate.",
           textAr: 'أشعر بالمرض. لقد أكلتُ الكثير من الشوكولاتة.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t2.mp3',
         },
         {
           id: 'u3-l5-t3',
@@ -38,6 +42,7 @@ export const lesson5: LessonData = {
           gender: 'male',
           textEn: "What's wrong, Laith? Why are you angry?",
           textAr: 'ما الخطب يا ليث؟ لماذا أنت غاضب؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t3.mp3',
         },
         {
           id: 'u3-l5-t4',
@@ -45,6 +50,7 @@ export const lesson5: LessonData = {
           gender: 'male',
           textEn: 'Ahmed has gone to the beach without me.',
           textAr: 'لقد ذهب أحمد إلى الشاطئ بدوني.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t4.mp3',
         },
         {
           id: 'u3-l5-t5',
@@ -52,6 +58,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: 'Tamara, why are you upset?',
           textAr: 'تمارا، لماذا أنتِ منزعجة؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t5.mp3',
         },
         {
           id: 'u3-l5-t6',
@@ -59,6 +66,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: "I've forgotten my English books.",
           textAr: 'لقد نسيتُ كتبي الإنجليزية.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t6.mp3',
         },
         {
           id: 'u3-l5-t7',
@@ -66,6 +74,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: 'Why are you so happy, Muna?',
           textAr: 'لماذا أنتِ سعيدة جداً يا منى؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t7.mp3',
         },
         {
           id: 'u3-l5-t8',
@@ -73,6 +82,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: 'Daddy has given me a present.',
           textAr: 'لقد أعطاني والدي هدية.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t8.mp3',
         },
         {
           id: 'u3-l5-t9',
@@ -80,6 +90,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: 'What is it, Zeena? Why are you so excited?',
           textAr: 'ما الأمر يا زينة؟ لماذا أنتِ متحمسة للغاية؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t9.mp3',
         },
         {
           id: 'u3-l5-t10',
@@ -87,6 +98,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: "Dad phoned. He's bought me a new computer.",
           textAr: 'لقد اتصل أبي؛ لقد اشترى لي جهاز كمبيوتر جديداً.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t10.mp3',
         },
         {
           id: 'u3-l5-t11',
@@ -94,6 +106,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: "Salman, what's the matter? Why are you frightened?",
           textAr: 'سلمان، ما الأمر؟ لماذا أنت خائف؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t11.mp3',
         },
         {
           id: 'u3-l5-t12',
@@ -101,6 +114,7 @@ export const lesson5: LessonData = {
           gender: 'male',
           textEn: "I've just read a ghost story.",
           textAr: 'لقد قرأتُ لتوي قصة أشباح.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t12.mp3',
         },
         {
           id: 'u3-l5-t13',
@@ -108,6 +122,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: "Noora, what's the matter? Why are you sad?",
           textAr: 'نورا، ما الأمر؟ لماذا أنتِ حزينة؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t13.mp3',
         },
         {
           id: 'u3-l5-t14',
@@ -115,6 +130,7 @@ export const lesson5: LessonData = {
           gender: 'female',
           textEn: 'Somebody has drunk all the lemonade.',
           textAr: 'لقد شرب شخص ما كل عصير الليمون.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t14.mp3',
         },
         {
           id: 'u3-l5-t15',
@@ -122,6 +138,7 @@ export const lesson5: LessonData = {
           gender: 'male',
           textEn: "What's the matter, Jack? Why are you worried?",
           textAr: 'ما الأمر يا جاك؟ لماذا أنت قلق؟',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t15.mp3',
         },
         {
           id: 'u3-l5-t16',
@@ -129,6 +146,7 @@ export const lesson5: LessonData = {
           gender: 'male',
           textEn: 'Somebody has taken my elephant.',
           textAr: 'لقد أخذ شخص ما فيلي.',
+          audioFileUrl: '/audio/unit-3/lesson-5/u3-l5-t16.mp3',
         },
       ],
     },

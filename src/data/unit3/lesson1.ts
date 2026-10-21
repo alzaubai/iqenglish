@@ -17,6 +17,8 @@ export const lesson1: LessonData = {
       audioTrackNumber: 24,
       bookReference: "Student's Book p. 26",
       description: 'Official ministry song practicing present perfect regular and irregular verbs.',
+      audioFileUrl: '/audio/unit-3/track24.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l1-s1',
@@ -24,6 +26,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: "I've cleaned the windows and washed the floor.",
           textAr: 'لقد نظفتُ النوافذ وغسلتُ الأرضية.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s1.mp3',
         },
         {
           id: 'u3-l1-s2',
@@ -31,6 +34,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: "I've swept the path and painted the door.",
           textAr: 'لقد كنستُ الممر وصبغتُ الباب.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s2.mp3',
         },
         {
           id: 'u3-l1-s3',
@@ -38,6 +42,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: 'Is there anything else you want me to do?',
           textAr: 'هل هناك أي شيء آخر تريد مني فعله؟',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s3.mp3',
         },
         {
           id: 'u3-l1-s4',
@@ -45,6 +50,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: "I've finished my work and want something new.",
           textAr: 'لقد أنهيتُ عملي وأريد شيئاً جديداً.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s4.mp3',
         },
         {
           id: 'u3-l1-s5',
@@ -52,6 +58,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: "I've tidied my garden and watered the plants.",
           textAr: 'لقد رتبتُ حديقتي وسقيتُ النباتات.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s5.mp3',
         },
         {
           id: 'u3-l1-s6',
@@ -59,6 +66,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: "I've talked to my uncles and talked to my aunts.",
           textAr: 'لقد تحدثتُ إلى أعمامي وتحدثتُ إلى عمّاتي.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s6.mp3',
         },
         {
           id: 'u3-l1-s7',
@@ -66,6 +74,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: 'Is there anything else you want me to do?',
           textAr: 'هل هناك أي شيء آخر تريد مني فعله؟',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s7.mp3',
         },
         {
           id: 'u3-l1-s8',
@@ -73,6 +82,7 @@ export const lesson1: LessonData = {
           gender: 'female',
           textEn: "I've finished my work and want something new.",
           textAr: 'لقد أنهيتُ عملي وأريد شيئاً جديداً.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-s8.mp3',
         },
       ],
     },
@@ -83,6 +93,8 @@ export const lesson1: LessonData = {
       audioTrackNumber: 24,
       bookReference: "Student's Book p. 26",
       description: 'Formation: have/has + past participle for events that happened recently.',
+      audioFileUrl: '/audio/unit-3/track24.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l1-g1',
@@ -90,6 +102,7 @@ export const lesson1: LessonData = {
           gender: 'male',
           textEn: 'I have cleaned the windows. He has not washed the car.',
           textAr: 'أنا نظفت النوافذ. هو لم يغسل السيارة.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-g1.mp3',
         },
         {
           id: 'u3-l1-g2',
@@ -97,6 +110,7 @@ export const lesson1: LessonData = {
           gender: 'male',
           textEn: 'We make the present perfect tense like this: have/has + the past participle of the verb.',
           textAr: 'نصيغ زمن المضارع التام هكذا: have/has + التصريف الثالث للفعل.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-g2.mp3',
         },
         {
           id: 'u3-l1-g3',
@@ -104,6 +118,7 @@ export const lesson1: LessonData = {
           gender: 'male',
           textEn: 'We use it to talk about things that have happened just now, today, this week, this month or this year.',
           textAr: 'نستخدمه للتحدث عن أشياء حدثت للتو، أو اليوم، أو هذا الأسبوع، أو هذا الشهر، أو هذه السنة.',
+          audioFileUrl: '/audio/unit-3/lesson-1/u3-l1-g3.mp3',
         },
       ],
     },

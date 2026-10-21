@@ -17,6 +17,8 @@ export const lesson6: LessonData = {
       audioTrackNumber: 29,
       bookReference: "Student's Book p. 31",
       description: 'Official story about Noor helping her grandmother with technology and discovering her mathematics medal.',
+      audioFileUrl: '/audio/unit-3/track29.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l6-t1',
@@ -24,6 +26,7 @@ export const lesson6: LessonData = {
           gender: 'male',
           textEn: "Noor was helping her grandmother make a video call, but it wasn't going very well. Gran was asking lots of questions.",
           textAr: 'كانت نور تساعد جدتها في إجراء مكالمة فيديو، لكن الأمور لم تكن تسير على ما يرام. كانت الجدة تطرح الكثير من الأسئلة.',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t1.mp3',
         },
         {
           id: 'u3-l6-t2',
@@ -31,6 +34,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: 'What do I speak into?',
           textAr: 'في ماذا أتكلم؟',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t2.mp3',
         },
         {
           id: 'u3-l6-t3',
@@ -38,6 +42,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: 'Just speak normally, Noor said patiently, trying to sound calm.',
           textAr: 'قالت نور بصبر، محاولةً أن تبدو هادئة: "تحدثي بشكل طبيعي فقط".',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t3.mp3',
         },
         {
           id: 'u3-l6-t4',
@@ -45,6 +50,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: "I need to tidy up, I don't want my house to be a mess, said Gran as she picked up the books on the table.",
           textAr: 'قالت الجدة وهي تلتقط الكتب عن الطاولة: "أحتاج إلى الترتيب، لا أريد أن يكون بيتي في حالة فوضى".',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t4.mp3',
         },
         {
           id: 'u3-l6-t5',
@@ -52,6 +58,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: "It's fine, Gran. She can only see the room behind you. Noor giggled.",
           textAr: 'ضحكت نور وقالت: "الأمر على ما يرام يا جدتي، إنها لا تستطيع رؤية سوى الغرفة التي خلفك فقط".',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t5.mp3',
         },
         {
           id: 'u3-l6-t6',
@@ -59,6 +66,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: "Oh, OK, Gran said, pushing the books behind the laptop. But how do I know I'm calling the right person? Gran was getting a little anxious.",
           textAr: 'قالت الجدة وهي تدفع الكتب خلف الكمبيوتر المحمول: "أوه، حسناً. ولكن كيف أعرف أنني أتصل بالشخص المناسب؟" كانت الجدة تشعر ببعض القلق.',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t6.mp3',
         },
         {
           id: 'u3-l6-t7',
@@ -66,6 +74,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: "Do I have a link? Where's my link? I don't have a link, do I? Gran was sounding very nervous now.",
           textAr: 'بدت الجدة متوترة للغاية الآن وقالت: "هل لدي رابط؟ أين رابطي؟ ليس لدي رابط، أليس كذلك؟"',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t7.mp3',
         },
         {
           id: 'u3-l6-t8',
@@ -73,6 +82,7 @@ export const lesson6: LessonData = {
           gender: 'male',
           textEn: "Luckily, the computer started making a ringing noise. 'Phew!' thought Noor.",
           textAr: 'لحسن الحظ، بدأ الكمبيوتر يصدر صوت رنين. فكرت نور في نفسها: "أففف، الحمد لله!"',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t8.mp3',
         },
         {
           id: 'u3-l6-t9',
@@ -80,6 +90,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: "Hello, hello? She can't hear me. What's the matter? asked Gran.",
           textAr: 'تساءلت الجدة: "مرحباً، مرحباً؟ إنها لا تستمع إلي. ما الأمر؟"',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t9.mp3',
         },
         {
           id: 'u3-l6-t10',
@@ -87,6 +98,7 @@ export const lesson6: LessonData = {
           gender: 'male',
           textEn: "Noor moved Gran's finger and helped her click on the 'Answer' button.",
           textAr: 'حركت نور إصبع جدتها وساعدتها في النقر على زر "الرد".',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t10.mp3',
         },
         {
           id: 'u3-l6-t11',
@@ -94,6 +106,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: "Mum, move the screen. I can only see the top of your head, said Aunt Dana.",
           textAr: 'قالت العمة دانة: "أمي، حركي الشاشة، لا أستطيع أن أرى سوى قمة رأسك".',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t11.mp3',
         },
         {
           id: 'u3-l6-t12',
@@ -101,6 +114,7 @@ export const lesson6: LessonData = {
           gender: 'male',
           textEn: 'Gran looked at Noor who quickly moved the screen.',
           textAr: 'نظرت الجدة إلى نور التي قامت بتحريك الشاشة بسرعة.',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t12.mp3',
         },
         {
           id: 'u3-l6-t13',
@@ -108,6 +122,7 @@ export const lesson6: LessonData = {
           gender: 'male',
           textEn: "As Gran was talking, Noor looked around the room and found a box. She opened it and saw a big gold medal. On one side it said: 'Awarded to Mariyam Hussain Khalil for her contribution to mathematics.'",
           textAr: 'بينما كانت الجدة تتحدث، نظرت نور حول الغرفة ووجدت صندوقاً. فتحته ورأت ميدالية ذهبية كبيرة، كُتب على أحد وجهيها: "مُنحت لمريم حسين خليل لمساهمتها في الرياضيات".',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t13.mp3',
         },
         {
           id: 'u3-l6-t14',
@@ -115,6 +130,7 @@ export const lesson6: LessonData = {
           gender: 'male',
           textEn: "Noor felt embarrassed. When she looked at Gran she saw an old woman who couldn't use a computer. She didn't see the strong woman with the sharp mind. She only saw an old woman who didn't know how to make a video call.",
           textAr: 'شعرت نور بالحرج والندم. فعندما نظرت إلى الجدة، رأت امرأة مسنة لا تعرف كيفية استخدام الكمبيوتر، ولم تر المرأة القوية ذات العقل الحاد. لم تر سوى امرأة عجوز لا تعرف كيف تجري مكالمة فيديو.',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t14.mp3',
         },
         {
           id: 'u3-l6-t15',
@@ -122,6 +138,7 @@ export const lesson6: LessonData = {
           gender: 'female',
           textEn: 'I can only hope I will be as successful as her, she thought.',
           textAr: 'فكرت نور في نفسها: "لا يمكنني إلا أن أتمنى أن أكون ناجحة مثلها في المستقبل".',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t15.mp3',
         },
         {
           id: 'u3-l6-t16',
@@ -129,6 +146,7 @@ export const lesson6: LessonData = {
           gender: 'male',
           textEn: "Why does Gran need Noor's help? - Was Noor a good helper? Why?",
           textAr: 'سؤال الدرس: لماذا احتاجت الجدة لمساعدة نور؟ وهل كانت نور مساعِدة جيدة؟ ولماذا؟',
+          audioFileUrl: '/audio/unit-3/lesson-6/u3-l6-t16.mp3',
         },
       ],
     },

@@ -17,6 +17,8 @@ export const lesson3: LessonData = {
       audioTrackNumber: 26,
       bookReference: "Student's Book p. 28",
       description: 'Official conversation between parents and children regarding household tasks.',
+      audioFileUrl: '/audio/unit-3/track26.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l3-t1',
@@ -24,6 +26,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: 'The Archers live in England. They have two children. Gwen is their daughter and Len is their son. Gwen is fifteen years old and Len is thirteen. Mr and Mrs Archer have asked their children to do some work in the house.',
           textAr: 'تعيش عائلة آرتشر في إنجلترا. لديهم طفلان، غوين هي ابنتهما ولين هو ابنهما. غوين تبلغ من العمر خمسة عشر عاماً ولين يبلغ ثلاثة عشر عاماً. وقد طلب السيد والسيدة آرتشر من طفليهما القيام ببعض الأعمال في المنزل.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t1.mp3',
         },
         {
           id: 'u3-l3-t2',
@@ -31,6 +34,7 @@ export const lesson3: LessonData = {
           gender: 'female',
           textEn: "I've cooked the rice, Mummy. What next?",
           textAr: 'لقد طبختُ الأرز يا أمي. ماذا بعد؟',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t2.mp3',
         },
         {
           id: 'u3-l3-t3',
@@ -38,6 +42,7 @@ export const lesson3: LessonData = {
           gender: 'female',
           textEn: 'Have you washed the vegetables?',
           textAr: 'هل غسلتِ الخضروات؟',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t3.mp3',
         },
         {
           id: 'u3-l3-t4',
@@ -45,6 +50,7 @@ export const lesson3: LessonData = {
           gender: 'female',
           textEn: "Yes, I have. And I've put them in a bowl.",
           textAr: 'نعم، غسلتها، ووضعتها في وعاء.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t4.mp3',
         },
         {
           id: 'u3-l3-t5',
@@ -52,6 +58,7 @@ export const lesson3: LessonData = {
           gender: 'female',
           textEn: 'Thank you, Gwen.',
           textAr: 'شكراً لكِ يا غوين.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t5.mp3',
         },
         {
           id: 'u3-l3-t6',
@@ -59,6 +66,7 @@ export const lesson3: LessonData = {
           gender: 'female',
           textEn: "And I've cooked the chicken.",
           textAr: 'ولقد طبختُ الدجاج أيضاً.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t6.mp3',
         },
         {
           id: 'u3-l3-t7',
@@ -66,6 +74,7 @@ export const lesson3: LessonData = {
           gender: 'female',
           textEn: "Thank you, Gwen. You're a very good girl. Here's your pocket money. You can go to the shops.",
           textAr: 'شكراً لكِ يا غوين. أنتِ فتاة صالحة جداً ومجتهدة. ها هو مصروفكِ، يمكنكِ الذهاب إلى المتاجر.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t7.mp3',
         },
         {
           id: 'u3-l3-t8',
@@ -73,6 +82,7 @@ export const lesson3: LessonData = {
           gender: 'female',
           textEn: 'Thank you, Mummy.',
           textAr: 'شكراً لكِ يا أمي.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t8.mp3',
         },
         {
           id: 'u3-l3-t9',
@@ -80,6 +90,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: 'Have you watered the garden, Len?',
           textAr: 'هل سقيتَ الحديقة يا لين؟',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t9.mp3',
         },
         {
           id: 'u3-l3-t10',
@@ -87,6 +98,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: "No, I haven't. Sorry.",
           textAr: 'كلا، لم أسقها. أنا آسف.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t10.mp3',
         },
         {
           id: 'u3-l3-t11',
@@ -94,6 +106,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: 'Have you tidied your room?',
           textAr: 'هل رتبتَ غرفتك؟',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t11.mp3',
         },
         {
           id: 'u3-l3-t12',
@@ -101,6 +114,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: "No, I haven't.",
           textAr: 'كلا، لم أرتبها.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t12.mp3',
         },
         {
           id: 'u3-l3-t13',
@@ -108,6 +122,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: 'Have you washed the car?',
           textAr: 'هل غسلتَ السيارة؟',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t13.mp3',
         },
         {
           id: 'u3-l3-t14',
@@ -115,6 +130,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: "No, I haven't.",
           textAr: 'كلا، لم أغسلها.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t14.mp3',
         },
         {
           id: 'u3-l3-t15',
@@ -122,6 +138,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: "You're a lazy boy, Len. You haven't helped today. So, no television.",
           textAr: 'أنت ولد كسول يا لين. لم تساعد اليوم، لذا لا تلفزيون!',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t15.mp3',
         },
         {
           id: 'u3-l3-t16',
@@ -129,6 +146,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: "Dad! I haven't watched television all week!",
           textAr: 'أبي! لم أشاهد التلفزيون طوال الأسبوع!',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-t16.mp3',
         },
       ],
     },
@@ -139,6 +157,8 @@ export const lesson3: LessonData = {
       audioTrackNumber: 26,
       bookReference: "Student's Book p. 28",
       description: 'Forming Yes/No questions with have/has in Present Perfect.',
+      audioFileUrl: '/audio/unit-3/track26.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l3-g1',
@@ -146,6 +166,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: 'Has Gwen cooked the chicken? - Yes, she has.',
           textAr: 'هل طبخت غوين الدجاج؟ - نعم، لقد طبخت.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-g1.mp3',
         },
         {
           id: 'u3-l3-g2',
@@ -153,6 +174,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: "Has Len washed the car? - No, he hasn't.",
           textAr: 'هل غسل لين السيارة؟ - كلا، لم يغسل.',
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-g2.mp3',
         },
         {
           id: 'u3-l3-g3',
@@ -160,6 +182,7 @@ export const lesson3: LessonData = {
           gender: 'male',
           textEn: "I've cooked = I have cooked / I haven't washed = I have not washed",
           textAr: "صيغة الاختصارات: I've cooked تعني I have cooked، و I haven't washed تعني I have not washed.",
+          audioFileUrl: '/audio/unit-3/lesson-3/u3-l3-g3.mp3',
         },
       ],
     },

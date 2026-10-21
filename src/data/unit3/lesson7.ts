@@ -17,6 +17,8 @@ export const lesson7: LessonData = {
       audioTrackNumber: 30,
       bookReference: "Student's Book p. 32",
       description: 'Official fable of the clever fox tricking the bird on the shed to get the meat.',
+      audioFileUrl: '/audio/unit-3/track30.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l7-t1',
@@ -24,6 +26,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "One day, a fox was looking for food on a farm. He saw a bird on a shed. 'Hello,' said the fox. 'I'm hungry. Have you seen the chickens?'",
           textAr: 'في يوم من الأيام، كان ثعلب يبحث عن طعام في إحدى المزارع، فرأى طائراً فوق سقيفة. قال الثعلب: "مرحباً، أنا جائع. هل رأيت الدجاج؟"',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t1.mp3',
         },
         {
           id: 'u3-l7-t2',
@@ -31,6 +34,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "No, I haven't. They're my friends. Go away! said the bird angrily.",
           textAr: 'قال الطائر بغضب: "كلا، لم أرها. إنها صديقاتي، ابتعد من هنا!"',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t2.mp3',
         },
         {
           id: 'u3-l7-t3',
@@ -38,6 +42,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "Can I have some meat, please? he asked politely. I'm very, very hungry. I haven't eaten today.",
           textAr: 'رأى الثعلب بعض اللحم تحت قدم الطائر، فسأله بأدب: "هل يمكنني الحصول على بعض اللحم من فضلك؟ أنا جائع جداً جداً ولم آكل اليوم".',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t3.mp3',
         },
         {
           id: 'u3-l7-t4',
@@ -45,6 +50,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "No, you can't. It's mine, said the bird.",
           textAr: 'قال الطائر: "كلا، لا يمكنك. إنه ملكي".',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t4.mp3',
         },
         {
           id: 'u3-l7-t5',
@@ -52,6 +58,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "Um - Have you sung today? asked the fox slowly. I haven't heard you. They tell me you can sing very well.",
           textAr: 'فكر الثعلب لدقيقة واحدة، ثم سأله ببطء: "اممم - هل غنيت اليوم؟ لم أسمعك. يخبرونني أنك تستطيع الغناء بشكل رائع جداً".',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t5.mp3',
         },
         {
           id: 'u3-l7-t6',
@@ -59,6 +66,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "That's right, said the bird.",
           textAr: 'قال الطائر: "هذا صحيح".',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t6.mp3',
         },
         {
           id: 'u3-l7-t7',
@@ -66,6 +74,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: 'Sing for me, please, said the fox.',
           textAr: 'فقال الثعلب: "غنِّ لي من فضلك".',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t7.mp3',
         },
         {
           id: 'u3-l7-t8',
@@ -73,6 +82,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "All right, said the bird, and began to sing. 'You sing beautifully,' said the fox. 'Can you sing from that tree?'",
           textAr: 'قال الطائر: "حسناً"، وبدأ في الغناء. فقال الثعلب: "أنت تغني بشكل جميل جداً! هل يمكنك أن تغني من تلك الشجرة؟"',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t8.mp3',
         },
         {
           id: 'u3-l7-t9',
@@ -80,6 +90,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: 'Thank you, said the bird, and flew up to the tree. The fox picked up the meat quickly and ran away, laughing loudly.',
           textAr: 'قال الطائر: "شكراً لك"، وطار إلى الشجرة. فالتقط الثعلب اللحم بسرعة وركض مبتعداً وهو يضحك بصوت عالٍ!',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-t9.mp3',
         },
       ],
     },
@@ -90,6 +101,8 @@ export const lesson7: LessonData = {
       audioTrackNumber: 30,
       bookReference: "Student's Book p. 32",
       description: 'Adverbs tell how someone does an action by adding -ly to adjectives.',
+      audioFileUrl: '/audio/unit-3/track30.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l7-g1',
@@ -97,6 +110,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: "The bird's song was beautiful. -> The bird sang beautifully.",
           textAr: 'كان غناء الطائر جميلاً (صفة) -> غنى الطائر بشكل جميل (ظرف حال).',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-g1.mp3',
         },
         {
           id: 'u3-l7-g2',
@@ -104,6 +118,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: 'The fox had a loud laugh. -> The fox laughed loudly.',
           textAr: 'كانت ضحكة الثعلب عالية (صفة) -> ضحك الثعلب بصوت عالٍ (ظرف حال).',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-g2.mp3',
         },
         {
           id: 'u3-l7-g3',
@@ -111,6 +126,7 @@ export const lesson7: LessonData = {
           gender: 'male',
           textEn: 'We add -ly to the adjective to make most of them: angry -> angrily. Irregular adverbs: fast -> fast, good -> well.',
           textAr: 'نضيف ly- إلى الصفة لتكوين معظم ظروف الحال: angry تصبح angrily. وهناك ظروف شاذة: fast تبقى fast، و good تصبح well.',
+          audioFileUrl: '/audio/unit-3/lesson-7/u3-l7-g3.mp3',
         },
       ],
     },

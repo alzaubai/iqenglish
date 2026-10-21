@@ -17,6 +17,8 @@ export const lesson2: LessonData = {
       audioTrackNumber: 25,
       bookReference: "Student's Book p. 27",
       description: 'Official reading text about children sharing chores worldwide, in Japan, and nationwide in Rwanda.',
+      audioFileUrl: '/audio/unit-3/track25.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l2-t1',
@@ -24,6 +26,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: 'Have you done your chores?',
           textAr: 'هل أنجزت أعمالك المنزلية؟',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t1.mp3',
         },
         {
           id: 'u3-l2-t2',
@@ -31,6 +34,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: "Yes, father. I've made my bed, I've swept the floor and I've done my homework. Can I go out with my friends now?",
           textAr: 'نعم يا أبي. لقد رتبت سريري، وكنست الأرضية، وأنجزت واجبي المدرسي. هل يمكنني الخروج مع أصدقائي الآن؟',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t2.mp3',
         },
         {
           id: 'u3-l2-t3',
@@ -38,6 +42,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: "Does this conversation sound familiar? Every day, children all over the world help their families with jobs around the house. Sometimes children complain or make excuses, but it's only fair to share the work.",
           textAr: 'هل تبدو هذه المحادثة مألوفة؟ كل يوم، يساعد الأطفال في جميع أنحاء العالم عائلاتهم في الأعمال المنزلية. أحياناً يشتكي الأطفال أو يختلقون الأعذار، لكن من الإنصاف تقاسم العمل.',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t3.mp3',
         },
         {
           id: 'u3-l2-t4',
@@ -45,6 +50,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: 'Doing chores at home is one way that children help. But did you know that children in Japan clean their classrooms at the end of every school day? They don’t just tidy up and throw away the rubbish - they sweep, clean and tidy every day, but only for fifteen minutes.',
           textAr: 'إن القيام بالأعمال المنزلية هو إحدى الطرق التي يساعد بها الأطفال. ولكن هل تعلم أن الأطفال في اليابان ينظفون صفوفهم في نهاية كل يوم دراسي؟ إنهم لا يرتبون ويرمون القمامة فحسب - بل يكنسون وينظفون ويرتبون كل يوم، ولكن لمدة خمسة عشر دقيقة فقط.',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t4.mp3',
         },
         {
           id: 'u3-l2-t5',
@@ -52,6 +58,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: 'Many Japanese people think this is a good idea. They say it teaches children to be responsible. The children know that they have to clean anything that is dirty - they are responsible for this.',
           textAr: 'يعتقد الكثير من اليابانيين أن هذه فكرة جيدة. يقولون إنها تعلم الأطفال أن يكونوا مسؤولين؛ فالأطفال يعلمون أنه يتعين عليهم تنظيف أي شيء متسخ - وهم مسؤولون عن ذلك.',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t5.mp3',
         },
         {
           id: 'u3-l2-t6',
@@ -59,6 +66,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: 'Another advantage is that it teaches students to work as a team. For example, they need to agree who is going to sweep the floor and who is going to clean the desks. What do you think? Is this a good idea?',
           textAr: 'ميزة أخرى هي أنها تعلم الطلاب العمل كفريق. على سبيل المثال، يحتاجون إلى الاتفاق على من سيكنس الأرضية ومن سينظف المكاتب. ما رأيك؟ هل هذه فكرة جيدة؟',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t6.mp3',
         },
         {
           id: 'u3-l2-t7',
@@ -66,6 +74,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: 'Cleaning the classroom is one thing. But what about cleaning the whole country? This is what the people of Rwanda do. One day, every single month, everyone between the ages of 18 and 65 comes out of their houses to pick up rubbish and sweep the streets.',
           textAr: 'تنظيف الفصل شيء، ولكن ماذا عن تنظيف البلد بأكمله؟ هذا ما يفعله شعب رواندا. في يوم واحد من كل شهر، يخرج كل شخص تتراوح أعماره بين 18 و 65 عاماً من منازلهم لجمع القمامة وكنس الشوارع.',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t7.mp3',
         },
         {
           id: 'u3-l2-t8',
@@ -73,6 +82,7 @@ export const lesson2: LessonData = {
           gender: 'male',
           textEn: "Do you think this should happen in your country? Chores aren't always fun, but they need to be done. If we all help, we can do the work quickly.",
           textAr: 'هل تعتقد أن هذا ينبغي أن يحدث في بلدك؟ الأعمال المنزلية ليست ممتعة دائماً، لكن يجب إنجازها. إذا تعاونا جميعاً، يمكننا إنجاز العمل بسرعة.',
+          audioFileUrl: '/audio/unit-3/lesson-2/u3-l2-t8.mp3',
         },
       ],
     },

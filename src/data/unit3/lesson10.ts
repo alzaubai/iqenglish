@@ -17,6 +17,8 @@ export const lesson10: LessonData = {
       audioTrackNumber: 32,
       bookReference: "Student's Book p. 35",
       description: 'Official story of three girls camping in the woods hearing a scary scratching sound outside their tent.',
+      audioFileUrl: '/audio/unit-3/track32.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l10-t1',
@@ -24,6 +26,7 @@ export const lesson10: LessonData = {
           gender: 'male',
           textEn: 'Rachel, Molly and Helen were camping in the woods. It was dark and windy outside, and the girls felt a little scared. But none of them wanted to say how they really felt. Instead, they laughed and joked nervously.',
           textAr: 'كانت ريتشيل ومولي وهيلين يخيمون في الغابة. كان الجو مظلماً وعاصفاً في الخارج، وشعرت الفتيات ببعض الخوف. ولكن لم ترغب أي منهن في الإفصاح عن حقيقة مشاعرها، وبدلاً من ذلك كن يضحكن ويمزحن بتوتر وعصبية.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t1.mp3',
         },
         {
           id: 'u3-l10-t2',
@@ -31,6 +34,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "Listen, said Helen. It's just started to rain.",
           textAr: 'قالت هيلين: "استمعن، لقد بدأ المطر بالهطول للتو".',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t2.mp3',
         },
         {
           id: 'u3-l10-t3',
@@ -38,6 +42,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "It's OK, we'll stay in the tent. It's nice and dry in here, Molly replied.",
           textAr: 'ردت مولي: "لا بأس، سنبقى في الخيمة. المكان هنا دافئ وجاف ولطيف".',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t3.mp3',
         },
         {
           id: 'u3-l10-t4',
@@ -45,6 +50,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "Yes, we're all safe here, said Rachel. The two others agreed.",
           textAr: 'قالت ريتشيل: "نعم، نحن جميعاً بأمان هنا". فوافقتها الأخريان.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t4.mp3',
         },
         {
           id: 'u3-l10-t5',
@@ -52,6 +58,7 @@ export const lesson10: LessonData = {
           gender: 'male',
           textEn: "Suddenly, the girls stopped laughing and joking. They looked at each other. 'Did you hear that?' they all asked at the same time. There was something outside! They could hear a 'scratch, scratch' sound. It was getting louder and louder.",
           textAr: 'فجأة، توقفت الفتيات عن الضحك والمزاح ونظرن إلى بعضهن البعض. وسألن جميعهن في نفس الوقت: "هل سمعتن ذلك؟" كان هناك شيء ما في الخارج! استطعن سماع صوت "خربشة، خربشة"، وكان الصوت يعلو ويعلو أكثر فأكثر.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t5.mp3',
         },
         {
           id: 'u3-l10-t6',
@@ -59,6 +66,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: 'Is it a mouse? asked Molly.',
           textAr: 'سألت مولي: "هل هو فأر؟"',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t6.mp3',
         },
         {
           id: 'u3-l10-t7',
@@ -66,6 +74,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "No, it's bigger, said Helen.",
           textAr: 'قالت هيلين: "كلا، إنه أكبر من ذلك".',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t7.mp3',
         },
         {
           id: 'u3-l10-t8',
@@ -73,6 +82,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "Maybe it's a fox, said Rachel, sounding unsure. The noise was getting louder and louder.",
           textAr: 'قالت ريتشيل بنبرة غير واثقة: "ربما هو ثعلب". وكان الصوت يزداد ارتفاعاً وقوة.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t8.mp3',
         },
         {
           id: 'u3-l10-t9',
@@ -80,6 +90,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "It's looking for food, said Molly. But all our food is inside the tent with us!",
           textAr: 'قالت مولي: "إنه يبحث عن طعام! ولكن كل طعامنا داخل الخيمة معنا!"',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t9.mp3',
         },
         {
           id: 'u3-l10-t10',
@@ -87,6 +98,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "It's a bear! Helen whispered loudly. She looked very scared now. The three girls held hands tightly.",
           textAr: 'همست هيلين بصوت مرتفع وخائف: "إنه دب!" وبدت خائفة للغاية الآن، وأمسكت الفتيات الثلاث بأيدي بعضهن بقوة.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t10.mp3',
         },
         {
           id: 'u3-l10-t11',
@@ -94,6 +106,7 @@ export const lesson10: LessonData = {
           gender: 'male',
           textEn: "'Scratch, scratch ...' The scratching sound was getting louder and louder.",
           textAr: '"خربش، خربش..." صوت الخربشة كان يزداد علواً ورعباً.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t11.mp3',
         },
         {
           id: 'u3-l10-t12',
@@ -101,6 +114,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "Maybe one of us should go outside and look, said Molly. They all agreed that was a very good idea. 'Scratch, scratch ...'",
           textAr: 'قالت مولي: "ربما ينبغي لواحدة منا أن تخرج وتلقي نظرة". واتفقن جميعهن على أنها فكرة جيدة. "خربش، خربش..."',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t12.mp3',
         },
         {
           id: 'u3-l10-t13',
@@ -108,6 +122,7 @@ export const lesson10: LessonData = {
           gender: 'female',
           textEn: "I don't want to go outside. The bear might eat me! cried Helen. The other girls were thinking the same thing.",
           textAr: 'صرخت هيلين: "لا أريد الخروج، قد يأكلني الدب!" وكانت الأخريات يفكرن في نفس الشيء.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t13.mp3',
         },
         {
           id: 'u3-l10-t14',
@@ -115,6 +130,7 @@ export const lesson10: LessonData = {
           gender: 'male',
           textEn: 'Instead, all three girls sat in the tent, listening to the scratching sound get louder and louder. All three got more and more scared.',
           textAr: 'وبدلاً من ذلك، جلست الفتيات الثلاث في الخيمة يستمعن إلى صوت الخربشة وهو يتعالى، وشعرن بالمزيد والمزيد من الخوف والهلع.',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t14.mp3',
         },
         {
           id: 'u3-l10-t15',
@@ -122,6 +138,7 @@ export const lesson10: LessonData = {
           gender: 'male',
           textEn: "When morning came, the rain and the wind stopped. Slowly, very slowly, Rachel looked out of the tent. She didn't see any sign of a bear, or a fox or even a mouse. What was making the noise? It was a tree branch blowing against the tent in the wind!",
           textAr: 'وعندما حل الصباح، توقف المطر والرياح. وببطء، وببطء شديد، نظرت ريتشيل إلى خارج الخيمة؛ فلم تر أي أثر لدب أو ثعلب أو حتى فأر. ما الذي كان يصدر الصوت؟ لقد كان مجرد غصن شجرة تحركه الرياح فيحك قماش الخيمة!',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t15.mp3',
         },
         {
           id: 'u3-l10-t16',
@@ -129,6 +146,7 @@ export const lesson10: LessonData = {
           gender: 'male',
           textEn: 'Comprehension questions: 1. Why are the girls scared? - 2. What made the noise?',
           textAr: 'أسئلة الفهم المقررة: 1. لماذا كانت الفتيات خائفات؟ - 2. ما الذي أصدر صوت الخربشة في الخارج؟',
+          audioFileUrl: '/audio/unit-3/lesson-10/u3-l10-t16.mp3',
         },
       ],
     },

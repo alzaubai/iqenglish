@@ -17,6 +17,8 @@ export const lesson8: LessonData = {
       audioTrackNumber: 31,
       bookReference: "Student's Book p. 33",
       description: 'Official story of the shepherd boy who tricked the villagers until a real wolf arrived.',
+      audioFileUrl: '/audio/unit-3/track31.mp3',
+      hasGeminiAudio: true,
       lines: [
         {
           id: 'u3-l8-t1',
@@ -24,6 +26,7 @@ export const lesson8: LessonData = {
           gender: 'male',
           textEn: 'A shepherd boy was looking after his sheep in a field near a village. He felt very bored.',
           textAr: 'كان صبي راعٍ يرعى أغنامه في حقل قريب من إحدى القرى، وكان يشعر بملل شديد.',
+          audioFileUrl: '/audio/unit-3/lesson-8/u3-l8-t1.mp3',
         },
         {
           id: 'u3-l8-t2',
@@ -31,6 +34,7 @@ export const lesson8: LessonData = {
           gender: 'male',
           textEn: "Wolf! Wolf! A wolf is attacking the sheep! Help!",
           textAr: 'ذئب! ذئب! هناك ذئب يهاجم الأغنام! النجدة!',
+          audioFileUrl: '/audio/unit-3/lesson-8/u3-l8-t2.mp3',
         },
         {
           id: 'u3-l8-t3',
@@ -38,6 +42,7 @@ export const lesson8: LessonData = {
           gender: 'male',
           textEn: "The men of the village ran to the field to help him, but there was no wolf. The boy laughed: 'That was a joke!' The villagers were angry: 'That's not funny!'",
           textAr: 'ركض رجال القرية إلى الحقل لمساعدته، لكن لم يكن هناك أي ذئب. ضحك الصبي وقال: "كانت تلك مزحة!" فغضب القرويون وقالوا: "هذا ليس مضحكاً!"',
+          audioFileUrl: '/audio/unit-3/lesson-8/u3-l8-t3.mp3',
         },
         {
           id: 'u3-l8-t4',
@@ -45,6 +50,7 @@ export const lesson8: LessonData = {
           gender: 'male',
           textEn: "A few days later, the boy was bored again. He shouted: 'Wolf! Help! Wolf!' Again the villagers ran to help him, but again there was no wolf. 'We don't believe you!' they said.",
           textAr: 'بعد بضعة أيام، شعر الصبي بالملل مرة أخرى، فصرخ: "ذئب! النجدة! ذئب!" وركض القرويون مجدداً لمساعدته، لكن للمرة الثانية لم يكن هناك ذئب. فقالوا: "نحن لا نصدقك!"',
+          audioFileUrl: '/audio/unit-3/lesson-8/u3-l8-t4.mp3',
         },
         {
           id: 'u3-l8-t5',
@@ -52,6 +58,7 @@ export const lesson8: LessonData = {
           gender: 'male',
           textEn: "Then one evening, a real wolf came into the field. The terrified boy ran towards the village shouting: 'Wolf! Help me, please! A real wolf!' But nobody moved. 'He's lying again,' the villagers said.",
           textAr: 'ثم في أحد المساءات، دخل ذئب حقيقي إلى الحقل. فركض الصبي المذعور نحو القرية صارخاً: "ذئب! ساعدوني من فضلكم! ذئب حقيقي!" لكن أحداً لم يتحرك، وقال القرويون: "إنه يكذب مرة أخرى".',
+          audioFileUrl: '/audio/unit-3/lesson-8/u3-l8-t5.mp3',
         },
         {
           id: 'u3-l8-t6',
@@ -59,6 +66,7 @@ export const lesson8: LessonData = {
           gender: 'male',
           textEn: "The wolf killed all the sheep. The boy sat alone and cried. He learned that nobody believes a liar, even when he tells the truth.",
           textAr: 'فافترس الذئب جميع الأغنام. جلس الصبي وحيداً يبكي؛ لقد تعلم درساً قاسياً أنه لا أحد يصدق الكاذب حتى عندما يقول الحقيقة.',
+          audioFileUrl: '/audio/unit-3/lesson-8/u3-l8-t6.mp3',
         },
         {
           id: 'u3-l8-t7',
@@ -66,6 +74,7 @@ export const lesson8: LessonData = {
           gender: 'male',
           textEn: 'Key vocabulary: shepherd (راعي), bored (شعر بالملل), funny (مضحك), sheep (أغنام), wolf (ذئب), dead (ميت). Moral: Do not tell a lie.',
           textAr: 'مفردات الدرس: راعي، ملل، مضحك، أغنام، ذئب، ميت. العبرة المستفادة: إياك والكذب، وكن صادقاً دائماً.',
+          audioFileUrl: '/audio/unit-3/lesson-8/u3-l8-t7.mp3',
         },
       ],
     },
