@@ -37,10 +37,24 @@
       }
     </script>
 
+    <!-- Register PWA Service Worker for Media (Audio & Images) Permanent Local Device Caching -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          var swPath = window.location.pathname.startsWith('/iqenglish') ? '/iqenglish/sw.js' : '/sw.js';
+          navigator.serviceWorker.register(swPath).then(function(reg) {
+            console.log('[PWA] Media Caching Service Worker registered successfully:', reg.scope);
+          }).catch(function(err) {
+            console.warn('[PWA] Service Worker registration failed:', err);
+          });
+        });
+      }
+    </script>
+
     <!-- Dedicated Clean Print Styles -->
     <style>@media print{body *{visibility:hidden!important}#printable-exam-report,#printable-exam-report *{visibility:visible!important}#printable-exam-report{color:#000!important;width:100%!important;box-shadow:none!important;background:#fff!important;margin:0!important;padding:8mm 6mm!important;position:fixed!important;top:0!important;left:0!important}@page{size:A4 landscape;margin:6mm}}</style>
-    <script type="module" crossorigin src="/iqenglish/assets/index-CI-W2AC8.js"></script>
-    <link rel="stylesheet" crossorigin href="/iqenglish/assets/index-BQX97t5X.css">
+    <script type="module" crossorigin src="/iqenglish/assets/index-B1VQmb7l.js"></script>
+    <link rel="stylesheet" crossorigin href="/iqenglish/assets/index-BSS2APCo.css">
   </head>
   <body>
     <div id="root"></div>
