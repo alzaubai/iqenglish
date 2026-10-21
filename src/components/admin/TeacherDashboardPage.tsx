@@ -38,6 +38,9 @@ import { CurriculumLocksTab } from './tabs/CurriculumLocksTab';
 import { AnalyticsTab } from './tabs/AnalyticsTab';
 import { CodesTab } from './tabs/CodesTab';
 import { SubscriptionsTab } from './tabs/SubscriptionsTab';
+import { TeacherHeader } from './header/TeacherHeader';
+import { DashboardOverviewMetrics } from './overview/DashboardOverviewMetrics';
+import { DashboardTabsNav } from './navigation/DashboardTabsNav';
 
 import { StudentHistoryModal } from './modals/StudentHistoryModal';
 import { PdfReportModal } from './modals/PdfReportModal';
@@ -392,160 +395,41 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans" dir="rtl">
-      {/* Top Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-2xs">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center font-bold shadow-xs">
-              <GraduationCap className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-sm sm:text-base font-bold text-slate-900 font-arabic flex items-center gap-2">
-                <span>لوحة تحكم أستاذ المادة</span>
-                <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200 font-arabic">
-                  الصف الأول المتوسط
-                </span>
-              </h1>
-              <p className="text-[11px] text-slate-500 font-arabic">
-                إدارة الطلاب • الامتحانات • الصلاحيات • الاشتراكات
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={onBackToSite}
-            className="py-2 px-3 sm:px-4 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1.5 cursor-pointer font-arabic transition-colors shadow-2xs"
-          >
-            <ArrowRight className="w-4 h-4" />
-            <span>العودة إلى المنهاج / الدرس</span>
-          </button>
-        </div>
-      </header>
+      {/* Top Modern Header */}
+      <TeacherHeader
+        onBackToSite={onBackToSite}
+        isMaintenanceActive={isMaintenanceActiveLocal}
+        isTogglingMaintenance={isTogglingMaintenance}
+        onToggleMaintenance={handleToggleMaintenanceMode}
+        maintenanceToast={maintenanceStatusToast}
+      />
 
       {/* Main Content */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-8 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-6 sm:py-8 space-y-6">
         {!isAuthenticated ? (
           <TeacherAuthCard onAuthenticated={() => setIsAuthenticated(true)} />
         ) : (
           <div className="space-y-6">
-            {/* PLATFORM MAINTENANCE / CLOSURE BANNER */}
-            <div
-              className={`rounded-2xl border p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4 transition-all shadow-xs ${
-                isMaintenanceActiveLocal
-                  ? 'bg-rose-50 border-rose-200 text-rose-950'
-                  : 'bg-emerald-50 border-emerald-200 text-emerald-950'
-              }`}
-            >
-              <div className="flex items-center gap-3.5 text-right w-full md:w-auto">
-                <div
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs ${
-                    isMaintenanceActiveLocal ? 'bg-rose-600 text-white' : 'bg-emerald-600 text-white'
-                  }`}
-                >
-                  {isMaintenanceActiveLocal ? (
-                    <ShieldAlert className="w-6 h-6 animate-pulse" />
-                  ) : (
-                    <ShieldCheck className="w-6 h-6" />
-                  )}
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h4 className="text-sm sm:text-base font-black font-arabic">
-                      {isMaintenanceActiveLocal
-                        ? 'حالة المنصة: مغلقة بوجه الطلاب حالياً 🔒'
-                        : 'حالة المنصة: مفتوحة ومتاحة لجميع الطلاب 🟢'}
-                    </h4>
-                    <span
-                      className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full font-arabic ${
-                        isMaintenanceActiveLocal
-                          ? 'bg-rose-200/80 text-rose-800 border border-rose-300'
-                          : 'bg-emerald-200/80 text-emerald-800 border border-emerald-300'
-                      }`}
-                    >
-                      {isMaintenanceActiveLocal ? 'مغلقة إلى إشعار آخر' : 'مفتوحة للجميع'}
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-600 font-arabic mt-1 leading-relaxed">
-                    {isMaintenanceActiveLocal
-                      ? 'عند دخول أي طالب أو زائر، تظهر له شاشة الإغلاق الرسمية: "المنصة مغلقة إلى إشعار آخر". حسابك الإداري فقط من يستطيع الدخول.'
-                      : 'المنصة متاحة الآن بشكل طبيعي ويمكن للطلاب الدخول وحل الدروس والامتحانات.'}
-                  </p>
-                </div>
-              </div>
+            {/* Overview Metrics Cards */}
+            <DashboardOverviewMetrics
+              totalRegisteredCount={totalRegisteredCount}
+              totalSubmissions={totalSubmissions}
+              participationRate={participationRate}
+              totalAbsentCount={totalAbsentCount}
+              avgScore={avgScore}
+              topScore={topScore}
+              isExamLive={Boolean(isExamActiveLocal || currentSession?.isActive)}
+              examTitle={examTitle || currentSession?.title || 'الامتحان السريع'}
+            />
 
-              <div className="flex items-center gap-2 w-full md:w-auto shrink-0 justify-end">
-                <button
-                  type="button"
-                  onClick={handleToggleMaintenanceMode}
-                  disabled={isTogglingMaintenance}
-                  className={`w-full md:w-auto px-5 py-3 rounded-xl font-bold text-xs sm:text-sm font-arabic cursor-pointer transition-all shadow-sm flex items-center justify-center gap-2 shrink-0 disabled:opacity-50 ${
-                    isMaintenanceActiveLocal
-                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
-                      : 'bg-rose-600 hover:bg-rose-500 text-white'
-                  }`}
-                >
-                  {isTogglingMaintenance ? (
-                    <span>جاري التحديث...</span>
-                  ) : isMaintenanceActiveLocal ? (
-                    <>
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>إعادة فتح المنصة للطلاب الآن</span>
-                    </>
-                  ) : (
-                    <>
-                      <Lock className="w-4 h-4" />
-                      <span>إغلاق المنصة بوجه الجميع</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {maintenanceStatusToast && (
-              <div className="p-3.5 rounded-xl bg-slate-900 text-white text-xs font-bold font-arabic flex items-center justify-between shadow-lg">
-                <span>{maintenanceStatusToast}</span>
-              </div>
-            )}
-
-            {/* TAB NAVIGATION BAR */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-200 font-arabic">
-              {[
-                { id: 'results', label: 'نتائج الامتحانات والغياب', icon: Award, count: submissions.length },
-                { id: 'builder', label: 'إعداد الامتحانات السريعة', icon: PenTool },
-                { id: 'lessons', label: 'قفل وفتح المنهج والقواعد', icon: Sliders },
-                { id: 'analytics', label: 'إحصائيات المنصة وتواجد الطلاب', icon: BarChart3, count: allStudents.length },
-                { id: 'codes', label: 'أكواد التفعيل و PIN', icon: ShieldCheck },
-                { id: 'subscriptions', label: 'الاشتراكات الأونلاين والأجهزة', icon: Globe, count: platformConfig.externalSubscriptions?.length },
-              ].map((t) => {
-                const Icon = t.icon;
-                const isActive = activeTab === t.id;
-                return (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => setActiveTab(t.id as any)}
-                    className={`py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer ${
-                      isActive
-                        ? 'bg-slate-800 text-white shadow-xs'
-                        : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 shrink-0" />
-                    <span>{t.label}</span>
-                    {t.count !== undefined && (
-                      <span
-                        className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded-full ${
-                          isActive ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-700'
-                        }`}
-                      >
-                        {t.count}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+            {/* Categorized Modern Tabs Navigation */}
+            <DashboardTabsNav
+              activeTab={activeTab}
+              onSelectTab={(tabId) => setActiveTab(tabId)}
+              submissionsCount={submissions.length}
+              studentsCount={allStudents.length}
+              subscriptionsCount={platformConfig.externalSubscriptions?.length}
+            />
 
             {/* TAB PANELS */}
             {activeTab === 'results' && (

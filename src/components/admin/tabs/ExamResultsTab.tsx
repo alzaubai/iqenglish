@@ -275,41 +275,41 @@ export const ExamResultsTab: React.FC<ExamResultsTabProps> = ({
       </div>
 
       {/* Sub-Tabs: Submitted vs Absent vs All */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200/80 overflow-x-auto">
         <button
           onClick={() => setResultsSubTab('submitted')}
-          className={`py-2 px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer ${
+          className={`py-2 px-3.5 sm:px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap ${
             resultsSubTab === 'submitted'
-              ? 'bg-slate-800 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'bg-slate-900 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
           }`}
         >
-          <CheckCircle2 className="w-4 h-4" />
+          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>الطلاب الممتحنون ({totalSubmissions})</span>
         </button>
 
         <button
           onClick={() => setResultsSubTab('absent')}
-          className={`py-2 px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer ${
+          className={`py-2 px-3.5 sm:px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap ${
             resultsSubTab === 'absent'
-              ? 'bg-rose-700 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'bg-rose-600 text-white shadow-sm'
+              : 'text-slate-600 hover:text-rose-700 hover:bg-white/60'
           }`}
         >
           <UserX className="w-4 h-4" />
-          <span>الطلاب غير الممتحنين / الغياب ({totalAbsentCount})</span>
+          <span>الغياب عن الامتحان ({totalAbsentCount})</span>
         </button>
 
         <button
           onClick={() => setResultsSubTab('all_students')}
-          className={`py-2 px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer ${
+          className={`py-2 px-3.5 sm:px-4 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap ${
             resultsSubTab === 'all_students'
-              ? 'bg-slate-800 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'bg-slate-900 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
           }`}
         >
-          <Users className="w-4 h-4" />
-          <span>تسلسل الطلاب المسجلين ({totalRegisteredCount})</span>
+          <Users className="w-4 h-4 text-indigo-400" />
+          <span>جميع المسجلين ({totalRegisteredCount})</span>
         </button>
       </div>
 
