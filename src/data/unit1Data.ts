@@ -32,6 +32,7 @@ export const unitsList: UnitData[] = [
     descriptionAr: 'المضارع التام، الأعمال المنزلية، صفات المشاعر',
     isAvailable: true,
     lessonsCount: 10,
+    imageUrl: '/images/unit3-cover.jpg',
   },
   {
     id: 'unit-5',
