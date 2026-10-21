@@ -12,6 +12,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 1: لقد أنهيتُ عملي',
     subtitleEn: 'The Present Perfect tense and household tasks',
     subtitleAr: 'زمن المضارع التام والمهام المنزلية المنجزة',
+    imageUrl: '/images/lessons/u3-lesson-1.jpg',
     transcripts: [
       {
         id: 'u3-l1-dialogue',
@@ -145,6 +146,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 2: كثرة الأيادي تخفف العمل',
     subtitleEn: 'Cooperation at home and irregular past participles',
     subtitleAr: 'التعاون في المنزل والتصريف الثالث للأفعال الشاذة',
+    imageUrl: '/images/lessons/u3-lesson-2.jpg',
     transcripts: [
       {
         id: 'u3-l2-dialogue',
@@ -212,6 +214,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 3: غوين المجدّة ولين الكسول',
     subtitleEn: 'Comparing diligent and lazy habits using the present perfect',
     subtitleAr: 'مقارنة العادات المجدّة والكسولة باستخدام المضارع التام',
+    imageUrl: '/images/lessons/u3-lesson-3.jpg',
     transcripts: [
       {
         id: 'u3-l3-story',
@@ -292,6 +295,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 4: أسطوانة الهيبو لنقل المياه',
     subtitleEn: 'An innovative solution for carrying water in Africa',
     subtitleAr: 'حل ابتكاري ذكي لنقل المياه وتخفيف المعاناة في إفريقيا',
+    imageUrl: '/images/lessons/u3-lesson-4.jpg',
     transcripts: [
       {
         id: 'u3-l4-text',
@@ -366,6 +370,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: "الدرس 5: ما الأمر؟ (مم تشكو؟)",
     subtitleEn: 'Talking about health problems, feelings, and giving advice',
     subtitleAr: 'الحديث عن الحالات الصحية والمشاعر وإعطاء النصائح الطبية',
+    imageUrl: '/images/lessons/u3-lesson-5.jpg',
     transcripts: [
       {
         id: 'u3-l5-dialogue-1',
@@ -478,6 +483,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 6: مساعدة الجدة',
     subtitleEn: 'Grandchildren helping their grandmother with house and garden chores',
     subtitleAr: 'مساعدة الأحفاد لجدتهم في أعمال البيت والحديقة',
+    imageUrl: '/images/lessons/u3-lesson-6.jpg',
     transcripts: [
       {
         id: 'u3-l6-story',
@@ -551,6 +557,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 7: ماذا حدث؟ (ظروف الحال)',
     subtitleEn: 'Using adverbs of manner to describe how actions happen',
     subtitleAr: 'استخدام ظروف الحال لوصف طريقة وقوع الأحداث',
+    imageUrl: '/images/lessons/u3-lesson-7.jpg',
     transcripts: [
       {
         id: 'u3-l7-t27',
@@ -625,6 +632,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 8: قصة الراعي الصغير',
     subtitleEn: 'A traditional story about truthfulness and consequences',
     subtitleAr: 'قصة تراثية تعليمية عن عواقب الكذب وأهمية الصدق',
+    imageUrl: '/images/lessons/u3-lesson-8.jpg',
     transcripts: [
       {
         id: 'u3-l8-t28',
@@ -706,6 +714,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 9: مراجعة شاملة وتلخيص',
     subtitleEn: 'Review of Present Perfect tense, irregular verbs, and adverbs of manner',
     subtitleAr: 'مراجعة لقواعد المضارع التام، تصاريف الأفعال الشاذة، وتكوين ظروف الحال',
+    imageUrl: '/images/lessons/u3-lesson-9.jpg',
     transcripts: [
       {
         id: 'u3-l9-t29',
@@ -773,6 +782,7 @@ export const unit3Lessons: LessonData[] = [
     titleAr: 'الدرس 10: وقت القصة - الثعلب والغراب',
     subtitleEn: 'A famous fable about flattery and vanity',
     subtitleAr: 'قصة أدبية مقررة عن الغرور والتملق والحكمة',
+    imageUrl: '/images/lessons/u3-lesson-10.jpg',
     transcripts: [
       {
         id: 'u3-l10-t30',
