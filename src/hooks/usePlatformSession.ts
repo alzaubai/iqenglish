@@ -12,6 +12,7 @@ import {
   recordSiteVisit,
   recordStudentHeartbeat,
   TEACHER_PIN_HASH_DEFAULT,
+  LEGACY_TEACHER_PIN_HASH,
 } from '../services/firebase';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 
@@ -20,7 +21,15 @@ export function usePlatformSession() {
   const [isTeacherLoggedIn, setIsTeacherLoggedIn] = useState<boolean>(() => {
     const isTeacher = localStorage.getItem(STORAGE_KEYS.TEACHER_LOGGED_IN) === 'true';
     const token = localStorage.getItem(STORAGE_KEYS.TEACHER_TOKEN);
-    return isTeacher && Boolean(token && (token === TEACHER_PIN_HASH_DEFAULT || token.length === 64));
+    const cachedHash = localStorage.getItem('iq_teacher_pin_hash_cache');
+    // Strict validation: Token must match default hash, legacy hash, or verified cached hash
+    const isValidToken = Boolean(
+      token &&
+        (token === TEACHER_PIN_HASH_DEFAULT ||
+          token === LEGACY_TEACHER_PIN_HASH ||
+          (cachedHash && token === cachedHash))
+    );
+    return isTeacher && isValidToken;
   });
   const [platformConfig, setPlatformConfig] = useState<PlatformConfig>(() => getCachedPlatformConfig());
   const [activeExam, setActiveExam] = useState<QuickExam | null>(null);

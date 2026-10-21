@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Award, X, Clock } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import {
@@ -57,6 +57,11 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     } catch {}
     return durationTotalSeconds;
   });
+
+  // Security: Strip correctAnswer from UI questions so it cannot be inspected in React DevTools/DOM
+  const sanitizedQuestions = useMemo(() => {
+    return (exam?.questions || []).map(({ correctAnswer, ...q }) => q as any);
+  }, [exam?.questions]);
 
   // Calculate score for whatever questions are currently answered (unanswered = 0 points)
   const calculateCurrentScore = (answers: Record<string, string>) => {
@@ -330,7 +335,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
             />
           ) : (
             <ExamQuestionsForm
-              questions={exam.questions}
+              questions={sanitizedQuestions}
               selectedAnswers={selectedAnswers}
               onSelectOption={handleSelectOption}
               onSubmitExam={handleSubmitExam}
