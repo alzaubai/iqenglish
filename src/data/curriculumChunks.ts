@@ -1,3 +1,4 @@
+import { UNIT3_CURRICULUM_CHUNKS } from './unit3/chunks';
 import { UNIT2_CURRICULUM_CHUNKS } from './unit2CurriculumChunks';
 
 export interface LineChunk {
@@ -588,4 +589,7 @@ export const CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
 
   // ===================== UNIT 2 (ALL LESSONS) =====================
   ...UNIT2_CURRICULUM_CHUNKS,
+
+  // ===================== UNIT 3 (ALL LESSONS) =====================
+  ...UNIT3_CURRICULUM_CHUNKS,
 };
