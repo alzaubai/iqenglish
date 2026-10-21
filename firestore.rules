@@ -2,12 +2,20 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // 1. Settings Collection
+    // 1. إعدادات المنصة واشتراكات الطلاب (مطابقة لدوال subscriptionService و platformConfigService)
     match /settings/platform_config {
       allow read: if true;
-      allow write: if request.resource.data.masterCode is string;
+      
+      // مطابقة للكود: الأستاذ يحدّث إعدادات المنصة بمطابقة الـ masterCode،
+      // أو الطالب عند تفعيل كود الاشتراك (يسمح له فقط بتحديث مصفوفة externalSubscriptions أو singleUseCodes)
+      allow update: if (request.resource.data.masterCode == resource.data.masterCode)
+                    || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['externalSubscriptions', 'singleUseCodes']));
+      
+      // منع حذف وثيقة الإعدادات نهائياً
+      allow delete: if false;
     }
 
+    // 2. مستند الأستاذ الأمني المشفر (مطابقة لدالة teacherAuthService)
     match /settings/teacher_credential {
       allow read: if true;
       allow create: if request.resource.data.pinHash is string 
@@ -15,34 +23,45 @@ service cloud.firestore {
       allow update: if request.resource.data.pinHash is string 
                     && request.resource.data.pinHash.size() == 64
                     && request.resource.data.previousPinHash == resource.data.pinHash;
+      allow delete: if false;
     }
 
+    // 3. إحصائيات المنصة (مطابقة لدالة recordSiteVisit)
     match /settings/platform_analytics {
-      allow read, write: if true;
+      allow read: if true;
+      allow create, update: if request.resource.data.totalVisits is number;
+      allow delete: if false;
     }
 
-    // 2. Students Collection
+    // 4. سجل الطلاب (مطابقة لدوال: registerStudent, recordStudentHeartbeat, deleteStudent)
     match /students/{studentId} {
       allow read: if true;
+      
+      // تسجيل طالب جديد للشعب الرسمية المعتمدة
       allow create: if request.resource.data.fullName is string
                     && request.resource.data.section in ['أ', 'ب', 'ج', 'د', 'مشترك أونلاين']
                     && request.resource.data.code is string;
-      allow update: if true;
+                    
+      // تحديث وقت الحضور والزيارات ودراسة الطالب
+      allow update: if request.resource.data.fullName is string
+                    && request.resource.data.code is string;
+                    
+      // حذف الطالب: متاح للوحة تحكم الأستاذ
       allow delete: if true;
     }
 
-    // 3. Submissions Collection
+    // 5. درجات وتسليمات الامتحانات (مطابقة لدالة submitStudentExamResult)
     match /submissions/{submissionId} {
       allow read: if true;
 
-      // Allow creating submission once with valid score bounded by totalPoints
+      // إنشاء التسليم لأول مرة بدرجة صحيحة ضمن الدرجة الكلية
       allow create: if !exists(/databases/$(database)/documents/submissions/$(submissionId))
                     && request.resource.data.score is number
                     && request.resource.data.totalPoints is number
                     && request.resource.data.score <= request.resource.data.totalPoints
                     && request.resource.data.score >= 0;
 
-      // Allow partial auto-grading updates upon timeout for the same student and exam
+      // السماح بتحديث الدرجة الجزئية عند انتهاء الوقت لنفس الطالب ونفس الامتحان فقط
       allow update: if request.resource.data.studentId == resource.data.studentId
                     && request.resource.data.examId == resource.data.examId
                     && request.resource.data.score is number
@@ -50,15 +69,19 @@ service cloud.firestore {
                     && request.resource.data.score <= request.resource.data.totalPoints
                     && request.resource.data.score >= 0;
 
-      // Submissions can NEVER be deleted
+      // منع الحذف نهائياً لضمان عدم ضياع النتائج
       allow delete: if false;
     }
 
-    // 4. Exams Collection
+    // 6. الامتحانات النشطة (مطابقة لدالة saveOrUpdateExam)
     match /exams/{examId} {
       allow read: if true;
-      allow write: if request.resource.data.title is string
-                    && request.resource.data.questions is list;
+      // السماح بإنشاء وتحديث الامتحان بشرط وجود عنوان وقائمة أسئلة حقيقية
+      allow create, update: if request.resource.data.title is string
+                            && request.resource.data.questions is list
+                            && request.resource.data.questions.size() > 0;
+      // منع حذف أي امتحان بالخطأ
+      allow delete: if false;
     }
   }
 }
