@@ -1,4 +1,5 @@
 import { GrammarUnit } from '../types/grammar';
+import { unit3GrammarUnit } from './unit3GrammarTopics';
 
 export const grammarUnitsList: GrammarUnit[] = [
   {
@@ -454,15 +455,7 @@ export const grammarUnitsList: GrammarUnit[] = [
       },
     ],
   },
-  {
-    id: 'unit-3',
-    unitNumber: 3,
-    titleEn: 'Unit 3: Great Inventions & Stories',
-    titleAr: 'الوحدة الثالثة: الاختراعات والقصص',
-    descriptionAr: 'قواعد المضارع التام مع have/has والتصريف الثالث للفعل (قيد الإعداد).',
-    isAvailable: false,
-    lessons: [],
-  },
+  unit3GrammarUnit,
   {
     id: 'unit-4',
     unitNumber: 4,

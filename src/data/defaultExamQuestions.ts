@@ -10,7 +10,7 @@ export interface CategorizedExamQuestion extends ExamQuestion {
     | 'topic-possessive-pronouns'
     | 'topic-joining-sentences'
     | 'topic-interests'
-    | 'topic-adverbs-frequency';
+    | 'topic-wh-questions';
   lessonTitleAr: string;
   exerciseRef: string; // Direct reference to Activity Book exercise
 }

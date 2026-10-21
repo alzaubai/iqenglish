@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Sparkles,
-  CheckCircle2,
-  AlertCircle,
-  X,
-  Award,
-  Send,
-  Clock
-} from 'lucide-react';
+import { Award, X, Clock } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import {
   QuickExam,
@@ -16,6 +8,9 @@ import {
   checkExistingExamSubmission,
 } from '../../services/firebase';
 import { STORAGE_KEYS } from '../../constants/storageKeys';
+import { ExamResultCard } from './ExamResultCard';
+import { ExamQuestionsForm } from './ExamQuestionsForm';
+import { ExamTimerBanners } from './ExamTimerBanners';
 
 // Configuration: countdown seconds before force-closing after teacher stops exam
 export const EXAM_FORCE_CLOSE_COUNTDOWN_SECONDS = 10;
@@ -145,7 +140,6 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       return;
     }
 
-    // Teacher has stopped the exam! Auto-submit current progress
     hasAutoSubmittedRef.current = true;
     setIsForceEnding(true);
     handleAutoSubmitProgress('teacher_stopped');
@@ -156,7 +150,6 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     const currentAnswers = selectedAnswersRef.current;
     const { score: autoScore, totalPossiblePoints } = calculateCurrentScore(currentAnswers);
 
-    // Save submission to remote Firestore
     submitStudentExamResult({
       examId: exam.id,
       examTitle: exam.title,
@@ -170,7 +163,6 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
       answers: currentAnswers,
     }).catch(console.error);
 
-    // Save locally
     const localKey = STORAGE_KEYS.examDone(exam.id, student.id);
     localStorage.setItem(
       localKey,
@@ -204,8 +196,6 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
   if (!isOpen || !exam) return null;
 
-  const totalPossible = exam.questions.reduce((acc, q) => acc + (q.points || 2), 0);
-
   const handleSelectOption = (questionId: string, option: string) => {
     if (isSubmitted) return;
     setSelectedAnswers((prev) => ({
@@ -217,7 +207,6 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
   };
 
   const handleSubmitExam = async () => {
-    // Check if some questions are unanswered
     const unanswered = exam.questions.filter((q) => !selectedAnswers[q.id]);
     if (unanswered.length > 0 && !hasConfirmedPartialSubmit) {
       setValidationError(
@@ -230,11 +219,9 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     setIsSubmitting(true);
     setValidationError(null);
 
-    // Calculate score for answered questions
     const { score, totalPossiblePoints } = calculateCurrentScore(selectedAnswers);
 
     try {
-      // 1. Submit to Firebase Firestore
       await submitStudentExamResult({
         examId: exam.id,
         examTitle: exam.title,
@@ -248,7 +235,6 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         answers: selectedAnswers,
       });
 
-      // 2. Save locally
       const localKey = STORAGE_KEYS.examDone(exam.id, student.id);
       localStorage.setItem(
         localKey,
@@ -276,7 +262,6 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
     }
   };
 
-  // Formatted countdown timer
   const minutesRemaining = Math.floor(examTimeRemaining / 60);
   const secondsRemaining = examTimeRemaining % 60;
   const formattedTimeRemaining = `${minutesRemaining.toString().padStart(2, '0')}:${secondsRemaining.toString().padStart(2, '0')}`;
@@ -329,181 +314,29 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
         {/* Body */}
         <div className="p-5 sm:p-7 max-h-[75vh] overflow-y-auto space-y-6">
-          {/* TIME EXPIRED NOTICE BANNER */}
-          {isTimeExpired && (
-            <div className="p-4 rounded-2xl bg-slate-100 border border-slate-300 text-slate-800 text-xs font-arabic space-y-1.5 animate-in fade-in">
-              <div className="flex items-center gap-2 font-bold text-sm text-slate-800">
-                <Clock className="w-5 h-5 text-amber-600 shrink-0" />
-                <span>انتهى وقت الامتحان المقرر</span>
-              </div>
-              <p className="text-slate-600 leading-relaxed">
-                تم حفظ إجاباتك الحالية واحتساب درجات الأسئلة التي حللتها وإرسالها للأستاذ بنجاح.
-              </p>
-            </div>
-          )}
+          <ExamTimerBanners
+            isTimeExpired={isTimeExpired}
+            isForceEnding={isForceEnding}
+            countdown={countdown}
+            onClose={onClose}
+          />
 
-          {/* TEACHER STOPPED EXAM NOTICE BANNER */}
-          {isForceEnding && (
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-arabic space-y-2 animate-in fade-in">
-              <div className="flex items-center gap-2 font-bold text-sm text-amber-800">
-                <Clock className="w-5 h-5 text-amber-600 shrink-0" />
-                <span>قام مدرس المادة بإنهاء وقت الامتحان</span>
-              </div>
-              <p className="text-amber-700 leading-relaxed">
-                تم حفظ إجاباتك الحالية واحتساب نتيجتك وإرسالها للأستاذ تلقائياً بنجاح. ستُغلق هذه الشاشة تلقائياً بعد <strong>{countdown}</strong> ثوانٍ.
-              </p>
-              <div className="pt-1">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="py-1.5 px-4 rounded-xl bg-amber-800 hover:bg-amber-700 text-white font-bold text-xs cursor-pointer transition-colors"
-                >
-                  إغلاق ومتابعة الدروس الآن ({countdown})
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* VIEW: RESULT CARD IF ALREADY SUBMITTED */}
           {isSubmitted ? (
-            <div className="text-center py-6 sm:py-8 space-y-5">
-              <div className="w-16 h-16 rounded-3xl bg-slate-100 text-slate-800 mx-auto flex items-center justify-center border-2 border-slate-300 shadow-xs">
-                <CheckCircle2 className="w-9 h-9 text-emerald-600" />
-              </div>
-
-              <div>
-                <span className="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1 rounded-full border border-slate-200 font-arabic inline-block mb-2">
-                  تم تسليم الامتحان بنجاح
-                </span>
-                <h4 className="text-2xl font-bold text-slate-800 font-arabic">
-                  أحسنت يا {student.fullName}!
-                </h4>
-                <p className="text-xs text-slate-500 font-arabic mt-1">
-                  تم إرسال درجتك إلى لوحة الأستاذ وتسجيلها في القائمة فوراً
-                </p>
-              </div>
-
-              {/* Score Display Card */}
-              <div className="p-6 bg-slate-50 border border-slate-200 rounded-3xl max-w-xs mx-auto text-center space-y-1">
-                <span className="text-xs text-slate-500 font-arabic block">درجتك النهائية:</span>
-                <strong className="text-4xl font-bold text-slate-800 font-mono block">
-                  {earnedScore} <span className="text-xl text-slate-400 font-normal">/ {totalPoints}</span>
-                </strong>
-                <span className="text-xs font-bold text-slate-700 font-arabic block pt-1">
-                  {earnedScore >= totalPoints * 0.8
-                    ? 'ممتاز جداً! إجابات رائعة'
-                    : earnedScore >= totalPoints * 0.5
-                    ? 'جيد جداً! واصل المراجعة'
-                    : 'حاول مراجعة الدروس والقواعد ثانية'}
-                </span>
-                <div className="text-[11px] text-slate-500 font-arabic pt-2 border-t border-slate-200 mt-2">
-                  إشراف وتصحيح مدرس المادة
-                </div>
-              </div>
-
-              <button
-                onClick={onClose}
-                className="py-3 px-8 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm cursor-pointer shadow-sm transition-all font-arabic"
-              >
-                العودة للمنهاج والدروس
-              </button>
-            </div>
+            <ExamResultCard
+              studentName={student.fullName}
+              earnedScore={earnedScore}
+              totalPoints={totalPoints}
+              onClose={onClose}
+            />
           ) : (
-            /* VIEW: EXAM QUESTIONS FORM */
-            <div className="space-y-6 text-right">
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 text-xs font-arabic flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-slate-600 shrink-0" />
-                <span>
-                  اختر الإجابة الصحيحة لكل سؤال من أسئلة كتاب النشاط، وعند الانتهاء اضغط زر <strong>تسليم الإجابات</strong> بالأسفل.
-                </span>
-              </div>
-
-              {/* Questions List */}
-              <div className="space-y-5">
-                {exam.questions.map((q, idx) => {
-                  const currentChoice = selectedAnswers[q.id];
-
-                  return (
-                    <div
-                      key={q.id}
-                      className="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="space-y-1 text-left" dir="ltr">
-                          <div className="flex items-center gap-2">
-                            <span className="w-6 h-6 rounded-md bg-slate-800 text-white text-xs font-bold flex items-center justify-center font-mono">
-                              {idx + 1}
-                            </span>
-                            <span className="text-sm sm:text-base font-bold text-slate-800 font-sans">
-                              {q.questionEn}
-                            </span>
-                          </div>
-                          {q.questionAr && (
-                            <p className="text-xs text-slate-500 font-arabic pt-0.5 text-right" dir="rtl">
-                              {q.questionAr}
-                            </p>
-                          )}
-                        </div>
-                        <span className="text-[11px] font-mono text-slate-400 font-bold shrink-0">
-                          {q.points || 2} pts
-                        </span>
-                      </div>
-
-                      {/* Options Radio List */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1" dir="ltr">
-                        {q.options.map((opt, oIdx) => {
-                          const isSelected = currentChoice === opt;
-
-                          return (
-                            <button
-                              key={oIdx}
-                              type="button"
-                              onClick={() => handleSelectOption(q.id, opt)}
-                              className={`p-3 rounded-xl border text-left font-sans text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center justify-between gap-2 ${
-                                isSelected
-                                  ? 'border-slate-800 bg-slate-800 text-white shadow-xs'
-                                  : 'border-slate-200 bg-slate-50/70 hover:bg-slate-100 text-slate-800'
-                              }`}
-                            >
-                              <span>{opt}</span>
-                              <span
-                                className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                                  isSelected
-                                    ? 'border-white bg-white'
-                                    : 'border-slate-300 bg-white'
-                                }`}
-                              >
-                                {isSelected && <span className="w-2 h-2 rounded-full bg-slate-800" />}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {validationError && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-arabic flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
-                  <span>{validationError}</span>
-                </div>
-              )}
-
-              {/* Submit Button */}
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={handleSubmitExam}
-                  disabled={isSubmitting}
-                  className="w-full py-4 px-6 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm transition-all font-arabic"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{isSubmitting ? 'جاري إرسال الإجابة للأستاذ...' : 'تسليم الإجابات واعتماد الدرجة'}</span>
-                </button>
-              </div>
-            </div>
+            <ExamQuestionsForm
+              questions={exam.questions}
+              selectedAnswers={selectedAnswers}
+              onSelectOption={handleSelectOption}
+              onSubmitExam={handleSubmitExam}
+              isSubmitting={isSubmitting}
+              validationError={validationError}
+            />
           )}
         </div>
       </div>

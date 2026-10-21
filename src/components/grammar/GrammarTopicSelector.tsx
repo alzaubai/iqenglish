@@ -90,6 +90,7 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
               purple: 'hover:border-purple-500 group-hover:text-purple-600 badge-purple',
               amber: 'hover:border-amber-500 group-hover:text-amber-600 badge-amber',
               teal: 'hover:border-teal-500 group-hover:text-teal-600 badge-teal',
+              indigo: 'hover:border-indigo-500 group-hover:text-indigo-600 badge-indigo',
             }[topic.color];
 
             const isUnlocked =
@@ -201,6 +202,19 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
                         </span>
                         <span className="text-[11px] bg-zinc-50 border border-zinc-200 text-zinc-700 font-medium px-2 py-0.5 rounded-lg font-arabic">
                           فعل + ing
+                        </span>
+                      </>
+                    )}
+                    {topic.topicType === 'questions' && (
+                      <>
+                        <span className="text-[11px] bg-zinc-50 border border-zinc-200 text-zinc-700 font-medium px-2 py-0.5 rounded-lg font-arabic">
+                          أدوات الاستفهام Wh-
+                        </span>
+                        <span className="text-[11px] bg-zinc-50 border border-zinc-200 text-zinc-700 font-medium px-2 py-0.5 rounded-lg font-arabic">
+                          معادلات did / do / does
+                        </span>
+                        <span className="text-[11px] bg-zinc-50 border border-zinc-200 text-zinc-700 font-medium px-2 py-0.5 rounded-lg font-arabic">
+                          تطبيقات رسالة كارين
                         </span>
                       </>
                     )}

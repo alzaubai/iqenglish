@@ -8,6 +8,7 @@ interface LessonGridSelectorProps {
   onSelectLesson: (lessonId: string) => void;
   onBackToUnits: () => void;
   unlockedLessonIds?: string[];
+  isTeacher?: boolean;
 }
 
 export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
@@ -16,6 +17,7 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
   onSelectLesson,
   onBackToUnits,
   unlockedLessonIds,
+  isTeacher = false,
 }) => {
   return (
     <div className="space-y-6" dir="rtl">
@@ -32,9 +34,9 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
           </button>
           <div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-zinc-900 font-arabic flex flex-wrap items-baseline gap-1.5">
-              <span>{lessons[0]?.unitNumber === 2 ? 'الوحدة الثانية' : 'الوحدة الأولى'}</span>
+              <span>{lessons[0]?.unitNumber === 3 ? 'الوحدة الثالثة' : lessons[0]?.unitNumber === 2 ? 'الوحدة الثانية' : 'الوحدة الأولى'}</span>
               <span dir="ltr" className="inline-block text-sm sm:text-base font-bold text-zinc-600 font-sans">
-                {lessons[0]?.unitNumber === 2 ? '(Unit 2)' : '(Unit 1)'}
+                {lessons[0]?.unitNumber === 3 ? '(Unit 3)' : lessons[0]?.unitNumber === 2 ? '(Unit 2)' : '(Unit 1)'}
               </span>
               <span>: قائمة الدروس</span>
             </h2>
@@ -52,19 +54,21 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
           const isSelected = selectedLessonId === lesson.id;
           const isUnlocked = Array.isArray(unlockedLessonIds)
             ? unlockedLessonIds.includes(lesson.id)
-            : lesson.id === 'lesson-1' || lesson.id === 'u2-lesson-1';
+            : lesson.id === 'lesson-1' || lesson.id === 'u2-lesson-1' || lesson.unitNumber === 3;
 
           return (
             <button
               key={lesson.id}
               onClick={() => {
-                if (isUnlocked) {
+                if (isUnlocked || isTeacher) {
                   onSelectLesson(lesson.id);
                 }
               }}
               className={`group p-3.5 sm:p-4 rounded-2xl border text-right transition-all flex flex-col justify-between bg-white relative overflow-hidden ${
                 !isUnlocked
-                  ? 'opacity-75 cursor-not-allowed border-zinc-200'
+                  ? isTeacher
+                    ? 'border-amber-300 hover:border-amber-400 bg-amber-50/20 cursor-pointer shadow-2xs'
+                    : 'opacity-75 cursor-not-allowed border-zinc-200'
                   : isSelected
                   ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20 cursor-pointer'
                   : 'border-zinc-200 hover:border-zinc-300 hover:shadow-md cursor-pointer'
@@ -72,12 +76,12 @@ export const LessonGridSelector: React.FC<LessonGridSelectorProps> = ({
             >
               {/* Lock Overlay if Locked by Teacher */}
               {!isUnlocked && (
-                <div className="absolute inset-0 bg-zinc-950/45 backdrop-blur-[1.5px] rounded-2xl flex flex-col items-center justify-center text-white z-10 p-3 select-none text-center">
-                  <div className="w-9 h-9 rounded-xl bg-zinc-900/90 text-amber-400 flex items-center justify-center mb-1.5 shadow-md">
+                <div className={`absolute inset-0 ${isTeacher ? 'bg-zinc-950/60' : 'bg-zinc-950/45'} backdrop-blur-[1.5px] rounded-2xl flex flex-col items-center justify-center text-white z-10 p-3 select-none text-center`}>
+                  <div className={`w-9 h-9 rounded-xl ${isTeacher ? 'bg-amber-500 text-white' : 'bg-zinc-900/90 text-amber-400'} flex items-center justify-center mb-1.5 shadow-md`}>
                     <Lock className="w-4 h-4" />
                   </div>
                   <span className="text-xs font-bold font-arabic bg-zinc-900/90 px-2.5 py-1 rounded-lg">
-                    مغلق من قبل مدرس المادة
+                    {isTeacher ? '🔒 مغلق للطلاب (معاينة المعلم متاحة)' : 'مغلق من قبل مدرس المادة'}
                   </span>
                 </div>
               )}

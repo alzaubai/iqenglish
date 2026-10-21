@@ -30,7 +30,7 @@ export const unitsList: UnitData[] = [
     titleAr: 'الوحدة الثالثة: ماذا فعلت اليوم؟',
     descriptionEn: 'Present perfect tense, chores, adjectives of feelings, stories',
     descriptionAr: 'المضارع التام، الأعمال المنزلية، صفات المشاعر',
-    isAvailable: false,
+    isAvailable: true,
     lessonsCount: 10,
   },
   {
