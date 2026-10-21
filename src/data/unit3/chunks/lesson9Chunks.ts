@@ -1,4 +1,4 @@
-// Unit 3 Lesson 9 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 9 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -10,62 +10,70 @@ export const lesson9Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "1. التحدث عن أشياء"
     },
     {
-      "en": "you have done or",
-      "ar": "قمت بها أو"
+      "en": "you have done",
+      "ar": "قمت بها"
     },
     {
-      "en": "not done recently: 'I've",
-      "ar": "لم تقم بها مؤخراً: \"لقد"
+      "en": "or not done recently:",
+      "ar": "أو لم تقم بها مؤخراً:"
     },
     {
-      "en": "just finished my dinner.'",
-      "ar": "أنهيت عشائي للتو.\""
+      "en": "'I've just finished my dinner.'",
+      "ar": "\"لقد أنهيت عشائي للتو.\""
     },
     {
       "en": "/ 'She hasn't seen",
       "ar": "/ \"لم تر"
     },
     {
-      "en": "her friend for a",
-      "ar": "صديقتها منذ"
+      "en": "her friend",
+      "ar": "صديقتها"
     },
     {
-      "en": "long time.' / 'We",
-      "ar": "وقت طويل.\" / \"لم"
+      "en": "for a long time.'",
+      "ar": "منذ وقت طويل.\""
     },
     {
-      "en": "haven't finished our homework.'",
-      "ar": "ننه واجبنا المدرسي بعد.\""
+      "en": "/ 'We haven't finished",
+      "ar": "/ \"لم ننه"
+    },
+    {
+      "en": "our homework.'",
+      "ar": "واجبنا المدرسي بعد.\""
     }
   ],
   "u3-l9-t2": [
     {
-      "en": "2. Ask and answer",
+      "en": "2. Ask and answer questions",
       "ar": "2. السؤال والجواب عن"
     },
     {
-      "en": "questions about things you",
-      "ar": "أشياء قمت"
+      "en": "about things you have done:",
+      "ar": "أشياء قمت بها:"
     },
     {
-      "en": "have done: 'Have you",
-      "ar": "بها: \"هل"
+      "en": "'Have you played",
+      "ar": "\"هل لعبت"
     },
     {
-      "en": "played a computer game",
-      "ar": "لعبت لعبة كمبيوتر"
+      "en": "a computer game",
+      "ar": "لعبة كمبيوتر"
     },
     {
-      "en": "this week? - Yes,",
-      "ar": "هذا الأسبوع؟ - نعم،"
+      "en": "this week?",
+      "ar": "هذا الأسبوع؟"
     },
     {
-      "en": "I have.' / 'Have",
-      "ar": "لعبت.\" / \"هل"
+      "en": "- Yes, I have.'",
+      "ar": "- نعم، لعبت.\""
     },
     {
-      "en": "you watched television today?",
-      "ar": "شاهدت التلفزيون اليوم؟"
+      "en": "/ 'Have you watched",
+      "ar": "/ \"هل شاهدت"
+    },
+    {
+      "en": "television today?",
+      "ar": "التلفزيون اليوم؟"
     },
     {
       "en": "- No, I haven't.'",
@@ -78,24 +86,24 @@ export const lesson9Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "3. السؤال عن أحوال"
     },
     {
-      "en": "how people are: 'What's",
-      "ar": "ومشاعر الأشخاص: \"ما"
+      "en": "how people are:",
+      "ar": "ومشاعر الأشخاص:"
     },
     {
-      "en": "the matter?' / 'What's",
-      "ar": "الأمر؟\" / \"ما"
+      "en": "'What's the matter?'",
+      "ar": "\"ما الأمر؟\""
     },
     {
-      "en": "wrong?' / 'What is",
-      "ar": "الخطب؟\" / \"ماذا"
+      "en": "/ 'What's wrong?'",
+      "ar": "/ \"ما الخطب؟\""
     },
     {
-      "en": "it?' / 'Why are",
-      "ar": "هناك؟\" / \"لماذا"
+      "en": "/ 'What is it?'",
+      "ar": "/ \"ماذا هناك؟\""
     },
     {
-      "en": "you so sad?'",
-      "ar": "أنت حزين هكذا؟\""
+      "en": "/ 'Why are you so sad?'",
+      "ar": "/ \"لماذا أنت حزين هكذا؟\""
     }
   ],
   "u3-l9-t4": [
@@ -104,24 +112,24 @@ export const lesson9Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "4. التحدث عن طريقة"
     },
     {
-      "en": "people do things (Adverbs",
-      "ar": "فعل الأشياء (ظروف"
+      "en": "people do things",
+      "ar": "فعل الأشياء"
     },
     {
-      "en": "of Manner): 'Huda sings",
-      "ar": "الحال): \"هدى تغني"
+      "en": "(Adverbs of Manner):",
+      "ar": "(ظروف الحال):"
     },
     {
-      "en": "beautifully.' / 'Ahmed speaks",
-      "ar": "بجمال.\" / \"أحمد يتحدث"
+      "en": "'Huda sings beautifully.'",
+      "ar": "\"هدى تغني بجمال.\""
     },
     {
-      "en": "English well.' / 'He",
-      "ar": "الإنجليزية بشكل جيد.\" / \"سار"
+      "en": "/ 'Ahmed speaks English well.'",
+      "ar": "/ \"أحمد يتحدث الإنجليزية بشكل جيد.\""
     },
     {
-      "en": "walked home slowly.'",
-      "ar": "إلى المنزل ببطء.\""
+      "en": "/ 'He walked home slowly.'",
+      "ar": "/ \"سار إلى المنزل ببطء.\""
     }
   ],
   "u3-l9-t5": [
@@ -130,24 +138,24 @@ export const lesson9Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "5. مهارات اليونت الثالث:"
     },
     {
-      "en": "You have sung a",
-      "ar": "أنشدت"
+      "en": "You have sung a song,",
+      "ar": "أنشدت أنشودة،"
     },
     {
-      "en": "song, read about helping,",
-      "ar": "أنشودة، وقرأت عن أهمية المساعدة،"
+      "en": "read about helping,",
+      "ar": "وقرأت عن أهمية المساعدة،"
     },
     {
       "en": "read about simple solutions,",
       "ar": "وقرأت عن الحلول البسيطة،"
     },
     {
-      "en": "read about respecting older",
-      "ar": "وقرأت قصة عن احترام كبار"
+      "en": "read about respecting older people,",
+      "ar": "وقرأت قصة عن احترام كبار السن،"
     },
     {
-      "en": "people, and used pictures",
-      "ar": "السن، واستخدمت الصور"
+      "en": "and used pictures",
+      "ar": "واستخدمت الصور"
     },
     {
       "en": "to tell a story.",

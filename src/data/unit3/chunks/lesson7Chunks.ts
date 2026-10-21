@@ -1,4 +1,4 @@
-// Unit 3 Lesson 7 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 7 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -30,12 +30,12 @@ export const lesson7Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "قال الثعلب: \"مرحباً،"
     },
     {
-      "en": "'I'm hungry. Have you",
-      "ar": "أنا جائع. هل"
+      "en": "'I'm hungry.",
+      "ar": "أنا جائع."
     },
     {
-      "en": "seen the chickens?'",
-      "ar": "رأيت الدجاج؟\""
+      "en": "Have you seen the chickens?'",
+      "ar": "هل رأيت الدجاج؟\""
     }
   ],
   "u3-l7-t2": [

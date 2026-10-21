@@ -1,4 +1,4 @@
-// Unit 3 Lesson 6 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 6 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -6,12 +6,8 @@ import type { CurriculumChunk } from '../../curriculumChunks';
 export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
   "u3-l6-t1": [
     {
-      "en": "Noor was helping",
-      "ar": "كانت نور تساعد"
-    },
-    {
-      "en": "her grandmother",
-      "ar": "جدتها"
+      "en": "Noor was helping her grandmother",
+      "ar": "كانت نور تساعد جدتها"
     },
     {
       "en": "make a video call,",
@@ -36,12 +32,8 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l6-t2": [
     {
-      "en": "What do I",
-      "ar": "في ماذا"
-    },
-    {
-      "en": "speak into?",
-      "ar": "أتكلم؟"
+      "en": "What do I speak into?",
+      "ar": "في ماذا أتكلم؟"
     }
   ],
   "u3-l6-t3": [
@@ -104,7 +96,11 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l6-t6": [
     {
-      "en": "Oh, OK, Gran said,",
+      "en": "Oh, OK,",
+      "ar": "\"أوه، حسناً."
+    },
+    {
+      "en": "Gran said,",
       "ar": "قالت الجدة"
     },
     {
@@ -113,7 +109,7 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
     },
     {
       "en": "behind the laptop.",
-      "ar": "خلف الكمبيوتر المحمول: \"أوه، حسناً."
+      "ar": "خلف الكمبيوتر المحمول:"
     },
     {
       "en": "But how do I know",
@@ -146,22 +142,22 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "ليس لدي رابط،"
     },
     {
-      "en": "do I? Gran was",
+      "en": "do I?",
       "ar": "أليس كذلك؟\""
     },
     {
-      "en": "sounding very nervous now.",
-      "ar": "بدت الجدة متوترة للغاية الآن وقالت:"
+      "en": "Gran was sounding",
+      "ar": "بدت الجدة متوترة للغاية"
+    },
+    {
+      "en": "very nervous now.",
+      "ar": "الآن وقالت:"
     }
   ],
   "u3-l6-t8": [
     {
-      "en": "Luckily, the computer",
-      "ar": "لحسن الحظ، بدأ الكمبيوتر"
-    },
-    {
-      "en": "started making",
-      "ar": "يصدر"
+      "en": "Luckily, the computer started making",
+      "ar": "لحسن الحظ، بدأ الكمبيوتر يصدر"
     },
     {
       "en": "a ringing noise.",
@@ -228,12 +224,8 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "نظرت الجدة إلى نور"
     },
     {
-      "en": "who quickly moved",
-      "ar": "التي قامت بتحريك"
-    },
-    {
-      "en": "the screen.",
-      "ar": "الشاشة بسرعة."
+      "en": "who quickly moved the screen.",
+      "ar": "التي قامت بتحريك الشاشة بسرعة."
     }
   ],
   "u3-l6-t13": [
@@ -242,19 +234,19 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "بينما كانت الجدة تتحدث،"
     },
     {
-      "en": "Noor looked around",
-      "ar": "نظرت نور حول"
+      "en": "Noor looked around the room",
+      "ar": "نظرت نور حول الغرفة"
     },
     {
-      "en": "the room and found",
-      "ar": "الغرفة ووجدت"
+      "en": "and found a box.",
+      "ar": "ووجدت صندوقاً."
     },
     {
-      "en": "a box. She opened",
-      "ar": "صندوقاً. فتحته"
+      "en": "She opened it",
+      "ar": "فتحته"
     },
     {
-      "en": "it and saw a",
+      "en": "and saw a",
       "ar": "ورأت"
     },
     {
@@ -262,19 +254,15 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "ميدالية ذهبية كبيرة،"
     },
     {
-      "en": "On one side it",
-      "ar": "كُتب على أحد"
+      "en": "On one side it said:",
+      "ar": "كُتب على أحد وجهيها:"
     },
     {
-      "en": "said: 'Awarded to",
-      "ar": "وجهيها: \"مُنحت لمريم"
+      "en": "'Awarded to Mariyam Hussain Khalil",
+      "ar": "\"مُنحت لمريم حسين خليل"
     },
     {
-      "en": "Mariyam Hussain Khalil for",
-      "ar": "حسين خليل"
-    },
-    {
-      "en": "her contribution to mathematics.'",
+      "en": "for her contribution to mathematics.'",
       "ar": "لمساهمتها في الرياضيات\"."
     }
   ],
@@ -284,36 +272,36 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "شعرت نور بالحرج والندم."
     },
     {
-      "en": "When she looked at",
-      "ar": "فعندما نظرت إلى"
+      "en": "When she looked at Gran",
+      "ar": "فعندما نظرت إلى الجدة،"
     },
     {
-      "en": "Gran she saw an",
-      "ar": "الجدة، رأت"
+      "en": "she saw an old woman",
+      "ar": "رأت امرأة مسنة"
     },
     {
-      "en": "old woman who couldn't",
-      "ar": "امرأة مسنة لا تعرف"
+      "en": "who couldn't use a computer.",
+      "ar": "لا تعرف كيفية استخدام الكمبيوتر،"
     },
     {
-      "en": "use a computer.",
-      "ar": "كيفية استخدام الكمبيوتر،"
-    },
-    {
-      "en": "She didn't see the",
+      "en": "She didn't see",
       "ar": "ولم تر"
     },
     {
-      "en": "strong woman with the",
-      "ar": "المرأة القوية ذات"
+      "en": "the strong woman",
+      "ar": "المرأة القوية"
     },
     {
-      "en": "sharp mind. She only",
-      "ar": "العقل الحاد."
+      "en": "with the sharp mind.",
+      "ar": "ذات العقل الحاد."
     },
     {
-      "en": "saw an old woman",
-      "ar": "لم تر سوى امرأة عجوز"
+      "en": "She only saw",
+      "ar": "لم تر سوى"
+    },
+    {
+      "en": "an old woman",
+      "ar": "امرأة عجوز"
     },
     {
       "en": "who didn't know how",
@@ -330,12 +318,12 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "\"لا يمكنني إلا أن أتمنى"
     },
     {
-      "en": "I will be as",
-      "ar": "أن أكون"
+      "en": "I will be as successful",
+      "ar": "أن أكون ناجحة"
     },
     {
-      "en": "successful as her,",
-      "ar": "ناجحة مثلها في المستقبل\"."
+      "en": "as her,",
+      "ar": "مثلها في المستقبل\"."
     },
     {
       "en": "she thought.",
@@ -348,11 +336,15 @@ export const lesson6Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "سؤال الدرس: لماذا احتاجت الجدة"
     },
     {
-      "en": "Noor's help? - Was",
-      "ar": "لمساعدة نور؟ وهل كانت"
+      "en": "Noor's help?",
+      "ar": "لمساعدة نور؟"
     },
     {
-      "en": "Noor a good helper? Why?",
+      "en": "- Was Noor",
+      "ar": "وهل كانت"
+    },
+    {
+      "en": "a good helper? Why?",
       "ar": "نور مساعِدة جيدة؟ ولماذا؟"
     }
   ]

@@ -1,4 +1,4 @@
-// Unit 3 Lesson 5 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 5 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -16,12 +16,8 @@ export const lesson5Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "أشعر بالمرض."
     },
     {
-      "en": "I've eaten",
-      "ar": "لقد أكلتُ"
-    },
-    {
-      "en": "too much chocolate.",
-      "ar": "الكثير من الشوكولاتة."
+      "en": "I've eaten too much chocolate.",
+      "ar": "لقد أكلتُ الكثير من الشوكولاتة."
     }
   ],
   "u3-l5-t3": [
@@ -50,22 +46,14 @@ export const lesson5Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l5-t5": [
     {
-      "en": "Tamara, why",
-      "ar": "تمارا، لماذا"
-    },
-    {
-      "en": "are you upset?",
-      "ar": "أنتِ منزعجة؟"
+      "en": "Tamara, why are you upset?",
+      "ar": "تمارا، لماذا أنتِ منزعجة؟"
     }
   ],
   "u3-l5-t6": [
     {
-      "en": "I've forgotten",
-      "ar": "لقد نسيتُ"
-    },
-    {
-      "en": "my English books.",
-      "ar": "كتبي الإنجليزية."
+      "en": "I've forgotten my English books.",
+      "ar": "لقد نسيتُ كتبي الإنجليزية."
     }
   ],
   "u3-l5-t7": [

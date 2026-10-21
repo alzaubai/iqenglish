@@ -1,4 +1,4 @@
-// Unit 3 Lesson 10 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 10 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -10,36 +10,44 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "كانت ريتشيل ومولي وهيلين"
     },
     {
-      "en": "were camping in the",
-      "ar": "يخيمون في"
+      "en": "were camping",
+      "ar": "يخيمون"
     },
     {
-      "en": "woods. It was dark",
-      "ar": "الغابة. كان الجو مظلماً"
+      "en": "in the woods.",
+      "ar": "في الغابة."
     },
     {
-      "en": "and windy outside, and",
+      "en": "It was dark",
+      "ar": "كان الجو مظلماً"
+    },
+    {
+      "en": "and windy outside,",
       "ar": "وعاصفاً في الخارج،"
     },
     {
-      "en": "the girls felt a",
+      "en": "and the girls felt",
       "ar": "وشعرت الفتيات"
     },
     {
-      "en": "little scared. But none",
-      "ar": "ببعض الخوف. ولكن لم"
+      "en": "a little scared.",
+      "ar": "ببعض الخوف."
     },
     {
-      "en": "of them wanted to",
-      "ar": "ترغب أي منهن في"
+      "en": "But none of them",
+      "ar": "ولكن لم ترغب أي منهن"
     },
     {
-      "en": "say how they really",
-      "ar": "الإفصاح عن حقيقة"
+      "en": "wanted to say",
+      "ar": "في الإفصاح عن"
     },
     {
-      "en": "felt. Instead, they laughed",
-      "ar": "مشاعرها، وبدلاً من ذلك كن يضحكن"
+      "en": "how they really felt.",
+      "ar": "حقيقة مشاعرها،"
+    },
+    {
+      "en": "Instead, they laughed",
+      "ar": "وبدلاً من ذلك كن يضحكن"
     },
     {
       "en": "and joked nervously.",
@@ -66,15 +74,15 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "ردت مولي: \"لا بأس، سنبقى"
     },
     {
-      "en": "in the tent. It's",
+      "en": "in the tent.",
       "ar": "في الخيمة."
     },
     {
-      "en": "nice and dry in",
+      "en": "It's nice and dry",
       "ar": "المكان هنا دافئ وجاف"
     },
     {
-      "en": "here, Molly replied.",
+      "en": "in here, Molly replied.",
       "ar": "ولطيف\"."
     }
   ],
@@ -84,11 +92,11 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "قالت ريتشيل: \"نعم، نحن جميعاً بأمان"
     },
     {
-      "en": "here, said Rachel. The",
+      "en": "here, said Rachel.",
       "ar": "هنا\"."
     },
     {
-      "en": "two others agreed.",
+      "en": "The two others agreed.",
       "ar": "فوافقتها الأخريان."
     }
   ],
@@ -98,11 +106,11 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "فجأة، توقفت الفتيات عن"
     },
     {
-      "en": "laughing and joking. They",
+      "en": "laughing and joking.",
       "ar": "الضحك والمزاح"
     },
     {
-      "en": "looked at each other.",
+      "en": "They looked at each other.",
       "ar": "ونظرن إلى بعضهن البعض."
     },
     {
@@ -110,27 +118,31 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "\"هل سمعتن ذلك؟\""
     },
     {
-      "en": "they all asked at",
-      "ar": "وسألن جميعهن في"
+      "en": "they all asked",
+      "ar": "وسألن جميعهن"
     },
     {
-      "en": "the same time. There",
-      "ar": "نفس الوقت:"
+      "en": "at the same time.",
+      "ar": "في نفس الوقت:"
     },
     {
-      "en": "was something outside! They",
+      "en": "There was something outside!",
       "ar": "كان هناك شيء ما في الخارج!"
     },
     {
-      "en": "could hear a 'scratch,",
-      "ar": "استطعن سماع صوت \"خربشة،"
+      "en": "They could hear",
+      "ar": "استطعن سماع"
     },
     {
-      "en": "scratch' sound. It was",
-      "ar": "خربشة\"، وكان الصوت"
+      "en": "a 'scratch, scratch' sound.",
+      "ar": "صوت \"خربشة، خربشة\"،"
     },
     {
-      "en": "getting louder and louder.",
+      "en": "It was getting",
+      "ar": "وكان الصوت"
+    },
+    {
+      "en": "louder and louder.",
       "ar": "يعلو ويعلو أكثر فأكثر."
     }
   ],
@@ -192,16 +204,16 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l10-t10": [
     {
-      "en": "It's a bear! Helen",
-      "ar": "همست هيلين بصوت مرتفع وخائف: \"إنه دب!\""
+      "en": "It's a bear!",
+      "ar": "\"إنه دب!\""
     },
     {
-      "en": "whispered loudly. She looked",
-      "ar": "وبدت"
+      "en": "Helen whispered loudly.",
+      "ar": "همست هيلين بصوت مرتفع وخائف:"
     },
     {
-      "en": "very scared now.",
-      "ar": "خائفة للغاية الآن،"
+      "en": "She looked very scared now.",
+      "ar": "وبدت خائفة للغاية الآن،"
     },
     {
       "en": "The three girls",
@@ -214,16 +226,16 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l10-t11": [
     {
-      "en": "'Scratch, scratch ...' The",
+      "en": "'Scratch, scratch ...'",
       "ar": "\"خربش، خربش...\""
     },
     {
-      "en": "scratching sound was getting",
-      "ar": "صوت الخربشة كان يزداد"
+      "en": "The scratching sound",
+      "ar": "صوت الخربشة"
     },
     {
-      "en": "louder and louder.",
-      "ar": "علواً ورعباً."
+      "en": "was getting louder and louder.",
+      "ar": "كان يزداد علواً ورعباً."
     }
   ],
   "u3-l10-t12": [
@@ -232,20 +244,16 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "قالت مولي: \"ربما ينبغي لواحدة منا"
     },
     {
-      "en": "should go outside and",
-      "ar": "أن تخرج"
+      "en": "should go outside and look,",
+      "ar": "أن تخرج وتلقي نظرة\"."
     },
     {
-      "en": "look, said Molly. They",
-      "ar": "وتلقي نظرة\"."
+      "en": "said Molly. They all agreed",
+      "ar": "واتفقن جميعهن"
     },
     {
-      "en": "all agreed that was",
-      "ar": "واتفقن جميعهن على أنها"
-    },
-    {
-      "en": "a very good idea.",
-      "ar": "فكرة جيدة."
+      "en": "that was a very good idea.",
+      "ar": "على أنها فكرة جيدة."
     },
     {
       "en": "'Scratch, scratch ...'",
@@ -258,20 +266,24 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "صرخت هيلين: \"لا أريد"
     },
     {
-      "en": "go outside. The bear",
-      "ar": "الخروج، قد"
+      "en": "go outside.",
+      "ar": "الخروج،"
     },
     {
-      "en": "might eat me! cried",
-      "ar": "يأكلني الدب!\""
+      "en": "The bear might eat me!",
+      "ar": "قد يأكلني الدب!\""
     },
     {
-      "en": "Helen. The other girls",
+      "en": "cried Helen. The other girls",
       "ar": "وكانت الأخريات"
     },
     {
-      "en": "were thinking the same thing.",
-      "ar": "يفكرن في نفس الشيء."
+      "en": "were thinking",
+      "ar": "يفكرن في"
+    },
+    {
+      "en": "the same thing.",
+      "ar": "نفس الشيء."
     }
   ],
   "u3-l10-t14": [
@@ -284,15 +296,15 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "في الخيمة"
     },
     {
-      "en": "listening to the scratching",
+      "en": "listening to the scratching sound",
       "ar": "يستمعن إلى صوت الخربشة"
     },
     {
-      "en": "sound get louder and",
+      "en": "get louder and louder.",
       "ar": "وهو يتعالى،"
     },
     {
-      "en": "louder. All three got",
+      "en": "All three got",
       "ar": "وشعرن بالمزيد والمزيد"
     },
     {
@@ -302,56 +314,60 @@ export const lesson10Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l10-t15": [
     {
-      "en": "When morning came, the",
+      "en": "When morning came,",
       "ar": "وعندما حل الصباح،"
     },
     {
-      "en": "rain and the wind",
-      "ar": "توقف المطر والرياح."
+      "en": "the rain",
+      "ar": "توقف المطر"
     },
     {
-      "en": "stopped. Slowly, very slowly,",
+      "en": "and the wind stopped.",
+      "ar": "والرياح."
+    },
+    {
+      "en": "Slowly, very slowly,",
       "ar": "وببطء، وببطء شديد،"
     },
     {
-      "en": "Rachel looked out of",
+      "en": "Rachel looked out",
       "ar": "نظرت ريتشيل إلى"
     },
     {
-      "en": "the tent. She didn't",
-      "ar": "خارج الخيمة؛ فلم"
+      "en": "of the tent.",
+      "ar": "خارج الخيمة؛"
     },
     {
-      "en": "see any sign of",
-      "ar": "تر أي أثر"
+      "en": "She didn't see any sign",
+      "ar": "فلم تر أي أثر"
     },
     {
-      "en": "a bear, or a",
-      "ar": "لدب أو"
+      "en": "of a bear,",
+      "ar": "لدب"
     },
     {
-      "en": "fox or even a",
-      "ar": "ثعلب أو حتى"
+      "en": "or a fox",
+      "ar": "أو ثعلب"
     },
     {
-      "en": "mouse. What was making",
-      "ar": "فأر. ما الذي كان يصدر"
+      "en": "or even a mouse.",
+      "ar": "أو حتى فأر."
     },
     {
-      "en": "the noise? It was",
-      "ar": "الصوت؟ لقد كان مجرد"
+      "en": "What was making the noise?",
+      "ar": "ما الذي كان يصدر الصوت؟"
     },
     {
-      "en": "a tree branch blowing",
-      "ar": "غصن شجرة تحركه"
+      "en": "It was a tree branch",
+      "ar": "لقد كان مجرد غصن شجرة"
     },
     {
-      "en": "against the tent in",
-      "ar": "الرياح فيحك قماش الخيمة!"
+      "en": "blowing against the tent",
+      "ar": "تحركه الرياح فيحك"
     },
     {
-      "en": "the wind!",
-      "ar": "الرياح فيحك قماش الخيمة!"
+      "en": "in the wind!",
+      "ar": "قماش الخيمة!"
     }
   ],
   "u3-l10-t16": [

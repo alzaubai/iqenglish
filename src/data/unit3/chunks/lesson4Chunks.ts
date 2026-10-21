@@ -1,4 +1,4 @@
-// Unit 3 Lesson 4 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 4 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -6,12 +6,8 @@ import type { CurriculumChunk } from '../../curriculumChunks';
 export const lesson4Chunks: Record<string, CurriculumChunk[]> = {
   "u3-l4-t1": [
     {
-      "en": "When we talk",
-      "ar": "عندما نتحدث"
-    },
-    {
-      "en": "about technology,",
-      "ar": "عن التكنولوجيا،"
+      "en": "When we talk about technology,",
+      "ar": "عندما نتحدث عن التكنولوجيا،"
     },
     {
       "en": "we often think",
@@ -22,62 +18,38 @@ export const lesson4Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "في الهواتف أو أجهزة الكمبيوتر."
     },
     {
-      "en": "We imagine inventions",
-      "ar": "نتخيل اختراعات"
+      "en": "We imagine inventions and gadgets",
+      "ar": "نتخيل اختراعات وأجهزة"
     },
     {
-      "en": "and gadgets that are",
-      "ar": "وأجهزة"
-    },
-    {
-      "en": "incredibly complicated",
+      "en": "that are incredibly complicated",
       "ar": "معقدة للغاية"
     },
     {
-      "en": "that need years",
-      "ar": "تتطلب سنوات"
+      "en": "that need years of research.",
+      "ar": "تتطلب سنوات من البحث."
     },
     {
-      "en": "of research.",
-      "ar": "من البحث."
-    },
-    {
-      "en": "However, that's not",
-      "ar": "ومع ذلك، هذا ليس"
-    },
-    {
-      "en": "always true.",
-      "ar": "صحيحاً دائماً؛"
+      "en": "However, that's not always true.",
+      "ar": "ومع ذلك، هذا ليس صحيحاً دائماً؛"
     },
     {
       "en": "Some of the best ideas",
       "ar": "فبعض أفضل الأفكار"
     },
     {
-      "en": "can often be",
-      "ar": "غالباً ما تكون"
+      "en": "can often be the simplest.",
+      "ar": "غالباً ما تكون أبسطها."
     },
     {
-      "en": "the simplest.",
-      "ar": "أبسطها."
-    },
-    {
-      "en": "Let's look at",
-      "ar": "دعونا ننظر إلى"
-    },
-    {
-      "en": "one example.",
-      "ar": "مثال واحد."
+      "en": "Let's look at one example.",
+      "ar": "دعونا ننظر إلى مثال واحد."
     }
   ],
   "u3-l4-t2": [
     {
-      "en": "The problem:",
-      "ar": "المشكلة:"
-    },
-    {
-      "en": "Every morning,",
-      "ar": "كل صباح،"
+      "en": "The problem: Every morning,",
+      "ar": "المشكلة: كل صباح،"
     },
     {
       "en": "women and children",
@@ -116,12 +88,12 @@ export const lesson4Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "فنحن جميعاً بحاجة إلى الماء"
     },
     {
-      "en": "to wash,",
-      "ar": "للغسيل"
+      "en": "to wash, to cook",
+      "ar": "للغسيل والطبخ"
     },
     {
-      "en": "to cook and to clean.",
-      "ar": "والطبخ والتنظيف."
+      "en": "and to clean.",
+      "ar": "والتنظيف."
     },
     {
       "en": "The problem is",
@@ -132,12 +104,8 @@ export const lesson4Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "الماء ثقيل"
     },
     {
-      "en": "and is difficult",
-      "ar": "ويصعب"
-    },
-    {
-      "en": "to carry.",
-      "ar": "حمله."
+      "en": "and is difficult to carry.",
+      "ar": "ويصعب حمله."
     },
     {
       "en": "Traditionally, women and children",
@@ -152,20 +120,12 @@ export const lesson4Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "على رؤوسهم -"
     },
     {
-      "en": "that's not easy",
-      "ar": "وهذا ليس"
+      "en": "that's not easy to do!",
+      "ar": "وهذا ليس بالأمر السهل!"
     },
     {
-      "en": "to do!",
-      "ar": "بالأمر السهل!"
-    },
-    {
-      "en": "Try walking across",
-      "ar": "جرب المشي عبر"
-    },
-    {
-      "en": "the classroom",
-      "ar": "الفصل الدراسي"
+      "en": "Try walking across the classroom",
+      "ar": "جرب المشي عبر الفصل الدراسي"
     },
     {
       "en": "with a book",
@@ -222,12 +182,8 @@ export const lesson4Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "الجمع بين اختراعين."
     },
     {
-      "en": "For example,",
-      "ar": "على سبيل المثال،"
-    },
-    {
-      "en": "we use wheelbarrows",
-      "ar": "نستخدم عربات اليد"
+      "en": "For example, we use wheelbarrows",
+      "ar": "على سبيل المثال، نستخدم عربات اليد"
     },
     {
       "en": "to carry heavy things.",
@@ -260,12 +216,12 @@ export const lesson4Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "وسيلة لنقل المياه."
     },
     {
-      "en": "Instead of carrying",
-      "ar": "فبدلاً من حمل"
+      "en": "Instead of carrying the water",
+      "ar": "فبدلاً من حمل الماء"
     },
     {
-      "en": "the water on your head,",
-      "ar": "الماء على رأسك،"
+      "en": "on your head,",
+      "ar": "على رأسك،"
     },
     {
       "en": "you can push or pull",

@@ -1,4 +1,4 @@
-// Unit 3 Lesson 8 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 8 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -18,12 +18,12 @@ export const lesson8Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "في حقل قريب"
     },
     {
-      "en": "a village. He felt",
-      "ar": "من إحدى القرى، وكان يشعر"
+      "en": "a village.",
+      "ar": "من إحدى القرى،"
     },
     {
-      "en": "very bored.",
-      "ar": "بملل شديد."
+      "en": "He felt very bored.",
+      "ar": "وكان يشعر بملل شديد."
     }
   ],
   "u3-l8-t2": [
@@ -42,24 +42,24 @@ export const lesson8Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l8-t3": [
     {
-      "en": "The men of the",
-      "ar": "ركض رجال"
+      "en": "The men of the village",
+      "ar": "ركض رجال القرية"
     },
     {
-      "en": "village ran to the",
-      "ar": "القرية إلى"
+      "en": "ran to the field",
+      "ar": "إلى الحقل"
     },
     {
-      "en": "field to help him,",
-      "ar": "الحقل لمساعدته،"
+      "en": "to help him,",
+      "ar": "لمساعدته،"
     },
     {
-      "en": "but there was no",
-      "ar": "لكن لم يكن هناك"
+      "en": "but there was no wolf.",
+      "ar": "لكن لم يكن هناك أي ذئب."
     },
     {
-      "en": "wolf. The boy laughed:",
-      "ar": "أي ذئب. ضحك الصبي وقال:"
+      "en": "The boy laughed:",
+      "ar": "ضحك الصبي وقال:"
     },
     {
       "en": "'That was a joke!'",
@@ -80,23 +80,23 @@ export const lesson8Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "بعد بضعة أيام،"
     },
     {
-      "en": "the boy was bored",
-      "ar": "شعر الصبي بالملل"
+      "en": "the boy was bored again.",
+      "ar": "شعر الصبي بالملل مرة أخرى،"
     },
     {
-      "en": "again. He shouted: 'Wolf!",
-      "ar": "مرة أخرى، فصرخ: \"ذئب!"
+      "en": "He shouted: 'Wolf! Help! Wolf!'",
+      "ar": "فصرخ: \"ذئب! النجدة! ذئب!\""
     },
     {
-      "en": "Help! Wolf!' Again the",
-      "ar": "النجدة! ذئب!\" وركض"
+      "en": "Again the villagers ran",
+      "ar": "وركض القرويون مجدداً"
     },
     {
-      "en": "villagers ran to help",
-      "ar": "القرويون مجدداً لمساعدته،"
+      "en": "to help him,",
+      "ar": "لمساعدته،"
     },
     {
-      "en": "him, but again there",
+      "en": "but again there",
       "ar": "لكن للمرة الثانية لم"
     },
     {
@@ -114,65 +114,77 @@ export const lesson8Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l8-t5": [
     {
-      "en": "Then one evening, a",
+      "en": "Then one evening,",
       "ar": "ثم في أحد المساءات،"
     },
     {
-      "en": "real wolf came into",
-      "ar": "دخل ذئب حقيقي إلى"
+      "en": "a real wolf came",
+      "ar": "دخل ذئب حقيقي"
     },
     {
-      "en": "the field. The terrified",
-      "ar": "الحقل. فركض الصبي"
+      "en": "into the field.",
+      "ar": "إلى الحقل."
     },
     {
-      "en": "boy ran towards the",
-      "ar": "المذعور نحو"
+      "en": "The terrified boy ran",
+      "ar": "فركض الصبي المذعور"
     },
     {
-      "en": "village shouting: 'Wolf! Help",
-      "ar": "القرية صارخاً: \"ذئب! ساعدوني"
+      "en": "towards the village shouting:",
+      "ar": "نحو القرية صارخاً:"
     },
     {
-      "en": "me, please! A real",
-      "ar": "من فضلكم! ذئب"
+      "en": "'Wolf! Help me, please!",
+      "ar": "\"ذئب! ساعدوني من فضلكم!"
     },
     {
-      "en": "wolf!' But nobody moved.",
-      "ar": "حقيقي!\" لكن أحداً لم يتحرك،"
+      "en": "A real wolf!'",
+      "ar": "ذئب حقيقي!\""
     },
     {
-      "en": "'He's lying again,' the",
+      "en": "But nobody moved.",
+      "ar": "لكن أحداً لم يتحرك،"
+    },
+    {
+      "en": "'He's lying again,'",
       "ar": "وقال القرويون: \"إنه يكذب مرة أخرى\"."
     },
     {
-      "en": "villagers said.",
+      "en": "the villagers said.",
       "ar": "وقال القرويون:"
     }
   ],
   "u3-l8-t6": [
     {
-      "en": "The wolf killed all",
-      "ar": "فافترس الذئب جميع"
+      "en": "The wolf killed",
+      "ar": "فافترس الذئب"
     },
     {
-      "en": "the sheep. The boy",
-      "ar": "الأغنام. جلس الصبي"
+      "en": "all the sheep.",
+      "ar": "جميع الأغنام."
     },
     {
-      "en": "sat alone and cried.",
-      "ar": "وحيداً يبكي؛"
+      "en": "The boy sat alone",
+      "ar": "جلس الصبي وحيداً"
+    },
+    {
+      "en": "and cried.",
+      "ar": "يبكي؛"
     },
     {
       "en": "He learned that nobody",
       "ar": "لقد تعلم درساً قاسياً أنه لا أحد"
     },
     {
-      "en": "believes a liar, even",
-      "ar": "يصدق الكاذب حتى"
+      "en": "believes a liar,",
+      "ar": "يصدق الكاذب"
     },
     {
-      "en": "when he tells the truth.",
+      "en": "even when",
+      "ar": "حتى"
+    },
+    {
+      "en": "he tells the truth.",
       "ar": "عندما يقول الحقيقة."
     }
   ],
@@ -182,19 +194,31 @@ export const lesson8Chunks: Record<string, CurriculumChunk[]> = {
       "ar": "مفردات الدرس: راعي،"
     },
     {
-      "en": "bored (شعر بالملل), funny",
-      "ar": "ملل، مضحك،"
+      "en": "bored (شعر بالملل),",
+      "ar": "ملل،"
     },
     {
-      "en": "(مضحك), sheep (أغنام), wolf",
-      "ar": "أغنام، ذئب،"
+      "en": "funny (مضحك),",
+      "ar": "مضحك،"
     },
     {
-      "en": "(ذئب), dead (ميت). Moral:",
-      "ar": "ميت. العبرة المستفادة:"
+      "en": "sheep (أغنام),",
+      "ar": "أغنام،"
     },
     {
-      "en": "Do not tell a lie.",
+      "en": "wolf (ذئب),",
+      "ar": "ذئب،"
+    },
+    {
+      "en": "dead (ميت).",
+      "ar": "ميت."
+    },
+    {
+      "en": "Moral: Do not",
+      "ar": "العبرة المستفادة:"
+    },
+    {
+      "en": "tell a lie.",
       "ar": "إياك والكذب، وكن صادقاً دائماً."
     }
   ]

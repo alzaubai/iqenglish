@@ -1,4 +1,4 @@
-// Unit 3 Lesson 3 Phrasal Chunks (2-5 words each)
+// Unit 3 Lesson 3 Phrasal Chunks (Logical Semantic Constituents)
 // Exact match with official Iraqi Ministry textbook curriculum
 
 import type { CurriculumChunk } from '../../curriculumChunks';
@@ -52,12 +52,12 @@ export const lesson3Chunks: Record<string, CurriculumChunk[]> = {
   ],
   "u3-l3-t2": [
     {
-      "en": "I've cooked the rice,",
-      "ar": "لقد طبختُ الأرز"
+      "en": "I've cooked the rice, Mummy.",
+      "ar": "لقد طبختُ الأرز يا أمي."
     },
     {
-      "en": "Mummy. What next?",
-      "ar": "يا أمي. ماذا بعد؟"
+      "en": "What next?",
+      "ar": "ماذا بعد؟"
     }
   ],
   "u3-l3-t3": [
