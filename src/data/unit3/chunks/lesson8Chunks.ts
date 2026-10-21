@@ -1,48 +1,201 @@
-import { LineChunk } from '../../curriculumChunks';
+// Unit 3 Lesson 8 Phrasal Chunks (2-5 words each)
+// Exact match with official Iraqi Ministry textbook curriculum
 
-export const lesson8Chunks: Record<string, LineChunk[]> = {
-  'u3-l8-t1': [
-    { en: 'A shepherd boy was looking after his sheep', ar: 'كان صبي راعٍ يرعى أغنامه' },
-    { en: 'in a field near a village.', ar: 'في حقل قريب من إحدى القرى،' },
-    { en: 'He felt very bored.', ar: 'وكان يشعر بملل شديد.' },
+import type { CurriculumChunk } from '../../curriculumChunks';
+
+export const lesson8Chunks: Record<string, CurriculumChunk[]> = {
+  "u3-l8-t1": [
+    {
+      "en": "A shepherd boy was",
+      "ar": "كان صبي راعٍ"
+    },
+    {
+      "en": "looking after his sheep",
+      "ar": "يرعى أغنامه"
+    },
+    {
+      "en": "in a field near",
+      "ar": "في حقل قريب"
+    },
+    {
+      "en": "a village. He felt",
+      "ar": "من إحدى القرى، وكان يشعر"
+    },
+    {
+      "en": "very bored.",
+      "ar": "بملل شديد."
+    }
   ],
-  'u3-l8-t2': [
-    { en: 'Wolf! Wolf!', ar: 'ذئب! ذئب!' },
-    { en: 'A wolf is attacking the sheep!', ar: 'هناك ذئب يهاجم الأغنام!' },
-    { en: 'Help!', ar: 'النجدة!' },
+  "u3-l8-t2": [
+    {
+      "en": "Wolf! Wolf!",
+      "ar": "ذئب! ذئب!"
+    },
+    {
+      "en": "A wolf is attacking",
+      "ar": "هناك ذئب يهاجم"
+    },
+    {
+      "en": "the sheep! Help!",
+      "ar": "الأغنام! النجدة!"
+    }
   ],
-  'u3-l8-t3': [
-    { en: 'The men of the village ran to the field to help him,', ar: 'ركض رجال القرية إلى الحقل لمساعدته،' },
-    { en: 'but there was no wolf.', ar: 'لكن لم يكن هناك أي ذئب.' },
-    { en: "The boy laughed: 'That was a joke!'", ar: 'ضحك الصبي وقال: "كانت تلك مزحة!"' },
-    { en: "The villagers were angry: 'That's not funny!'", ar: 'فغضب القرويون وقالوا: "هذا ليس مضحكاً!"' },
+  "u3-l8-t3": [
+    {
+      "en": "The men of the",
+      "ar": "ركض رجال"
+    },
+    {
+      "en": "village ran to the",
+      "ar": "القرية إلى"
+    },
+    {
+      "en": "field to help him,",
+      "ar": "الحقل لمساعدته،"
+    },
+    {
+      "en": "but there was no",
+      "ar": "لكن لم يكن هناك"
+    },
+    {
+      "en": "wolf. The boy laughed:",
+      "ar": "أي ذئب. ضحك الصبي وقال:"
+    },
+    {
+      "en": "'That was a joke!'",
+      "ar": "\"كانت تلك مزحة!\""
+    },
+    {
+      "en": "The villagers were angry:",
+      "ar": "فغضب القرويون وقالوا:"
+    },
+    {
+      "en": "'That's not funny!'",
+      "ar": "\"هذا ليس مضحكاً!\""
+    }
   ],
-  'u3-l8-t4': [
-    { en: 'A few days later,', ar: 'بعد بضعة أيام،' },
-    { en: 'the boy was bored again.', ar: 'شعر الصبي بالملل مرة أخرى،' },
-    { en: "He shouted: 'Wolf! Help! Wolf!'", ar: 'فصرخ: "ذئب! النجدة! ذئب!"' },
-    { en: 'Again the villagers ran to help him,', ar: 'وركض القرويون مجدداً لمساعدته،' },
-    { en: 'but again there was no wolf.', ar: 'لكن للمرة الثانية لم يكن هناك ذئب.' },
-    { en: "'We don't believe you!' they said.", ar: 'فقالوا: "نحن لا نصدقك!"' },
+  "u3-l8-t4": [
+    {
+      "en": "A few days later,",
+      "ar": "بعد بضعة أيام،"
+    },
+    {
+      "en": "the boy was bored",
+      "ar": "شعر الصبي بالملل"
+    },
+    {
+      "en": "again. He shouted: 'Wolf!",
+      "ar": "مرة أخرى، فصرخ: \"ذئب!"
+    },
+    {
+      "en": "Help! Wolf!' Again the",
+      "ar": "النجدة! ذئب!\" وركض"
+    },
+    {
+      "en": "villagers ran to help",
+      "ar": "القرويون مجدداً لمساعدته،"
+    },
+    {
+      "en": "him, but again there",
+      "ar": "لكن للمرة الثانية لم"
+    },
+    {
+      "en": "was no wolf.",
+      "ar": "يكن هناك ذئب."
+    },
+    {
+      "en": "'We don't believe you!'",
+      "ar": "\"نحن لا نصدقك!\""
+    },
+    {
+      "en": "they said.",
+      "ar": "فقالوا:"
+    }
   ],
-  'u3-l8-t5': [
-    { en: 'Then one evening,', ar: 'ثم في أحد المساءات،' },
-    { en: 'a real wolf came into the field.', ar: 'دخل ذئب حقيقي إلى الحقل.' },
-    { en: 'The terrified boy ran towards the village shouting:', ar: 'فركض الصبي المذعور نحو القرية صارخاً:' },
-    { en: "'Wolf! Help me, please! A real wolf!'", ar: '"ذئب! ساعدوني من فضلكم! ذئب حقيقي!"' },
-    { en: 'But nobody moved.', ar: 'لكن أحداً لم يتحرك،' },
-    { en: "'He's lying again,' the villagers said.", ar: 'وقال القرويون: "إنه يكذب مرة أخرى".' },
+  "u3-l8-t5": [
+    {
+      "en": "Then one evening, a",
+      "ar": "ثم في أحد المساءات،"
+    },
+    {
+      "en": "real wolf came into",
+      "ar": "دخل ذئب حقيقي إلى"
+    },
+    {
+      "en": "the field. The terrified",
+      "ar": "الحقل. فركض الصبي"
+    },
+    {
+      "en": "boy ran towards the",
+      "ar": "المذعور نحو"
+    },
+    {
+      "en": "village shouting: 'Wolf! Help",
+      "ar": "القرية صارخاً: \"ذئب! ساعدوني"
+    },
+    {
+      "en": "me, please! A real",
+      "ar": "من فضلكم! ذئب"
+    },
+    {
+      "en": "wolf!' But nobody moved.",
+      "ar": "حقيقي!\" لكن أحداً لم يتحرك،"
+    },
+    {
+      "en": "'He's lying again,' the",
+      "ar": "وقال القرويون: \"إنه يكذب مرة أخرى\"."
+    },
+    {
+      "en": "villagers said.",
+      "ar": "وقال القرويون:"
+    }
   ],
-  'u3-l8-t6': [
-    { en: 'The wolf killed all the sheep.', ar: 'فافترس الذئب جميع الأغنام.' },
-    { en: 'The boy sat alone and cried.', ar: 'جلس الصبي وحيداً يبكي؛' },
-    { en: 'He learned that nobody believes a liar,', ar: 'لقد تعلم درساً قاسياً أنه لا أحد يصدق الكاذب' },
-    { en: 'even when he tells the truth.', ar: 'حتى عندما يقول الحقيقة.' },
+  "u3-l8-t6": [
+    {
+      "en": "The wolf killed all",
+      "ar": "فافترس الذئب جميع"
+    },
+    {
+      "en": "the sheep. The boy",
+      "ar": "الأغنام. جلس الصبي"
+    },
+    {
+      "en": "sat alone and cried.",
+      "ar": "وحيداً يبكي؛"
+    },
+    {
+      "en": "He learned that nobody",
+      "ar": "لقد تعلم درساً قاسياً أنه لا أحد"
+    },
+    {
+      "en": "believes a liar, even",
+      "ar": "يصدق الكاذب حتى"
+    },
+    {
+      "en": "when he tells the truth.",
+      "ar": "عندما يقول الحقيقة."
+    }
   ],
-  'u3-l8-t7': [
-    { en: 'Key vocabulary:', ar: 'مفردات الدرس:' },
-    { en: 'shepherd (راعي), bored (شعر بالملل), funny (مضحك),', ar: 'راعي، ملل، مضحك،' },
-    { en: 'sheep (أغنام), wolf (ذئب), dead (ميت).', ar: 'أغنام، ذئب، ميت.' },
-    { en: 'Moral: Do not tell a lie.', ar: 'العبرة المستفادة: إياك والكذب، وكن صادقاً دائماً.' },
-  ],
+  "u3-l8-t7": [
+    {
+      "en": "Key vocabulary: shepherd (راعي),",
+      "ar": "مفردات الدرس: راعي،"
+    },
+    {
+      "en": "bored (شعر بالملل), funny",
+      "ar": "ملل، مضحك،"
+    },
+    {
+      "en": "(مضحك), sheep (أغنام), wolf",
+      "ar": "أغنام، ذئب،"
+    },
+    {
+      "en": "(ذئب), dead (ميت). Moral:",
+      "ar": "ميت. العبرة المستفادة:"
+    },
+    {
+      "en": "Do not tell a lie.",
+      "ar": "إياك والكذب، وكن صادقاً دائماً."
+    }
+  ]
 };
