@@ -165,6 +165,12 @@ export const LINE_SCENE_IMAGES: Record<string, LineSceneIllustration> = {
     badgeLabelAr:'تهرب من الذكرى (Hmm)',
     badgeColor:'bg-rose-50 text-rose-800 border-rose-200',
   },
+'l3-3': {
+    imageUrl: '/images/dialogue/l3-3.jpg',
+    captionAr: 'مريم تذكره: كنا نبحر ونشاهد طيور الفلامنجو والبجع يسقط سمكة على رأسك!',
+    badgeLabelAr: 'حادثة البجع والسمكة',
+    badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+  },
 'l3-3a': {
     imageUrl:'/images/dialogue/l3-3.jpg',
     captionAr:'مريم تذكره: كنا نبحر ونشاهد طيور الفلامنجو بالدربيل وبجع يحمل سمكة',
@@ -206,6 +212,12 @@ export const LINE_SCENE_IMAGES: Record<string, LineSceneIllustration> = {
     captionAr:'خالد محمر الوجه من شدة الإحراج بعد السقوط بالماء: همم...',
     badgeLabelAr:'إحراج السقوط (Hmm)',
     badgeColor:'bg-teal-50 text-teal-800 border-teal-200',
+  },
+'l3-9': {
+    imageUrl: '/images/dialogue/l3-9.jpg',
+    captionAr: 'العائلة تسحب خالد من الماء ثم تعود بالسيارة إلى الفندق',
+    badgeLabelAr: 'الإنقاذ والعودة للفندق',
+    badgeColor: 'bg-indigo-50 text-indigo-800 border-indigo-200',
   },
 'l3-9a': {
     imageUrl:'/images/dialogue/l3-9.jpg',
