@@ -209,7 +209,6 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
               // Convert answers safely whether array or object map
               const answersList: Array<{
                 promptEn: string;
-                promptAr?: string;
                 studentAnswer: string;
                 correctAnswer?: string;
                 isCorrect?: boolean;
@@ -219,8 +218,7 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
                 ? Object.entries(sub.answers).map(([qId, studentChoice], idx) => {
                     const q = UNIT_1_QUESTION_BANK.find((item) => item.id === qId);
                     return {
-                      promptEn: q?.questionEn || `سؤال ${idx + 1}`,
-                      promptAr: q?.questionAr || '',
+                      promptEn: q?.questionEn || `Question ${idx + 1}`,
                       studentAnswer: String(studentChoice),
                       correctAnswer: q?.correctAnswer,
                       isCorrect: q ? q.correctAnswer === studentChoice : undefined,
@@ -300,11 +298,6 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
                               </span>
                             )}
                           </div>
-                          {ans.promptAr && (
-                            <div className="text-[11px] text-slate-500 font-arabic">
-                              {ans.promptAr}
-                            </div>
-                          )}
                           <div className="text-slate-600 pt-1">
                             <span>إجابتك: </span>
                             <strong className={ans.isCorrect ? 'text-emerald-700 font-mono' : 'text-rose-700 font-mono'}>

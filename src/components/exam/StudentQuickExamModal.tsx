@@ -60,7 +60,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
 
   // Security: Strip correctAnswer from UI questions so it cannot be inspected in React DevTools/DOM
   const sanitizedQuestions = useMemo(() => {
-    return (exam?.questions || []).map(({ correctAnswer, ...q }) => q as any);
+    return (exam?.questions || []).map(({ correctAnswer, questionAr, ...q }) => q as any);
   }, [exam?.questions]);
 
   // Calculate score for whatever questions are currently answered (unanswered = 0 points)

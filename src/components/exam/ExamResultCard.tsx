@@ -147,11 +147,6 @@ export const ExamResultCard: React.FC<ExamResultCardProps> = ({
                       >
                         {q.questionEn}
                       </p>
-                      {q.questionAr && (
-                        <p className="text-xs text-slate-500 font-arabic">
-                          {q.questionAr}
-                        </p>
-                      )}
                     </div>
 
                     {/* Answers Comparison */}
