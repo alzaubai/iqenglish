@@ -96,8 +96,31 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
   }, [activeTrack?.id]);
 
   /**
+   * Fallback speech synthesis if audio file is missing or fails to load
+   */
+  const playWithSpeechFallback = (line: TranscriptLine, onComplete?: () => void) => {
+    setCurrentLineId(line.id);
+    const isFemale =
+      line.gender === 'female' || SpeechEngine.getSpeakerGender(line.speaker) === 'female';
+
+    SpeechEngine.speakText(line.textEn, {
+      speaker: line.speaker,
+      gender: isFemale ? 'female' : 'male',
+      rate: speechRateRef.current,
+      onEnd: () => {
+        setCurrentLineId(null);
+        if (onComplete) onComplete();
+      },
+      onError: () => {
+        setCurrentLineId(null);
+        if (onComplete) onComplete();
+      },
+    });
+  };
+
+  /**
    * Play lines sequentially with exact millisecond synchronization:
-   * STRICT ELEVENLABS MODE: Plays real studio recordings only.
+   * Real studio recordings with intelligent SpeechEngine fallback.
    */
   const playQueueLine = (index: number) => {
     if (!isPlayingRef.current) return;
@@ -132,9 +155,12 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
       };
 
       audio.onerror = () => {
-        console.warn(`[Studio Audio] Could not load audio for ${line.id}, moving to next line.`);
+        console.warn(`[Studio Audio] Could not load audio for ${line.id}, falling back to SpeechEngine.`);
         if (!isPlayingRef.current) return;
-        setTimeout(() => playQueueLine(index + 1), 250);
+        playWithSpeechFallback(line, () => {
+          if (!isPlayingRef.current) return;
+          setTimeout(() => playQueueLine(index + 1), 250);
+        });
       };
 
       audio.play().catch((err) => {
@@ -145,12 +171,11 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
       return;
     }
 
-    // If line has no studio recording, skip to next line
-    setTimeout(() => {
-      if (isPlayingRef.current) {
-        playQueueLine(index + 1);
-      }
-    }, 200);
+    // If line has no studio recording, speak via SpeechEngine fallback
+    playWithSpeechFallback(line, () => {
+      if (!isPlayingRef.current) return;
+      setTimeout(() => playQueueLine(index + 1), 250);
+    });
   };
 
   const playEntireTrack = () => {
@@ -186,16 +211,20 @@ export const AudioTranscriptPlayer: React.FC<AudioTranscriptPlayerProps> = ({
       };
 
       lineAudio.onerror = () => {
-        console.warn(`[Studio Audio] Failed to play single line ${line.id}`);
+        console.warn(`[Studio Audio] Failed to play single line ${line.id}, falling back to SpeechEngine.`);
         setCurrentLineId(null);
         currentAudioRef.current = null;
+        playWithSpeechFallback(line);
       };
 
       lineAudio.play().catch((err) => {
         console.warn('[Studio Audio] Play single line prevented:', err);
         setCurrentLineId(null);
         currentAudioRef.current = null;
+        playWithSpeechFallback(line);
       });
+    } else {
+      playWithSpeechFallback(line);
     }
   };
 

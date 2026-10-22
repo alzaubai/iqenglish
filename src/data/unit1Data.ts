@@ -347,6 +347,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'Why? It was funny! We were sailing on the boat. Remember? And a pelican dropped a fish on you.',
             textAr: 'لماذا؟ كان الأمر مضحكاً! كنا نبحر على متن القارب. أتتذكر؟ وأسقط طائر البجع سمكة عليك.',
+            audioFileUrl: '/audio/lesson-3/l3-3a.wav',
           },
           {
             id: 'l3-3b',
@@ -354,6 +355,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'You were watching the flamingos when the fish hit you on the head.',
             textAr: 'كنت تشاهد طيور الفلامنجو عندما اصطدمت السمكة برأسك.',
+            audioFileUrl: '/audio/lesson-3/l3-3b.wav',
           },
           {
             id: 'l3-4',
@@ -401,6 +403,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'We pulled you out of the water.',
             textAr: 'سحبناك من الماء.',
+            audioFileUrl: '/audio/lesson-3/l3-9a.wav',
           },
           {
             id: 'l3-9b',
@@ -408,6 +411,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'female',
             textEn: 'Then we drove back to the hotel.',
             textAr: 'ثم عدنا بالسيارة إلى الفندق.',
+            audioFileUrl: '/audio/lesson-3/l3-9b.wav',
           },
           {
             id: 'l3-10',
@@ -585,6 +589,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'male',
             textEn: 'Of course, Fridays are different. We are never at home. We usually go to the park.',
             textAr: 'بالطبع، أيام الجمعة مختلفة؛ فنحن لسنا في المنزل أبداً. عادةً ما نذهب إلى الحديقة.',
+            audioFileUrl: '/audio/lesson-5/l5-4a.mp3',
           },
           {
             id: 'l5-4b',
@@ -592,6 +597,7 @@ export const unit1Lessons: LessonData[] = [
             gender: 'male',
             textEn: 'We always go to our grandparents house after.',
             textAr: 'ودائماً ما نذهب إلى منزل أجدادنا بعد ذلك.',
+            audioFileUrl: '/audio/lesson-5/l5-4b.mp3',
           },
         ],
       },
