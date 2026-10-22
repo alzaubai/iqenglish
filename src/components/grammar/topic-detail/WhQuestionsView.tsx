@@ -272,7 +272,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                       <span>تفصيخ الجملة (تحليل أركانها قبل صياغة السؤال):</span>
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-                      {item.dissection.map((part, pIdx) => (
+                      {item.dissection.map((part: any, pIdx: number) => (
                         <div
                           key={pIdx}
                           className="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200 text-right space-y-0.5"
@@ -296,7 +296,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                       <span>خطوات تركيب السؤال بالتسلسل:</span>
                     </span>
                     <div className="space-y-2">
-                      {item.cumulativeSteps.map((step) => (
+                      {item.cumulativeSteps.map((step: any) => (
                         <div
                           key={step.stepNumber}
                           className="p-3 bg-zinc-50/80 rounded-xl border border-zinc-200 text-right space-y-1.5"

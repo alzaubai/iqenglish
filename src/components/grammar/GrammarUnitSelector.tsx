@@ -12,7 +12,7 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
   onSelectUnit,
 }) => {
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6 font-arabic" dir="rtl">
       {/* Intro Header Card */}
       <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-7 shadow-xs text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -22,18 +22,17 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
                 <BookMarked className="w-3.5 h-3.5" />
                 <span>English for Iraq • Grammar Master</span>
               </div>
-              
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 mt-3 font-arabic">
               القواعد والشروحات التفصيلية
             </h2>
             <p className="text-sm text-zinc-600 mt-2 font-arabic max-w-2xl leading-relaxed">
-              شرح مبسط ومركّز لكل قواعد المنهج حسب الوحدات (Unit) والدروس، مدعوماً بجداول تصريف الأفعال، أمثلة ناطقة، وتطبيقات تفاعلية تحاكي الأسئلة الامتحانية.
+              شرح مبسط ومركّز لكل قواعد المنهج حسب الوحدات والدروس، مدعوماً بجداول تصريف الأفعال، أمثلة ناطقة، وتطبيقات تفاعلية تحاكي الأسئلة الامتحانية.
             </p>
           </div>
           <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 text-center shrink-0">
             <span className="text-xs text-zinc-500 font-arabic block">الوحدات المكتملة</span>
-            <span className="text-2xl font-black text-zinc-900 font-sans block mt-0.5">Unit 1 & 2</span>
+            <span className="text-2xl font-black text-zinc-900 font-sans block mt-0.5">3 وحدات</span>
             <span className="text-[11px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full inline-block mt-1 font-arabic">
               مكتملة ومتاحة الآن
             </span>
@@ -42,9 +41,8 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
       </div>
 
       {/* Units Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4.5">
         {units.map((unit) => {
-          const isUnit1 = unit.unitNumber === 1;
           return (
             <div
               key={unit.id}
@@ -98,6 +96,8 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
                   {unit.id === 'unit-1'
                     ? '7 مواضيع قواعدية'
                     : unit.id === 'unit-2'
+                    ? '3 مواضيع قواعدية'
+                    : unit.id === 'unit-3'
                     ? '3 مواضيع قواعدية'
                     : 'غير مفعل حالياً'}
                 </span>

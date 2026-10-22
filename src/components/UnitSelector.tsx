@@ -12,7 +12,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
   onSelectUnit,
 }) => {
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6 font-arabic" dir="rtl">
       <div className="text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight font-arabic flex flex-wrap items-baseline gap-2">
@@ -30,7 +30,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {units.map((unit) => {
           return (
             <button
@@ -98,7 +98,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                     <span className="text-zinc-400 font-sans">10 Lessons</span>
                   </>
                 ) : (
-                  <span className="text-zinc-400 font-arabic">ستتوفر قريباً</span>
+                  <span className="text-zinc-400 font-arabic">قريباً في التحديث القادم</span>
                 )}
               </div>
             </button>

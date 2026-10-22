@@ -214,19 +214,23 @@ export const TranscriptLineItem: React.FC<TranscriptLineItemProps> = ({
             </div>
 
             {/* Arabic Translation with Synchronized Highlighted Equivalent */}
-            {showArabicTranslation && (
-              <div className="pt-2.5 border-t border-zinc-100 text-right">
-                <p className="text-sm sm:text-base text-zinc-700 font-arabic leading-relaxed">
-                  {renderArabicLineWithHighlight(
-                    line.textAr,
-                    activeWordInfo?.lineId === line.id
-                      ? activeWordInfo.arabicMatch
-                      : null,
-                    profile.gender === 'female'
-                  )}
-                </p>
-              </div>
-            )}
+            <div
+              className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                showArabicTranslation
+                  ? 'max-h-48 opacity-100 pt-2.5 border-t border-zinc-100'
+                  : 'max-h-0 opacity-0 pt-0 border-t-0 pointer-events-none'
+              } text-right`}
+            >
+              <p className="text-sm sm:text-base text-zinc-700 font-arabic leading-relaxed">
+                {renderArabicLineWithHighlight(
+                  line.textAr,
+                  activeWordInfo?.lineId === line.id
+                    ? activeWordInfo.arabicMatch
+                    : null,
+                  profile.gender === 'female'
+                )}
+              </p>
+            </div>
           </div>
 
           {/* Dedicated Scene Illustration Card */}

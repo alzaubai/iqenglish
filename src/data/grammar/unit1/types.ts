@@ -62,10 +62,10 @@ export interface GrammarTopicData {
   taglineAr: string;
   category: string;
   badge: string;
-  color: 'blue' | 'emerald' | 'purple' | 'amber' | 'teal';
+  color: 'blue' | 'emerald' | 'purple' | 'amber' | 'teal' | 'indigo';
   summaryAr: string;
   // Specific sections depending on topic type
-  topicType: 'tense' | 'pronouns' | 'connectors' | 'interests';
+  topicType: 'tense' | 'pronouns' | 'connectors' | 'interests' | 'questions' | 'comparatives' | 'ordinal-dates';
   
   // Overview for tenses (usage, time markers, spelling, verbs)
   overview?: {
@@ -125,7 +125,7 @@ export interface GrammarTopicData {
   connectorsList?: {
     name: string;
     meaningAr: string;
-    functionAr: string;
+    functionAr?: string;
     examples: TopicExample[];
   }[];
 
@@ -136,6 +136,25 @@ export interface GrammarTopicData {
     explanationAr: string;
     examples: TopicExample[];
   }[];
+
+  // For Wh- Questions
+  questionWordsTable?: {
+    word: string;
+    meaningAr: string;
+    functionAr?: string;
+    usageAr?: string;
+    exampleEn: string;
+    exampleAr: string;
+  }[];
+  questionRules?: {
+    titleAr: string;
+    ruleTitleEn?: string;
+    formulaChips: { text: string; isHighlight?: boolean; note?: string }[];
+    explanationAr: string;
+    examples: TopicExample[];
+  }[];
+  questionApplications?: any[];
+  examApplications?: any[];
 
   // 1st Intermediate Monthly Exam Practice (NOT ministerial!)
   examPractice: ExamPracticeItem[];

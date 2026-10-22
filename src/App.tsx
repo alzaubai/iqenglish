@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import {
   getUnitLessons,
   getAllUnits,
@@ -13,7 +13,7 @@ import { CurriculumDetailView } from './components/curriculum/CurriculumDetailVi
 import { GrammarUnitSelector } from './components/grammar/GrammarUnitSelector';
 import { GrammarTopicSelector } from './components/grammar/GrammarTopicSelector';
 import { GrammarTopicDetail } from './components/grammar/GrammarTopicDetail';
-import { StudentGradesPage } from './components/exam/StudentGradesPage';
+const StudentGradesPage = lazy(() => import('./components/exam/StudentGradesPage').then((m) => ({ default: m.StudentGradesPage })));
 import { AppFooter } from './components/layout/AppFooter';
 import { AppModalsAndGates } from './components/layout/AppModalsAndGates';
 import { TrialNoticeBar } from './components/layout/TrialNoticeBar';
@@ -21,7 +21,7 @@ import { startBackgroundMediaPrefetch } from './utils/offlineMedia';
 import { STORAGE_KEYS } from './constants/storageKeys';
 import { StudentLoginScreen } from './components/auth/StudentLoginScreen';
 import { MaintenanceScreen } from './components/auth/MaintenanceScreen';
-import { TeacherDashboardPage } from './components/admin/TeacherDashboardPage';
+const TeacherDashboardPage = lazy(() => import('./components/admin/TeacherDashboardPage').then((m) => ({ default: m.TeacherDashboardPage })));
 
 export default function App() {
   // Session, Auth & Realtime Platform State (extracted to custom hook)
@@ -148,11 +148,17 @@ export default function App() {
   // 1. Dedicated Teacher Dashboard Page (Opens when teacher clicks the Teacher Icon)
   if (isTeacherDashboardOpen) {
     return (
-      <TeacherDashboardPage
-        platformConfig={platformConfig}
-        isPreAuthenticated={true}
-        onBackToSite={() => setIsTeacherDashboardOpen(false)}
-      />
+      <Suspense fallback={
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center font-arabic text-sm text-slate-600">
+          جاري فتح لوحة تحكم الأستاذ...
+        </div>
+      }>
+        <TeacherDashboardPage
+          platformConfig={platformConfig}
+          isPreAuthenticated={true}
+          onBackToSite={() => setIsTeacherDashboardOpen(false)}
+        />
+      </Suspense>
     );
   }
 
@@ -232,6 +238,7 @@ export default function App() {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 unlockedGrammarTopics={unlockedGrammarTopicIds}
+                isTeacher={isTeacherLoggedIn}
               />
             )}
 
@@ -252,6 +259,7 @@ export default function App() {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 unlockedGrammarTopics={unlockedGrammarTopicIds}
+                isTeacher={isTeacherLoggedIn}
               />
             )}
           </div>
@@ -298,7 +306,13 @@ export default function App() {
         {/* ================= SECTION C: STUDENT GRADES FULL PAGE ================= */}
         {activeMainTab === 'grades' && (
           studentSession ? (
-            <StudentGradesPage student={studentSession} />
+            <Suspense fallback={
+              <div className="p-12 text-center font-arabic text-sm text-slate-500">
+                جاري تحميل كشف الدرجات...
+              </div>
+            }>
+              <StudentGradesPage student={studentSession} />
+            </Suspense>
           ) : (
             <div className="max-w-xl mx-auto p-6 text-center font-arabic">
               <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-xs space-y-3">

@@ -1,6 +1,8 @@
 import { UNIT3_CURRICULUM_CHUNKS } from './unit3/chunks';
 import { UNIT2_CURRICULUM_CHUNKS } from './unit2CurriculumChunks';
 
+export type CurriculumChunk = LineChunk;
+
 export interface LineChunk {
   en: string; // The English phrase chunk
   ar: string; // The exact matching Arabic text in line.textAr

@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Award, Calendar, CheckCircle2, AlertCircle, Clock, ChevronDown, ChevronUp, User, ShieldCheck } from 'lucide-react';
+import {
+  Award,
+  Calendar,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  ChevronDown,
+  ChevronUp,
+  User,
+  ShieldCheck,
+  Trophy,
+  Sparkles,
+} from 'lucide-react';
 import {
   StudentSession,
   ExamSubmission,
@@ -35,6 +47,8 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
         ).toFixed(1)
       : '0';
 
+  const avgScoreNum = totalExams > 0 ? Number(avgScore) : 0;
+
   const highestScore =
     totalExams > 0
       ? Math.max(...submissions.map((s) => Math.round((s.score / s.totalPoints) * 10)))
@@ -42,7 +56,7 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
 
   return (
     <div className="space-y-6" dir="rtl">
-      {/* Student Profile Card */}
+      {/* Student Profile & Motivation Card */}
       <div className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-7 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
           <div className="flex items-center gap-3.5">
@@ -59,7 +73,7 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
                 </span>
               </div>
               <p className="text-xs text-slate-500 font-arabic mt-0.5">
-                الصف الأول المتوسط
+                الصف الأول المتوسط • المنهاج العراقي
               </p>
             </div>
           </div>
@@ -70,8 +84,46 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
           </div>
         </div>
 
+        {/* Motivational Badge & Encouragement Capsule */}
+        <div className="my-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+          <div className="flex items-center gap-3.5 text-center sm:text-right">
+            <div className="w-11 h-11 rounded-2xl bg-amber-400/20 border border-amber-400/30 text-amber-300 flex items-center justify-center shrink-0">
+              <Trophy className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <span className="text-xs font-bold text-amber-300 font-arabic bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
+                  {avgScoreNum >= 8.5
+                    ? 'وسام التميز الأكاديمي'
+                    : avgScoreNum >= 6
+                    ? 'وسام الاجتهاد والمثابرة'
+                    : totalExams > 0
+                    ? 'وسام الانطلاقة والمحاولة'
+                    : 'وسام الالتزام والمواظبة'}
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 font-arabic mt-1 leading-relaxed">
+                {avgScoreNum >= 8.5
+                  ? 'أداء استثنائي ومبهر! واصل هذا التألق وتصدر قائمة المتميزين.'
+                  : avgScoreNum >= 6
+                  ? 'جهد طيب ومستمر! بالمراجعة الدقيقة ستصل إلى الدرجة الكاملة قريباً.'
+                  : totalExams > 0
+                  ? 'كل محاولة امتحان تزيدك خبرة وقوة، راجع القواعد وكرر المحاولة.'
+                  : 'أهلاً بك! ابدأ بخوض أول امتحان سريع يطلقه الأستاذ لتحصد أوسمتك الأولى.'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="px-3 py-1 rounded-xl text-xs font-bold font-arabic bg-white/10 text-white border border-white/15 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>مواظب على التعلم</span>
+            </span>
+          </div>
+        </div>
+
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
           <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-center">
             <span className="text-xs text-slate-500 font-arabic block">الامتحانات المنجزة</span>
             <strong className="text-2xl font-bold font-mono text-slate-800 block mt-1">
@@ -84,6 +136,17 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
             <strong className="text-2xl font-bold font-mono text-slate-800 block mt-1">
               {avgScore} <span className="text-xs text-slate-400 font-normal font-sans">/ 10</span>
             </strong>
+            <span
+              className={`text-[10px] font-bold px-2 py-0.5 rounded-md font-arabic inline-block mt-1 ${
+                avgScoreNum >= 8
+                  ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                  : avgScoreNum >= 5
+                  ? 'bg-blue-100 text-blue-800 border border-blue-200'
+                  : 'bg-amber-100 text-amber-800 border border-amber-200'
+              }`}
+            >
+              {avgScoreNum >= 8 ? 'مستوى ممتاز' : avgScoreNum >= 5 ? 'مستوى جيد' : 'يحتاج مراجعة'}
+            </span>
           </div>
 
           <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-center">
@@ -222,8 +285,8 @@ export const StudentGradesPage: React.FC<StudentGradesPageProps> = ({ student })
                           className="p-3 bg-white rounded-xl border border-slate-200 text-xs font-arabic space-y-1"
                         >
                           <div className="flex items-start justify-between gap-2">
-                            <span className="font-bold text-slate-800">
-                              سؤال {idx + 1}: {ans.promptEn}
+                            <span className="font-bold text-slate-800 text-left font-sans" dir="ltr">
+                              {ans.promptEn}
                             </span>
                             {ans.isCorrect !== undefined && (
                               <span

@@ -303,7 +303,7 @@ export const listenToSingleStudent = (
       }
 
       // 2. Only log out if it previously existed and is now deleted with no pending local writes
-      if (!snap.metadata.hasPendingWrites) {
+      if (hasExistedInSession && !snap.metadata.hasPendingWrites) {
         onDeleted();
       }
     },

@@ -144,9 +144,9 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </header>
 
-      {/* Modern Bottom Navigation Bar (Mobile Only - Thumb-friendly, clean & no clutter) */}
+      {/* Modern Bottom Navigation Bar (Mobile Only - Thumb-friendly, Frosted Glass & Active Pill Indicators) */}
       <nav
-        className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200/90 px-4 py-2 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex items-center justify-around"
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-xl border-t border-slate-200/80 px-2 py-1.5 shadow-[0_-8px_24px_rgba(0,0,0,0.06)] flex items-center justify-around gap-1"
         dir="rtl"
         aria-label="شريط التنقل السفلي"
       >
@@ -154,31 +154,33 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={() => onTabChange('curriculum')}
-          className={`flex-1 flex flex-col items-center justify-center py-1 rounded-xl transition-all cursor-pointer font-arabic ${
+          className={`flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl transition-all duration-200 cursor-pointer font-arabic ${
             activeTab === 'curriculum'
-              ? 'text-slate-900 font-bold bg-slate-100'
-              : 'text-slate-500 hover:text-slate-800'
+              ? 'bg-slate-900 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
           }`}
         >
-          <BookOpen className={`w-5 h-5 transition-transform ${activeTab === 'curriculum' ? 'scale-110' : ''}`} />
-          <span className="text-[11px] mt-0.5 leading-tight">الدروس</span>
+          <BookOpen className={`w-4 h-4 transition-transform ${activeTab === 'curriculum' ? 'scale-110 text-white' : 'text-slate-600'}`} />
+          <span className={`text-[11px] mt-0.5 leading-tight font-medium ${activeTab === 'curriculum' ? 'font-bold text-white' : ''}`}>الدروس</span>
         </button>
 
         {/* Tab 2: Grammar Topics */}
         <button
           type="button"
           onClick={() => onTabChange('grammar')}
-          className={`flex-1 flex flex-col items-center justify-center py-1 rounded-xl transition-all cursor-pointer font-arabic relative ${
+          className={`flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl transition-all duration-200 cursor-pointer font-arabic relative ${
             activeTab === 'grammar'
-              ? 'text-slate-900 font-bold bg-slate-100'
-              : 'text-slate-500 hover:text-slate-800'
+              ? 'bg-slate-900 text-white shadow-xs'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
           }`}
         >
           <div className="relative">
-            <BookMarked className={`w-5 h-5 transition-transform ${activeTab === 'grammar' ? 'scale-110' : ''}`} />
-            <span className="absolute -top-1 -right-2 w-2 h-2 rounded-full bg-slate-800" />
+            <BookMarked className={`w-4 h-4 transition-transform ${activeTab === 'grammar' ? 'scale-110 text-white' : 'text-slate-600'}`} />
+            {activeTab !== 'grammar' && (
+              <span className="absolute -top-0.5 -right-1.5 w-2 h-2 rounded-full bg-indigo-600 ring-2 ring-white" />
+            )}
           </div>
-          <span className="text-[11px] mt-0.5 leading-tight">القواعد</span>
+          <span className={`text-[11px] mt-0.5 leading-tight font-medium ${activeTab === 'grammar' ? 'font-bold text-white' : ''}`}>القواعد</span>
         </button>
 
         {/* Tab 3: Student Grades */}
@@ -186,14 +188,14 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => onTabChange('grades')}
-            className={`flex-1 flex flex-col items-center justify-center py-1 rounded-xl transition-all cursor-pointer font-arabic ${
+            className={`flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl transition-all duration-200 cursor-pointer font-arabic ${
               activeTab === 'grades'
-                ? 'text-slate-900 font-bold bg-slate-100'
-                : 'text-slate-500 hover:text-slate-800'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
             }`}
           >
-            <Award className={`w-5 h-5 transition-transform ${activeTab === 'grades' ? 'scale-110 text-amber-500' : 'text-slate-500'}`} />
-            <span className="text-[11px] mt-0.5 leading-tight">درجاتي</span>
+            <Award className={`w-4 h-4 transition-transform ${activeTab === 'grades' ? 'scale-110 text-amber-400' : 'text-slate-600'}`} />
+            <span className={`text-[11px] mt-0.5 leading-tight font-medium ${activeTab === 'grades' ? 'font-bold text-white' : ''}`}>درجاتي</span>
           </button>
         )}
 
@@ -201,10 +203,10 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onOpenTeacherDashboard}
-            className="flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-slate-700 hover:text-slate-900 transition-all cursor-pointer font-arabic"
+            className="flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl text-slate-700 hover:text-slate-900 hover:bg-slate-100/60 transition-all cursor-pointer font-arabic"
           >
-            <ShieldCheck className="w-5 h-5 text-emerald-500" />
-            <span className="text-[11px] mt-0.5 leading-tight">اللوحة</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span className="text-[11px] mt-0.5 leading-tight font-medium">اللوحة</span>
           </button>
         )}
 
@@ -213,10 +215,10 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={onOpenExam}
-            className="flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-rose-600 font-bold transition-all cursor-pointer font-arabic animate-pulse"
+            className="flex-1 flex flex-col items-center justify-center py-1.5 px-2 rounded-2xl bg-rose-600 text-white shadow-xs transition-all cursor-pointer font-arabic animate-pulse"
           >
-            <Sparkles className="w-5 h-5 text-amber-500" />
-            <span className="text-[11px] mt-0.5 leading-tight">امتحان!</span>
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            <span className="text-[11px] mt-0.5 leading-tight font-bold">امتحان!</span>
           </button>
         )}
       </nav>

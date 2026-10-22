@@ -87,6 +87,9 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         setIsSubmitted(true);
         setEarnedScore(parsed.score);
         setTotalPoints(parsed.totalPoints);
+        if (parsed.answers) {
+          setSelectedAnswers(parsed.answers);
+        }
         return;
       } catch {}
     }
@@ -97,9 +100,12 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         setIsSubmitted(true);
         setEarnedScore(remoteSub.score);
         setTotalPoints(remoteSub.totalPoints);
+        if (remoteSub.answers) {
+          setSelectedAnswers(remoteSub.answers);
+        }
         localStorage.setItem(
           localKey,
-          JSON.stringify({ score: remoteSub.score, totalPoints: remoteSub.totalPoints })
+          JSON.stringify({ score: remoteSub.score, totalPoints: remoteSub.totalPoints, answers: remoteSub.answers })
         );
       } else {
         setIsSubmitted(false);
@@ -175,6 +181,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
         score: autoScore,
         totalPoints: totalPossiblePoints,
         submittedAt: new Date().toISOString(),
+        answers: currentAnswers,
       })
     );
 
@@ -247,6 +254,7 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
           score: score,
           totalPoints: totalPossiblePoints,
           submittedAt: new Date().toISOString(),
+          answers: selectedAnswers,
         })
       );
 
@@ -331,6 +339,8 @@ export const StudentQuickExamModal: React.FC<StudentQuickExamModalProps> = ({
               studentName={student.fullName}
               earnedScore={earnedScore}
               totalPoints={totalPoints}
+              questions={exam.questions}
+              selectedAnswers={selectedAnswers}
               onClose={onClose}
             />
           ) : (
