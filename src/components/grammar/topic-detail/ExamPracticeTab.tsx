@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RotateCcw, Volume2 } from 'lucide-react';
+import { RotateCcw, Volume2, Languages } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
 
@@ -11,6 +11,11 @@ interface ExamPracticeTabProps {
 export const ExamPracticeTab: React.FC<ExamPracticeTabProps> = ({ currentTopic, onSpeak }) => {
   const [practiceAnswers, setPracticeAnswers] = useState<Record<string, string>>({});
   const [revealedAnswers, setRevealedAnswers] = useState<Record<string, boolean>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleSelectAnswer = (questionId: string, answer: string, isCorrect: boolean) => {
     setPracticeAnswers((prev) => ({ ...prev, [questionId]: answer }));
@@ -69,21 +74,41 @@ export const ExamPracticeTab: React.FC<ExamPracticeTabProps> = ({ currentTopic, 
                   <span className="w-6 h-6 rounded-md bg-purple-100 text-purple-800 text-xs font-bold flex items-center justify-center font-mono">
                     {idx + 1}
                   </span>
-                  <button
-                    onClick={() => onSpeak(q.questionEn)}
-                    className="p-1 rounded bg-zinc-50 border border-zinc-200 text-zinc-600 hover:text-zinc-900 cursor-pointer"
-                    title="استمع للسؤال"
-                  >
-                    <Volume2 className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    {q.questionAr && (
+                      <button
+                        type="button"
+                        onClick={() => toggleTranslation(q.id)}
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer ${
+                          visibleTranslations[q.id]
+                            ? 'bg-purple-50 text-purple-700 border-purple-200 shadow-2xs'
+                            : 'bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100'
+                        }`}
+                        title="ترجمة السؤال"
+                      >
+                        <Languages className="w-3 h-3 text-purple-600" />
+                        <span>{visibleTranslations[q.id] ? 'إخفاء الترجمة' : 'ترجمة السؤال'}</span>
+                      </button>
+                    )}
+                    <button
+                      onClick={() => onSpeak(q.questionEn)}
+                      className="p-1 rounded bg-zinc-50 border border-zinc-200 text-zinc-600 hover:text-zinc-900 cursor-pointer"
+                      title="استمع للسؤال"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
 
-                <p className="text-xs text-zinc-500 font-arabic mb-1">
-                  {q.questionAr}
-                </p>
-                <h5 className="text-sm sm:text-base font-bold text-zinc-900 font-sans tracking-tight mb-3" dir="ltr">
+                <h5 className="text-sm sm:text-base font-bold text-zinc-900 font-sans tracking-tight mb-2 text-left" dir="ltr">
                   {q.questionEn}
                 </h5>
+
+                {q.questionAr && visibleTranslations[q.id] && (
+                  <p className="text-xs text-zinc-600 font-arabic mb-3 bg-zinc-50 p-2 rounded-lg border border-zinc-200/60 animate-in fade-in duration-150 text-right" dir="rtl">
+                    {q.questionAr}
+                  </p>
+                )}
 
                 {/* Options if choice or correct */}
                 {q.options && (

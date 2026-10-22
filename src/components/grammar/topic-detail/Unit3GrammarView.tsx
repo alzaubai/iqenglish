@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, Sparkles, CheckCircle2, BookOpen, Table, HelpCircle } from 'lucide-react';
+import { Volume2, Languages, Sparkles, CheckCircle2, BookOpen, Table, HelpCircle } from 'lucide-react';
 import { unit3GrammarLessons } from '../../../data/unit3GrammarTopics';
 
 interface Unit3GrammarViewProps {
@@ -23,6 +23,11 @@ export const Unit3GrammarView: React.FC<Unit3GrammarViewProps> = ({ topicId, onS
 
   // Quiz state
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleSelectQuizOption = (quizId: string, optionIndex: number) => {
     setQuizAnswers((prev) => ({ ...prev, [quizId]: optionIndex }));
@@ -344,20 +349,39 @@ export const Unit3GrammarView: React.FC<Unit3GrammarViewProps> = ({ topicId, onS
                     <span className="text-xs font-bold text-slate-700">
                       السؤال {qIdx + 1}:
                     </span>
-                    <button
-                      type="button"
-                      onClick={() => onSpeak(q.questionTextEn)}
-                      className="p-1 text-slate-400 hover:text-indigo-600"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      {q.questionTextAr && (
+                        <button
+                          type="button"
+                          onClick={() => toggleTranslation(q.id)}
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer ${
+                            visibleTranslations[q.id]
+                              ? 'bg-indigo-50 text-indigo-700 border-indigo-200 shadow-2xs'
+                              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100'
+                          }`}
+                          title="ترجمة السؤال"
+                        >
+                          <Languages className="w-3 h-3 text-indigo-600" />
+                          <span>{visibleTranslations[q.id] ? 'إخفاء الترجمة' : 'ترجمة السؤال'}</span>
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => onSpeak(q.questionTextEn)}
+                        className="p-1 text-slate-400 hover:text-indigo-600"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
-                  <p className="font-mono text-xs sm:text-sm font-bold text-slate-900" dir="ltr">
+                  <p className="font-mono text-xs sm:text-sm font-bold text-slate-900 text-left" dir="ltr">
                     {q.questionTextEn}
                   </p>
-                  <p className="text-xs text-slate-600 font-arabic">
-                    {q.questionTextAr}
-                  </p>
+                  {q.questionTextAr && visibleTranslations[q.id] && (
+                    <p className="text-xs text-slate-600 font-arabic p-2 bg-white rounded-lg border border-zinc-200 text-right animate-in fade-in duration-150" dir="rtl">
+                      {q.questionTextAr}
+                    </p>
+                  )}
 
                   {/* Options */}
                   <div className="grid grid-cols-2 gap-2 pt-1">

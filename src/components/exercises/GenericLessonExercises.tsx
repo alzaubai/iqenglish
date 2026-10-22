@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
+import { Languages } from 'lucide-react';
 import { GenericExercise } from '../../data/activityBookAllLessons';
 
 interface GenericLessonExercisesProps {
@@ -14,6 +15,11 @@ export const GenericLessonExercises: React.FC<GenericLessonExercisesProps> = ({
   const [activeExerciseIndex, setActiveExerciseIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [isChecked, setIsChecked] = useState<Record<number, boolean>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const currentEx = exercises[activeExerciseIndex] || exercises[0];
 
@@ -110,14 +116,36 @@ export const GenericLessonExercises: React.FC<GenericLessonExercisesProps> = ({
                     : 'border-zinc-200 bg-zinc-50/40'
                 }`}
               >
-                {/* Left: English on top, Arabic underneath */}
-                <div>
-                  <span className="text-sm font-bold text-zinc-900 block font-sans">
-                    {item.promptEn}
-                  </span>
-                  <span className="text-xs text-zinc-500 font-arabic block mt-0.5" dir="rtl">
-                    {item.promptAr}
-                  </span>
+                {/* Left: English on top, Per-Question Translation Toggle */}
+                <div className="flex-1 min-w-0 space-y-1.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-sm font-bold text-zinc-900 block font-sans">
+                      {item.promptEn}
+                    </span>
+                    {item.promptAr && (
+                      <button
+                        type="button"
+                        onClick={() => toggleTranslation(item.id)}
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                          visibleTranslations[item.id]
+                            ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                            : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                        }`}
+                        title="ترجمة السؤال"
+                      >
+                        <Languages className="w-3 h-3 text-indigo-600" />
+                        <span>{visibleTranslations[item.id] ? 'إخفاء الترجمة' : 'ترجمة السؤال'}</span>
+                      </button>
+                    )}
+                  </div>
+                  {item.promptAr && visibleTranslations[item.id] && (
+                    <div
+                      className="text-xs text-zinc-700 font-arabic bg-zinc-100/80 p-2 rounded-lg border border-zinc-200 text-right animate-in fade-in duration-150"
+                      dir="rtl"
+                    >
+                      {item.promptAr}
+                    </div>
+                  )}
                 </div>
 
                 {/* Right: Answer options */}

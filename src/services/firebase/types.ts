@@ -129,7 +129,7 @@ export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
   externalSubscriptions: [],
   revokedCodes: ['IQ-2026', 'IQ-XXXX'],
   activeExamId: null,
-  isMaintenanceMode: true,
+  isMaintenanceMode: false,
   maintenanceMessageAr: 'المنصة مغلقة حالياً إلى إشعار آخر بأمر مدرس المادة.',
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, RotateCcw, HelpCircle, CheckCircle2, XCircle, ArrowLeft, BookOpen, Sparkles } from 'lucide-react';
+import { Volume2, Languages, RotateCcw, HelpCircle, CheckCircle2, XCircle, ArrowLeft, BookOpen, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
 
@@ -13,6 +13,11 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
   onSpeak,
 }) => {
   const [practiceAnswers, setPracticeAnswers] = useState<Record<string, string>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
   const [revealedAnswers, setRevealedAnswers] = useState<Record<string, boolean>>({});
 
   const handleSelectAnswer = (questionId: string, answer: string, isCorrect: boolean) => {
@@ -406,21 +411,38 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
               >
                 {/* رأس السؤال */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
+                  <div className="space-y-1.5 flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="w-5 h-5 rounded-md bg-indigo-100 text-indigo-800 text-xs font-bold flex items-center justify-center font-mono">
                         {idx + 1}
                       </span>
-                      <span className="text-xs font-bold text-indigo-700 font-arabic">
-                        {q.questionAr}
-                      </span>
+                      {q.questionAr && (
+                        <button
+                          type="button"
+                          onClick={() => toggleTranslation(q.id)}
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer ${
+                            visibleTranslations[q.id]
+                              ? 'bg-indigo-50 text-indigo-700 border-indigo-200 shadow-2xs'
+                              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100'
+                          }`}
+                          title="ترجمة السؤال"
+                        >
+                          <Languages className="w-3 h-3 text-indigo-600" />
+                          <span>{visibleTranslations[q.id] ? 'إخفاء الترجمة' : 'ترجمة السؤال'}</span>
+                        </button>
+                      )}
                     </div>
                     <p
-                      className="text-sm sm:text-base font-bold text-zinc-900 font-sans tracking-tight pt-1 text-left"
+                      className="text-sm sm:text-base font-bold text-zinc-900 font-sans tracking-tight pt-0.5 text-left"
                       dir="ltr"
                     >
                       {q.questionEn}
                     </p>
+                    {q.questionAr && visibleTranslations[q.id] && (
+                      <p className="text-xs text-zinc-700 font-arabic mt-1.5 p-2 bg-white rounded-lg border border-zinc-200 text-right animate-in fade-in duration-150" dir="rtl">
+                        {q.questionAr}
+                      </p>
+                    )}
                   </div>
                   <button
                     onClick={() => onSpeak(q.questionEn.replace('______', 'blank'))}

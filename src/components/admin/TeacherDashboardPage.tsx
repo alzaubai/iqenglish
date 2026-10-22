@@ -102,7 +102,7 @@ export const TeacherDashboardPage: React.FC<TeacherDashboardPageProps> = ({
 
   // Maintenance Mode State
   const [isMaintenanceActiveLocal, setIsMaintenanceActiveLocal] = useState<boolean>(() =>
-    Boolean(platformConfig.isMaintenanceMode ?? true)
+    Boolean(platformConfig.isMaintenanceMode ?? false)
   );
   const [isTogglingMaintenance, setIsTogglingMaintenance] = useState(false);
   const [maintenanceStatusToast, setMaintenanceStatusToast] = useState<string | null>(null);

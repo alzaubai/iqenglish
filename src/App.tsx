@@ -164,7 +164,7 @@ export default function App() {
 
   // 2. Platform Maintenance Mode Gate:
   // If maintenance mode is active, BLOCK ALL STUDENTS & VISITORS unless teacher is logged in!
-  const isMaintenanceActive = Boolean(platformConfig.isMaintenanceMode ?? true);
+  const isMaintenanceActive = Boolean(platformConfig.isMaintenanceMode ?? false);
   if (isMaintenanceActive && !isTeacherLoggedIn) {
     return (
       <MaintenanceScreen
