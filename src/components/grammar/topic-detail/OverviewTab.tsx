@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { BookOpen, Sparkles, Lightbulb, Volume2, Award, Search } from 'lucide-react';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
 
@@ -31,7 +31,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
   return (
     <div className="space-y-6">
       {/* Card 1.1: الاستخدام / لماذا ومتى نستخدم هذا الزمن؟ */}
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-4 text-right">
+      <div className="bg-white border border-zinc-200/90 rounded-3xl p-6 sm:p-7 shadow-xs space-y-4 text-right">
         <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
           <div className="flex items-center gap-2">
             <span className="p-2 bg-blue-600 text-white rounded-xl">
@@ -49,7 +49,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
           </span>
         </div>
 
-        <div className="p-4 bg-zinc-50/70 border border-zinc-200 rounded-2xl shadow-2xs space-y-2">
+        <div className="p-4 bg-zinc-50/70 border border-zinc-200/90 rounded-2xl shadow-2xs space-y-2">
           <p className="text-sm sm:text-base font-bold text-zinc-900 font-arabic leading-relaxed">
             {overview.usageDescAr}
           </p>
@@ -64,7 +64,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
       </div>
 
       {/* Card 1.2: دلالات الزمن (Time Markers) */}
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
+      <div className="bg-white border border-zinc-200/90 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
         <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
           <div className="flex items-center gap-2">
             <span className="p-2 bg-amber-500 text-white rounded-xl">
@@ -95,7 +95,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
           {overview.timeMarkers.map((tm, idx) => (
             <div
               key={idx}
-              className="p-4 bg-zinc-50/70 hover:bg-zinc-50 border border-zinc-200 rounded-2xl transition-all space-y-2.5 shadow-2xs"
+              className="p-4 bg-zinc-50/70 hover:bg-zinc-50 border border-zinc-200/90 rounded-2xl transition-all space-y-2.5 shadow-2xs"
             >
               <div className="flex items-center justify-between">
                 <span
@@ -109,7 +109,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
                 </span>
               </div>
 
-              <div className="p-3 bg-white border border-zinc-200 rounded-xl flex items-center justify-between">
+              <div className="p-3 bg-white border border-zinc-200/90 rounded-xl flex items-center justify-between">
                 <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans tracking-tight" dir="ltr">
                   {tm.exampleEn}
                 </p>
@@ -128,7 +128,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
       </div>
 
       {/* Card 1.3: قواعد الإملاء */}
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
+      <div className="bg-white border border-zinc-200/90 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
         <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
           <div className="flex items-center gap-2">
             <span className="p-2 bg-emerald-600 text-white rounded-xl">
@@ -154,7 +154,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {overview.spellingRules.map((rule, idx) => (
-            <div key={idx} className="p-4 bg-zinc-50/70 border border-zinc-200 rounded-2xl space-y-2.5">
+            <div key={idx} className="p-4 bg-zinc-50/70 border border-zinc-200/90 rounded-2xl space-y-2.5">
               <h5 className="text-sm font-black text-emerald-950 font-arabic">
                 {rule.titleAr}
               </h5>
@@ -164,7 +164,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
 
               <div className="grid grid-cols-2 gap-2 pt-1 font-sans" dir="ltr">
                 {rule.examples.map((ex, exIdx) => (
-                  <div key={exIdx} className="p-2.5 bg-white border border-zinc-200 rounded-xl text-left">
+                  <div key={exIdx} className="p-2.5 bg-white border border-zinc-200/90 rounded-xl text-left">
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-zinc-500 font-medium">{ex.base}</span>
                       <span className="text-zinc-400">➔</span>
@@ -193,7 +193,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
 
       {/* Card 1.4: جدول أفعال وصفات كتاب الصف الأول المتوسط المقررة */}
       {overview.textbookVerbs && (
-        <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
+        <div className="bg-white border border-zinc-200/90 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
             <div>
               <div className="flex items-center gap-2">
@@ -573,3 +573,4 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
     </div>
   );
 };
+

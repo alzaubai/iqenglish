@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   ChevronRight,
@@ -382,7 +382,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
       </div>
 
       {/* 2. TOPIC HEADER CARD */}
-      <div className="bg-white rounded-3xl border border-zinc-200 p-4 sm:p-7 shadow-xs text-right">
+      <div className="bg-white rounded-3xl border border-zinc-200/90 p-4 sm:p-7 shadow-xs text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
@@ -417,7 +417,7 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
       ) : /* C. Future Tense or Past Tenses */
       currentTopic.topicType === 'tense' ? (
         <div className="space-y-6">
-          <div className="bg-white p-2 rounded-2xl border border-zinc-200 shadow-2xs flex flex-wrap gap-2">
+          <div className="bg-white p-2 rounded-2xl border border-zinc-200/90 shadow-xs flex flex-wrap gap-2">
             {tenseTabs.map((tab) => (
               <button
                 key={tab.id}
@@ -466,3 +466,4 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
   );
 };
 export default GrammarTopicDetail;
+

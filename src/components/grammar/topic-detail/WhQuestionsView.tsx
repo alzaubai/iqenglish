@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, Languages, RotateCcw, HelpCircle, CheckCircle2, XCircle, ArrowLeft, BookOpen, Sparkles } from 'lucide-react';
+import { Volume2, Languages, RotateCcw, HelpCircle, CheckCircle2, XCircle, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
 
@@ -35,15 +35,15 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* 1. جدول أدوات الاستفهام المنهجية (Question Words Table) */}
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-2xs space-y-5 text-right">
+      {/* 1. جدول أدوات الاستفهام المنهجية (Dual Responsive Layout: Mobile Cards + Desktop Table) */}
+      <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-3">
           <div>
             <span className="text-xs font-bold text-indigo-600 font-arabic block">
               الجدول الأساسي لأدوات الاستفهام (كتاب الطالب وكتاب النشاط)
             </span>
             <h4 className="text-base sm:text-lg font-black text-zinc-900 font-arabic mt-0.5">
-              أدوات الاستفهام (Wh- Words) ومعانيها واستخداماتها
+              أدوات الاستفهام (Wh- Words) ومعانيها واستخداماتها المنهجية
             </h4>
           </div>
           <span
@@ -55,45 +55,111 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
         </div>
 
         <p className="text-xs sm:text-sm text-zinc-700 font-arabic leading-relaxed">
-          تُسمى أدوات الاستفهام بـ <strong className="font-mono text-indigo-700">Wh- Questions</strong> لأن معظمها يبدأ بحرفي (Wh). لكل أداة وظيفة خاصة تسأل عن جزء محدد من الجملة (الشخص، المكان، الزمان، السبب، أو الكيفية):
+          تُسمى أدوات الاستفهام بـ <strong className="font-mono text-indigo-700">Wh- Questions</strong> لأن معظمها يبدأ بحرفي (Wh). لكل أداة وظيفة خاصة تسأل عن جزء محدد من الجملة:
         </p>
 
-        {/* جدول الأدوات التفاعلي النظيف */}
-        <div className="overflow-x-auto rounded-2xl border border-zinc-200">
+        {/* عرض كروت الموبايل (sm:hidden) لحماية شاشات الهواتف من التزاحم العرضي */}
+        <div className="grid grid-cols-1 gap-3 sm:hidden">
+          {currentTopic.questionWordsTable?.map((item, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-2xl border border-zinc-200/90 p-4 shadow-xs space-y-3"
+            >
+              {/* الرأس: الأداة + المعنى + زر النطق */}
+              <div className="flex items-center justify-between border-b border-zinc-100 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="px-2.5 py-1 rounded-xl bg-indigo-600 text-white font-mono font-black text-sm shadow-2xs"
+                    dir="ltr"
+                  >
+                    {item.word}
+                  </span>
+                  <span className="font-arabic font-bold text-xs text-zinc-900">
+                    {item.meaningAr}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onSpeak(item.word)}
+                  className="p-1.5 rounded-lg bg-zinc-50 border border-zinc-200 text-zinc-600 hover:text-indigo-600 cursor-pointer shadow-2xs"
+                  title={`استمع لنطق ${item.word}`}
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* الاستخدام */}
+              <div className="bg-zinc-50/80 rounded-xl p-2.5 border border-zinc-200/80 text-right space-y-0.5">
+                <span className="text-[10px] font-bold text-indigo-700 font-arabic block">
+                  عن ماذا تسأل؟
+                </span>
+                <p className="text-xs text-zinc-700 font-arabic leading-relaxed">
+                  {item.usageAr}
+                </p>
+              </div>
+
+              {/* المثال المنهجي */}
+              <div className="bg-indigo-50/40 rounded-xl p-2.5 border border-indigo-100 flex items-center justify-between gap-2 text-left" dir="ltr">
+                <div>
+                  <span className="font-sans font-bold text-xs text-zinc-900 block">
+                    {item.exampleEn}
+                  </span>
+                  <span className="text-[11px] font-arabic text-zinc-600 block text-right mt-0.5" dir="rtl">
+                    {item.exampleAr}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onSpeak(item.exampleEn)}
+                  className="p-1 rounded bg-white border border-zinc-200 text-zinc-600 hover:text-zinc-900 cursor-pointer shrink-0 shadow-2xs"
+                  title="استمع للمثال كاملاً"
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* جدول الديسك توب التفاعلي (hidden sm:block) */}
+        <div className="hidden sm:block overflow-x-auto rounded-2xl border border-zinc-200/90 shadow-2xs">
           <table className="w-full text-right border-collapse">
             <thead>
               <tr className="bg-zinc-50 text-zinc-900 text-xs font-bold font-arabic border-b border-zinc-200">
-                <th className="p-3 text-center sm:text-right">أداة الاستفهام (Word)</th>
-                <th className="p-3">المعنى بالعربية</th>
-                <th className="p-3">الاستخدام وماذا تسأل عنه</th>
-                <th className="p-3">مثال منهجي ناطق</th>
+                <th className="p-3.5 text-center sm:text-right">أداة الاستفهام (Word)</th>
+                <th className="p-3.5">المعنى بالعربية</th>
+                <th className="p-3.5">الاستخدام وماذا تسأل عنه</th>
+                <th className="p-3.5">مثال منهجي ناطق</th>
               </tr>
             </thead>
             <tbody className="text-xs font-sans divide-y divide-zinc-200">
               {currentTopic.questionWordsTable?.map((item, idx) => (
-                <tr key={idx} className="hover:bg-indigo-50/30 transition-colors">
-                  <td className="p-3 font-black font-mono text-indigo-700 text-sm whitespace-nowrap" dir="ltr">
+                <tr key={idx} className="hover:bg-indigo-50/20 transition-colors">
+                  <td className="p-3.5 font-black font-mono text-indigo-700 text-sm whitespace-nowrap" dir="ltr">
                     <div className="flex items-center gap-2">
                       <button
+                        type="button"
                         onClick={() => onSpeak(item.word)}
-                        className="p-1 rounded bg-zinc-100 hover:bg-indigo-100 text-zinc-600 hover:text-indigo-700 cursor-pointer transition-colors"
+                        className="p-1 rounded bg-zinc-100 hover:bg-indigo-100 text-zinc-600 hover:text-indigo-700 cursor-pointer transition-colors shadow-2xs"
                         title={`استمع لنطق ${item.word}`}
                       >
                         <Volume2 className="w-3.5 h-3.5" />
                       </button>
-                      <span>{item.word}</span>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-800">
+                        {item.word}
+                      </span>
                     </div>
                   </td>
-                  <td className="p-3 font-bold font-arabic text-zinc-900 whitespace-nowrap">
+                  <td className="p-3.5 font-bold font-arabic text-zinc-900 whitespace-nowrap">
                     {item.meaningAr}
                   </td>
-                  <td className="p-3 font-arabic text-zinc-600 leading-relaxed">
+                  <td className="p-3.5 font-arabic text-zinc-700 leading-relaxed">
                     {item.usageAr}
                   </td>
-                  <td className="p-3">
+                  <td className="p-3.5">
                     <div className="flex items-center justify-between gap-2 min-w-[220px]">
                       <div className="text-left" dir="ltr">
-                        <span className="font-bold text-zinc-800 text-xs block">
+                        <span className="font-bold text-zinc-900 text-xs block">
                           {item.exampleEn}
                         </span>
                         <span className="text-[11px] font-arabic font-normal text-zinc-500 block text-right mt-0.5" dir="rtl">
@@ -101,8 +167,9 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                         </span>
                       </div>
                       <button
+                        type="button"
                         onClick={() => onSpeak(item.exampleEn)}
-                        className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 cursor-pointer shrink-0 transition-colors"
+                        className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 cursor-pointer shrink-0 transition-colors shadow-2xs"
                         title="استمع للمثال كاملاً"
                       >
                         <Volume2 className="w-3.5 h-3.5" />
@@ -115,22 +182,22 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
           </table>
         </div>
 
-        {/* نصيحة ذهبية */}
-        <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-4 text-right flex items-start gap-3">
+        {/* نصيحة ذهبية بحواف مظللة */}
+        <div className="bg-indigo-50/70 border border-indigo-200/90 rounded-2xl p-4 text-right flex items-start gap-3 shadow-2xs">
           <Sparkles className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <span className="text-xs font-bold text-indigo-900 font-arabic block">
-              القاعدة الذهبية لأدوات الاستفهام:
+            <span className="text-xs font-bold text-indigo-950 font-arabic block">
+              القاعدة الذهبية لأدوات الاستفهام في الامتحانات:
             </span>
-            <p className="text-xs text-indigo-800 font-arabic leading-relaxed">
-              عند تكوين السؤال، يتم <strong>حذف جواب الأداة</strong> من الجملة. فإذا سألت بـ <span className="font-mono font-bold">Where</span> نحذف اسم المكان، وإذا سألت بـ <span className="font-mono font-bold">When</span> نحذف الزمان، وإذا سألت بـ <span className="font-mono font-bold">Who</span> نحذف اسم الفاعل العاقل!
+            <p className="text-xs text-indigo-900 font-arabic leading-relaxed">
+              عند تكوين السؤال، يتم <strong>حذف جواب الأداة</strong> من الجملة. فإذا سألت بـ <span className="font-mono font-bold text-indigo-700">Where</span> نحذف اسم المكان، وإذا سألت بـ <span className="font-mono font-bold text-indigo-700">When</span> نحذف الزمان، وإذا سألت بـ <span className="font-mono font-bold text-indigo-700">Who</span> نحذف اسم الفاعل العاقل!
             </p>
           </div>
         </div>
       </div>
 
-      {/* 2. قواعد تكوين السؤال وصيغ المعادلات (Question Formation Rules) */}
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-2xs space-y-6 text-right">
+      {/* 2. قواعد تكوين السؤال وصيغ المعادلات بكبسولات ملونة زاهية */}
+      <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-6 text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-3">
           <div>
             <span className="text-xs font-bold text-indigo-600 font-arabic block">
@@ -152,20 +219,20 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
           {currentTopic.questionRules?.map((sec, idx) => (
             <div
               key={idx}
-              className="p-5 bg-zinc-50/70 border border-zinc-200 rounded-2xl space-y-3.5"
+              className="p-5 bg-zinc-50/80 border border-zinc-200/90 rounded-2xl space-y-3.5 shadow-2xs"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-zinc-200/60 pb-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-zinc-200/70 pb-2">
                 <h5 className="text-sm sm:text-base font-black text-zinc-900 font-arabic">
                   {sec.titleAr}
                 </h5>
-                <span className="text-xs font-mono font-bold text-indigo-600" dir="ltr">
+                <span className="text-xs font-mono font-bold text-indigo-700" dir="ltr">
                   {sec.ruleTitleEn}
                 </span>
               </div>
 
-              {/* رقائق معادلة القاعدة */}
+              {/* رقائق معادلة القاعدة بكبسولات ملونة واضحة */}
               <div
-                className="flex flex-wrap items-center justify-center gap-1.5 py-2.5 px-3 bg-white rounded-xl border border-zinc-200 shadow-2xs"
+                className="flex flex-wrap items-center justify-center gap-1.5 py-2.5 px-3 bg-white rounded-xl border border-zinc-200/90 shadow-2xs font-mono text-xs"
                 dir="ltr"
               >
                 {sec.formulaChips.map((chip, cIdx) => (
@@ -173,9 +240,15 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                     key={cIdx}
                     className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
                       chip.isHighlight
-                        ? 'bg-indigo-600 text-white font-mono shadow-2xs'
+                        ? 'bg-indigo-600 text-white font-mono shadow-xs ring-2 ring-indigo-200'
                         : chip.text === '+' || chip.text === 'أو'
                         ? 'text-indigo-600 font-bold px-1'
+                        : chip.text === 'did' || chip.text === 'do / does' || chip.text === 'was / were'
+                        ? 'bg-blue-600 text-white font-mono shadow-2xs'
+                        : chip.text === 'Base' || chip.text === 'فعل مجرد' || chip.text === 'فعل رئيسي' || chip.text === 'فعل + ing'
+                        ? 'bg-emerald-600 text-white font-mono shadow-2xs'
+                        : chip.text === '?'
+                        ? 'bg-amber-500 text-white font-black text-sm px-2 shadow-2xs'
                         : 'bg-zinc-100 border border-zinc-200 text-zinc-800 font-arabic'
                     }`}
                     title={chip.note || undefined}
@@ -194,7 +267,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                 {sec.examples.map((ex, exIdx) => (
                   <div
                     key={exIdx}
-                    className="p-3 bg-white border border-zinc-200 rounded-xl flex items-center justify-between gap-3 shadow-2xs text-left"
+                    className="p-3 bg-white border border-zinc-200/90 rounded-xl flex items-center justify-between gap-3 shadow-2xs text-left"
                     dir="ltr"
                   >
                     <div className="space-y-0.5">
@@ -206,8 +279,9 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                       </span>
                     </div>
                     <button
+                      type="button"
                       onClick={() => onSpeak(ex.en)}
-                      className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 cursor-pointer shrink-0 transition-colors"
+                      className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 cursor-pointer shrink-0 transition-colors shadow-2xs"
                       title="استمع للمثال"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
@@ -222,7 +296,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
 
       {/* 3. تطبيقات وتمارين كتاب النشاط مفصخة خطوة بخطوة (Step-by-step Dissection) */}
       {currentTopic.questionApplications && currentTopic.questionApplications.length > 0 && (
-        <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-2xs space-y-6 text-right">
+        <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-6 text-right">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
             <div>
               <span className="text-xs font-bold text-indigo-600 font-arabic block">
@@ -241,7 +315,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
             {currentTopic.questionApplications.map((item, idx) => (
               <div
                 key={item.id}
-                className="p-5 sm:p-6 bg-white border border-zinc-200 rounded-2xl shadow-2xs space-y-4"
+                className="p-5 sm:p-6 bg-white border border-zinc-200/90 rounded-2xl shadow-xs space-y-4"
               >
                 {/* رأس السؤال والتوجيه */}
                 <div className="flex items-start justify-between gap-3 border-b border-zinc-100 pb-3">
@@ -262,8 +336,9 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                     </h5>
                   </div>
                   <button
+                    type="button"
                     onClick={() => onSpeak(item.problemEn)}
-                    className="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 cursor-pointer shrink-0 transition-colors"
+                    className="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 cursor-pointer shrink-0 transition-colors shadow-2xs"
                     title="استمع للجملة الأصلية"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -274,13 +349,14 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                 {item.dissection && (
                   <div className="space-y-2">
                     <span className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                       <span>تفصيخ الجملة (تحليل أركانها قبل صياغة السؤال):</span>
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                       {item.dissection.map((part: any, pIdx: number) => (
                         <div
                           key={pIdx}
-                          className="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200 text-right space-y-0.5"
+                          className="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200/90 text-right space-y-0.5 shadow-2xs"
                         >
                           <span className="text-[10px] font-bold text-indigo-700 font-arabic block">
                             {part.label}:
@@ -304,13 +380,13 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                       {item.cumulativeSteps.map((step: any) => (
                         <div
                           key={step.stepNumber}
-                          className="p-3 bg-zinc-50/80 rounded-xl border border-zinc-200 text-right space-y-1.5"
+                          className="p-3 bg-zinc-50/80 rounded-xl border border-zinc-200/90 text-right space-y-1.5 shadow-2xs"
                         >
                           <div className="flex items-center justify-between gap-2">
                             <span className="text-xs font-black text-zinc-900 font-arabic">
                               {step.titleAr}
                             </span>
-                            <span className="px-2 py-0.5 rounded-md bg-white border border-zinc-200 text-[10px] font-bold text-indigo-700 font-mono">
+                            <span className="px-2 py-0.5 rounded-md bg-white border border-zinc-200 text-[10px] font-bold text-indigo-700 font-mono shadow-2xs">
                               Step {step.stepNumber}
                             </span>
                           </div>
@@ -319,7 +395,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                           </p>
                           {/* تطور الجملة خطوة بخطوة */}
                           <div
-                            className="p-2 bg-white rounded-lg border border-zinc-200 text-left font-mono text-xs sm:text-sm font-bold text-zinc-800"
+                            className="p-2.5 bg-white rounded-lg border border-zinc-200 text-left font-mono text-xs sm:text-sm font-bold text-zinc-800 shadow-2xs"
                             dir="ltr"
                           >
                             <span
@@ -339,7 +415,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                 )}
 
                 {/* 3. الحل النموذجي النهائي */}
-                <div className="p-3.5 bg-emerald-50/70 border border-emerald-300 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                <div className="p-4 bg-emerald-50/80 border border-emerald-300 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
                   <div className="space-y-1 text-left" dir="ltr">
                     <span
                       className="text-[11px] font-bold text-emerald-800 font-arabic block text-right"
@@ -352,8 +428,9 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                     </span>
                   </div>
                   <button
+                    type="button"
                     onClick={() => onSpeak(item.solutionEn)}
-                    className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs transition-colors self-start sm:self-center font-arabic"
+                    className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-colors self-start sm:self-center font-arabic"
                   >
                     <Volume2 className="w-3.5 h-3.5" />
                     <span>استمع للسؤال</span>
@@ -361,8 +438,8 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                 </div>
 
                 {/* 4. ملاحظة تعليمية */}
-                <div className="p-3 bg-amber-50/60 border border-amber-200 rounded-xl text-right">
-                  <p className="text-xs text-amber-900 font-arabic leading-relaxed">
+                <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-xl text-right shadow-2xs">
+                  <p className="text-xs text-amber-950 font-arabic leading-relaxed">
                     <strong className="font-bold">توضيح المعلم: </strong>
                     {item.noteAr}
                   </p>
@@ -374,7 +451,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
       )}
 
       {/* 4. اختبار الامتحانات الشهرية التفاعلي (Interactive Exam Practice) */}
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-2xs space-y-6 text-right">
+      <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-6 text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
           <div>
             <span className="text-xs font-bold text-indigo-600 font-arabic block">
@@ -386,8 +463,9 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
           </div>
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={handleResetPractice}
-              className="px-3 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors font-arabic"
+              className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors font-arabic shadow-2xs"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>إعادة المحاولة</span>
@@ -407,7 +485,13 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
             return (
               <div
                 key={q.id}
-                className="p-5 bg-zinc-50/70 border border-zinc-200 rounded-2xl space-y-3.5 text-right transition-all"
+                className={`p-5 rounded-2xl border transition-all text-right ${
+                  isRevealed
+                    ? isCorrect
+                      ? 'border-emerald-400 bg-emerald-50/50 shadow-xs'
+                      : 'border-rose-300 bg-rose-50/50 shadow-xs'
+                    : 'border-zinc-200/90 bg-zinc-50/70 shadow-xs'
+                }`}
               >
                 {/* رأس السؤال */}
                 <div className="flex items-start justify-between gap-3">
@@ -439,12 +523,13 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                       {q.questionEn}
                     </p>
                     {q.questionAr && visibleTranslations[q.id] && (
-                      <p className="text-xs text-zinc-700 font-arabic mt-1.5 p-2 bg-white rounded-lg border border-zinc-200 text-right animate-in fade-in duration-150" dir="rtl">
+                      <p className="text-xs text-zinc-700 font-arabic mt-1.5 p-2 bg-white rounded-lg border border-zinc-200/80 text-right animate-in fade-in duration-150" dir="rtl">
                         {q.questionAr}
                       </p>
                     )}
                   </div>
                   <button
+                    type="button"
                     onClick={() => onSpeak(q.questionEn.replace('______', 'blank'))}
                     className="p-1.5 rounded-lg bg-white border border-zinc-200 text-zinc-600 hover:text-indigo-600 cursor-pointer shrink-0 transition-colors shadow-2xs"
                     title="استمع للسؤال"
@@ -465,9 +550,9 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                       if (isRevealed) {
                         if (isThisCorrect) {
                           btnStyle =
-                            'bg-emerald-600 border-emerald-600 text-white shadow-2xs font-bold';
+                            'bg-emerald-600 border-emerald-600 text-white shadow-xs font-bold';
                         } else if (isOptionSelected && !isThisCorrect) {
-                          btnStyle = 'bg-rose-600 border-rose-600 text-white shadow-2xs';
+                          btnStyle = 'bg-rose-600 border-rose-600 text-white shadow-xs';
                         } else {
                           btnStyle = 'bg-zinc-100 border-zinc-200 text-zinc-400 opacity-60';
                         }
@@ -476,6 +561,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                       return (
                         <button
                           key={oIdx}
+                          type="button"
                           onClick={() => handleSelectAnswer(q.id, opt, isThisCorrect)}
                           disabled={isRevealed}
                           className={`p-2.5 rounded-xl border text-xs sm:text-sm font-mono font-bold transition-all cursor-pointer ${btnStyle}`}
@@ -490,7 +576,7 @@ export const WhQuestionsView: React.FC<WhQuestionsViewProps> = ({
                 {/* توضيح الإجابة عند الحل */}
                 {isRevealed && (
                   <div
-                    className={`p-3.5 rounded-xl border flex items-start gap-2.5 transition-all ${
+                    className={`p-3.5 rounded-xl border flex items-start gap-2.5 transition-all shadow-2xs ${
                       isCorrect
                         ? 'bg-emerald-50/80 border-emerald-300 text-emerald-950'
                         : 'bg-rose-50/80 border-rose-300 text-rose-950'
