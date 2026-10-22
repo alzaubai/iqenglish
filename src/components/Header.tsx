@@ -8,6 +8,7 @@ interface HeaderProps {
   studentSection?: string;
   isTeacher?: boolean;
   onLogoutTeacher?: () => void;
+  onLogoutStudent?: () => void;
   isExamActive?: boolean;
   onOpenExam?: () => void;
   onOpenTeacherDashboard?: () => void;
@@ -21,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   studentSection,
   isTeacher,
   onLogoutTeacher,
+  onLogoutStudent,
   isExamActive,
   onOpenExam,
   onOpenTeacherDashboard,
@@ -131,13 +133,25 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* STUDENT MODE: Show student name badge (Clean on both mobile & desktop) */}
+            {/* STUDENT MODE: Show student name badge and Logout button */}
             {!isTeacher && studentName && (
-              <div className="flex items-center gap-1.5 bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-xl text-xs text-slate-700 font-arabic shrink-0">
-                <User className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                <span className="font-bold truncate max-w-[110px] sm:max-w-none">
-                  {studentName} {studentSection ? `(${studentSection})` : ''}
-                </span>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center gap-1.5 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-xl text-xs text-slate-700 font-arabic shadow-2xs">
+                  <User className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                  <span className="font-bold truncate max-w-[95px] sm:max-w-none">
+                    {studentName} {studentSection ? `(${studentSection})` : ''}
+                  </span>
+                </div>
+                {onLogoutStudent && (
+                  <button
+                    onClick={onLogoutStudent}
+                    className="p-1 sm:px-2.5 sm:py-1 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs flex items-center gap-1 cursor-pointer font-arabic transition-all shadow-2xs shrink-0"
+                    title="تسجيل خروج الطالب"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">خروج</span>
+                  </button>
+                )}
               </div>
             )}
           </div>

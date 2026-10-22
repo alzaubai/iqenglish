@@ -40,12 +40,20 @@ export const SubscriptionRowItem: React.FC<SubscriptionRowItemProps> = ({
     (SUBSCRIPTION_DURATIONS_MAP && SUBSCRIPTION_DURATIONS_MAP['3_months']) ||
     { labelAr: 'اشتراك أونلاين' };
 
+  const isTrial = item.duration === '1_hour' || item.duration === '1_day' || item.duration === '1_week';
+
   let timeRemainingText = '';
   if (item.expiresAt) {
     const diff = new Date(item.expiresAt).getTime() - Date.now();
-    if (item.duration === '1_hour') {
+    if (diff <= 0) {
+      timeRemainingText = 'منتهي الصلاحية';
+    } else if (item.duration === '1_hour') {
       const mins = Math.max(0, Math.ceil(diff / (1000 * 60)));
       timeRemainingText = `متبقي ${mins} دقيقة`;
+    } else if (item.duration === '1_day') {
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      timeRemainingText = `متبقي ${hours} ساعة و ${mins} دقيقة`;
     } else {
       const days = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
       timeRemainingText = `متبقي ${days} يوم`;
@@ -57,8 +65,8 @@ export const SubscriptionRowItem: React.FC<SubscriptionRowItemProps> = ({
         year: 'numeric',
         month: 'short',
         day: 'numeric',
-        hour: item.duration === '1_hour' ? '2-digit' : undefined,
-        minute: item.duration === '1_hour' ? '2-digit' : undefined,
+        hour: isTrial ? '2-digit' : undefined,
+        minute: isTrial ? '2-digit' : undefined,
       })
     : null;
 
@@ -88,7 +96,7 @@ export const SubscriptionRowItem: React.FC<SubscriptionRowItemProps> = ({
             </span>
           ) : (
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 font-arabic">
-              {item.duration === '1_hour' ? 'متاح للتجربة والإرسال' : 'متاح للبيع والإرسال'}
+              {isTrial ? 'متاح للتجربة والإرسال' : 'متاح للبيع والإرسال'}
             </span>
           )}
         </div>

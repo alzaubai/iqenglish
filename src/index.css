@@ -29,15 +29,15 @@
 /* Layered Paper Stack Visuals */
 .layer-card-base {
   background: #ffffff;
-  border: 1px solid #e4e4e7;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 4px 10px -1px rgba(0, 0, 0, 0.08), 0 2px 5px -2px rgba(0, 0, 0, 0.04);
 }
 
 .layer-stack-shadow {
   box-shadow: 
-    0 1px 1px rgba(0,0,0,0.03),
-    0 4px 8px rgba(0,0,0,0.04),
-    0 16px 32px rgba(0,0,0,0.05);
+    0 2px 4px rgba(0,0,0,0.04),
+    0 6px 12px rgba(0,0,0,0.06),
+    0 20px 36px rgba(0,0,0,0.08);
 }
 
 .layer-under-1 {
@@ -48,4 +48,67 @@
 .layer-under-2 {
   transform: translateY(16px) scale(0.97);
   filter: brightness(0.94);
+}
+
+/* ========================================================
+   GLOBAL PROJECT CARD POLISH: Darker Borders & Enhanced Shadows
+   ======================================================== */
+
+/* Darken card border utilities slightly for clearer contrast and definition */
+.border-zinc-200,
+.border-slate-200,
+.border-gray-200 {
+  border-color: #cbd5e1 !important; /* crisp slate-300 */
+}
+
+.border-zinc-300,
+.border-slate-300 {
+  border-color: #94a3b8 !important; /* slate-400 */
+}
+
+/* Deepen & elevate shadow utilities */
+.shadow-2xs {
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08) !important;
+}
+
+.shadow-xs {
+  box-shadow: 0 2px 5px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.05) !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 4px 8px -1px rgba(15, 23, 42, 0.10), 0 2px 4px -2px rgba(15, 23, 42, 0.06) !important;
+}
+
+.shadow-md {
+  box-shadow: 0 8px 18px -2px rgba(15, 23, 42, 0.12), 0 4px 8px -2px rgba(15, 23, 42, 0.06) !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 16px 28px -4px rgba(15, 23, 42, 0.15), 0 6px 12px -3px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* All primary white cards with rounded corners across the app */
+div.bg-white.rounded-2xl,
+div.bg-white.rounded-3xl,
+article.bg-white.rounded-2xl,
+article.bg-white.rounded-3xl,
+section.bg-white.rounded-2xl,
+section.bg-white.rounded-3xl {
+  box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.09), 0 2px 6px -1px rgba(15, 23, 42, 0.05);
+}
+
+/* Interactive Card Buttons (Unit selector cards, lesson cards, quiz cards) */
+button.bg-white.rounded-2xl,
+button.bg-white.rounded-3xl,
+a.bg-white.rounded-2xl,
+a.bg-white.rounded-3xl {
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 2px 5px -1px rgba(15, 23, 42, 0.04);
+}
+
+button.bg-white.rounded-2xl:hover,
+button.bg-white.rounded-3xl:hover,
+a.bg-white.rounded-2xl:hover,
+a.bg-white.rounded-3xl:hover {
+  box-shadow: 0 10px 22px -3px rgba(15, 23, 42, 0.14), 0 4px 8px -2px rgba(15, 23, 42, 0.06) !important;
+  border-color: #64748b !important;
 }

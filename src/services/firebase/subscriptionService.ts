@@ -165,9 +165,15 @@ export const activateExternalSubscription = async (
 
   // First time activation
   const isOneHour = existingSub.duration === '1_hour';
+  const isOneDay = existingSub.duration === '1_day';
+  const isOneWeek = existingSub.duration === '1_week';
   const now = Date.now();
   const durationMs = isOneHour
     ? 60 * 60 * 1000
+    : isOneDay
+    ? 24 * 60 * 60 * 1000
+    : isOneWeek
+    ? 7 * 24 * 60 * 60 * 1000
     : (existingSub.durationDays || 90) * 24 * 60 * 60 * 1000;
   const expiresAt = new Date(now + durationMs).toISOString();
 

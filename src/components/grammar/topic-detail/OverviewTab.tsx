@@ -307,8 +307,128 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({ currentTopic, onSpeak 
             </div>
           </div>
 
-          {/* Table */}
-          <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+          {/* Mobile Card View (sm:hidden) */}
+          <div className="grid grid-cols-1 gap-2.5 sm:hidden">
+            {filteredVerbs.length === 0 ? (
+              <div className="p-6 text-center text-zinc-400 font-arabic bg-white rounded-2xl border border-zinc-200">
+                لا توجد أفعال مطابقة للبحث
+              </div>
+            ) : (
+              filteredVerbs.map((v, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-2xl border border-zinc-200 p-3.5 shadow-xs space-y-2.5"
+                >
+                  <div className="flex items-center justify-between border-b border-zinc-100 pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-arabic font-bold text-sm text-zinc-900">
+                        {v.ar}
+                      </span>
+                      {currentTopic.id === 'u2-topic-comparatives' ? (
+                        v.type === 'regular' ? (
+                          <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-[10px]">
+                            منتظم (er / est)
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200 font-bold text-[10px]">
+                            شاذ (يحفظ)
+                          </span>
+                        )
+                      ) : currentTopic.id === 'u2-topic-future-will' ? (
+                        <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-bold text-[10px]">
+                          مصدر مجرد (Base)
+                        </span>
+                      ) : currentTopic.id === 'topic-past-continuous' ? (
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-[10px]">
+                          مستمر (V-ing)
+                        </span>
+                      ) : currentTopic.id === 'topic-present-simple' ? (
+                        v.type === 'regular' ? (
+                          <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-bold text-[10px]">
+                            قياسي (+s)
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200 font-bold text-[10px]">
+                            شاذ
+                          </span>
+                        )
+                      ) : v.type === 'regular' ? (
+                        <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-bold text-[10px]">
+                          قياسي (ed)
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200 font-bold text-[10px]">
+                          شاذ (يحفظ)
+                        </span>
+                      )}
+                    </div>
+                    {v.note && (
+                      <span className="text-[10px] text-zinc-500 font-arabic bg-zinc-50 px-2 py-0.5 rounded-lg border border-zinc-100">
+                        {v.note}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-center" dir="ltr">
+                    <div className="bg-zinc-50 rounded-xl p-2.5 border border-zinc-200/80 flex items-center justify-between">
+                      <div className="text-right">
+                        <div className="text-[10px] font-medium text-zinc-400 uppercase tracking-wider mb-0.5">
+                          {currentTopic.id === 'u2-topic-comparatives' ? 'Adjective' : 'Base'}
+                        </div>
+                        <div className="font-mono font-bold text-xs text-zinc-900">
+                          {v.base}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => onSpeak(v.base)}
+                        className="p-1 rounded-lg bg-white border border-zinc-200 text-zinc-600 hover:text-indigo-600 cursor-pointer shadow-2xs"
+                        title="استمع"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <div className="bg-indigo-50/50 rounded-xl p-2.5 border border-indigo-200/80 flex items-center justify-between">
+                      <div className="text-right">
+                        <div className="text-[10px] font-bold text-indigo-700 uppercase tracking-wider mb-0.5">
+                          {currentTopic.id === 'topic-past-continuous'
+                            ? 'V-ing'
+                            : currentTopic.id === 'u2-topic-future-will'
+                            ? 'will + Base'
+                            : currentTopic.id === 'u2-topic-comparatives'
+                            ? 'Comparative'
+                            : currentTopic.id === 'topic-present-simple'
+                            ? 'Verb + s'
+                            : 'Past'}
+                        </div>
+                        <div className={`font-mono font-bold text-xs ${v.type === 'regular' ? 'text-blue-700' : 'text-purple-700'}`}>
+                          {v.past}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          onSpeak(
+                            currentTopic.id === 'u2-topic-future-will'
+                              ? v.past
+                              : v.past.replace('/', 'and')
+                          )
+                        }
+                        className="p-1 rounded-lg bg-white border border-indigo-200 text-indigo-700 hover:text-indigo-900 cursor-pointer shadow-2xs"
+                        title="استمع"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table (hidden sm:block) */}
+          <div className="hidden sm:block overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
             <table className="w-full text-right border-collapse text-xs">
               <thead>
                 <tr className="bg-zinc-50 text-zinc-900 font-bold font-arabic border-b border-zinc-200">

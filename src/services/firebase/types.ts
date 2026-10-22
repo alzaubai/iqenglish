@@ -10,7 +10,7 @@ export interface StudentSession {
   // External Subscriber Fields
   isExternalSubscriber?: boolean;
   governorate?: string;
-  subscriptionDuration?: '1_hour' | '1_month' | '3_months' | '6_months' | '1_year';
+  subscriptionDuration?: SubscriptionDuration;
   subscriptionExpiresAt?: string;
   deviceId?: string;
 }
@@ -72,13 +72,22 @@ export interface SingleUseCode {
   usedAt?: string;
 }
 
-export type SubscriptionDuration = '1_hour' | '1_month' | '3_months' | '6_months' | '1_year';
+export type SubscriptionDuration =
+  | '1_hour'
+  | '1_day'
+  | '1_week'
+  | '1_month'
+  | '3_months'
+  | '6_months'
+  | '1_year';
 
 export const SUBSCRIPTION_DURATIONS_MAP: Record<
   SubscriptionDuration,
   { labelAr: string; days: number; prefix: string }
 > = {
-  '1_hour': { labelAr: 'تجريبي (ساعة واحدة)', days: 1 / 24, prefix: 'TRIAL-1H' },
+  '1_hour': { labelAr: 'تجريبي: ساعة واحدة', days: 1 / 24, prefix: 'TRIAL-1H' },
+  '1_day': { labelAr: 'تجريبي: يوم كامل (24 ساعة)', days: 1, prefix: 'TRIAL-1D' },
+  '1_week': { labelAr: 'تجريبي: أسبوع كامل (7 أيام)', days: 7, prefix: 'TRIAL-1W' },
   '1_month': { labelAr: 'شهر واحد (30 يوم)', days: 30, prefix: 'SUB-1M' },
   '3_months': { labelAr: '3 أشهر (90 يوم)', days: 90, prefix: 'SUB-3M' },
   '6_months': { labelAr: '6 أشهر (180 يوم)', days: 180, prefix: 'SUB-6M' },

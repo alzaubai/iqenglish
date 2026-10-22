@@ -199,8 +199,86 @@ export const Unit3GrammarView: React.FC<Unit3GrammarViewProps> = ({ topicId, onS
               );
 
               return (
-                <div key={tblIdx} className="overflow-x-auto">
-                  <table className="w-full text-right text-xs border border-zinc-200 rounded-2xl overflow-hidden">
+                <div key={tblIdx} className="space-y-4">
+                  {/* Mobile Card View (sm:hidden) */}
+                  <div className="grid grid-cols-1 gap-2.5 sm:hidden">
+                    {filteredRows.map((r, rIdx) => {
+                      const ppForm =
+                        r.base === 'sweep' ? 'swept' :
+                        r.base === 'go' ? 'gone' :
+                        r.base === 'see' ? 'seen' :
+                        r.base === 'eat' ? 'eaten' :
+                        r.base === 'drink' ? 'drunk' :
+                        r.base === 'do' ? 'done' :
+                        r.base === 'write' ? 'written' :
+                        r.base === 'ride' ? 'ridden' :
+                        r.base === 'give' ? 'given' :
+                        r.past;
+
+                      return (
+                        <div
+                          key={rIdx}
+                          className="bg-white rounded-2xl border border-zinc-200 p-3.5 shadow-xs space-y-2.5"
+                        >
+                          <div className="flex items-center justify-between border-b border-zinc-100 pb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="font-arabic font-bold text-sm text-slate-900">
+                                {r.meaningAr}
+                              </span>
+                              <span
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                                  r.type === 'irregular'
+                                    ? 'bg-rose-50 text-rose-700 border-rose-200'
+                                    : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                }`}
+                              >
+                                {r.type === 'irregular' ? 'شاذ' : 'قياسي'}
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => onSpeak(`${r.base}, ${r.past}, ${ppForm}`)}
+                              className="p-1.5 rounded-xl bg-zinc-100 text-slate-700 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                              title="استمع للنطق"
+                            >
+                              <Volume2 className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-1.5 text-center" dir="ltr">
+                            <div className="bg-zinc-50 rounded-xl p-2 border border-zinc-200/80">
+                              <div className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-0.5">
+                                Base
+                              </div>
+                              <div className="font-mono font-bold text-xs text-slate-900">
+                                {r.base}
+                              </div>
+                            </div>
+                            <div className="bg-zinc-50 rounded-xl p-2 border border-zinc-200/80">
+                              <div className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-0.5">
+                                Past
+                              </div>
+                              <div className="font-mono font-semibold text-xs text-slate-800">
+                                {r.past}
+                              </div>
+                            </div>
+                            <div className="bg-indigo-50/70 rounded-xl p-2 border border-indigo-200/80">
+                              <div className="text-[10px] font-bold text-indigo-700 uppercase tracking-wider mb-0.5">
+                                P.P.
+                              </div>
+                              <div className="font-mono font-black text-xs text-indigo-700">
+                                {ppForm}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Desktop Table (hidden sm:block) */}
+                  <div className="hidden sm:block overflow-x-auto">
+                    <table className="w-full text-right text-xs border border-zinc-200 rounded-2xl overflow-hidden">
                     <thead className="bg-slate-900 text-white font-arabic">
                       <tr>
                         <th className="p-3">المصدر (Base)</th>
@@ -265,7 +343,8 @@ export const Unit3GrammarView: React.FC<Unit3GrammarViewProps> = ({ topicId, onS
                     </tbody>
                   </table>
                 </div>
-              );
+              </div>
+            );
             })}
           </div>
         </div>

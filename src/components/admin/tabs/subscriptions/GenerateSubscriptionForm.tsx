@@ -51,40 +51,68 @@ export const GenerateSubscriptionForm: React.FC<GenerateSubscriptionFormProps> =
       {/* Form Options */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
         {/* Duration Picker */}
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <label className="text-xs font-bold text-slate-700 font-arabic flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5 text-slate-600" />
             <span>الخطوة 1: اختيار مدة صلاحية الاشتراك:</span>
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-            {(['1_hour', '1_month', '3_months', '6_months', '1_year'] as SubscriptionDuration[]).map((dur) => {
-              const meta = (SUBSCRIPTION_DURATIONS_MAP && SUBSCRIPTION_DURATIONS_MAP[dur]) || {
-                labelAr:
-                  dur === '1_hour'
-                    ? 'تجريبي (ساعة واحدة)'
-                    : dur === '1_month'
-                    ? 'شهر واحد (30 يوم)'
-                    : dur === '3_months'
-                    ? '3 أشهر (90 يوم)'
-                    : dur === '6_months'
-                    ? '6 أشهر (180 يوم)'
-                    : 'سنة كاملة (365 يوم)',
-              };
+
+          {/* Standard Durations */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+            {(['1_month', '3_months', '6_months', '1_year'] as SubscriptionDuration[]).map((dur) => {
+              const meta = SUBSCRIPTION_DURATIONS_MAP[dur];
               return (
                 <button
                   key={dur}
                   type="button"
                   onClick={() => setSubDurationInput(dur)}
-                  className={`py-2 px-2.5 rounded-xl border text-xs font-bold font-arabic transition-all cursor-pointer text-center ${
+                  className={`py-2 px-2 rounded-xl border text-xs font-bold font-arabic transition-all cursor-pointer text-center ${
                     subDurationInput === dur
                       ? 'bg-slate-800 text-white border-slate-800 shadow-2xs'
                       : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'
                   }`}
                 >
-                  {meta?.labelAr}
+                  {meta?.labelAr || dur}
                 </button>
               );
             })}
+          </div>
+
+          {/* Trial Duration Dropdown */}
+          <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/90 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label htmlFor="trial-duration-select" className="text-xs font-bold text-amber-900 font-arabic flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                <span>الاشتراكات التجريبية (خيار منسدل):</span>
+              </label>
+              {(subDurationInput === '1_hour' || subDurationInput === '1_day' || subDurationInput === '1_week') && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-200 text-amber-900 font-arabic">
+                  محدد حالياً
+                </span>
+              )}
+            </div>
+            <select
+              id="trial-duration-select"
+              value={
+                subDurationInput === '1_hour' || subDurationInput === '1_day' || subDurationInput === '1_week'
+                  ? subDurationInput
+                  : ''
+              }
+              onChange={(e) => {
+                if (e.target.value) {
+                  setSubDurationInput(e.target.value as SubscriptionDuration);
+                }
+              }}
+              className="w-full px-3 py-2 rounded-lg bg-white border border-amber-300 font-arabic text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer text-right"
+              dir="rtl"
+            >
+              <option value="" disabled>
+                -- اختر مدة الاشتراك التجريبي (ساعة / يوم / أسبوع) --
+              </option>
+              <option value="1_hour">⏱️ تجريبي: ساعة واحدة (60 دقيقة)</option>
+              <option value="1_day">📅 تجريبي: يوم كامل (24 ساعة)</option>
+              <option value="1_week">🗓️ تجريبي: أسبوع كامل (7 أيام)</option>
+            </select>
           </div>
         </div>
 
@@ -132,7 +160,7 @@ export const GenerateSubscriptionForm: React.FC<GenerateSubscriptionFormProps> =
 
         <div className="flex items-center gap-1.5 flex-wrap">
           <span className="text-[11px] text-slate-500 font-arabic">توليد فوري مباشر:</span>
-          {(['1_hour', '1_month', '3_months', '6_months', '1_year'] as SubscriptionDuration[]).map((dur) => (
+          {(['1_hour', '1_day', '1_week', '1_month', '3_months', '6_months', '1_year'] as SubscriptionDuration[]).map((dur) => (
             <button
               key={dur}
               type="button"
@@ -140,7 +168,7 @@ export const GenerateSubscriptionForm: React.FC<GenerateSubscriptionFormProps> =
               disabled={isGeneratingSubCode}
               className="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-700 text-[11px] font-bold font-arabic cursor-pointer transition-colors disabled:opacity-50"
             >
-              +{dur === '1_hour' ? 'ساعة تجريبية' : dur === '1_month' ? 'شهر' : dur === '3_months' ? '3 أشهر' : dur === '6_months' ? '6 أشهر' : 'سنة'}
+              +{dur === '1_hour' ? 'ساعة تجريبية' : dur === '1_day' ? 'يوم تجريبي' : dur === '1_week' ? 'أسبوع تجريبي' : dur === '1_month' ? 'شهر' : dur === '3_months' ? '3 أشهر' : dur === '6_months' ? '6 أشهر' : 'سنة'}
             </button>
           ))}
         </div>

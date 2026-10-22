@@ -203,6 +203,7 @@ export default function App() {
         studentSection={studentSession?.section}
         isTeacher={isTeacherLoggedIn}
         onLogoutTeacher={handleLogoutTeacher}
+        onLogoutStudent={handleLogoutStudent}
         isExamActive={Boolean(activeExam && activeExam.isActive)}
         onOpenExam={() => setIsStudentExamModalOpen(true)}
         onOpenTeacherDashboard={() => setIsTeacherDashboardOpen(true)}
@@ -211,7 +212,12 @@ export default function App() {
 
       {/* 1-Hour Trial Notice Bar */}
       <TrialNoticeBar
-        isVisible={Boolean(isExternalSubscriber && studentSession?.subscriptionDuration === '1_hour')}
+        isVisible={Boolean(
+          isExternalSubscriber &&
+            (studentSession?.subscriptionDuration === '1_hour' ||
+              studentSession?.subscriptionDuration === '1_day' ||
+              studentSession?.subscriptionDuration === '1_week')
+        )}
         minutesRemaining={trialMinutesRemaining}
       />
 

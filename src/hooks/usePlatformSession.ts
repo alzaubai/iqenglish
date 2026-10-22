@@ -105,11 +105,12 @@ export function usePlatformSession() {
 
   // Trial 1-Hour remaining minutes tracker
   useEffect(() => {
-    if (
-      !isExternalSubscriber ||
-      studentSession?.subscriptionDuration !== '1_hour' ||
-      !studentSession?.subscriptionExpiresAt
-    ) {
+    const isTrial =
+      studentSession?.subscriptionDuration === '1_hour' ||
+      studentSession?.subscriptionDuration === '1_day' ||
+      studentSession?.subscriptionDuration === '1_week';
+
+    if (!isExternalSubscriber || !isTrial || !studentSession?.subscriptionExpiresAt) {
       setTrialMinutesRemaining(null);
       return;
     }
