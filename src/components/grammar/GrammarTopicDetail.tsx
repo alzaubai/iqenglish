@@ -21,6 +21,7 @@ import { WhQuestionsView } from './topic-detail/WhQuestionsView';
 import { ComparativesView } from './topic-detail/ComparativesView';
 import { OrdinalDatesView } from './topic-detail/OrdinalDatesView';
 import { Unit3GrammarView } from './topic-detail/Unit3GrammarView';
+import { Unit2GrammarView } from './topic-detail/Unit2GrammarView';
 
 interface GrammarTopicDetailProps {
   topicId: string;
@@ -114,6 +115,106 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
           </div>
         )}
         <Unit3GrammarView topicId={topicId} onSpeak={handleSpeak} />
+      </div>
+    );
+  }
+
+  // 2. DEDICATED VIEW FOR UNIT 2 TOPICS (Future Simple with will, Comparatives & Superlatives, Ordinal Numbers & Dates)
+  if (isUnit2) {
+    const unit2TopicIds = ['u2-topic-future-will', 'u2-topic-comparatives', 'u2-topic-dates-ordinals'];
+
+    // Strict Lock Guard (Allows Teacher to preview locked topics)
+    if (!isCurrentTopicUnlocked && !isTeacher) {
+      return (
+        <div className="space-y-6" dir="rtl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-zinc-200 shadow-2xs">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onBackToTopics}
+                className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center gap-1.5 cursor-pointer font-arabic transition-colors"
+              >
+                <ArrowRight className="w-3.5 h-3.5" />
+                <span>قائمة مواضيع الوحدة الثانية</span>
+              </button>
+              <button
+                onClick={onBackToUnits}
+                className="px-3 py-1.5 rounded-xl bg-zinc-50 hover:bg-zinc-100 text-zinc-600 text-xs font-medium cursor-pointer font-arabic hidden sm:inline"
+              >
+                قائمة الوحدات
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-zinc-200 p-8 sm:p-12 shadow-xs text-center space-y-4 max-w-lg mx-auto my-8">
+            <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-xs">
+              <Lock className="w-8 h-8" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-800 font-arabic">
+              هذا الموضوع القواعدي مغلق حالياً
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 font-arabic leading-relaxed">
+              تم قفل هذا الموضوع القواعدي من قبل مدرس المادة
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={onBackToTopics}
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-arabic cursor-pointer transition-colors inline-flex items-center gap-2 shadow-xs"
+              >
+                <ArrowRight className="w-4 h-4" />
+                <span>العودة لقائمة المواضيع المتاحة</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-6 font-arabic" dir="rtl">
+        {/* Breadcrumb Navigation */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-zinc-200 shadow-2xs">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onBackToTopics}
+              className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center gap-1.5 cursor-pointer font-arabic transition-colors"
+            >
+              <ArrowRight className="w-3.5 h-3.5" />
+              <span>قائمة مواضيع الوحدة الثانية</span>
+            </button>
+            <button
+              onClick={onBackToUnits}
+              className="px-3 py-1.5 rounded-xl bg-zinc-50 hover:bg-zinc-100 text-zinc-600 text-xs font-medium cursor-pointer font-arabic hidden sm:inline"
+            >
+              قائمة الوحدات
+            </button>
+          </div>
+
+          {/* Quick switcher between the 3 topics */}
+          <div className="flex items-center gap-1.5 self-end sm:self-auto">
+            {unit2TopicIds.map((id, idx) => (
+              <button
+                key={id}
+                onClick={() => onSelectTopic(id)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${topicId === id ? "bg-slate-900 text-white shadow-2xs" : "bg-zinc-100 text-slate-700 hover:bg-zinc-200"}`}
+              >
+                موضوع 0{idx + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {!isCurrentTopicUnlocked && isTeacher && (
+          <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-between gap-2 text-amber-900 font-arabic text-xs font-bold shadow-2xs">
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>وضع معاينة المعلم: هذا الموضوع مغلق حالياً أمام الطلاب من لوحة التحكم.</span>
+            </div>
+            <span className="px-2 py-0.5 rounded-md bg-amber-200/70 text-amber-950 text-[10px]">
+              معاينة الأستاذ
+            </span>
+          </div>
+        )}
+        <Unit2GrammarView topicId={topicId} onSpeak={handleSpeak} />
       </div>
     );
   }
