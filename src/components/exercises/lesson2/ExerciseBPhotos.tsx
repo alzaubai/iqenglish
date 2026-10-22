@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Languages } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { lesson2ActivityData } from '../../../data/activityBookData';
 import { CharacterAvatar } from '../../CharacterAvatar';
@@ -10,6 +11,11 @@ interface ExerciseBPhotosProps {
 export const ExerciseBPhotos: React.FC<ExerciseBPhotosProps> = ({ onProgressUpdate }) => {
   const [photoOrders, setPhotoOrders] = useState<Record<string, number | ''>>({});
   const [exBChecked, setExBChecked] = useState(false);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const checkExB = () => {
     setExBChecked(true);
@@ -112,12 +118,34 @@ export const ExerciseBPhotos: React.FC<ExerciseBPhotosProps> = ({ onProgressUpda
                 </div>
               )}
 
-              <h5 className="text-sm font-bold text-zinc-900 font-sans">
-                {photo.labelEn}
-              </h5>
-              <p className="text-xs text-zinc-500 font-arabic mt-0.5" dir="rtl">
-                {photo.labelAr}
-              </p>
+              <div className="flex items-center justify-between gap-2 mt-1">
+                <h5 className="text-sm font-bold text-zinc-900 font-sans">
+                  {photo.labelEn}
+                </h5>
+                {photo.labelAr && (
+                  <button
+                    type="button"
+                    onClick={() => toggleTranslation(photo.id)}
+                    className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                      visibleTranslations[photo.id]
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                        : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                    title="ترجمة المكان"
+                  >
+                    <Languages className="w-3 h-3 text-indigo-600" />
+                    <span>{visibleTranslations[photo.id] ? 'إخفاء الترجمة' : 'ترجمة المكان'}</span>
+                  </button>
+                )}
+              </div>
+              {photo.labelAr && visibleTranslations[photo.id] && (
+                <div
+                  className="text-xs text-zinc-700 font-arabic bg-zinc-100/80 p-1.5 rounded-lg border border-zinc-200 text-right mt-1 animate-in fade-in duration-150"
+                  dir="rtl"
+                >
+                  {photo.labelAr}
+                </div>
+              )}
             </div>
           );
         })}

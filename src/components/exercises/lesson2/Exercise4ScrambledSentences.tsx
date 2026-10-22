@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, Languages } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import {
   lesson2ActivityData,
@@ -18,6 +18,11 @@ export const Exercise4ScrambledSentences: React.FC<Exercise4ScrambledSentencesPr
     'scrambled-b': [],
   });
   const [ex4Checked, setEx4Checked] = useState<Record<string, boolean>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleWordChipClick = (sentenceId: string, word: string, add: boolean) => {
     const list = constructedTokens[sentenceId] || [];
@@ -91,10 +96,31 @@ export const Exercise4ScrambledSentences: React.FC<Exercise4ScrambledSentencesPr
                 <span className="text-xs font-bold text-zinc-800 font-sans">
                   Sentence ({idx === 0 ? 'a' : 'b'}):
                 </span>
-                <span className="text-xs text-zinc-600 font-arabic" dir="rtl">
-                  المعنى المطلوب: {item.arabicTranslation}
-                </span>
+                {item.arabicTranslation && (
+                  <button
+                    type="button"
+                    onClick={() => toggleTranslation(item.id)}
+                    className={`text-[11px] font-bold px-2.5 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                      visibleTranslations[item.id]
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                        : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                    title="ترجمة المعنى"
+                  >
+                    <Languages className="w-3 h-3 text-indigo-600" />
+                    <span>{visibleTranslations[item.id] ? 'إخفاء المعنى' : 'ترجمة المعنى'}</span>
+                  </button>
+                )}
               </div>
+
+              {item.arabicTranslation && visibleTranslations[item.id] && (
+                <div
+                  className="text-xs text-zinc-700 font-arabic bg-zinc-100/80 p-2 rounded-lg border border-zinc-200 text-right animate-in fade-in duration-150"
+                  dir="rtl"
+                >
+                  المعنى المطلوب: {item.arabicTranslation}
+                </div>
+              )}
 
               {/* Built sentence area LTR */}
               <div

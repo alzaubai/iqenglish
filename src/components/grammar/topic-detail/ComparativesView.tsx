@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Volume2, Sparkles, BookOpen, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Volume2, Sparkles, BookOpen, ArrowRight } from 'lucide-react';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
+import { ExamPracticeTab } from './ExamPracticeTab';
 
 interface ComparativesViewProps {
   currentTopic: GrammarTopicData;
@@ -12,7 +13,6 @@ export const ComparativesView: React.FC<ComparativesViewProps> = ({ currentTopic
 
   const spellingRules = currentTopic.overview?.spellingRules || [];
   const timeMarkers = currentTopic.overview?.timeMarkers || [];
-  const practiceItems: any[] = (currentTopic as any).examApplications || [];
 
   return (
     <div className="space-y-6 font-arabic" dir="rtl">
@@ -105,59 +105,93 @@ export const ComparativesView: React.FC<ComparativesViewProps> = ({ currentTopic
               ))}
             </div>
           </div>
+
+          {/* Irregular Adjectives Table */}
+          {timeMarkers.length > 0 && (
+            <div className="bg-amber-50/60 border border-amber-200 rounded-3xl p-5 sm:p-6 space-y-3">
+              <div className="flex items-center gap-2 border-b border-amber-200/70 pb-2">
+                <span className="text-sm font-black text-amber-900">
+                  الصفات الشاذة غير القياسية (حفظ مهم جداً في الامتحان):
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {timeMarkers.map((marker, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3 bg-white rounded-2xl border border-amber-200/80 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => onSpeak(`${marker.marker}, ${marker.ar}`)}
+                        className="p-1 rounded text-amber-700 hover:bg-amber-50"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                      <span className="font-mono font-bold text-slate-900" dir="ltr">
+                        {marker.marker}
+                      </span>
+                    </div>
+                    <span className="text-xs text-amber-900 font-bold font-arabic">
+                      {marker.ar}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
-      {/* TAB 2: COMPARATIVE FORMULA WITH THAN */}
+      {/* TAB 2: COMPARATIVE (than) */}
       {activeSubTab === 'comparative' && (
         <div className="space-y-5">
           <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5">
-            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+            <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
+              <BookOpen className="w-5 h-5 text-blue-600" />
               <div>
                 <h4 className="text-base sm:text-lg font-black text-slate-900">
-                  صيغة المقارنة بين طرفين (Comparative with than)
+                  صيغة المقارنة بين شيئين أو شخصين (Comparative with &apos;than&apos;)
                 </h4>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  تُستخدم للمفاضلة بين شخصين أو شيئين بوجود كلمة الربط (than = من):
+                  نستخدمها للمقارنة بين طرفين، وتتطلب وجود كلمة (than = من) بعد الصفة:
                 </p>
               </div>
-              <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200" dir="ltr">
-                Comparative Formula
-              </span>
             </div>
 
-            {/* Visual Formula Chips */}
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 py-4 px-4 bg-slate-50 rounded-2xl border border-slate-200" dir="ltr">
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-zinc-200 text-zinc-900">
-                Noun 1 (الفاعل الأول)
+            {/* Formula visual box */}
+            <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 flex flex-wrap items-center justify-center gap-2 text-xs font-mono font-bold text-blue-900" dir="ltr">
+              <span className="bg-white px-2.5 py-1.5 rounded-xl border border-blue-200 shadow-2xs">
+                Subject 1
               </span>
-              <span className="text-emerald-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-zinc-200 text-zinc-900">
+              <span>+</span>
+              <span className="bg-white px-2.5 py-1.5 rounded-xl border border-blue-200 shadow-2xs">
                 is / are
               </span>
-              <span className="text-emerald-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white font-mono shadow-xs">
-                Adj + er / more + Adj
+              <span>+</span>
+              <span className="bg-blue-600 text-white px-2.5 py-1.5 rounded-xl shadow-2xs">
+                adjective-er / more + adj
               </span>
-              <span className="text-emerald-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500 text-white font-mono shadow-xs">
+              <span>+</span>
+              <span className="bg-emerald-600 text-white px-2.5 py-1.5 rounded-xl shadow-2xs">
                 than
               </span>
-              <span className="text-emerald-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-zinc-200 text-zinc-900">
-                Noun 2 (الطرف الثاني)
+              <span>+</span>
+              <span className="bg-white px-2.5 py-1.5 rounded-xl border border-blue-200 shadow-2xs">
+                Subject 2
               </span>
             </div>
 
             {/* Examples from curriculum */}
             <div className="space-y-3 pt-2">
               <span className="text-xs font-bold text-slate-700 block">
-                أمثلة منهج الأول متوسط (كتاب الطالب والنشاط):
+                أمثلة منهجية من كتاب الأول متوسط:
               </span>
               {[
-                { en: 'Winter in England is colder than in Iraq.', ar: 'الشتاء في إنجلترا أبرد منه في العراق.' },
-                { en: 'Summer is hotter than winter.', ar: 'فصل الصيف أكثر حرارة من فصل الشتاء.' },
-                { en: 'Cars are more expensive than bicycles.', ar: 'السيارات أغلى ثمناً من الدراجات الهوائية.' },
+                { en: 'England is colder than Iraq.', ar: 'إنجلترا أكثر برودة من العراق.' },
+                { en: 'Autumn is cooler than summer.', ar: 'الخريف ألطف جواً من الصيف.' },
+                { en: 'Football is more exciting than tennis.', ar: 'كرة القدم أكثر إثارة وتشويقاً من التنس.' },
+                { en: 'My marks are better than last month.', ar: 'درجاتي أفضل من الشهر الماضي (شاذة).' },
               ].map((item, idx) => (
                 <div
                   key={idx}
@@ -167,7 +201,7 @@ export const ComparativesView: React.FC<ComparativesViewProps> = ({ currentTopic
                     <button
                       type="button"
                       onClick={() => onSpeak(item.en)}
-                      className="p-1.5 rounded-xl bg-white border border-zinc-200 text-emerald-600 hover:bg-emerald-50 transition-colors cursor-pointer"
+                      className="p-1.5 rounded-xl bg-white border border-zinc-200 text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer"
                     >
                       <Volume2 className="w-4 h-4" />
                     </button>
@@ -180,7 +214,7 @@ export const ComparativesView: React.FC<ComparativesViewProps> = ({ currentTopic
                       </p>
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
                     مقارنة
                   </span>
                 </div>
@@ -190,43 +224,41 @@ export const ComparativesView: React.FC<ComparativesViewProps> = ({ currentTopic
         </div>
       )}
 
-      {/* TAB 3: SUPERLATIVE FORMULA WITH THE */}
+      {/* TAB 3: SUPERLATIVE (the) */}
       {activeSubTab === 'superlative' && (
         <div className="space-y-5">
           <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5">
-            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+            <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
+              <Sparkles className="w-5 h-5 text-indigo-600" />
               <div>
                 <h4 className="text-base sm:text-lg font-black text-slate-900">
-                  صيغة التفضيل لمجموعة (Superlative with the)
+                  صيغة التفضيل المطلق (Superlative with &apos;the&apos;)
                 </h4>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  تُستخدم لتمييز فرد أو شيء واحد كالأعلى في الصفة بين مجموعة كاملة:
+                  نستخدمها لتمييز عنصر واحد عن مجموعة كاملة، وتتطلب وجود أداة التعريف (the) قبل الصفة:
                 </p>
               </div>
-              <span className="text-xs font-mono font-bold px-3 py-1 bg-indigo-50 text-indigo-800 rounded-xl border border-indigo-200" dir="ltr">
-                Superlative Formula
-              </span>
             </div>
 
-            {/* Visual Formula Chips */}
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 py-4 px-4 bg-slate-50 rounded-2xl border border-slate-200" dir="ltr">
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-zinc-200 text-zinc-900">
-                Noun (المفضل)
+            {/* Formula visual box */}
+            <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200 flex flex-wrap items-center justify-center gap-2 text-xs font-mono font-bold text-indigo-900" dir="ltr">
+              <span className="bg-white px-2.5 py-1.5 rounded-xl border border-indigo-200 shadow-2xs">
+                Subject
               </span>
-              <span className="text-indigo-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-zinc-200 text-zinc-900">
+              <span>+</span>
+              <span className="bg-white px-2.5 py-1.5 rounded-xl border border-indigo-200 shadow-2xs">
                 is / are
               </span>
-              <span className="text-indigo-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white font-mono shadow-xs">
+              <span>+</span>
+              <span className="bg-indigo-600 text-white px-2.5 py-1.5 rounded-xl shadow-2xs">
                 the
               </span>
-              <span className="text-indigo-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-700 text-white font-mono shadow-xs">
-                Adj + est / most + Adj
+              <span>+</span>
+              <span className="bg-purple-600 text-white px-2.5 py-1.5 rounded-xl shadow-2xs">
+                adjective-est / most + adj
               </span>
-              <span className="text-indigo-600 font-black text-base">+</span>
-              <span className="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-zinc-200 text-zinc-900">
+              <span>+</span>
+              <span className="bg-white px-2.5 py-1.5 rounded-xl border border-indigo-200 shadow-2xs">
                 Complement (المجموعة أو المكان)
               </span>
             </div>
@@ -274,50 +306,7 @@ export const ComparativesView: React.FC<ComparativesViewProps> = ({ currentTopic
 
       {/* TAB 4: EXAM PRACTICE */}
       {activeSubTab === 'practice' && (
-        <div className="space-y-4">
-          <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-4">
-            <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
-              <CheckCircle2 className="w-5 h-5 text-amber-500" />
-              <div>
-                <h4 className="text-base sm:text-lg font-black text-slate-900">
-                  نماذج أسئلة الامتحانات الشهرية ونصف السنة
-                </h4>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  تدرب على صيغ الأسئلة الوزارية الشائعة في المقارنة والتفضيل:
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              {practiceItems.map((item: any, idx: number) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 hover:bg-white transition-all"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-700">
-                      السؤال {idx + 1}: {item.examType || 'اختيارات / تصحيح'}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => onSpeak(item.sentence)}
-                      className="p-1 text-slate-500 hover:text-slate-800"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                  <p className="font-mono text-xs sm:text-sm font-bold text-slate-900" dir="ltr">
-                    {item.sentence}
-                  </p>
-                  <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
-                    <strong className="block mb-0.5">الحل الصحيح والتعليل:</strong>
-                    <span>{item.solution}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <ExamPracticeTab currentTopic={currentTopic} onSpeak={onSpeak} />
       )}
     </div>
   );

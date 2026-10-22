@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Volume2, Calendar, Clock, CheckCircle2, Sparkles, BookOpen } from 'lucide-react';
+import { Volume2, Calendar, Clock, Sparkles, BookOpen } from 'lucide-react';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
+import { ExamPracticeTab } from './ExamPracticeTab';
 
 interface OrdinalDatesViewProps {
   currentTopic: GrammarTopicData;
@@ -31,8 +32,6 @@ export const OrdinalDatesView: React.FC<OrdinalDatesViewProps> = ({ currentTopic
     { num: '30th', word: 'thirtieth', ar: 'الثلاثون' },
     { num: '31st', word: 'thirty-first', ar: 'الحادي والثلاثون' },
   ];
-
-  const practiceItems: any[] = (currentTopic as any).examApplications || [];
 
   return (
     <div className="space-y-6 font-arabic" dir="rtl">
@@ -109,110 +108,91 @@ export const OrdinalDatesView: React.FC<OrdinalDatesViewProps> = ({ currentTopic
         </div>
       )}
 
-      {/* TAB 2: WRITING VS SAYING DATES */}
+      {/* TAB 2: WRITING & SAYING DATES */}
       {activeTab === 'dates' && (
         <div className="space-y-5">
           <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5">
-            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+            <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
+              <Clock className="w-5 h-5 text-emerald-600" />
               <div>
                 <h4 className="text-base sm:text-lg font-black text-slate-900">
-                  الفرق بين كتابة ونطق التواريخ (Writing vs. Saying Dates)
+                  الفرق بين كتابة التاريخ ولفظه شفهياً
                 </h4>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  في كتاب الطالب صفحة 19، نكتب التاريخ باختصار ولكن ننطقه بإضافة (the) و (of):
+                  في كتابة التاريخ نكتب رقماً مختصراً، لكن عند القراءة نضيف (the) و (of):
                 </p>
               </div>
-              <span className="text-xs font-mono font-bold px-3 py-1 bg-amber-50 text-amber-800 rounded-xl border border-amber-200" dir="ltr">
-                Book P.19
-              </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <span className="text-xs font-bold text-slate-700 block">
-                  طريقة الكتابة (Written Form):
+              <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+                <span className="text-xs font-bold text-emerald-900 block">
+                  1. الطريقة الشائعة (اليوم ثم الشهر):
                 </span>
-                <p className="text-xs text-slate-500">
-                  نكتب اليوم كرقم ترتيبي يليه الشهر بدون the وبدون of:
-                </p>
-                <div className="p-3 bg-white rounded-xl border border-zinc-200 font-mono text-sm font-bold text-slate-900" dir="ltr">
-                  1st July &nbsp;•&nbsp; 23rd March &nbsp;•&nbsp; 14th July
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 space-y-2">
-                <span className="text-xs font-bold text-indigo-900 block">
-                  طريقة النطق الشفوي (Spoken Form):
-                </span>
-                <p className="text-xs text-indigo-700">
-                  عند القراءة الصوتية نضيف أداة التعريف (the) وكلمة (of):
-                </p>
-                <div className="p-3 bg-white rounded-xl border border-indigo-200 font-mono text-sm font-bold text-indigo-950" dir="ltr">
-                  the first of July &nbsp;•&nbsp; the twenty-third of March
-                </div>
-              </div>
-            </div>
-
-            {/* Interactive Audio Examples */}
-            <div className="space-y-3 pt-2">
-              <span className="text-xs font-bold text-slate-700 block">
-                أمثلة تدريبية ناطقة من المنهاج:
-              </span>
-              {[
-                { written: '1st July', spoken: 'the first of July', ar: 'الأول من شهر تموز' },
-                { written: '23rd March', spoken: 'the twenty-third of March', ar: 'الثالث والعشرون من شهر آذار' },
-                { written: '25th December', spoken: 'the twenty-fifth of December', ar: 'الخامس والعشرون من شهر كانون الأول' },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200/80 hover:bg-white transition-all"
-                >
-                  <div className="flex items-center gap-3">
+                <div className="p-3 bg-white rounded-xl border border-emerald-200 space-y-1">
+                  <p className="text-xs text-slate-500">نكتب (Writing):</p>
+                  <p className="font-mono font-bold text-sm text-slate-900" dir="ltr">
+                    1st July أو 1 July
+                  </p>
+                  <p className="text-xs text-slate-500 pt-1">نلفظ شفهياً (Saying):</p>
+                  <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => onSpeak(item.spoken)}
-                      className="p-1.5 rounded-xl bg-white border border-zinc-200 text-indigo-600 hover:bg-indigo-50 transition-colors cursor-pointer"
+                      onClick={() => onSpeak('the first of July')}
+                      className="p-1 text-emerald-700 hover:bg-emerald-50 rounded"
                     >
-                      <Volume2 className="w-4 h-4" />
+                      <Volume2 className="w-3.5 h-3.5" />
                     </button>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono font-bold text-slate-500" dir="ltr">
-                          كتابة: {item.written}
-                        </span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-xs font-mono font-bold text-indigo-700" dir="ltr">
-                          نطقاً: "{item.spoken}"
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-500 font-arabic mt-0.5">
-                        {item.ar}
-                      </p>
-                    </div>
+                    <p className="font-mono font-bold text-sm text-emerald-700" dir="ltr">
+                      &quot;the first of July&quot;
+                    </p>
                   </div>
                 </div>
-              ))}
+              </div>
+
+              <div className="p-4 rounded-2xl bg-purple-50/60 border border-purple-200 space-y-2">
+                <span className="text-xs font-bold text-purple-900 block">
+                  2. الطريقة الثانية (الشهر ثم اليوم):
+                </span>
+                <div className="p-3 bg-white rounded-xl border border-purple-200 space-y-1">
+                  <p className="text-xs text-slate-500">نكتب (Writing):</p>
+                  <p className="font-mono font-bold text-sm text-slate-900" dir="ltr">
+                    July 1st أو July 1
+                  </p>
+                  <p className="text-xs text-slate-500 pt-1">نلفظ شفهياً (Saying):</p>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onSpeak('July the first')}
+                      className="p-1 text-purple-700 hover:bg-purple-50 rounded"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
+                    <p className="font-mono font-bold text-sm text-purple-700" dir="ltr">
+                      &quot;July the first&quot;
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* TAB 3: PREPOSITIONS IN VS ON */}
+      {/* TAB 3: PREPOSITIONS IN / ON */}
       {activeTab === 'prepositions' && (
         <div className="space-y-5">
           <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5">
-            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
+            <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
+              <Sparkles className="w-5 h-5 text-amber-500" />
               <div>
                 <h4 className="text-base sm:text-lg font-black text-slate-900">
-                  حروف الجر مع التواريخ (Prepositions of Time: in vs. on)
+                  قواعد حروف الجر مع التواريخ والأيام والشهور
                 </h4>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  قاعدة وزارية مهمة تتكرر في كافة الامتحانات الشهرية:
+                  سؤال وزاري متكرر جداً في الاختيارات بين (in) و (on):
                 </p>
               </div>
-              <span className="text-xs font-mono font-bold px-3 py-1 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200" dir="ltr">
-                in vs on
-              </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -222,11 +202,11 @@ export const OrdinalDatesView: React.FC<OrdinalDatesViewProps> = ({ currentTopic
                     on + الأيام والتواريخ الكاملة
                   </span>
                   <span className="text-[10px] font-bold bg-white px-2 py-0.5 rounded-full text-emerald-800 border border-emerald-200">
-                    أيام وتواريخ
+                    أيام محددة
                   </span>
                 </div>
                 <p className="text-xs text-emerald-800 leading-relaxed">
-                  نستخدم (on) دائماً إذا وجدنا يوم من أيام الأسبوع أو تاريخاً محدداً برقم اليوم:
+                  نستخدم (on) مع أيام الأسبوع ومع أي تاريخ محدد بيوم كامل:
                 </p>
                 <div className="p-3 bg-white rounded-xl border border-emerald-200 font-mono text-xs font-bold text-slate-900 space-y-1" dir="ltr">
                   <div>• on Monday, on Friday</div>
@@ -258,50 +238,7 @@ export const OrdinalDatesView: React.FC<OrdinalDatesViewProps> = ({ currentTopic
 
       {/* TAB 4: PRACTICE */}
       {activeTab === 'practice' && (
-        <div className="space-y-4">
-          <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-4">
-            <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
-              <CheckCircle2 className="w-5 h-5 text-amber-500" />
-              <div>
-                <h4 className="text-base sm:text-lg font-black text-slate-900">
-                  نماذج أسئلة الامتحانات على التواريخ والأعداد
-                </h4>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  أسئلة اختيارات وإملاء من كتاب النشاط وامتحانات نصف السنة:
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              {practiceItems.map((item: any, idx: number) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 hover:bg-white transition-all"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-700">
-                      السؤال {idx + 1}: {item.examType || 'اختيارات / حروف جر'}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => onSpeak(item.sentence)}
-                      className="p-1 text-slate-500 hover:text-slate-800"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                  <p className="font-mono text-xs sm:text-sm font-bold text-slate-900" dir="ltr">
-                    {item.sentence}
-                  </p>
-                  <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
-                    <strong className="block mb-0.5">الحل الصحيح والتعليل:</strong>
-                    <span>{item.solution}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <ExamPracticeTab currentTopic={currentTopic} onSpeak={onSpeak} />
       )}
     </div>
   );

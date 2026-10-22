@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
+import { Languages } from 'lucide-react';
 import { lesson2ActivityData } from '../../../data/activityBookData';
 
 interface Exercise3WordMatchesProps {
@@ -11,6 +12,11 @@ export const Exercise3WordMatches: React.FC<Exercise3WordMatchesProps> = ({
 }) => {
   const [wordMatches, setWordMatches] = useState<Record<string, string>>({});
   const [ex3Checked, setEx3Checked] = useState(false);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const checkEx3 = () => {
     setEx3Checked(true);
@@ -56,13 +62,35 @@ export const Exercise3WordMatches: React.FC<Exercise3WordMatchesProps> = ({
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <span className="text-base font-bold text-zinc-900 capitalize block font-sans">
-                    {m.word}
-                  </span>
-                  <span className="text-xs text-zinc-500 font-arabic block mt-0.5" dir="rtl">
-                    المعنى بالعربية: {m.definitionAr}
-                  </span>
+                <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-base font-bold text-zinc-900 capitalize block font-sans">
+                      {m.word}
+                    </span>
+                    {m.definitionAr && (
+                      <button
+                        type="button"
+                        onClick={() => toggleTranslation(m.id)}
+                        className={`text-[11px] font-bold px-2.5 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                          visibleTranslations[m.id]
+                            ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                            : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                        }`}
+                        title="ترجمة السؤال"
+                      >
+                        <Languages className="w-3 h-3 text-indigo-600" />
+                        <span>{visibleTranslations[m.id] ? 'إخفاء الترجمة' : 'ترجمة السؤال'}</span>
+                      </button>
+                    )}
+                  </div>
+                  {m.definitionAr && visibleTranslations[m.id] && (
+                    <div
+                      className="text-xs text-zinc-700 font-arabic bg-zinc-100/80 p-2 rounded-lg border border-zinc-200 text-right animate-in fade-in duration-150"
+                      dir="rtl"
+                    >
+                      المعنى بالعربية: {m.definitionAr}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
