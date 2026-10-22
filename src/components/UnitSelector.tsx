@@ -47,7 +47,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
             >
               <div>
                 {unit.imageUrl && (
-                  <div className="w-full h-44 sm:h-52 rounded-xl overflow-hidden mb-4 bg-zinc-100 border border-zinc-200/80 shadow-2xs">
+                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-zinc-100 border border-zinc-200/80 shadow-2xs">
                     <img
                       src={unit.imageUrl}
                       alt={unit.titleAr}
@@ -98,7 +98,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                     <span className="text-zinc-400 font-sans">10 Lessons</span>
                   </>
                 ) : (
-                  <span className="text-zinc-400 font-arabic">قريباً في التحديث القادم</span>
+                  <span className="text-zinc-400 font-arabic">قيد الإعداد قريباً</span>
                 )}
               </div>
             </button>
