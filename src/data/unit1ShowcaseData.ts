@@ -95,10 +95,10 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
   // Student's Book p. 8 & Tracks 5-6: Whose scrapbooks are these?
   4: {
     lessonNumber: 4,
-    badgeAr: 'هوايات الأصدقاء (SB p. 8)',
+    badgeAr: 'هوايات الأصدقاء (SB p. 7)',
     titleAr: 'سجلات قصاصات الأصدقاء وهواياتهم',
     titleEn: "Whose Scrapbooks Are These?",
-    descriptionAr: 'هوايات الأطفال واهتماماتهم وسجلات القصاصات كما وردت في كتاب الطالب ص 8:',
+    descriptionAr: 'هوايات الأطفال واهتماماتهم وسجلات القصاصات كما وردت في كتاب الطالب ص 7:',
     items: [
       {
         id: 'u1-l4-1',

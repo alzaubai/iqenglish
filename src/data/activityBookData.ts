@@ -287,3 +287,5 @@ export const lesson2ActivityData = {
 };
 
 export { lesson3ActivityData } from './activityBookLesson3Data';
+
+export { lesson4ActivityData } from './activityBookLesson4Data';
