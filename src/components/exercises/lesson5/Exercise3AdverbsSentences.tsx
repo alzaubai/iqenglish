@@ -105,7 +105,7 @@ export const Exercise3AdverbsSentences: React.FC = () => {
               <div className="flex items-center justify-between gap-2 mb-2">
                 {/* Letter & Percentage Circle Badge */}
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center justify-center font-mono shrink-0">
+                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center justify-center font-sans shrink-0">
                     {s.letter}
                   </span>
 
@@ -116,7 +116,7 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                       className="w-5 h-5 object-contain shrink-0"
                       loading="lazy"
                     />
-                    <span className="text-xs font-mono font-bold text-zinc-700">
+                    <span className="text-xs font-sans font-bold text-zinc-700">
                       {s.percentage}%
                     </span>
                     <span className="text-[11px] text-zinc-500 font-arabic">
@@ -154,7 +154,7 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                     onChange={(e) => handleInputChange(s.id, e.target.value)}
                     disabled={isSubmitted}
                     placeholder={`... (${s.verbInBrackets})`}
-                    className={`px-2.5 py-1 rounded-md border text-sm font-mono font-bold transition-all focus:outline-hidden min-w-[140px] max-w-[200px] ${
+                    className={`px-2.5 py-1 rounded-md border text-sm font-sans font-bold transition-all focus:outline-hidden min-w-[140px] max-w-[200px] ${
                       isSubmitted
                         ? isCorrect
                           ? 'bg-emerald-50 border-emerald-400 text-emerald-950'
@@ -164,7 +164,7 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                   />
 
                   <span>{s.suffixEn}</span>
-                  <span className="text-xs font-bold text-zinc-400 font-mono">
+                  <span className="text-xs font-bold text-zinc-400 font-sans">
                     ({s.verbInBrackets})
                   </span>
                 </div>
@@ -180,7 +180,7 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => playTTS(`${s.prefixEn} ${s.correctAnswer} ${s.suffixEn}`)}
-                    className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
+                    className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-sans flex items-center gap-1 transition-colors cursor-pointer"
                     title="Listen"
                   >
                     <Volume2 className="w-3 h-3" />
@@ -198,7 +198,7 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                 </div>
 
                 {(isSubmitted || showAnswer) && (
-                  <div className="bg-zinc-100 text-zinc-900 px-2.5 py-1 rounded-md font-mono text-xs font-bold">
+                  <div className="bg-zinc-100 text-zinc-900 px-2.5 py-1 rounded-md font-sans text-xs font-bold">
                     Answer: <span className="underline">{s.correctAnswer}</span>
                   </div>
                 )}

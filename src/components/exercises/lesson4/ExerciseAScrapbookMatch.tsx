@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, BookOpen, Volume2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw } from 'lucide-react';
 import { lesson4ActivityData, ScrapbookMatchItem } from '../../../data/activityBookLesson4Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -56,23 +56,30 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
     setIsChecked(true);
   };
 
+  const answeredCount = Object.keys(matches).filter((k) => matches[Number(k)]).length;
+
   return (
-    <div className="space-y-5" dir="ltr">
+    <div className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 shadow-sm space-y-5" dir="ltr">
       {/* Exercise Header */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm space-y-2">
-        <span className="text-xs font-bold text-zinc-500 font-sans block mb-0.5">
-          Student's Book p. 7 • Activity Book p. 10 • Exercise A
-        </span>
-        <h4 className="text-base sm:text-lg font-black text-zinc-900 font-sans">
-          Read and work it out. Match each person to their scrapbook (1-6).
-        </h4>
-        <p className="text-xs text-zinc-600 font-arabic text-right leading-relaxed" dir="rtl">
-          اقرأ اهتمامات وهوايات كل شخصية وطابق رقم دفتر القصاصات (1 إلى 6) مع صاحبه المناسب:
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-200">
+        <div>
+          <span className="text-xs font-bold text-zinc-500 font-sans block mb-1">
+            Student's Book p. 7 • Activity Book p. 10 • Exercise A
+          </span>
+          <h4 className="text-base sm:text-lg font-bold text-zinc-900 font-sans">
+            Read and work it out. Match each person to their scrapbook (1-6).
+          </h4>
+          <p className="text-xs text-zinc-600 font-arabic mt-1 text-right" dir="rtl">
+            اقرأ اهتمامات وهوايات كل شخصية وطابق رقم دفتر القصاصات (1 إلى 6) مع صاحبه المناسب:
+          </p>
+        </div>
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-sans">
+          Answered: {answeredCount} / {items.length}
+        </div>
       </div>
 
       {/* Grid of 6 Scrapbooks */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
         {items.map((item) => {
           const selected = matches[item.number] || '';
           const correct = isMatchCorrect(item);
@@ -80,18 +87,18 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
           return (
             <div
               key={item.id}
-              className={`rounded-2xl border-2 p-4 transition-all flex flex-col justify-between text-left space-y-3 ${
+              className={`p-4 rounded-xl border transition-all flex flex-col justify-between text-left space-y-3 ${
                 isChecked
                   ? correct
-                    ? 'border-emerald-400 bg-emerald-50/40 shadow-xs'
-                    : 'border-rose-300 bg-rose-50/40'
-                  : 'border-zinc-200 bg-white hover:border-zinc-300 shadow-2xs'
+                    ? 'border-emerald-300 bg-emerald-50/20'
+                    : 'border-rose-300 bg-rose-50/20'
+                  : 'border-zinc-200 bg-zinc-50/40 hover:bg-zinc-50 hover:border-zinc-300'
               }`}
             >
               {/* Card Top: Number + Image Hint */}
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="w-8 h-8 rounded-xl bg-zinc-900 text-white font-black text-sm flex items-center justify-center font-sans shadow-xs">
+                  <span className="w-7 h-7 rounded-lg bg-zinc-900 text-white font-bold text-xs flex items-center justify-center font-sans shadow-2xs">
                     {item.number}
                   </span>
                   <span className="text-[11px] font-bold text-zinc-500 font-arabic bg-zinc-100 px-2 py-0.5 rounded-md">
@@ -99,20 +106,20 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 bg-zinc-50 p-2.5 rounded-xl border border-zinc-100">
+                <div className="flex items-center gap-2.5 bg-white p-2.5 rounded-lg border border-zinc-200">
                   <img
                     src={item.imageUrl}
                     alt={item.personNameEn}
-                    className="w-12 h-12 rounded-xl object-cover border border-zinc-200 shrink-0"
+                    className="w-12 h-12 rounded-lg object-cover border border-zinc-200 shrink-0"
                     onError={(e) => {
                       (e.target as HTMLElement).style.display = 'none';
                     }}
                   />
                   <div className="min-w-0">
-                    <span className="text-xs font-black text-zinc-900 font-sans block truncate">
+                    <span className="text-xs font-bold text-zinc-900 font-sans block truncate">
                       {item.hobbyEn}
                     </span>
-                    <span className="text-[11px] text-zinc-600 font-arabic block truncate" dir="rtl">
+                    <span className="text-[11px] text-zinc-500 font-arabic block truncate" dir="rtl">
                       {item.hobbyAr}
                     </span>
                   </div>
@@ -124,18 +131,18 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
               </div>
 
               {/* Selector */}
-              <div className="space-y-1.5 pt-2 border-t border-zinc-100">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block font-sans">
+              <div className="space-y-1.5 pt-2 border-t border-zinc-200">
+                <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider block font-sans">
                   Whose scrapbook is this?
                 </label>
                 <select
                   value={selected}
                   onChange={(e) => handleSelect(item.number, e.target.value)}
-                  className={`w-full px-3 py-2 text-xs font-bold rounded-xl border transition-all outline-none font-sans cursor-pointer ${
+                  className={`w-full px-3 py-1.5 text-xs font-bold rounded-lg border transition-all outline-none font-sans cursor-pointer ${
                     isChecked
                       ? correct
-                        ? 'border-emerald-500 bg-emerald-100/70 text-emerald-900'
-                        : 'border-rose-400 bg-rose-100/70 text-rose-900'
+                        ? 'border-emerald-500 bg-emerald-50 text-emerald-950'
+                        : 'border-rose-400 bg-rose-50 text-rose-950'
                       : 'border-zinc-300 bg-white focus:border-zinc-900 text-zinc-900'
                   }`}
                 >
@@ -148,7 +155,7 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
                 </select>
 
                 {isChecked && !correct && (
-                  <div className="text-[11px] text-rose-800 font-bold font-arabic text-right pt-1" dir="rtl">
+                  <div className="text-[11px] text-rose-700 font-bold font-arabic text-right pt-0.5" dir="rtl">
                     الجواب الصحيح: <strong className="font-sans underline">{item.personNameEn} ({item.personNameAr})</strong>
                   </div>
                 )}
@@ -158,21 +165,21 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
         })}
       </div>
 
-      {/* Buttons */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+      {/* Buttons Footer */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-zinc-200">
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={checkAll}
-            className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm font-arabic shadow-sm flex items-center gap-2 cursor-pointer transition-all"
+            className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm font-arabic shadow-2xs flex items-center gap-2 cursor-pointer transition-all"
           >
-            <Sparkles className="w-4 h-4 text-amber-400" />
+            <Sparkles className="w-4 h-4 text-zinc-300" />
             <span>فحص الإجابات</span>
           </button>
           <button
             type="button"
             onClick={resetAll}
-            className="px-3 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-100 text-zinc-700 font-bold text-xs font-arabic flex items-center gap-1.5 cursor-pointer transition-all"
+            className="px-3.5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold text-xs font-arabic flex items-center gap-1.5 cursor-pointer transition-all"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>إعادة المحاولة</span>

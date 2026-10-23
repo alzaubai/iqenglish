@@ -92,7 +92,7 @@ export const Exercise1FrequencySurvey: React.FC = () => {
               <span className="block font-bold text-xs text-zinc-800 font-arabic">
                 {col.labelAr}
               </span>
-              <span className="text-[11px] text-zinc-500 font-mono">
+              <span className="text-[11px] text-zinc-500 font-sans">
                 {col.key} ({col.percentage}%)
               </span>
             </div>
@@ -126,7 +126,7 @@ export const Exercise1FrequencySurvey: React.FC = () => {
                   <React.Fragment key={q.id}>
                     <tr className={selectedCol ? 'bg-zinc-50/60' : 'hover:bg-zinc-50/30'}>
                       {/* Letter badge */}
-                      <td className="py-3 px-3 text-center font-bold text-xs font-mono text-zinc-500">
+                      <td className="py-3 px-3 text-center font-bold text-xs font-sans text-zinc-500">
                         {q.letter}
                       </td>
 
@@ -185,17 +185,17 @@ export const Exercise1FrequencySurvey: React.FC = () => {
                         <td colSpan={7} className="py-2 px-3 text-left">
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
-                              <span className="px-2 py-0.5 rounded-md bg-zinc-200 text-zinc-800 text-[11px] font-bold font-mono">
+                              <span className="px-2 py-0.5 rounded-md bg-zinc-200 text-zinc-800 text-[11px] font-bold font-sans">
                                 Sentence:
                               </span>
-                              <span className="font-mono text-xs sm:text-sm font-bold text-zinc-900">
+                              <span className="font-sans text-xs sm:text-sm font-bold text-zinc-900">
                                 {generateSentence(q, selectedCol)}
                               </span>
                             </div>
                             <button
                               type="button"
                               onClick={() => playTTS(generateSentence(q, selectedCol))}
-                              className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1 transition-colors"
+                              className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-sans flex items-center gap-1 transition-colors"
                               title="Listen"
                             >
                               <Volume2 className="w-3 h-3" />

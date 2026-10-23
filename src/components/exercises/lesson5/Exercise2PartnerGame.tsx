@@ -109,7 +109,7 @@ export const Exercise2PartnerGame: React.FC = () => {
         {/* Partner's Guess Box */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-zinc-500 font-mono uppercase">
+            <span className="text-xs font-bold text-zinc-500 font-sans uppercase">
               Partner's Guess:
             </span>
             <button
@@ -122,7 +122,7 @@ export const Exercise2PartnerGame: React.FC = () => {
             </button>
           </div>
           <div className="bg-white p-4 rounded-xl border border-zinc-200">
-            <p className="font-mono text-base font-bold text-zinc-900">
+            <p className="font-sans text-base font-bold text-zinc-900">
               "{currentDialogue.partnerGuess}"
             </p>
             <p className="text-xs text-zinc-500 font-arabic mt-1 text-right" dir="rtl">
@@ -153,7 +153,7 @@ export const Exercise2PartnerGame: React.FC = () => {
                   }`}
                 >
                   <div className="space-y-0.5">
-                    <p className={`font-mono text-sm font-bold ${isSelected ? 'text-white' : 'text-zinc-900'}`}>
+                    <p className={`font-sans text-sm font-bold ${isSelected ? 'text-white' : 'text-zinc-900'}`}>
                       {opt.textEn}
                     </p>
                     <p className={`font-arabic text-xs text-right ${isSelected ? 'text-zinc-300' : 'text-zinc-500'}`} dir="rtl">
@@ -185,10 +185,10 @@ export const Exercise2PartnerGame: React.FC = () => {
         {/* Textbook Model Preview */}
         {userChoice && (
           <div className="bg-white p-3 rounded-xl border border-zinc-200 text-left space-y-1">
-            <span className="text-xs font-bold text-zinc-500 font-mono block">
+            <span className="text-xs font-bold text-zinc-500 font-sans block">
               Model Textbook Response:
             </span>
-            <div className="flex items-center justify-between font-mono text-sm font-bold text-zinc-800">
+            <div className="flex items-center justify-between font-sans text-sm font-bold text-zinc-800">
               <span>"{currentDialogue.modelResponseEn}"</span>
               <button
                 type="button"

@@ -108,7 +108,7 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
               {/* Header with Circle and Adverb Name */}
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center justify-center font-mono shrink-0">
+                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center justify-center font-sans shrink-0">
                     {p.number}
                   </span>
 
@@ -119,7 +119,7 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
                       className="w-5 h-5 object-contain shrink-0"
                       loading="lazy"
                     />
-                    <span className="text-xs font-mono font-bold text-zinc-900 uppercase">
+                    <span className="text-xs font-sans font-bold text-zinc-900 uppercase">
                       {p.requiredAdverb}
                     </span>
                     <span className="text-[11px] text-zinc-500 font-arabic">
@@ -150,7 +150,7 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
                     key={act.en}
                     type="button"
                     onClick={() => handleQuickAdd(p, act.en)}
-                    className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono transition-colors cursor-pointer"
+                    className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-sans transition-colors cursor-pointer"
                     title={act.ar}
                   >
                     + {act.en}
@@ -165,7 +165,7 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
                   value={userText}
                   onChange={(e) => handleSentenceChange(p.id, e.target.value)}
                   placeholder={`Write a sentence using "${p.requiredAdverb}" (e.g. I ${p.requiredAdverb} ...)`}
-                  className={`w-full px-3 py-2 rounded-lg border text-sm font-mono transition-all focus:outline-hidden ${
+                  className={`w-full px-3 py-2 rounded-lg border text-sm font-sans transition-all focus:outline-hidden ${
                     valid
                       ? 'bg-white border-emerald-400 text-zinc-900'
                       : 'bg-white border-zinc-300 focus:border-zinc-900 text-zinc-900'
@@ -180,7 +180,7 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => playTTS(userText)}
-                      className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
+                      className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-sans flex items-center gap-1 transition-colors cursor-pointer"
                       title="Listen"
                     >
                       <Volume2 className="w-3 h-3" />
@@ -207,7 +207,7 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="text-xs text-zinc-500 font-mono flex items-center gap-1.5">
+                <div className="text-xs text-zinc-500 font-sans flex items-center gap-1.5">
                   <span className="font-bold text-zinc-700">Model:</span>
                   <span>"{p.modelSentence}"</span>
                   <button

@@ -10,11 +10,11 @@ interface Lesson4ExercisesProps {
 }
 
 const TABS = [
-  { step: 1, title: 'تمرين A (مطابقة الدفاتر)' },
-  { step: 2, title: 'تمرين 1 (ضمائر التملك)' },
-  { step: 3, title: 'تمرين 2 (قاعدة الاهتمامات)' },
-  { step: 4, title: 'تمرين 3 (استنتاج الهوايات)' },
-  { step: 5, title: 'تمرين 4 (كتابة فقرة)' },
+  { step: 1, title: 'تمرين A (مطابقة الدفاتر - ص 10)' },
+  { step: 2, title: 'تمرين 1 (ضمائر التملك - ص 10)' },
+  { step: 3, title: 'تمرين 2 (الخيارات الخاطئة - ص 10)' },
+  { step: 4, title: 'تمرين 3 (استنتاج الهوايات - ص 11)' },
+  { step: 5, title: 'تمرين 4 (كتابة فقرة - ص 11)' },
 ] as const;
 
 export const Lesson4Exercises: React.FC<Lesson4ExercisesProps> = ({ onProgressUpdate }) => {
@@ -22,7 +22,7 @@ export const Lesson4Exercises: React.FC<Lesson4ExercisesProps> = ({ onProgressUp
 
   return (
     <div className="space-y-6">
-      {/* Exercise Tabs Bar: Smooth scrollable on mobile, wrap on tablet/desktop */}
+      {/* Exercise Tabs Bar: Consistent with site design */}
       <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 pb-1" dir="rtl">
         {TABS.map((tab) => (
           <button
@@ -39,7 +39,7 @@ export const Lesson4Exercises: React.FC<Lesson4ExercisesProps> = ({ onProgressUp
         ))}
       </div>
 
-      {/* Keep state preserved across tabs by toggling display */}
+      {/* Preserve state across tabs by toggling display */}
       <div className={currentStep === 1 ? 'block' : 'hidden'}>
         <ExerciseAScrapbookMatch onProgressUpdate={onProgressUpdate} />
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, BookOpen, AlertTriangle } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw } from 'lucide-react';
 import { lesson4ActivityData, NotCorrectItem } from '../../../data/activityBookLesson4Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -11,10 +11,8 @@ interface Exercise2InterestsGerundsProps {
 export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps> = ({ onProgressUpdate }) => {
   const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
   const [isChecked, setIsChecked] = useState(false);
-  const [showGrammarCard, setShowGrammarCard] = useState(false);
 
   const items = lesson4ActivityData.page10Ex2NotCorrect;
-  const grammar = lesson4ActivityData.page10GrammarBox;
 
   const handleSelect = (itemId: string, optIndex: number) => {
     setSelectedOptions((prev) => ({ ...prev, [itemId]: optIndex }));
@@ -23,7 +21,6 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
   const isItemCorrect = (item: NotCorrectItem) => {
     const selectedIdx = selectedOptions[item.id];
     if (selectedIdx === undefined) return false;
-    // The student must tick the option that is NOT grammatically correct (isCorrectGrammar === false)
     return item.options[selectedIdx]?.isCorrectGrammar === false;
   };
 
@@ -54,75 +51,30 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
     setIsChecked(true);
   };
 
-  return (
-    <div className="space-y-5" dir="ltr">
-      {/* Header */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 pb-3">
-          <div>
-            <span className="text-xs font-bold text-zinc-500 font-sans block mb-0.5">
-              Activity Book • Pages 10 & 11 • Exercise 2
-            </span>
-            <h4 className="text-base sm:text-lg font-black text-zinc-900 font-sans">
-              Tick (✓) the option that is NOT correct.
-            </h4>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowGrammarCard(!showGrammarCard)}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 flex items-center gap-1.5 transition-all cursor-pointer font-arabic"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
-            <span>{showGrammarCard ? 'إخفاء صندوق القاعدة' : 'عرض قاعدة الاهتمامات'}</span>
-          </button>
-        </div>
+  const answeredCount = Object.keys(selectedOptions).length;
 
-        <p className="text-xs text-zinc-600 font-arabic text-right leading-relaxed" dir="rtl">
-          انتبه للمطلوب الوزاري الدقيق: ضع علامة (✓) على الخيار <strong>غير الصحيح قواعدياً</strong> في كل جملة من الجمل الأربع:
-        </p>
+  return (
+    <div className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 shadow-sm space-y-5" dir="ltr">
+      {/* Exercise Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-200">
+        <div>
+          <span className="text-xs font-bold text-zinc-500 font-sans block mb-1">
+            Activity Book • Page 10 • Exercise 2
+          </span>
+          <h4 className="text-base sm:text-lg font-bold text-zinc-900 font-sans">
+            Which one is not correct? Put a tick (✓).
+          </h4>
+          <p className="text-xs text-zinc-600 font-arabic mt-1 text-right" dir="rtl">
+            ضع علامة (✓) على الخيار <strong>غير الصحيح قواعدياً</strong> في كل جملة من الجمل الأربع:
+          </p>
+        </div>
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-sans">
+          Answered: {answeredCount} / {items.length}
+        </div>
       </div>
 
-      {/* Rule Note (AB p. 10) */}
-      {showGrammarCard && (
-        <div className="bg-zinc-50 rounded-xl border border-zinc-200 p-4 space-y-3 text-right" dir="rtl">
-          <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
-            <h5 className="font-bold text-xs sm:text-sm text-zinc-900 font-arabic">
-              {grammar.titleAr} ({grammar.titleEn})
-            </h5>
-          </div>
-
-          <p className="text-xs text-zinc-600 leading-relaxed font-arabic">
-            {grammar.ruleAr}
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-arabic">
-            <div className="bg-white p-3 rounded-lg border border-zinc-200 space-y-1">
-              <span className="font-bold text-zinc-900 block text-xs">
-                {grammar.case1Title}
-              </span>
-              <ul className="text-zinc-600 space-y-0.5 text-[11px] list-disc list-inside">
-                {grammar.case1Examples.map((ex) => (
-                  <li key={ex}>{ex}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-white p-3 rounded-lg border border-zinc-200 space-y-1">
-              <span className="font-bold text-zinc-900 block text-xs">
-                {grammar.case2Title}
-              </span>
-              <ul className="text-zinc-600 space-y-0.5 text-[11px] list-disc list-inside">
-                {grammar.case2Examples.map((ex) => (
-                  <li key={ex}>{ex}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* The 4 Questions Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         {items.map((item) => {
           const selectedIdx = selectedOptions[item.id];
           const correct = isItemCorrect(item);
@@ -130,20 +82,20 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
           return (
             <div
               key={item.id}
-              className={`p-4 rounded-xl border-2 transition-all space-y-3 text-left ${
+              className={`p-3.5 sm:p-4 rounded-xl border transition-all space-y-3 text-left ${
                 isChecked
                   ? correct
-                    ? 'border-emerald-400 bg-emerald-50/40'
-                    : 'border-rose-300 bg-rose-50/40'
-                  : 'border-zinc-200 bg-white hover:border-zinc-300 shadow-2xs'
+                    ? 'border-emerald-300 bg-emerald-50/20'
+                    : 'border-rose-300 bg-rose-50/20'
+                  : 'border-zinc-200 bg-zinc-50/40 hover:bg-zinc-50 hover:border-zinc-300'
               }`}
             >
-              <div className="flex items-center justify-between border-b border-zinc-100 pb-2">
+              <div className="flex items-center justify-between border-b border-zinc-200/80 pb-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-black flex items-center justify-center font-sans uppercase">
+                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans uppercase">
                     {item.letter}
                   </span>
-                  <span className="text-sm font-black text-zinc-900 font-sans">
+                  <span className="text-sm font-bold text-zinc-900 font-sans">
                     {item.promptEn}
                   </span>
                 </div>
@@ -153,7 +105,7 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
               </div>
 
               {/* Options Checkboxes */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {item.options.map((opt, optIdx) => {
                   const isChosen = selectedIdx === optIdx;
                   const isThisWrongGrammar = opt.isCorrectGrammar === false;
@@ -167,14 +119,14 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
                         isChosen
                           ? isChecked
                             ? isThisWrongGrammar
-                              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                              : 'bg-rose-600 text-white border-rose-600 shadow-xs'
-                            : 'bg-zinc-900 text-white border-zinc-900 shadow-xs'
-                          : 'bg-zinc-50 hover:bg-zinc-100 text-zinc-800 border-zinc-200'
+                              ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs'
+                              : 'bg-rose-600 text-white border-rose-600 shadow-2xs'
+                            : 'bg-zinc-900 text-white border-zinc-900 shadow-2xs'
+                          : 'bg-white hover:bg-zinc-100 text-zinc-800 border-zinc-200'
                       }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
-                        <span className={`w-5 h-5 rounded border flex items-center justify-center text-xs font-black shrink-0 ${
+                        <span className={`w-4 h-4 rounded border flex items-center justify-center text-xs font-bold shrink-0 ${
                           isChosen
                             ? 'bg-white text-zinc-900 border-white'
                             : 'border-zinc-300 bg-white text-transparent'
@@ -185,7 +137,7 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
                       </div>
 
                       <span className={`text-[10px] px-2 py-0.5 rounded font-arabic shrink-0 ${
-                        isChosen ? 'bg-white/20 text-white' : 'bg-zinc-200/80 text-zinc-600'
+                        isChosen ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-600'
                       }`} dir="rtl">
                         {opt.type === 'bare_infinitive' ? 'فعل مجرد' : opt.type === 'gerund' ? 'Gerund' : 'اسم'}
                       </span>
@@ -196,23 +148,21 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
 
               {/* Feedback */}
               {isChecked && (
-                <div className={`p-2.5 rounded-lg text-xs font-arabic text-right space-y-1 ${
-                  correct ? 'bg-emerald-100/70 text-emerald-900' : 'bg-rose-100/70 text-rose-900'
-                }`} dir="rtl">
+                <div className="p-2 rounded-lg text-xs font-arabic text-right space-y-1 bg-zinc-100 text-zinc-800 border border-zinc-200" dir="rtl">
                   <div className="flex items-center gap-1.5 font-bold">
                     {correct ? (
                       <>
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700" />
-                        <span>إجابة صحيحة! أحسنت باختيار الخيار غير الصحيح.</span>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                        <span>إجابة صحيحة! الخيار غير الصحيح هو المحدد.</span>
                       </>
                     ) : (
                       <>
-                        <XCircle className="w-4 h-4 text-rose-700" />
-                        <span>تأشير خاطئ! تذكر أن المطلوب تأشير الخيار غير الصحيح نحواً.</span>
+                        <XCircle className="w-4 h-4 text-rose-600" />
+                        <span>الخيار غير الصحيح قواعدياً: ({item.options.find((o) => !o.isCorrectGrammar)?.text})</span>
                       </>
                     )}
                   </div>
-                  <p className="text-[11px] text-zinc-700 leading-relaxed pr-5">
+                  <p className="text-[11px] text-zinc-600 leading-relaxed pr-5">
                     {item.explanationAr}
                   </p>
                 </div>
@@ -222,21 +172,21 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
         })}
       </div>
 
-      {/* Footer Buttons */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-4 shadow-sm flex flex-wrap items-center justify-between gap-3">
+      {/* Buttons Footer */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-zinc-200">
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={checkAll}
-            className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm font-arabic shadow-sm flex items-center gap-2 cursor-pointer transition-all"
+            className="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm font-arabic shadow-2xs flex items-center gap-2 cursor-pointer transition-all"
           >
-            <Sparkles className="w-4 h-4 text-amber-400" />
+            <Sparkles className="w-4 h-4 text-zinc-300" />
             <span>فحص الإجابات</span>
           </button>
           <button
             type="button"
             onClick={resetAll}
-            className="px-3 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-100 text-zinc-700 font-bold text-xs font-arabic flex items-center gap-1.5 cursor-pointer transition-all"
+            className="px-3.5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold text-xs font-arabic flex items-center gap-1.5 cursor-pointer transition-all"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>إعادة المحاولة</span>
