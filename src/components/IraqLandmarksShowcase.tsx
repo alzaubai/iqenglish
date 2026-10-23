@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, Sparkles, MapPin, Camera } from 'lucide-react';
+import { Volume2, Sparkles, Camera } from 'lucide-react';
 import { SpeechEngine } from '../utils/speech';
 
 interface LandmarkItem {
@@ -37,7 +37,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     locationEn: 'Ur, Dhi Qar',
     locationAr: 'ذي قار / أور',
     imageUrl: '/images/landmarks/landmark-ziggurat.jpg',
-    adjectiveEn: 'huge & ancient',
+    adjectiveEn: 'huge',
     adjectiveAr: 'ضخمة وعريقة',
     adjectiveColor: 'bg-amber-50 text-amber-800 border-amber-200',
     quoteEn: 'The ziggurat is huge! It is ancient and famous around the world.',
@@ -76,7 +76,7 @@ const IRAQ_LANDMARKS: LandmarkItem[] = [
     locationEn: 'Ninawa / Mosul',
     locationAr: 'الموصل / نينوى',
     imageUrl: '/images/landmarks/landmark-hatra.jpg',
-    adjectiveEn: 'ancient & interesting',
+    adjectiveEn: 'ancient',
     adjectiveAr: 'أثرية وشيقة',
     adjectiveColor: 'bg-stone-100 text-stone-800 border-stone-200',
     quoteEn: 'Hatra was an important place in many civilizations. The old temples are beautiful.',
@@ -120,7 +120,7 @@ export const IraqLandmarksShowcase: React.FC = () => {
 
   const handleSpeakLandmark = (item: LandmarkItem) => {
     setPlayingId(item.id);
-    SpeechEngine.speakText(`${item.nameEn}. ${item.quoteEn}`, {
+    SpeechEngine.speakText(`${item.nameEn}. It was ${item.adjectiveEn}. ${item.quoteEn}`, {
       rate: 0.85,
       onEnd: () => setPlayingId(null),
       onError: () => setPlayingId(null),
@@ -137,11 +137,11 @@ export const IraqLandmarksShowcase: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-zinc-200 p-5 sm:p-6 shadow-2xs space-y-5">
+    <div className="bg-white rounded-3xl border border-zinc-200 p-5 sm:p-6 shadow-2xs space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-100">
-        <div className="flex items-center gap-3">
-          <span className="p-2.5 rounded-2xl bg-amber-50 text-amber-700 border border-amber-200/70 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-100">
+        <div className="flex items-center gap-2.5">
+          <span className="p-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/70 shadow-2xs">
             <Camera className="w-5 h-5" />
           </span>
           <div>
@@ -152,21 +152,21 @@ export const IraqLandmarksShowcase: React.FC = () => {
               </span>
             </h3>
             <p className="text-xs text-zinc-500 font-sans mt-0.5" dir="ltr">
-              Richard's Scrapbook: 6 iconic Iraqi landmarks & descriptive adjectives
+              Richard&apos;s Scrapbook: 6 iconic Iraqi landmarks &amp; descriptive adjectives
             </p>
           </div>
         </div>
 
-        <div className="text-xs font-bold text-zinc-500 font-arabic bg-zinc-50 px-3 py-1.5 rounded-xl border border-zinc-200/80 self-start sm:self-auto flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>اضغط على أي معلم أو صفة للاستماع لنطقها الإنجليزي</span>
-        </div>
+        <span className="text-[11px] font-bold text-zinc-400 bg-zinc-50 border border-zinc-200 px-3 py-1 rounded-full self-start sm:self-center font-arabic">
+          انقر لسماع النطق
+        </span>
       </div>
 
       {/* Adjectives Bar (Target Vocabulary from SB p. 6 & AB p. 6) */}
       <div className="p-3.5 rounded-2xl bg-zinc-50/70 border border-zinc-200 space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-zinc-700 font-arabic flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             <span>الصفات المستهدفة بالدرس (Adjectives):</span>
           </span>
           <span className="text-[11px] text-zinc-400 font-sans" dir="ltr">
@@ -178,7 +178,7 @@ export const IraqLandmarksShowcase: React.FC = () => {
             <button
               key={adj.word}
               onClick={() => handleSpeakWord(adj)}
-              className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs hover:scale-105 active:scale-95 ${adj.badgeClass} ${
+              className={`px-3 py-1 rounded-xl border text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs hover:scale-105 active:scale-95 ${adj.badgeClass} ${
                 speakingWord === adj.word ? 'ring-2 ring-zinc-800 scale-105' : ''
               }`}
               title="اضغط للاستماع"
@@ -191,75 +191,69 @@ export const IraqLandmarksShowcase: React.FC = () => {
         </div>
       </div>
 
-      {/* 6 Landmark Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* 6 Landmark Cards Grid: Identical to Lesson 1 Structure */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {IRAQ_LANDMARKS.map((item) => {
-          const isCurrentPlaying = playingId === item.id;
+          const isPlaying = playingId === item.id;
+
           return (
-            <div
+            <button
               key={item.id}
-              className={`group bg-white rounded-2xl border transition-all duration-200 overflow-hidden flex flex-col shadow-2xs hover:shadow-md ${
-                isCurrentPlaying
-                  ? 'border-blue-500 ring-2 ring-blue-300'
-                  : 'border-zinc-200 hover:border-zinc-300'
+              onClick={() => handleSpeakLandmark(item)}
+              className={`p-3.5 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center justify-between gap-2.5 cursor-pointer group ${
+                isPlaying
+                  ? 'bg-blue-50/80 border-blue-400 shadow-sm scale-102 ring-2 ring-blue-200'
+                  : 'bg-white hover:bg-zinc-50/80 border-zinc-200 hover:border-zinc-300 hover:shadow-xs'
               }`}
+              title={item.quoteAr}
             >
-              {/* Landmark Image */}
-              <div className="relative aspect-16/10 w-full overflow-hidden bg-zinc-100 border-b border-zinc-100">
+              {/* Location Badge */}
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md border font-arabic bg-zinc-100 text-zinc-700 border-zinc-200 truncate max-w-full">
+                {item.locationAr}
+              </span>
+
+              {/* Illustrated Landmark Square Image */}
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-zinc-50 border border-zinc-100 shadow-2xs group-hover:scale-105 transition-transform duration-200 shrink-0 p-1 flex items-center justify-center">
                 <img
                   src={item.imageUrl}
                   alt={item.nameEn}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover rounded-xl"
                   loading="lazy"
                 />
-
-                {/* Location Badge */}
-                <div className="absolute top-2.5 right-2.5 bg-zinc-900/80 backdrop-blur-xs text-white text-[11px] font-bold px-2 py-0.5 rounded-lg font-arabic flex items-center gap-1 shadow-sm">
-                  <MapPin className="w-3 h-3 text-amber-400" />
-                  <span>{item.locationAr}</span>
-                </div>
-
-                {/* Adjective Chip Overlay */}
-                <div className="absolute bottom-2.5 left-2.5">
-                  <span
-                    className={`text-[11px] font-bold px-2.5 py-0.5 rounded-lg border shadow-xs font-mono uppercase tracking-wide ${item.adjectiveColor}`}
-                  >
-                    {item.adjectiveEn}
-                  </span>
-                </div>
               </div>
 
-              {/* Landmark Info & Listen */}
-              <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                <div className="space-y-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <h4 className="text-sm font-bold text-zinc-900 font-sans" dir="ltr">
-                      {item.nameEn}
-                    </h4>
-                    <span className="text-xs text-zinc-500 font-arabic shrink-0 font-medium">
-                      {item.nameAr}
-                    </span>
-                  </div>
+              {/* English & Arabic Name */}
+              <div className="w-full space-y-0.5">
+                <span className="text-xs sm:text-sm font-bold text-zinc-900 block font-sans leading-tight">
+                  {item.nameEn}
+                </span>
+                <span className="text-[11px] text-zinc-500 font-arabic block">
+                  {item.nameAr}
+                </span>
 
-                  <p className="text-xs text-zinc-600 font-arabic leading-relaxed pt-1" dir="rtl">
-                    {item.quoteAr}
-                  </p>
-                </div>
-
-                {/* Listen button */}
-                <button
-                  onClick={() => handleSpeakLandmark(item)}
-                  className={`w-full py-2 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer font-sans ${
-                    isCurrentPlaying
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
-                      : 'bg-zinc-50 hover:bg-zinc-100 text-zinc-800 border-zinc-200'
-                  }`}
+                {/* Adjective Tag */}
+                <span
+                  className={`inline-block mt-1 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md border font-mono uppercase tracking-wide ${item.adjectiveColor}`}
                 >
-                  <Volume2 className={`w-3.5 h-3.5 ${isCurrentPlaying ? 'animate-pulse text-white' : 'text-zinc-600'}`} />
-                  <span>{isCurrentPlaying ? 'Speaking...' : 'Listen to sentence'}</span>
-                </button>
+                  {item.adjectiveEn}
+                </span>
               </div>
-            </div>
+
+              {/* Speaker action indicator */}
+              <span
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors ${
+                  isPlaying
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-zinc-100 text-zinc-500 group-hover:bg-zinc-200 group-hover:text-zinc-800'
+                }`}
+              >
+                {isPlaying ? (
+                  <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                ) : (
+                  <Volume2 className="w-3.5 h-3.5" />
+                )}
+              </span>
+            </button>
           );
         })}
       </div>
