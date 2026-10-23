@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { lesson5ActivityData, CircleSentenceItem } from '../../../data/activityBookLesson5Data';
-import { CheckCircle2, XCircle, RotateCcw, Volume2, Sparkles, Lightbulb, Eye, PenTool } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, Volume2, Eye } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const Exercise3AdverbsSentences: React.FC = () => {
-  const { titleEn, titleAr, instructionEn, instructionAr, sentences } =
+  const { titleEn, instructionEn, instructionAr, sentences } =
     lesson5ActivityData.page13Ex3Sentences;
 
   const [inputs, setInputs] = useState<Record<string, string>>({});
@@ -26,8 +26,8 @@ export const Exercise3AdverbsSentences: React.FC = () => {
     if (allCorrect) {
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 50,
+          spread: 60,
           origin: { y: 0.6 },
         });
       } catch {
@@ -65,40 +65,27 @@ export const Exercise3AdverbsSentences: React.FC = () => {
   const correctCount = sentences.filter((s) => isItemCorrect(s)).length;
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 shadow-sm space-y-5" dir="ltr">
       {/* Exercise Header */}
-      <div className="bg-linear-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white p-5 sm:p-6 rounded-2xl shadow-sm border border-emerald-600/30">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white shrink-0">
-              <PenTool className="w-5 h-5" />
-            </span>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full bg-amber-400 text-emerald-950 text-xs font-black">
-                  كتاب النشاط ص 13
-                </span>
-                <span className="text-emerald-200 text-xs font-mono">Exercise 3: Complete</span>
-              </div>
-              <h2 className="text-lg sm:text-xl font-bold font-arabic mt-1">{titleAr}</h2>
-              <p className="text-xs sm:text-sm text-emerald-100 font-sans">{titleEn}</p>
-            </div>
-          </div>
-
-          <div className="bg-white/10 px-3.5 py-1.5 rounded-xl border border-white/10 text-xs font-bold font-arabic">
-            {answeredCount} / {sentences.length} مكتمل
-          </div>
-        </div>
-        <div className="mt-3 text-xs sm:text-sm text-emerald-100/90 font-arabic leading-relaxed flex flex-col gap-0.5">
-          <span>{instructionAr}</span>
-          <span className="text-xs text-emerald-200/80 font-mono" dir="ltr">
-            {instructionEn}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-200">
+        <div>
+          <span className="text-xs font-bold text-zinc-500 font-sans block mb-1">
+            Activity Book • Page 13 • Exercise 3
           </span>
+          <h4 className="text-base sm:text-lg font-bold text-zinc-900 font-sans">
+            {titleEn}: {instructionEn}
+          </h4>
+          <p className="text-xs text-zinc-600 font-arabic mt-1 text-right" dir="rtl">
+            {instructionAr}
+          </p>
+        </div>
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-sans">
+          Answered: {answeredCount} / {sentences.length}
         </div>
       </div>
 
-      {/* 6 Sentences Cards */}
-      <div className="space-y-4">
+      {/* 6 Sentences Items */}
+      <div className="space-y-3">
         {sentences.map((s) => {
           const isCorrect = isItemCorrect(s);
           const userVal = inputs[s.id] || '';
@@ -107,60 +94,58 @@ export const Exercise3AdverbsSentences: React.FC = () => {
           return (
             <div
               key={s.id}
-              className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+              className={`p-3.5 sm:p-4 rounded-xl border transition-all ${
                 isSubmitted
                   ? isCorrect
-                    ? 'bg-emerald-50/70 border-emerald-300'
-                    : 'bg-rose-50/70 border-rose-300'
-                  : 'bg-white border-zinc-200 hover:border-zinc-300 shadow-2xs'
+                    ? 'border-emerald-300 bg-emerald-50/20'
+                    : 'border-rose-300 bg-rose-50/20'
+                  : 'border-zinc-200 bg-zinc-50/40 hover:border-zinc-300'
               }`}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                {/* Letter & Percentage Circle Image */}
-                <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-700 font-bold text-xs flex items-center justify-center font-mono shrink-0">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                {/* Letter & Percentage Circle Badge */}
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center justify-center font-mono shrink-0">
                     {s.letter}
                   </span>
 
-                  <div className="flex items-center gap-2 bg-zinc-50 border border-zinc-200 px-2.5 py-1 rounded-xl">
+                  <div className="flex items-center gap-1.5 bg-white border border-zinc-200 px-2 py-0.5 rounded-lg">
                     <img
                       src={s.circleImage}
                       alt={`${s.percentage}%`}
-                      className="w-8 h-8 object-contain shrink-0"
+                      className="w-5 h-5 object-contain shrink-0"
                       loading="lazy"
                     />
-                    <div className="text-left font-mono">
-                      <span className="text-xs font-bold text-zinc-800 block">
-                        {s.percentage}%
-                      </span>
-                      <span className="text-[11px] text-zinc-500 font-arabic">
-                        {s.adverbAr}
-                      </span>
-                    </div>
+                    <span className="text-xs font-mono font-bold text-zinc-700">
+                      {s.percentage}%
+                    </span>
+                    <span className="text-[11px] text-zinc-500 font-arabic">
+                      ({s.adverbAr})
+                    </span>
                   </div>
                 </div>
 
                 {/* Status Indicator */}
                 {isSubmitted && (
-                  <div className="flex items-center gap-2">
+                  <div>
                     {isCorrect ? (
-                      <span className="flex items-center gap-1 text-emerald-700 font-bold text-xs font-arabic">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                        صحيح
+                      <span className="flex items-center gap-1 text-emerald-700 font-bold text-xs font-sans">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                        Correct
                       </span>
                     ) : (
-                      <span className="flex items-center gap-1 text-rose-700 font-bold text-xs font-arabic">
-                        <XCircle className="w-5 h-5 text-rose-600" />
-                        غير مطابق
+                      <span className="flex items-center gap-1 text-rose-700 font-bold text-xs font-sans">
+                        <XCircle className="w-4 h-4 text-rose-600" />
+                        Incorrect
                       </span>
                     )}
                   </div>
                 )}
               </div>
 
-              {/* Fill-in Sentence Box */}
-              <div className="mt-3.5 bg-zinc-50 p-3.5 rounded-xl border border-zinc-200 text-left" dir="ltr">
-                <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base font-mono text-zinc-900 leading-relaxed">
+              {/* Fill-in Sentence */}
+              <div className="bg-white p-3 rounded-lg border border-zinc-200">
+                <div className="flex flex-wrap items-center gap-1.5 text-sm font-sans font-medium text-zinc-900">
                   <span className="font-bold">{s.prefixEn}</span>
 
                   <input
@@ -169,12 +154,12 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                     onChange={(e) => handleInputChange(s.id, e.target.value)}
                     disabled={isSubmitted}
                     placeholder={`... (${s.verbInBrackets})`}
-                    className={`px-3 py-1.5 rounded-lg border text-sm sm:text-base font-mono font-bold transition-all focus:outline-hidden min-w-[150px] max-w-[220px] ${
+                    className={`px-2.5 py-1 rounded-md border text-sm font-mono font-bold transition-all focus:outline-hidden min-w-[140px] max-w-[200px] ${
                       isSubmitted
                         ? isCorrect
-                          ? 'bg-emerald-100 border-emerald-400 text-emerald-950'
-                          : 'bg-rose-100 border-rose-400 text-rose-950'
-                        : 'bg-white border-zinc-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200'
+                          ? 'bg-emerald-50 border-emerald-400 text-emerald-950'
+                          : 'bg-rose-50 border-rose-400 text-rose-950'
+                        : 'bg-zinc-50 border-zinc-300 focus:bg-white focus:border-zinc-900'
                     }`}
                   />
 
@@ -184,47 +169,44 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Arabic Translation */}
-                <p className="mt-2 text-xs text-zinc-600 font-arabic text-right" dir="rtl">
+                <p className="mt-1.5 text-xs text-zinc-500 font-arabic text-right" dir="rtl">
                   {s.fullSentenceAr}
                 </p>
               </div>
 
-              {/* Answer & Explanation Section */}
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-zinc-100">
+              {/* Controls & Answers */}
+              <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-zinc-100">
                 <div className="flex items-center gap-2">
                   <button
+                    type="button"
                     onClick={() => playTTS(`${s.prefixEn} ${s.correctAnswer} ${s.suffixEn}`)}
-                    className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
-                    title="استمع للجملة كاملة"
+                    className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
+                    title="Listen"
                   >
-                    <Volume2 className="w-3.5 h-3.5" />
-                    استمع للجملة
+                    <Volume2 className="w-3 h-3" />
+                    Listen
                   </button>
 
                   <button
+                    type="button"
                     onClick={() => toggleReveal(s.id)}
-                    className="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-arabic flex items-center gap-1 transition-colors cursor-pointer"
+                    className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-arabic flex items-center gap-1 transition-colors cursor-pointer"
                   >
-                    <Eye className="w-3.5 h-3.5" />
+                    <Eye className="w-3 h-3" />
                     {showAnswer ? 'إخفاء الإجابة' : 'كشف الإجابة'}
                   </button>
                 </div>
 
                 {(isSubmitted || showAnswer) && (
-                  <div className="bg-emerald-100/70 text-emerald-950 px-3 py-1 rounded-lg font-mono text-xs font-bold border border-emerald-200">
-                    الحل: <span className="underline">{s.correctAnswer}</span>
+                  <div className="bg-zinc-100 text-zinc-900 px-2.5 py-1 rounded-md font-mono text-xs font-bold">
+                    Answer: <span className="underline">{s.correctAnswer}</span>
                   </div>
                 )}
               </div>
 
-              {/* Detailed Grammar Explanation */}
               {(isSubmitted || showAnswer) && (
-                <div className="mt-2.5 p-3 rounded-xl bg-blue-50/70 border border-blue-100 text-right space-y-1">
-                  <div className="flex items-start gap-1.5 text-xs text-blue-900 font-arabic">
-                    <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                    <span>{s.ruleExplanationAr}</span>
-                  </div>
+                <div className="mt-2 p-2 rounded-lg bg-zinc-50 border border-zinc-200 text-right text-xs text-zinc-600 font-arabic" dir="rtl">
+                  {s.ruleExplanationAr}
                 </div>
               )}
             </div>
@@ -233,30 +215,31 @@ export const Exercise3AdverbsSentences: React.FC = () => {
       </div>
 
       {/* Action Controls & Results */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-zinc-200">
         {!isSubmitted ? (
           <button
+            type="button"
             onClick={handleCheck}
             disabled={answeredCount === 0}
-            className={`px-6 py-3 rounded-xl font-bold font-arabic text-sm transition-all shadow-sm flex items-center gap-2 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-bold font-arabic text-xs sm:text-sm transition-all shadow-xs flex items-center gap-2 cursor-pointer ${
               answeredCount > 0
-                ? 'bg-emerald-600 hover:bg-emerald-700 text-white hover:shadow-md active:scale-98'
+                ? 'bg-zinc-900 hover:bg-zinc-800 text-white active:scale-98'
                 : 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
             }`}
           >
-            <Sparkles className="w-4 h-4" />
             تحقق من الإجابات ({answeredCount}/{sentences.length})
           </button>
         ) : (
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            <div className="bg-emerald-50 text-emerald-900 px-4 py-2.5 rounded-xl border border-emerald-200 font-bold font-arabic text-sm">
+            <div className="bg-zinc-100 text-zinc-900 px-3.5 py-2 rounded-xl border border-zinc-200 font-bold font-arabic text-xs sm:text-sm">
               النتيجة: {correctCount} من {sentences.length} صحيحة
             </div>
             <button
+              type="button"
               onClick={handleReset}
-              className="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-bold font-arabic text-sm flex items-center gap-2 transition-all cursor-pointer"
+              className="px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-bold font-arabic text-xs sm:text-sm flex items-center gap-1.5 transition-all cursor-pointer"
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-3.5 h-3.5" />
               إعادة المحاولة
             </button>
           </div>

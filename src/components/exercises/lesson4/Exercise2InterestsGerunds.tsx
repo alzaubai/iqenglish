@@ -11,7 +11,7 @@ interface Exercise2InterestsGerundsProps {
 export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps> = ({ onProgressUpdate }) => {
   const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
   const [isChecked, setIsChecked] = useState(false);
-  const [showGrammarCard, setShowGrammarCard] = useState(true);
+  const [showGrammarCard, setShowGrammarCard] = useState(false);
 
   const items = lesson4ActivityData.page10Ex2NotCorrect;
   const grammar = lesson4ActivityData.page10GrammarBox;
@@ -82,48 +82,41 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
         </p>
       </div>
 
-      {/* Grammar Rule Card (AB p. 10) */}
+      {/* Rule Note (AB p. 10) */}
       {showGrammarCard && (
-        <div className="bg-gradient-to-br from-indigo-50/80 via-white to-zinc-50 rounded-2xl border border-indigo-200/80 p-5 shadow-sm space-y-4 text-right" dir="rtl">
-          <div className="flex items-center gap-2 border-b border-indigo-100 pb-2.5">
-            <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-black flex items-center justify-center font-sans">
-              ℹ️
-            </span>
-            <h5 className="font-bold text-sm text-zinc-900 font-arabic">
+        <div className="bg-zinc-50 rounded-xl border border-zinc-200 p-4 space-y-3 text-right" dir="rtl">
+          <div className="flex items-center gap-2 border-b border-zinc-200 pb-2">
+            <h5 className="font-bold text-xs sm:text-sm text-zinc-900 font-arabic">
               {grammar.titleAr} ({grammar.titleEn})
             </h5>
           </div>
 
-          <p className="text-xs text-zinc-700 leading-relaxed font-arabic">
+          <p className="text-xs text-zinc-600 leading-relaxed font-arabic">
             {grammar.ruleAr}
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs font-arabic">
-            <div className="bg-white p-3 rounded-xl border border-indigo-200 space-y-1.5">
-              <span className="font-bold text-indigo-900 block text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-arabic">
+            <div className="bg-white p-3 rounded-lg border border-zinc-200 space-y-1">
+              <span className="font-bold text-zinc-900 block text-xs">
                 {grammar.case1Title}
               </span>
-              <ul className="text-zinc-600 space-y-1 text-[11px] list-disc list-inside">
+              <ul className="text-zinc-600 space-y-0.5 text-[11px] list-disc list-inside">
                 {grammar.case1Examples.map((ex) => (
                   <li key={ex}>{ex}</li>
                 ))}
               </ul>
             </div>
 
-            <div className="bg-white p-3 rounded-xl border border-emerald-200 space-y-1.5">
-              <span className="font-bold text-emerald-900 block text-xs">
+            <div className="bg-white p-3 rounded-lg border border-zinc-200 space-y-1">
+              <span className="font-bold text-zinc-900 block text-xs">
                 {grammar.case2Title}
               </span>
-              <ul className="text-zinc-600 space-y-1 text-[11px] list-disc list-inside">
+              <ul className="text-zinc-600 space-y-0.5 text-[11px] list-disc list-inside">
                 {grammar.case2Examples.map((ex) => (
                   <li key={ex}>{ex}</li>
                 ))}
               </ul>
             </div>
-          </div>
-
-          <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold font-arabic">
-            {grammar.warningAr}
           </div>
         </div>
       )}

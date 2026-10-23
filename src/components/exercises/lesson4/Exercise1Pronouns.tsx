@@ -88,20 +88,20 @@ export const Exercise1Pronouns: React.FC<Exercise1PronounsProps> = ({ onProgress
       </div>
 
       {/* Words Box */}
-      <div className="bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 text-white rounded-2xl p-4 sm:p-5 shadow-sm space-y-2">
+      <div className="bg-zinc-100 rounded-xl border border-zinc-200 p-4 space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-zinc-400 font-sans uppercase tracking-wider">
-            Possessive Pronouns Box (صندوق ضمائر التملك)
+          <span className="text-xs font-bold text-zinc-600 font-sans uppercase tracking-wider">
+            Possessive Pronouns Box:
           </span>
-          <span className="text-[11px] text-zinc-300 font-arabic">
-            تأتي بدون اسم بعدها وتدل على الملكية
+          <span className="text-[11px] text-zinc-500 font-arabic" dir="rtl">
+            اختر من الصندوق: mine, yours, hers, ours, theirs
           </span>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
           {PRONOUN_BOX.map((p) => (
             <span
               key={p}
-              className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-sm sm:text-base font-mono font-black text-amber-300 transition-colors"
+              className="px-3.5 py-1.5 rounded-lg bg-white border border-zinc-300 text-sm font-mono font-bold text-zinc-900"
             >
               {p}
             </span>

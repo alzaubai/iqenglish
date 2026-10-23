@@ -1,16 +1,3 @@
-export interface FrequencyAdverbRule {
-  id: string;
-  ruleTitleEn: string;
-  ruleTitleAr: string;
-  promptEn: string;
-  promptAr: string;
-  options: string[];
-  correctAnswer: string;
-  explanationAr: string;
-  exampleSentenceEn: string;
-  exampleSentenceAr: string;
-}
-
 export interface SurveyQuestionItem {
   id: string;
   letter: string;
@@ -68,51 +55,6 @@ export interface SentenceWritingPrompt {
 }
 
 export const lesson5ActivityData = {
-  // Activity Book p. 12 - Rule B: Adverbs of Frequency Rules
-  page12RuleB: {
-    titleEn: 'Adverbs of Frequency: Grammar Rules',
-    titleAr: 'ظروف التكرار: القواعد النحوية وموقعها في الجملة',
-    descriptionAr: 'بيان موضع ظروف التكرار (always, usually, often, sometimes, never) بالنسبة لأفعال الكينونة (be) والأفعال الرئيسية الأخرى:',
-    rules: [
-      {
-        id: 'rule-1',
-        ruleTitleEn: '1. Position with the verb (be)',
-        ruleTitleAr: '1. الموقع مع أفعال الكينونة (am / is / are / was / were)',
-        promptEn: 'We put adverbs of frequency ... the verb (be).',
-        promptAr: 'نضع ظروف التكرار ... فعل الكينونة (be):',
-        options: ['after', 'before', 'between'],
-        correctAnswer: 'after',
-        explanationAr: 'تأتي ظروف التكرار دائماً بعد فعل الكينونة (am, is, are). مثلاً: They are always late / We are never at home.',
-        exampleSentenceEn: 'We are never at home on Fridays.',
-        exampleSentenceAr: 'نحن لسنا في المنزل أبداً أيام الجمعة.',
-      },
-      {
-        id: 'rule-2',
-        ruleTitleEn: '2. Position with other main verbs',
-        ruleTitleAr: '2. الموقع مع بقية الأفعال الرئيسية',
-        promptEn: 'With other verbs, we put adverbs of frequency ... the subject and the verb.',
-        promptAr: 'مع بقية الأفعال، نضع ظروف التكرار ... الفاعل والفعل الرئيسي (قبل الفعل):',
-        options: ['between', 'after', 'at the end'],
-        correctAnswer: 'between',
-        explanationAr: 'مع الأفعال الأخرى، يوضع ظرف التكرار بين الفاعل والفعل الرئيسي (أي يسبق الفعل الرئيسي مباشرة). مثلاً: He usually walks to school.',
-        exampleSentenceEn: 'My father always has a rest after lunch.',
-        exampleSentenceAr: 'أبي دائماً يرتاح بعد وجبة الغداء.',
-      },
-      {
-        id: 'rule-3',
-        ruleTitleEn: '3. Sentence beginning with (sometimes)',
-        ruleTitleAr: '3. بداية الجملة بالظرف (Sometimes)',
-        promptEn: 'Which adverb of frequency can also begin a sentence?',
-        promptAr: 'أي من ظروف التكرار الآتية يمكن أن يأتي في بداية الجملة؟',
-        options: ['sometimes', 'never', 'always'],
-        correctAnswer: 'sometimes',
-        explanationAr: 'الظرف (sometimes) يتميز بأنه يمكن وضعه في بداية الجملة أيضاً للتوكيد. مثلاً: Sometimes we play a game.',
-        exampleSentenceEn: 'Sometimes my brother and I play a game.',
-        exampleSentenceAr: 'أحياناً نلعب أنا وأخي لعبة معاً.',
-      },
-    ] as FrequencyAdverbRule[],
-  },
-
   // Activity Book p. 12 - Exercise 1: Survey Table (How often do you do these things?)
   page12Ex1Survey: {
     titleEn: 'Exercise 1: How often do you do these things?',

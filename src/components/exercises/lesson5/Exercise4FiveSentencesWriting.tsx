@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { lesson5ActivityData, SentenceWritingPrompt } from '../../../data/activityBookLesson5Data';
-import { PenLine, CheckCircle2, RotateCcw, Volume2, Sparkles, BookOpen, Lightbulb, Copy, Check } from 'lucide-react';
+import { CheckCircle2, RotateCcw, Volume2, Copy, Check } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const Exercise4FiveSentencesWriting: React.FC = () => {
-  const { titleEn, titleAr, instructionEn, instructionAr, prompts } =
+  const { titleEn, instructionEn, instructionAr, prompts } =
     lesson5ActivityData.page13Ex4Writing;
 
   const [sentences, setSentences] = useState<Record<string, string>>({
@@ -22,7 +22,6 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
   };
 
   const handleQuickAdd = (p: SentenceWritingPrompt, activityEn: string) => {
-    // Generate starter sentence e.g. "I always wake up early."
     const generated = `I ${p.requiredAdverb} ${activityEn}.`;
     setSentences((prev) => ({ ...prev, [p.id]: generated }));
   };
@@ -53,7 +52,6 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
     }
   };
 
-  // Validation function for each prompt
   const validatePrompt = (p: SentenceWritingPrompt): { valid: boolean; reason?: string } => {
     const text = (sentences[p.id] || '').trim();
     if (!text) return { valid: false };
@@ -72,53 +70,28 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
 
   const completedCount = prompts.filter((p) => validatePrompt(p).valid).length;
 
-  const triggerCelebration = () => {
-    try {
-      confetti({
-        particleCount: 80,
-        spread: 80,
-        origin: { y: 0.6 },
-      });
-    } catch {
-      // ignore
-    }
-  };
-
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="bg-white rounded-2xl border border-zinc-200 p-5 sm:p-6 shadow-sm space-y-5" dir="ltr">
       {/* Exercise Header */}
-      <div className="bg-linear-to-r from-amber-700 via-orange-700 to-amber-800 text-white p-5 sm:p-6 rounded-2xl shadow-sm border border-amber-600/30">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white shrink-0">
-              <PenLine className="w-5 h-5" />
-            </span>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-amber-950 text-xs font-black">
-                  كتاب النشاط ص 13
-                </span>
-                <span className="text-amber-200 text-xs font-mono">Exercise 4: 5 Sentences</span>
-              </div>
-              <h2 className="text-lg sm:text-xl font-bold font-arabic mt-1">{titleAr}</h2>
-              <p className="text-xs sm:text-sm text-amber-100 font-sans">{titleEn}</p>
-            </div>
-          </div>
-
-          <div className="bg-white/10 px-3.5 py-1.5 rounded-xl border border-white/10 text-xs font-bold font-arabic">
-            {completedCount} من {prompts.length} مكتمل
-          </div>
-        </div>
-        <div className="mt-3 text-xs sm:text-sm text-amber-100/90 font-arabic leading-relaxed flex flex-col gap-0.5">
-          <span>{instructionAr}</span>
-          <span className="text-xs text-amber-200/80 font-mono" dir="ltr">
-            {instructionEn}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-200">
+        <div>
+          <span className="text-xs font-bold text-zinc-500 font-sans block mb-1">
+            Activity Book • Page 13 • Exercise 4
           </span>
+          <h4 className="text-base sm:text-lg font-bold text-zinc-900 font-sans">
+            {titleEn}: {instructionEn}
+          </h4>
+          <p className="text-xs text-zinc-600 font-arabic mt-1 text-right" dir="rtl">
+            {instructionAr}
+          </p>
+        </div>
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-sans">
+          Completed: {completedCount} / {prompts.length}
         </div>
       </div>
 
-      {/* 5 Writing Prompt Cards */}
-      <div className="space-y-4">
+      {/* 5 Prompts */}
+      <div className="space-y-3.5">
         {prompts.map((p) => {
           const userText = sentences[p.id] || '';
           const { valid, reason } = validatePrompt(p);
@@ -126,59 +99,58 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
           return (
             <div
               key={p.id}
-              className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+              className={`p-3.5 sm:p-4 rounded-xl border transition-all ${
                 valid
-                  ? 'bg-emerald-50/50 border-emerald-300'
-                  : 'bg-white border-zinc-200 hover:border-zinc-300 shadow-2xs'
+                  ? 'border-emerald-300 bg-emerald-50/15'
+                  : 'border-zinc-200 bg-zinc-50/40 hover:border-zinc-300'
               }`}
             >
               {/* Header with Circle and Adverb Name */}
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-700 font-bold text-xs flex items-center justify-center font-mono shrink-0">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center justify-center font-mono shrink-0">
                     {p.number}
                   </span>
 
-                  <div className="flex items-center gap-2 bg-zinc-50 border border-zinc-200 px-2.5 py-1 rounded-xl">
+                  <div className="flex items-center gap-1.5 bg-white border border-zinc-200 px-2 py-0.5 rounded-lg">
                     <img
                       src={p.circleImage}
                       alt={p.requiredAdverb}
-                      className="w-7 h-7 object-contain shrink-0"
+                      className="w-5 h-5 object-contain shrink-0"
                       loading="lazy"
                     />
-                    <div className="text-left font-mono">
-                      <span className="text-xs font-bold text-zinc-900 uppercase">
-                        {p.requiredAdverb}
-                      </span>
-                      <span className="text-[11px] text-zinc-500 font-arabic ml-1.5">
-                        ({p.adverbAr})
-                      </span>
-                    </div>
+                    <span className="text-xs font-mono font-bold text-zinc-900 uppercase">
+                      {p.requiredAdverb}
+                    </span>
+                    <span className="text-[11px] text-zinc-500 font-arabic">
+                      ({p.adverbAr})
+                    </span>
                   </div>
                 </div>
 
                 {valid ? (
-                  <span className="flex items-center gap-1 text-emerald-700 font-bold text-xs font-arabic">
+                  <span className="flex items-center gap-1 text-emerald-700 font-bold text-xs font-sans">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    جملة مطابقة للقاعدة
+                    Complete
                   </span>
                 ) : userText ? (
-                  <span className="text-xs text-rose-600 font-arabic font-medium">
+                  <span className="text-xs text-rose-600 font-arabic font-medium" dir="rtl">
                     {reason}
                   </span>
                 ) : null}
               </div>
 
               {/* Quick Suggestion Chips */}
-              <div className="mt-3 flex flex-wrap items-center gap-1.5" dir="ltr">
-                <span className="text-xs text-zinc-500 font-arabic mr-1" dir="rtl">
+              <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                <span className="text-xs text-zinc-400 font-arabic" dir="rtl">
                   اقتراحات سريعة:
                 </span>
                 {p.suggestedActivities.map((act) => (
                   <button
                     key={act.en}
+                    type="button"
                     onClick={() => handleQuickAdd(p, act.en)}
-                    className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono transition-colors cursor-pointer"
+                    className="px-2 py-0.5 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono transition-colors cursor-pointer"
                     title={act.ar}
                   >
                     + {act.en}
@@ -187,62 +159,62 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
               </div>
 
               {/* Writing Input */}
-              <div className="mt-3" dir="ltr">
+              <div>
                 <input
                   type="text"
                   value={userText}
                   onChange={(e) => handleSentenceChange(p.id, e.target.value)}
                   placeholder={`Write a sentence using "${p.requiredAdverb}" (e.g. I ${p.requiredAdverb} ...)`}
-                  className={`w-full px-3.5 py-2.5 rounded-xl border text-sm sm:text-base font-mono transition-all focus:outline-hidden ${
+                  className={`w-full px-3 py-2 rounded-lg border text-sm font-mono transition-all focus:outline-hidden ${
                     valid
-                      ? 'bg-white border-emerald-400 focus:ring-2 focus:ring-emerald-200 text-zinc-900'
-                      : 'bg-zinc-50 border-zinc-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 text-zinc-900'
+                      ? 'bg-white border-emerald-400 text-zinc-900'
+                      : 'bg-white border-zinc-300 focus:border-zinc-900 text-zinc-900'
                   }`}
                 />
               </div>
 
               {/* Controls & Model Sentence */}
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-zinc-100">
+              <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-zinc-100">
                 <div className="flex items-center gap-2">
                   {userText && (
                     <button
+                      type="button"
                       onClick={() => playTTS(userText)}
-                      className="px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
-                      title="استمع لجملتك"
+                      className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Listen"
                     >
-                      <Volume2 className="w-3.5 h-3.5" />
-                      استمع
+                      <Volume2 className="w-3 h-3" />
+                      Listen
                     </button>
                   )}
 
                   <button
+                    type="button"
                     onClick={() => copyModel(p)}
-                    className="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-arabic flex items-center gap-1 transition-colors cursor-pointer"
+                    className="px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-arabic flex items-center gap-1 transition-colors cursor-pointer"
                   >
                     {copiedId === p.id ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <Check className="w-3 h-3 text-emerald-600" />
                         تم النسخ
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3.5 h-3.5" />
+                        <Copy className="w-3 h-3" />
                         نسخ النموذج الوزاري
                       </>
                     )}
                   </button>
                 </div>
 
-                {/* Model preview */}
-                <div className="text-xs text-zinc-600 font-mono flex items-center gap-1.5" dir="ltr">
-                  <span className="font-bold text-amber-800 font-arabic" dir="rtl">
-                    النموذج:
-                  </span>
+                <div className="text-xs text-zinc-500 font-mono flex items-center gap-1.5">
+                  <span className="font-bold text-zinc-700">Model:</span>
                   <span>"{p.modelSentence}"</span>
                   <button
+                    type="button"
                     onClick={() => playTTS(p.modelSentence)}
-                    className="p-1 rounded-md hover:bg-zinc-100 text-zinc-500 hover:text-zinc-800"
-                    title="استمع للنموذج"
+                    className="p-1 rounded-md text-zinc-400 hover:text-zinc-700"
+                    title="Listen"
                   >
                     <Volume2 className="w-3 h-3" />
                   </button>
@@ -254,31 +226,19 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
       </div>
 
       {/* Completion & Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-3">
-        {completedCount === prompts.length ? (
-          <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex-1 flex items-center justify-between gap-3 font-arabic">
-            <div className="flex items-center gap-2 text-emerald-900 font-bold text-sm">
-              <Sparkles className="w-5 h-5 text-emerald-600" />
-              أبدعت! كتبت جميع الجمل الخمس مستخدماً ظروف التكرار بدقة تامة.
-            </div>
-            <button
-              onClick={triggerCelebration}
-              className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 transition-colors cursor-pointer"
-            >
-              احتفل مجدداً 🎉
-            </button>
-          </div>
-        ) : (
-          <div className="text-xs text-zinc-500 font-arabic">
-            أكمل كتابة الجمل الخمس للحصول على التقييم النهائي.
-          </div>
-        )}
+      <div className="flex items-center justify-between pt-2 border-t border-zinc-200">
+        <span className="text-xs text-zinc-500 font-arabic" dir="rtl">
+          {completedCount === prompts.length
+            ? 'أحسنت! أكملت كتابة الجمل الخمس بظروف التكرار بنجاح.'
+            : `أكمل كتابة الجمل الخمس (${completedCount}/${prompts.length})`}
+        </span>
 
         <button
+          type="button"
           onClick={handleReset}
-          className="px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-bold font-arabic text-sm flex items-center gap-2 transition-all cursor-pointer"
+          className="px-3.5 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold font-arabic flex items-center gap-1.5 transition-colors cursor-pointer"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-3.5 h-3.5" />
           إعادة ضبط الكل
         </button>
       </div>

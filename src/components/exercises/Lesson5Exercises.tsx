@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ExerciseBRulePosition } from './lesson5/ExerciseBRulePosition';
 import { Exercise1FrequencySurvey } from './lesson5/Exercise1FrequencySurvey';
 import { Exercise2PartnerGame } from './lesson5/Exercise2PartnerGame';
 import { Exercise3AdverbsSentences } from './lesson5/Exercise3AdverbsSentences';
@@ -10,19 +9,18 @@ interface Lesson5ExercisesProps {
 }
 
 const TABS = [
-  { step: 1, title: 'قاعدة B (موقع ظروف التكرار)' },
-  { step: 2, title: 'تمرين 1 (استبيان التكرار)' },
-  { step: 3, title: 'تمرين 2 (محادثة الزميل)' },
-  { step: 4, title: 'تمرين 3 (إكمال الجمل الست)' },
-  { step: 5, title: 'تمرين 4 (كتابة 5 جمل)' },
+  { step: 1, title: 'تمرين 1 (استبيان التكرار - ص 12)' },
+  { step: 2, title: 'تمرين 2 (محادثة الزميل - ص 13)' },
+  { step: 3, title: 'تمرين 3 (إكمال الجمل الست - ص 13)' },
+  { step: 4, title: 'تمرين 4 (كتابة 5 جمل - ص 13)' },
 ] as const;
 
 export const Lesson5Exercises: React.FC<Lesson5ExercisesProps> = ({ onProgressUpdate }) => {
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
 
   return (
     <div className="space-y-6">
-      {/* Exercise Tabs Bar: Smooth scrollable on mobile, wrap on tablet/desktop */}
+      {/* Exercise Tabs Bar: Consistent with site design */}
       <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 pb-1" dir="rtl">
         {TABS.map((tab) => (
           <button
@@ -41,22 +39,18 @@ export const Lesson5Exercises: React.FC<Lesson5ExercisesProps> = ({ onProgressUp
 
       {/* Preserve state across tabs by toggling display */}
       <div className={currentStep === 1 ? 'block' : 'hidden'}>
-        <ExerciseBRulePosition />
-      </div>
-
-      <div className={currentStep === 2 ? 'block' : 'hidden'}>
         <Exercise1FrequencySurvey />
       </div>
 
-      <div className={currentStep === 3 ? 'block' : 'hidden'}>
+      <div className={currentStep === 2 ? 'block' : 'hidden'}>
         <Exercise2PartnerGame />
       </div>
 
-      <div className={currentStep === 4 ? 'block' : 'hidden'}>
+      <div className={currentStep === 3 ? 'block' : 'hidden'}>
         <Exercise3AdverbsSentences />
       </div>
 
-      <div className={currentStep === 5 ? 'block' : 'hidden'}>
+      <div className={currentStep === 4 ? 'block' : 'hidden'}>
         <Exercise4FiveSentencesWriting />
       </div>
     </div>

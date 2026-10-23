@@ -445,38 +445,6 @@ export const lessons3to10ActivityData: Record<number, GenericExercise[]> = {
     {
       exerciseNumber: 1,
       pageNumber: 12,
-      titleEn: 'Rule B: Adverbs of Frequency Position',
-      titleAr: 'قاعدة B: موقع ظروف التكرار في الجملة',
-      items: [
-        {
-          id: 'l5-rule-1',
-          promptEn: 'We put adverbs of frequency ... the verb (be).',
-          promptAr: 'نضع ظروف التكرار ... فعل الكينونة be:',
-          type: 'select',
-          options: ['after', 'before', 'between'],
-          correctAnswer: 'after',
-        },
-        {
-          id: 'l5-rule-2',
-          promptEn: 'With other verbs, we put adverbs ... the subject and the verb.',
-          promptAr: 'مع بقية الأفعال نضع ظروف التكرار ... الفاعل والفعل (قبل الفعل):',
-          type: 'select',
-          options: ['between', 'after', 'at the end'],
-          correctAnswer: 'between',
-        },
-        {
-          id: 'l5-rule-3',
-          promptEn: 'Which adverb can also begin a sentence?',
-          promptAr: 'أي ظرف تكرار يمكن أن يأتي في بداية الجملة؟',
-          type: 'select',
-          options: ['sometimes', 'never', 'always'],
-          correctAnswer: 'sometimes',
-        },
-      ],
-    },
-    {
-      exerciseNumber: 2,
-      pageNumber: 12,
       titleEn: 'Exercise 1: How often do you do these things? (Survey)',
       titleAr: 'تمرين 1: استبيان مدى تكرار الأنشطة اليومية',
       items: [
@@ -511,6 +479,22 @@ export const lessons3to10ActivityData: Record<number, GenericExercise[]> = {
           type: 'select',
           options: ['Yes, always', 'Yes, usually', 'Yes, often', 'Yes, sometimes', 'No, never'],
           correctAnswer: 'Yes, usually',
+        },
+      ],
+    },
+    {
+      exerciseNumber: 2,
+      pageNumber: 13,
+      titleEn: 'Exercise 2: Talk about your partner',
+      titleAr: 'تمرين 2: تحدث عن زميلك وخمّن مدى تكرار أنشطته',
+      items: [
+        {
+          id: 'l5-p-1',
+          promptEn: 'You usually phone your friends in the evening.',
+          promptAr: 'تخمين الزميل: أنت عادة تهاتف أصدقاءك مساءً',
+          type: 'select',
+          options: ['No, sometimes.', 'Yes, never.', 'Always not.'],
+          correctAnswer: 'No, sometimes.',
         },
       ],
     },
