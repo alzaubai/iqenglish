@@ -87,126 +87,129 @@ export const Unit1LessonShowcase: React.FC<Unit1LessonShowcaseProps> = ({ lesson
     }
   };
 
+  // Determine responsive grid columns matching Lesson 1 & Lesson 2
+  const gridColsClass =
+    showcase.items.length === 5
+      ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3'
+      : showcase.items.length === 4
+      ? 'grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3'
+      : 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3';
+
   return (
-    <div
-      className="bg-gradient-to-br from-indigo-50/50 via-white to-sky-50/40 rounded-3xl border border-indigo-100/80 p-4 sm:p-5 shadow-xs space-y-3.5 font-sans text-right"
-      dir="rtl"
-    >
+    <div className="bg-white rounded-3xl border border-zinc-200 p-5 sm:p-6 shadow-2xs space-y-4 font-sans text-right" dir="rtl">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-indigo-100/70">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-100/90 text-indigo-900 border border-indigo-200 font-arabic">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-              {showcase.badgeAr}
-            </span>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-zinc-100">
+        <div className="flex items-center gap-2.5">
+          <span className="p-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200/70 shadow-2xs">
+            <Sparkles className="w-5 h-5" />
+          </span>
+          <div>
+            <h3 className="text-base sm:text-lg font-bold text-zinc-900 font-arabic flex items-center gap-2">
+              <span>{showcase.titleAr}</span>
+              <span className="text-xs px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-600 font-mono font-normal" dir="ltr">
+                {showcase.titleEn}
+              </span>
+            </h3>
+            <p className="text-xs text-zinc-500 font-arabic mt-0.5">
+              {showcase.descriptionAr}
+            </p>
           </div>
-          <h3 className="text-base sm:text-lg font-extrabold text-zinc-900 font-arabic flex flex-wrap items-baseline gap-2">
-            <span>{showcase.titleAr}</span>
-            <span dir="ltr" className="text-xs sm:text-sm font-semibold text-zinc-500 font-sans">
-              ({showcase.titleEn})
-            </span>
-          </h3>
-          <p className="text-xs text-zinc-600 font-arabic leading-relaxed">
-            {showcase.descriptionAr}
-          </p>
         </div>
 
-        {/* Play All Button */}
-        <button
-          onClick={handlePlayAll}
-          className={`px-3 py-1.5 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer shrink-0 self-start sm:self-center shadow-2xs ${
-            isPlayingAll
-              ? 'bg-rose-600 hover:bg-rose-700 text-white ring-2 ring-rose-200'
-              : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-xs active:scale-95'
-          }`}
-          title={isPlayingAll ? 'إيقاف الاستماع المتتابع' : 'استمع إلى جميع المفردات بالترتيب'}
-        >
-          {isPlayingAll ? (
-            <>
-              <VolumeX className="w-3.5 h-3.5 animate-pulse" />
-              <span>إيقاف الاستماع</span>
-            </>
-          ) : (
-            <>
-              <Play className="w-3.5 h-3.5 fill-white" />
-              <span>استمع للكل بالترتيب</span>
-            </>
-          )}
-        </button>
+        {/* Play All Button & Indicator */}
+        <div className="flex items-center gap-2 self-start sm:self-center">
+          <button
+            onClick={handlePlayAll}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold font-arabic transition-all flex items-center gap-2 cursor-pointer shadow-2xs ${
+              isPlayingAll
+                ? 'bg-rose-600 hover:bg-rose-700 text-white ring-2 ring-rose-200'
+                : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-xs active:scale-95'
+            }`}
+            title={isPlayingAll ? 'إيقاف الاستماع المتتابع' : 'استمع إلى جميع المفردات بالترتيب'}
+          >
+            {isPlayingAll ? (
+              <>
+                <VolumeX className="w-3.5 h-3.5 animate-pulse" />
+                <span>إيقاف</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5 fill-white" />
+                <span>استمع للكل بالترتيب</span>
+              </>
+            )}
+          </button>
+
+          <span className="text-[11px] font-bold text-zinc-400 bg-zinc-50 border border-zinc-200 px-3 py-1 rounded-full font-arabic hidden sm:inline-block">
+            انقر لسماع النطق
+          </span>
+        </div>
       </div>
 
-      {/* Compact Cards Grid: Small Image Thumbnails & Direct Textbook Phrasal Chunks */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
+      {/* Grid of 6 Compact Cards (Matching Lesson 1 & Lesson 2 format) */}
+      <div className={gridColsClass}>
         {showcase.items.map((item) => {
           const isActive = activeItemId === item.id;
 
           return (
-            <div
+            <button
               key={item.id}
               onClick={() => handleSpeakItem(item)}
-              className={`group bg-white rounded-2xl border p-2.5 sm:p-3 transition-all duration-200 cursor-pointer flex items-center gap-3 relative overflow-hidden select-none ${
+              className={`p-3.5 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center justify-between gap-2.5 cursor-pointer group ${
                 isActive
-                  ? 'border-indigo-600 ring-2 ring-indigo-400/40 shadow-sm scale-[1.01] bg-indigo-50/30'
-                  : 'border-zinc-200/90 hover:border-indigo-300 hover:shadow-2xs hover:bg-zinc-50/40'
+                  ? 'bg-blue-50/80 border-blue-400 shadow-sm scale-102 ring-2 ring-blue-200'
+                  : 'bg-white hover:bg-zinc-50/80 border-zinc-200 hover:border-zinc-300 hover:shadow-xs'
               }`}
+              title={item.contextAr || item.contextEn}
             >
-              {/* Compact Small Image Thumbnail (w-14 h-14 on mobile, w-16 h-16 on desktop) */}
+              {/* Who did it / Concept Tag Badge */}
+              {item.tag && (
+                <span
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-md border font-arabic truncate max-w-full ${
+                    item.tagColor || 'bg-zinc-100 text-zinc-700 border-zinc-200'
+                  }`}
+                >
+                  {item.tag}
+                </span>
+              )}
+
+              {/* Illustrated Square Image (w-20 h-20 on mobile, w-24 h-24 on desktop) */}
               {item.imageUrl && (
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-zinc-50 border border-zinc-100 shrink-0 relative flex items-center justify-center p-0.5">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-zinc-50 border border-zinc-100 shadow-2xs group-hover:scale-105 transition-transform duration-200 shrink-0 p-1 flex items-center justify-center">
                   <img
                     src={item.imageUrl}
                     alt={item.wordEn}
-                    className="w-full h-full object-cover rounded-lg transition-transform duration-200 group-hover:scale-105"
+                    className="w-full h-full object-cover rounded-xl"
                     loading="lazy"
                   />
-                  {item.tag && (
-                    <span
-                      className={`absolute bottom-0 inset-x-0 text-[8px] sm:text-[9px] font-bold text-center py-0.5 rounded-b-lg font-arabic truncate ${
-                        item.tagColor || 'bg-zinc-800/80 text-white'
-                      }`}
-                    >
-                      {item.tag}
-                    </span>
-                  )}
                 </div>
               )}
 
-              {/* Text Info */}
-              <div className="flex-1 min-w-0 space-y-0.5 text-right font-arabic">
-                {/* English phrase + audio button */}
-                <div className="flex items-center justify-between gap-1.5" dir="ltr">
-                  <span className="text-xs sm:text-sm font-extrabold text-zinc-900 group-hover:text-indigo-600 transition-colors truncate font-sans">
-                    {item.wordEn}
-                  </span>
-                  <div
-                    className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                      isActive
-                        ? 'bg-indigo-600 text-white shadow-xs'
-                        : 'bg-zinc-100 text-zinc-500 group-hover:bg-indigo-50 group-hover:text-indigo-600'
-                    }`}
-                  >
-                    <Volume2 className={`w-3.5 h-3.5 ${isActive ? 'animate-pulse' : ''}`} />
-                  </div>
-                </div>
-
-                {/* Arabic Translation */}
-                <p className="text-[11px] sm:text-xs font-bold text-zinc-700 truncate">
+              {/* English Phrase & Arabic Meaning (No truncation, naturally wrapped & readable) */}
+              <div className="w-full space-y-0.5">
+                <span className="text-xs sm:text-sm font-bold text-zinc-900 block font-sans leading-snug">
+                  {item.wordEn}
+                </span>
+                <span className="text-[11px] text-zinc-500 font-arabic block mt-0.5">
                   {item.wordAr}
-                </p>
-
-                {/* Textbook Context / Quote */}
-                {item.contextEn && (
-                  <p
-                    className="text-[10px] text-zinc-400 font-sans italic truncate text-left pt-0.5"
-                    dir="ltr"
-                    title={item.contextEn}
-                  >
-                    &ldquo;{item.contextEn}&rdquo;
-                  </p>
-                )}
+                </span>
               </div>
-            </div>
+
+              {/* Speaker action indicator */}
+              <span
+                className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors ${
+                  isActive
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-zinc-100 text-zinc-500 group-hover:bg-zinc-200 group-hover:text-zinc-800'
+                }`}
+              >
+                {isActive ? (
+                  <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                ) : (
+                  <Volume2 className="w-3.5 h-3.5" />
+                )}
+              </span>
+            </button>
           );
         })}
       </div>
