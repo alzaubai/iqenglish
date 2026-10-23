@@ -160,12 +160,12 @@ export const UNIT2_CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
     { en: 'has September,', ar: 'في أيلول (سبتمبر)،' },
   ],
   'u2-l4-t18-2': [
-    { en: 'April, June', ar: 'ونيسان، وحزيران،' },
-    { en: 'and November.', ar: 'وتشرين الثاني.' },
+    { en: 'April, June', ar: 'ونيسان (أبريل)، وحزيران (يونيو)،' },
+    { en: 'and November.', ar: 'وتشرين الثاني (نوفمبر).' },
   ],
   'u2-l4-t18-3': [
     { en: 'All the rest', ar: 'وكل الأشهر الباقية' },
-    { en: 'have thirty-one,', ar: 'فيها واحد وثلاثون،' },
+    { en: 'have thirty-one,', ar: 'فيها واحد وثلاثون يوماً،' },
   ],
   'u2-l4-t18-4': [
     { en: 'Except February', ar: 'عدا شباط (فبراير)' },
@@ -256,13 +256,17 @@ export const UNIT2_CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
     { en: "Drinking water doesn't come in bottles,", ar: 'فمياه الشرب لا تأتي في قوارير،' },
     { en: 'it comes in blocks of ice.', ar: 'بل في قوالب ثلجية.' },
   ],
-  'u2-l5-t20-7': [
+  'u2-l5-t20-7a': [
     { en: 'The battery in your phone', ar: 'بطارية هاتفك' },
     { en: 'will only work for a few minutes', ar: 'لن تعمل إلا لبضع دقائق' },
-    { en: "if you don't keep it warm.", ar: 'إن لم تحافظ على دفئها،' },
-    { en: 'Even the petrol in your car will freeze.', ar: 'وحتى البنزين في سيارتك يتجمد،' },
-    { en: 'This is why some people', ar: 'ولهذا السبب يترك بعض الناس' },
-    { en: 'keep their car engines on all day.', ar: 'محركات سياراتهم تعمل طوال اليوم.' },
+    { en: "if you don't keep it warm.", ar: 'إن لم تحافظ على دفئها.' },
+  ],
+  'u2-l5-t20-7b': [
+    { en: 'Even the petrol in your car', ar: 'وحتى البنزين في سيارتك' },
+    { en: 'will freeze.', ar: 'يتجمد،' },
+    { en: 'This is why', ar: 'ولهذا السبب' },
+    { en: 'some people keep their car engines on', ar: 'يترك بعض الناس محركات سياراتهم تعمل' },
+    { en: 'all day.', ar: 'طوال اليوم.' },
   ],
   'u2-l5-t20-8': [
     { en: 'Oh, and never wear glasses made of metal,', ar: 'وأوه، إياك أن ترتدي نظارات ذات إطار معدني،' },
@@ -288,6 +292,10 @@ export const UNIT2_CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
   'u2-l6-2': [
     { en: "Hello, my name's Yassir.", ar: 'مرحباً، اسمي ياسر.' },
     { en: 'Where are you from?', ar: 'من أين أنت؟' },
+  ],
+  'u2-l6-2b': [
+    { en: 'The other boy was from England', ar: 'وكان الولد الآخر من إنجلترا' },
+    { en: 'and his name was Simon.', ar: 'واسمه سايمون.' },
   ],
   'u2-l6-3': [
     { en: 'My father works in Basra.', ar: 'والدي يعمل في البصرة،' },
@@ -406,6 +414,14 @@ export const UNIT2_CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
 
   // ===================== LESSON 8 =====================
   // Track 22: Eid al-Fitr
+  'u2-l8-t22-intro-1': [
+    { en: "What's", ar: 'ما هو' },
+    { en: 'Eid al-Fitr?', ar: 'عيد الفطر؟' },
+  ],
+  'u2-l8-t22-intro-2': [
+    { en: 'My father will tell you.', ar: 'أبي سيخبرك،' },
+    { en: 'Come and meet him.', ar: 'تعال لتقابله.' },
+  ],
   'u2-l8-t22-1': [
     { en: 'Dad, this is Simon from England.', ar: 'أبي، هذا سايمون من إنجلترا.' },
     { en: 'Simon wants to know', ar: 'سايمون يريد أن يعرف' },
@@ -437,6 +453,25 @@ export const UNIT2_CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
     { en: 'because we are doing what Allah tells us to do.', ar: 'لأننا نطيع أمر الله تعالى،' },
     { en: 'And it is good for us.', ar: 'وهو خيرٌ لنا وصحة لأبداننا.' },
   ],
+  'u2-l8-t22-6b': [
+    { en: 'But I remember once', ar: 'ولكني أتذكر مرةً' },
+    { en: 'I was in England during Ramadan.', ar: 'كنتُ في إنجلترا أثناء رمضان،' },
+    { en: 'And it was summer', ar: 'وكان الوقت صيفاً' },
+    { en: 'when the days are very long in England.', ar: 'حيث النهار طويل جداً هناك،' },
+    { en: 'We had to fast for a long time,', ar: 'فاضطررنا للصيام وقتاً طويلاً' },
+    { en: "from five o'clock in the morning", ar: 'من الساعة الخامسة صباحاً' },
+    { en: 'until half past nine at night.', ar: 'حتى التاسعة والنصف ليلاً؛' },
+    { en: 'That was a bit difficult.', ar: 'كان ذلك صعباً بعض الشيء.' },
+  ],
+  'u2-l8-t22-6c': [
+    { en: 'Wow, yes!', ar: 'يا إلهي، نعم!' },
+    { en: "But what's", ar: 'ولكن ما هو' },
+    { en: 'Eid al-Fitr?', ar: 'عيد الفطر؟' },
+  ],
+  'u2-l8-t22-6d': [
+    { en: 'Oh, yes.', ar: 'أوه، نعم،' },
+    { en: 'Sorry.', ar: 'معذرة.' },
+  ],
   'u2-l8-t22-7': [
     { en: "And what's", ar: 'وما هو' },
     { en: 'Eid al-Fitr?', ar: 'عيد الفطر؟' },
@@ -461,6 +496,13 @@ export const UNIT2_CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
   'u2-l8-t22-11': [
     { en: 'Oh, Happy Eid, I suppose in English.', ar: 'أوه، تعني عطلة سعيدة ومباركة بالإنجليزية (Happy Eid)،' },
     { en: "It's a very happy time.", ar: 'إنه وقت مليء بالسعادة والبهجة.' },
+  ],
+  'u2-l8-t22-12': [
+    { en: 'Thank you for explaining.', ar: 'شكراً لك على هذا التوضيح،' },
+    { en: 'It was very interesting.', ar: 'لقد كان حديثاً شيقاً وممتعاً جداً.' },
+  ],
+  'u2-l8-t22-13': [
+    { en: 'Not at all.', ar: 'على الرحب والسعة (لا شكر على واجب).' },
   ],
 
   // ===================== LESSON 9 =====================

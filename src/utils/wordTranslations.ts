@@ -37,7 +37,7 @@ export const VOCABULARY_MAP: Record<string, string[]> = {
   they: ['هم', 'هن', 'يمكنها', 'تضع'],
   their: ['أسمائها', 'أقدامها', 'لهم'],
   them: ['إياها', 'أحبها', 'لهم', 'منها'],
-  it: ['هو', 'هي', 'ذلك', 'الأمر', 'الجو', 'كان', 'أشاهدها', 'أحبها', 'بدا', 'طار', 'ساعدته'],
+  it: ['هو', 'هي', 'ذلك', 'الأمر', 'الجو', 'كان', 'أشاهدها', 'أحبها', 'بدا', 'ساعدته'],
   its: ['له', 'لها'],
 
   // Question words
@@ -886,6 +886,65 @@ export const LINE_CUSTOM_ALIGNMENTS: Record<string, Record<string, string>> = {
     'happy': 'سعيداً',
     'strong': 'قوته',
     'helped': 'ساعدته',
+  },
+  'u2-l5-t20-7a': {
+    battery: 'بطارية',
+    phone: 'هاتفك',
+    work: 'تعمل',
+    minutes: 'دقائق',
+    keep: 'تحافظ',
+    warm: 'دفئها',
+  },
+  'u2-l5-t20-7b': {
+    even: 'وحتى',
+    petrol: 'البنزين',
+    freeze: 'يتجمد',
+    why: 'السبب',
+    keep: 'يترك',
+    engines: 'محركات',
+  },
+  'u2-l6-2b': {
+    other: 'الآخر',
+    boy: 'الولد',
+    england: 'إنجلترا',
+    name: 'واسمه',
+    simon: 'سايمون',
+  },
+  'u2-l8-t22-intro-1': {
+    eid: 'عيد',
+    alfitr: 'الفطر',
+    'al-fitr': 'الفطر',
+  },
+  'u2-l8-t22-intro-2': {
+    father: 'أبي',
+    tell: 'سيخبرك',
+    meet: 'لتقابله',
+  },
+  'u2-l8-t22-6b': {
+    england: 'إنجلترا',
+    ramadan: 'رمضان',
+    summer: 'صيفاً',
+    fast: 'للصيام',
+    morning: 'صباحاً',
+    night: 'ليلاً',
+    difficult: 'صعباً',
+  },
+  'u2-l8-t22-6c': {
+    eid: 'عيد',
+    alfitr: 'الفطر',
+    'al-fitr': 'الفطر',
+  },
+  'u2-l8-t22-6d': {
+    sorry: 'معذرة',
+  },
+  'u2-l8-t22-12': {
+    thank: 'شكراً',
+    explaining: 'التوضيح',
+    interesting: 'شيقاً',
+  },
+  'u2-l8-t22-13': {
+    not: 'لا',
+    all: 'السعة',
   },
 };
 
