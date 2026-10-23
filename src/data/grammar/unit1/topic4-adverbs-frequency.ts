@@ -17,11 +17,11 @@ export const topicAdverbsFrequency: GrammarTopicData = {
       {
         titleAr: '1. ظروف التكرار الخمسة ومعانيها ونسبها المئوية',
         formulaChips: [
-          { text: 'always (دائماً - 100% أو 8/8)', isHighlight: true },
-          { text: 'usually (عادةً - 88% أو 7/8)' },
-          { text: 'often (غالباً - 63% أو 5/8)' },
-          { text: 'sometimes (أحياناً - 25% أو 2/8)' },
-          { text: 'never (أبداً / قط - 0% أو 0/8)', isHighlight: true }
+          { text: 'always (دائماً - 100%)', isHighlight: true },
+          { text: 'usually (عادةً - 90%)' },
+          { text: 'often (غالباً - 50%)' },
+          { text: 'sometimes (أحياناً - 25%)' },
+          { text: 'never (أبداً / قط - 0%)', isHighlight: true }
         ],
         explanationAr: 'تُستخدم هذه الكلمات الخمس للتعبير عن العادات ومدى تكرارنا للأنشطة اليومية في زمن المضارع البسيط، وتتراوح من الشيء المؤكد دائماً (always 100%) إلى الشيء الذي لا يحدث إطلاقاً (never 0%).',
         examples: [
