@@ -21,6 +21,7 @@ import { Lesson1Exercises } from '../exercises/Lesson1Exercises';
 import { Lesson2Exercises } from '../exercises/Lesson2Exercises';
 import { Lesson3Exercises } from '../exercises/Lesson3Exercises';
 import { Lesson4Exercises } from '../exercises/Lesson4Exercises';
+import { Lesson5Exercises } from '../exercises/Lesson5Exercises';
 import { GenericLessonExercises } from '../exercises/GenericLessonExercises';
 
 interface CurriculumDetailViewProps {
@@ -62,6 +63,8 @@ export const CurriculumDetailView: React.FC<CurriculumDetailViewProps> = ({
       ? [{ pageNumber: 8 }]
       : selectedUnitId === 'unit-1' && currentLesson.lessonNumber === 4
       ? [{ pageNumber: 10 }]
+      : selectedUnitId === 'unit-1' && currentLesson.lessonNumber === 5
+      ? [{ pageNumber: 12 }]
       : getUnitExercises(selectedUnitId, currentLesson.lessonNumber);
 
   if (!isCurrentLessonUnlocked) {
@@ -287,6 +290,8 @@ export const CurriculumDetailView: React.FC<CurriculumDetailViewProps> = ({
           <Lesson3Exercises onProgressUpdate={() => {}} />
         ) : selectedUnitId === 'unit-1' && currentLesson.lessonNumber === 4 ? (
           <Lesson4Exercises onProgressUpdate={() => {}} />
+        ) : selectedUnitId === 'unit-1' && currentLesson.lessonNumber === 5 ? (
+          <Lesson5Exercises onProgressUpdate={() => {}} />
         ) : (
           <GenericLessonExercises
             exercises={getUnitExercises(selectedUnitId, currentLesson.lessonNumber)}
