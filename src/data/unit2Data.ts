@@ -465,11 +465,12 @@ export const unit2Lessons: LessonData[] = [
         audioTrackNumber: 20,
         bookReference: "Student's Book p. 20 & 83",
         description: 'Reading text describing life in the coldest inhabited town on Earth.',
-        audioFileUrl: '/audio/unit-2/track20.mp3',
+        audioFileUrl: undefined,
         hasGeminiAudio: true,
         lines: [
           {
             id: 'u2-l5-t20-1',
+            audioFileUrl: '/audio/unit-2/lesson-5/u2-l5-t20-1.mp3',
             speaker: 'Narrator',
             gender: 'male',
             textEn: "The weather can be very strange, especially in places like England. The weather forecast says it will be warm and sunny, but when you wake up it's cold and rainy.",
@@ -477,6 +478,7 @@ export const unit2Lessons: LessonData[] = [
           },
           {
             id: 'u2-l5-t20-2',
+            audioFileUrl: '/audio/unit-2/lesson-5/u2-l5-t20-2.mp3',
             speaker: 'Narrator',
             gender: 'male',
             textEn: 'It also changes very quickly. The sky can be blue one moment, and then covered by clouds the next.',
@@ -679,7 +681,7 @@ export const unit2Lessons: LessonData[] = [
         audioTrackNumber: 21,
         bookReference: "Student's Book p. 22 & 83-84",
         description: 'Interview answering fascinating questions about the thrilling winter sport of bobsleighing.',
-        audioFileUrl: '/audio/unit-2/track21.mp3',
+        audioFileUrl: undefined,
         hasGeminiAudio: true,
         lines: [
           {
