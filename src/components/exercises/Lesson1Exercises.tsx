@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { lesson1ActivityData } from '../../data/activityBookData';
+import { playSuccessChime } from '../../utils/audioFeedback';
 
 interface Lesson1ExercisesProps {
   onProgressUpdate: (completed: boolean) => void;
@@ -44,6 +45,7 @@ export const Lesson1Exercises: React.FC<Lesson1ExercisesProps> = ({
       particleCount: 40,
       spread: 60,
     });
+    playSuccessChime();
     setActiveStep(2);
     onProgressUpdate(true);
   };
@@ -58,6 +60,7 @@ export const Lesson1Exercises: React.FC<Lesson1ExercisesProps> = ({
       particleCount: 40,
       spread: 50,
     });
+    playSuccessChime();
   };
 
   return (
@@ -354,6 +357,7 @@ export const Lesson1Exercises: React.FC<Lesson1ExercisesProps> = ({
                   particleCount: 50,
                   spread: 60,
                 });
+                playSuccessChime();
                 onProgressUpdate(true);
               }}
               disabled={paragraphText.trim().length === 0}

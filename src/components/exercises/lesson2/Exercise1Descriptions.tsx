@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { Languages } from 'lucide-react';
 import { lesson2ActivityData } from '../../../data/activityBookData';
+import { playSuccessChime } from '../../../utils/audioFeedback';
 
 interface Exercise1DescriptionsProps {
   onProgressUpdate: (completed: boolean) => void;
@@ -28,6 +29,7 @@ export const Exercise1Descriptions: React.FC<Exercise1DescriptionsProps> = ({
     });
     if (allGood) {
       confetti({ particleCount: 40, spread: 60 });
+      playSuccessChime();
       onProgressUpdate(true);
     }
   };

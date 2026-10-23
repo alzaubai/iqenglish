@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 import { lesson2ActivityData } from '../../../data/activityBookData';
 import { Languages } from 'lucide-react';
 import { CharacterAvatar } from '../../CharacterAvatar';
+import { playSuccessChime } from '../../../utils/audioFeedback';
 
 interface Exercise5SaraInterviewProps {
   onProgressUpdate: (completed: boolean) => void;
@@ -30,6 +31,7 @@ export const Exercise5SaraInterview: React.FC<Exercise5SaraInterviewProps> = ({
     });
     if (allGood) {
       confetti({ particleCount: 40, spread: 60 });
+      playSuccessChime();
       onProgressUpdate(true);
     }
   };

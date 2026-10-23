@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { Languages } from 'lucide-react';
 import { lesson2ActivityData } from '../../../data/activityBookData';
+import { playSuccessChime } from '../../../utils/audioFeedback';
 
 interface Exercise3WordMatchesProps {
   onProgressUpdate: (completed: boolean) => void;
@@ -26,6 +27,7 @@ export const Exercise3WordMatches: React.FC<Exercise3WordMatchesProps> = ({
     });
     if (allGood) {
       confetti({ particleCount: 40, spread: 60 });
+      playSuccessChime();
       onProgressUpdate(true);
     }
   };

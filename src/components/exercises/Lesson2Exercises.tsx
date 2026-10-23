@@ -24,13 +24,13 @@ export const Lesson2Exercises: React.FC<Lesson2ExercisesProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Exercise Tabs Bar: Right to Left (تمرين 1 on right, 2 next to it, 3, 4, 5 on left) */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2" dir="rtl">
+      {/* Exercise Tabs Bar: Smooth scrollable on mobile, wrap on tablet/desktop */}
+      <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 pb-1" dir="rtl">
         {TABS.map((tab) => (
           <button
             key={tab.step}
             onClick={() => setCurrentStep(tab.step)}
-            className={`py-2 sm:py-3 px-2 sm:px-4 text-center rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer font-arabic ${
+            className={`py-2 sm:py-3 px-3 sm:px-4 text-center rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer font-arabic shrink-0 ${
               currentStep === tab.step
                 ? 'bg-zinc-900 text-white shadow-sm'
                 : 'bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-700'

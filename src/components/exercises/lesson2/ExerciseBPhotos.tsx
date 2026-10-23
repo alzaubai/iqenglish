@@ -3,6 +3,7 @@ import { Languages } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { lesson2ActivityData } from '../../../data/activityBookData';
 import { CharacterAvatar } from '../../CharacterAvatar';
+import { playSuccessChime } from '../../../utils/audioFeedback';
 
 interface ExerciseBPhotosProps {
   onProgressUpdate: (completed: boolean) => void;
@@ -25,6 +26,7 @@ export const ExerciseBPhotos: React.FC<ExerciseBPhotosProps> = ({ onProgressUpda
     });
     if (allGood) {
       confetti({ particleCount: 40, spread: 60 });
+      playSuccessChime();
       onProgressUpdate(true);
     }
   };

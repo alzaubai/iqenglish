@@ -5,6 +5,7 @@ import {
   lesson2ActivityData,
   ABL2ScrambledSentence,
 } from '../../../data/activityBookData';
+import { playSuccessChime } from '../../../utils/audioFeedback';
 
 interface Exercise4ScrambledSentencesProps {
   onProgressUpdate: (completed: boolean) => void;
@@ -50,6 +51,7 @@ export const Exercise4ScrambledSentences: React.FC<Exercise4ScrambledSentencesPr
     setEx4Checked((prev) => ({ ...prev, [item.id]: true }));
     if (isCorrect) {
       confetti({ particleCount: 40, spread: 50 });
+      playSuccessChime();
       onProgressUpdate(true);
     }
   };

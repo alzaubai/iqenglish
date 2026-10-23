@@ -45,11 +45,26 @@ export const TranscriptLineItem: React.FC<TranscriptLineItemProps> = ({
   ) => {
     if (!arabicMatch) return <span>{textAr}</span>;
 
-    // Check if target is directly in textAr, or stripped of punctuation
+    // Check if target is directly in textAr, or stripped of punctuation and affixes
     let target = arabicMatch.trim();
     if (!textAr.includes(target)) {
-      target = target.replace(/[.,!؟،]/g, '').trim();
+      const stripped = target.replace(/^[.,!؟،؛:"'()\-]+|[.,!؟،؛:"'()\-]+$/g, '').trim();
+      if (stripped && textAr.includes(stripped)) {
+        target = stripped;
+      } else {
+        // Try without Arabic single-letter conjunction prefixes (و، ف، ب، ل)
+        for (const prefix of ['و', 'ف', 'ب', 'ل', 'كال']) {
+          if (stripped.startsWith(prefix)) {
+            const stem = stripped.slice(prefix.length);
+            if (stem.length >= 2 && textAr.includes(stem)) {
+              target = stem;
+              break;
+            }
+          }
+        }
+      }
     }
+
     if (!target || !textAr.includes(target)) {
       return <span>{textAr}</span>;
     }

@@ -50,6 +50,13 @@ export const CurriculumDetailView: React.FC<CurriculumDetailViewProps> = ({
   const isPrevUnlocked = prevLesson ? canUserAccessLesson(prevLesson.id) : false;
   const isNextUnlocked = nextLesson ? canUserAccessLesson(nextLesson.id) : false;
 
+  const currentExercises =
+    selectedUnitId === 'unit-1' && currentLesson.lessonNumber === 1
+      ? [{ pageNumber: 3 }]
+      : selectedUnitId === 'unit-1' && currentLesson.lessonNumber === 2
+      ? [{ pageNumber: 4 }]
+      : getUnitExercises(selectedUnitId, currentLesson.lessonNumber);
+
   if (!isCurrentLessonUnlocked) {
     return (
       <div className="space-y-6 sm:space-y-7" dir="rtl">
@@ -167,10 +174,22 @@ export const CurriculumDetailView: React.FC<CurriculumDetailViewProps> = ({
               />
             </div>
           )}
-          <div className="space-y-1">
-            <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-zinc-900 text-white font-mono inline-block">
-              UNIT {currentLesson.unitNumber} • LESSON {currentLesson.lessonNumber}
-            </span>
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-zinc-900 text-white font-mono inline-block">
+                UNIT {currentLesson.unitNumber} • LESSON {currentLesson.lessonNumber}
+              </span>
+              {currentLesson.transcripts[0]?.bookReference && (
+                <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 font-arabic inline-flex items-center gap-1">
+                  📖 {currentLesson.transcripts[0].bookReference.replace("Student's Book", "كتاب الطالب").replace('pp.', 'ص').replace('p.', 'ص')}
+                </span>
+              )}
+              {currentExercises && currentExercises.length > 0 && currentExercises[0]?.pageNumber && (
+                <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 font-arabic inline-flex items-center gap-1">
+                  ✍️ كتاب النشاط: ص {currentExercises[0].pageNumber}
+                </span>
+              )}
+            </div>
             <h2 className="text-2xl font-extrabold text-zinc-900 mt-1 font-arabic">
               {currentLesson.titleAr.includes('(') ? (
                 (() => {

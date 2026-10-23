@@ -291,6 +291,7 @@ export default function App() {
                 onBackToUnits={() => setCurriculumViewState('units')}
                 unlockedLessonIds={unlockedLessonIds}
                 isTeacher={isTeacherLoggedIn}
+                isExternalSubscriber={isExternalSubscriber}
               />
             )}
 

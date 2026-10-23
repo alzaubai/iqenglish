@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { Languages } from 'lucide-react';
 import { GenericExercise } from '../../data/activityBookAllLessons';
+import { playSuccessChime } from '../../utils/audioFeedback';
 
 interface GenericLessonExercisesProps {
   exercises: GenericExercise[];
@@ -58,19 +59,20 @@ export const GenericLessonExercises: React.FC<GenericLessonExercisesProps> = ({
 
     if (allCorrect) {
       confetti({ particleCount: 40, spread: 60 });
+      playSuccessChime();
       onProgressUpdate(true);
     }
   };
 
   return (
     <div className="space-y-6">
-      {/* Exercise Tabs Bar: starts from Right to Left (تمرين 1, تمرين 2 ...) */}
-      <div className="flex flex-wrap gap-1.5 sm:gap-2 text-right" dir="rtl">
+      {/* Exercise Tabs Bar: scrollable on mobile, wrap on tablet/desktop */}
+      <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 text-right pb-1" dir="rtl">
         {exercises.map((ex, idx) => (
           <button
             key={idx}
             onClick={() => setActiveExerciseIndex(idx)}
-            className={`py-2 sm:py-3 px-3.5 sm:px-5 text-center rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer font-arabic ${
+            className={`py-2 sm:py-3 px-3.5 sm:px-5 text-center rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer font-arabic shrink-0 ${
               activeExerciseIndex === idx
                 ? 'bg-zinc-900 text-white shadow-sm'
                 : 'bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-700'
