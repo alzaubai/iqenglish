@@ -15,6 +15,7 @@ import {
 import { AudioTranscriptPlayer } from '../AudioTranscriptPlayer';
 import { HolidayActivitiesShowcase } from '../HolidayActivitiesShowcase';
 import { IraqLandmarksShowcase } from '../IraqLandmarksShowcase';
+import { Unit1LessonShowcase } from '../showcases/Unit1LessonShowcase';
 import { FourSeasonsShowcase } from '../FourSeasonsShowcase';
 import { Lesson1Exercises } from '../exercises/Lesson1Exercises';
 import { Lesson2Exercises } from '../exercises/Lesson2Exercises';
@@ -242,6 +243,10 @@ export const CurriculumDetailView: React.FC<CurriculumDetailViewProps> = ({
 
         {selectedUnitId === 'unit-1' && currentLesson.lessonNumber === 2 && (
           <IraqLandmarksShowcase />
+        )}
+
+        {selectedUnitId === 'unit-1' && currentLesson.lessonNumber >= 3 && (
+          <Unit1LessonShowcase lessonNumber={currentLesson.lessonNumber} />
         )}
 
         {selectedUnitId === 'unit-2' && currentLesson.lessonNumber === 1 && (
