@@ -285,3 +285,5 @@ export const lesson2ActivityData = {
     },
   ] as ABL2SaraNotes[],
 };
+
+export { lesson3ActivityData } from './activityBookLesson3Data';
