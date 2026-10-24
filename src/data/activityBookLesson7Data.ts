@@ -48,9 +48,9 @@ export interface PartnerInterviewTurn {
   questionNumber: number;
   questionEn: string;
   questionAr: string;
-  correctPartnerResponse: string;
-  options: string[];
-  notesSummary: string;
+  modelNote: string;
+  sampleResponseEn: string;
+  suggestedNotes: string[];
 }
 
 export interface VerbActivityCollocation {
@@ -226,75 +226,75 @@ export const lesson7ActivityData = {
 
   // AB Page 16 - Exercise E: Ask your partner about their special day
   page16ExEPartnerInterview: {
-    titleEn: 'Exercise E: Ask your partner about their special day',
-    titleAr: 'تمرين E: اسأل زميلك عن يومه المميز (ص 16)',
-    instructionEn: 'Practice asking and answering questions about a special day with your partner:',
-    instructionAr: 'تدرّب على توجيه أسئلة الماضي البسيط لزميلك وتدوين ملخص إجاباته:',
+    titleEn: 'Exercise E: Ask your partner about their special day. Make notes',
+    titleAr: 'تمرين E: اسأل زميلك عن يومه المميز ودوّن ملاحظاتك عنه (ص 16)',
+    instructionEn: 'Ask your partner these 6 questions about their memorable day and write brief notes in English:',
+    instructionAr: 'وجّه هذه الأسئلة الستة لزميلك ودوّن ملاحظات مختصرة عن إجاباته باللغة الإنجليزية كما في كتاب النشاط:',
     turns: [
       {
         id: 'q-1',
         questionNumber: 1,
         questionEn: 'When was your special day?',
         questionAr: 'متى كان يومك المميز؟',
-        correctPartnerResponse: 'It was last Friday during the weekend.',
-        options: [
-          'It was last Friday during the weekend.',
-          'I always go to school at seven o’clock.',
-          'She sells seashells on the seashore.',
+        modelNote: 'Last Friday during the weekend',
+        sampleResponseEn: 'It was last Friday during the weekend.',
+        suggestedNotes: [
+          'Last Friday',
+          'During the spring holiday',
+          'On my last birthday',
         ],
-        notesSummary: 'Time: Last Friday',
       },
       {
         id: 'q-2',
         questionNumber: 2,
         questionEn: 'Where did you go?',
-        questionAr: 'أين ذهبت؟',
-        correctPartnerResponse: 'I went to the amusement park with my cousins.',
-        options: [
-          'I went to the amusement park with my cousins.',
-          'Because I like ruins in Iraq.',
-          'Yes, they are in my scrapbook.',
+        questionAr: 'أين ذهبت؟ ومع من؟',
+        modelNote: 'Amusement park with cousins',
+        sampleResponseEn: 'I went to the amusement park with my cousins.',
+        suggestedNotes: [
+          'To the amusement park with cousins',
+          'To the national park with family',
+          'To the seaside with friends',
         ],
-        notesSummary: 'Place: Amusement park with cousins',
       },
       {
         id: 'q-3',
         questionNumber: 3,
         questionEn: 'What did you do there?',
         questionAr: 'ماذا فعلت هناك؟',
-        correctPartnerResponse: 'We played games, rode the roller coaster, and took pictures.',
-        options: [
-          'We played games, rode the roller coaster, and took pictures.',
-          'No, I did not catch any fish.',
-          'Never on Monday mornings.',
+        modelNote: 'Rode the roller coaster and took photos',
+        sampleResponseEn: 'We played games, rode the roller coaster, and took pictures.',
+        suggestedNotes: [
+          'Rode the roller coaster and took photos',
+          'Went fishing and walked on the shore',
+          'Played football and listened to music',
         ],
-        notesSummary: 'Activities: Roller coaster & photos',
       },
       {
         id: 'q-4',
         questionNumber: 4,
         questionEn: 'What did you eat?',
-        questionAr: 'ماذا تناولت من طعام؟',
-        correctPartnerResponse: 'We ate delicious burgers and had fresh lemonade.',
-        options: [
-          'We ate delicious burgers and had fresh lemonade.',
-          'To the mall with Adel and Bassem.',
-          'I like collecting stamps and postcards.',
+        questionAr: 'ماذا تناولت من طعام ومشروبات؟',
+        modelNote: 'Burgers, fries, and fresh lemonade',
+        sampleResponseEn: 'We ate delicious burgers and had fresh lemonade.',
+        suggestedNotes: [
+          'Burgers and fresh lemonade',
+          'Grilled kebab and orange juice',
+          'Pizza and ice cream',
         ],
-        notesSummary: 'Food: Burgers & lemonade',
       },
       {
         id: 'q-5',
         questionNumber: 5,
         questionEn: 'How did you feel about it?',
-        questionAr: 'وكيف كان شعورك في نهاية اليوم؟',
-        correctPartnerResponse: 'It was fantastic! I felt extremely happy and energetic.',
-        options: [
-          'It was fantastic! I felt extremely happy and energetic.',
-          'My sisters are called Sana and Huda.',
-          'He is putting photos in his scrapbook.',
+        questionAr: 'وكيف كان شعورك في نهاية ذلك اليوم؟',
+        modelNote: 'Fantastic and extremely happy',
+        sampleResponseEn: 'It was fantastic! I felt extremely happy and energetic.',
+        suggestedNotes: [
+          'Fantastic and really excited',
+          'Very happy and relaxed',
+          'Tired but had great fun',
         ],
-        notesSummary: 'Feeling: Fantastic & very happy',
       },
     ] as PartnerInterviewTurn[],
   },

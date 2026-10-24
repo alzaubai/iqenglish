@@ -1,39 +1,53 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, HelpCircle, ToggleLeft, ToggleRight } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Eye, EyeOff, BookOpen } from 'lucide-react';
 import { lesson7ActivityData, AhmedComprehensionQuestion } from '../../../data/activityBookLesson7Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
+// Normalize text for flexible ministerial grading
+const normalize = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/[^a-z0-9\s:']/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+};
+
 export const AhmedComprehensionQuestions: React.FC = () => {
-  const { titleEn, titleAr, instructionEn, instructionAr, questions } =
+  const { titleEn, instructionEn, instructionAr, questions } =
     lesson7ActivityData.page17AhmedQuestions;
 
-  // Selected or typed answers: questionId -> string
+  // Student's typed input: questionId -> string
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [isTypingMode, setIsTypingMode] = useState(false);
+  // Per-question model answer visibility
+  const [revealedQuestions, setRevealedQuestions] = useState<Record<string, boolean>>({});
   const [isChecked, setIsChecked] = useState(false);
-
-  const handleSelectOption = (questionId: string, opt: string) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: opt }));
-  };
 
   const handleTextChange = (questionId: string, val: string) => {
     setAnswers((prev) => ({ ...prev, [questionId]: val }));
   };
 
-  const isQuestionCorrect = (q: AhmedComprehensionQuestion) => {
-    const userVal = (answers[q.id] || '').trim().toLowerCase();
+  const toggleReveal = (questionId: string) => {
+    setRevealedQuestions((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
+  };
+
+  const isQuestionCorrect = (q: AhmedComprehensionQuestion): boolean => {
+    const userVal = normalize(answers[q.id] || '');
     if (!userVal) return false;
 
-    if (!isTypingMode) {
-      return answers[q.id] === q.correctAnswer;
-    }
+    const normCorrect = normalize(q.correctAnswer);
+    if (userVal === normCorrect) return true;
 
-    // Direct writing mode: check acceptable list
-    return (
-      q.acceptableAnswers.some((ans) => userVal === ans.toLowerCase()) ||
-      userVal.includes(q.correctAnswer.toLowerCase())
-    );
+    // Check all acceptable ministerial variants
+    return q.acceptableAnswers.some((acceptable) => {
+      const normAcceptable = normalize(acceptable);
+      return (
+        userVal === normAcceptable ||
+        userVal.includes(normAcceptable) ||
+        normAcceptable.includes(userVal)
+      );
+    });
   };
 
   const checkAll = () => {
@@ -47,15 +61,19 @@ export const AhmedComprehensionQuestions: React.FC = () => {
 
   const resetAll = () => {
     setAnswers({});
+    setRevealedQuestions({});
     setIsChecked(false);
   };
 
   const solveAll = () => {
     const model: Record<string, string> = {};
+    const revealed: Record<string, boolean> = {};
     questions.forEach((q) => {
       model[q.id] = q.correctAnswer;
+      revealed[q.id] = true;
     });
     setAnswers(model);
+    setRevealedQuestions(revealed);
     setIsChecked(true);
   };
 
@@ -77,9 +95,15 @@ export const AhmedComprehensionQuestions: React.FC = () => {
       {/* Exercise Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-zinc-200">
         <div>
-          <span className="text-xs font-bold text-zinc-500 font-sans block mb-1">
-            Activity Book • Page 17 • Ministerial Exam Questions (8 Questions)
-          </span>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-zinc-600 bg-zinc-100 px-2.5 py-0.5 rounded-md font-sans">
+              <BookOpen className="w-3.5 h-3.5" />
+              Activity Book • Page 17
+            </span>
+            <span className="text-xs font-semibold text-zinc-500 font-sans">
+              Direct Writing • 8 Questions
+            </span>
+          </div>
           <h4 className="text-base sm:text-lg font-bold text-zinc-900 font-sans">
             {titleEn}
           </h4>
@@ -88,46 +112,30 @@ export const AhmedComprehensionQuestions: React.FC = () => {
           </p>
         </div>
 
-        {/* Controls: Mode toggle & answered counter */}
+        {/* Counter */}
         <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
-          <button
-            onClick={() => setIsTypingMode(!isTypingMode)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 text-xs font-bold text-zinc-700 bg-zinc-50 hover:bg-zinc-100 transition-colors font-sans cursor-pointer"
-            title="Toggle between multiple choice and direct typing mode"
-          >
-            {isTypingMode ? (
-              <>
-                <ToggleRight className="w-4 h-4 text-zinc-900" />
-                <span>Typing Mode</span>
-              </>
-            ) : (
-              <>
-                <ToggleLeft className="w-4 h-4 text-zinc-500" />
-                <span>Multiple Choice</span>
-              </>
-            )}
-          </button>
           <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-sans">
             Answered: {answeredCount} / {questions.length}
           </div>
         </div>
       </div>
 
-      {/* 8 Questions List */}
+      {/* 8 Authentic Writing Questions */}
       <div className="space-y-4">
         {questions.map((q) => {
           const userVal = answers[q.id] || '';
           const correct = isQuestionCorrect(q);
+          const isRevealed = revealedQuestions[q.id] || false;
 
           return (
             <div
               key={q.id}
-              className={`p-3.5 sm:p-4 rounded-xl border transition-all space-y-3 text-left ${
+              className={`p-4 rounded-xl border transition-all space-y-3 text-left ${
                 isChecked
                   ? correct
                     ? 'border-emerald-300 bg-emerald-50/20'
                     : 'border-rose-300 bg-rose-50/20'
-                  : 'border-zinc-200 bg-zinc-50/30 hover:bg-zinc-50 hover:border-zinc-300'
+                  : 'border-zinc-200 bg-zinc-50/30 hover:bg-zinc-50/60 hover:border-zinc-300'
               }`}
             >
               {/* Question line */}
@@ -145,6 +153,7 @@ export const AhmedComprehensionQuestions: React.FC = () => {
                         onClick={() => playTTS(q.questionEn)}
                         className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
                         title="Listen to question"
+                        aria-label="Listen to question"
                       >
                         <Volume2 className="w-3.5 h-3.5" />
                       </button>
@@ -155,58 +164,67 @@ export const AhmedComprehensionQuestions: React.FC = () => {
                   </div>
                 </div>
 
-                <span className="text-[11px] font-sans font-semibold text-zinc-400 bg-white border border-zinc-200 px-2 py-0.5 rounded-md shrink-0">
-                  Scene {q.sceneRef}
-                </span>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-[11px] font-sans font-semibold text-zinc-500 bg-white border border-zinc-200 px-2 py-0.5 rounded-md">
+                    Scene {q.sceneRef}
+                  </span>
+                  <button
+                    onClick={() => toggleReveal(q.id)}
+                    className="flex items-center gap-1 text-[11px] font-sans font-semibold text-zinc-500 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
+                    title={isRevealed ? 'Hide model answer' : 'Show model answer'}
+                  >
+                    {isRevealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                    <span>{isRevealed ? 'Hide' : 'Answer'}</span>
+                  </button>
+                </div>
               </div>
 
-              {/* Answering area: Either Multiple Choice or Typing Input */}
-              {isTypingMode ? (
-                <div className="space-y-1.5">
+              {/* Authentic Textbook Writing Line Input (No Multiple Choice!) */}
+              <div className="space-y-2">
+                <div className="relative">
                   <input
                     type="text"
                     value={userVal}
                     onChange={(e) => handleTextChange(q.id, e.target.value)}
-                    placeholder="Type your answer in English here..."
-                    className="w-full bg-white border border-zinc-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-sans text-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-400 placeholder:text-zinc-400"
+                    placeholder="Write your answer in English here..."
+                    className={`w-full bg-white border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-sans text-zinc-900 focus:outline-none transition-all placeholder:text-zinc-400 ${
+                      isChecked
+                        ? correct
+                          ? 'border-emerald-400 focus:ring-1 focus:ring-emerald-400'
+                          : 'border-rose-300 focus:ring-1 focus:ring-rose-300'
+                        : 'border-zinc-200 focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900'
+                    }`}
                   />
+                  {isChecked && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      {correct ? (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      ) : (
+                        <XCircle className="w-4 h-4 text-rose-500" />
+                      )}
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {q.options.map((opt, oIdx) => {
-                    const isSelected = userVal === opt;
-                    const isOptionCorrect = opt === q.correctAnswer;
 
-                    return (
-                      <button
-                        key={oIdx}
-                        onClick={() => handleSelectOption(q.id, opt)}
-                        className={`p-2.5 rounded-xl border text-left text-xs sm:text-sm font-sans transition-all flex items-center justify-between gap-2 cursor-pointer ${
-                          isChecked
-                            ? isOptionCorrect
-                              ? 'border-emerald-400 bg-emerald-50 text-emerald-900 font-bold'
-                              : isSelected
-                              ? 'border-rose-400 bg-rose-50 text-rose-900'
-                              : 'border-zinc-200 bg-white text-zinc-500 opacity-60'
-                            : isSelected
-                            ? 'border-zinc-900 bg-zinc-900 text-white font-bold shadow-xs'
-                            : 'border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-100 text-zinc-800'
-                        }`}
-                      >
-                        <span>{opt}</span>
-                        {isChecked && isOptionCorrect && (
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        )}
-                        {isChecked && isSelected && !isOptionCorrect && (
-                          <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+                {/* Acceptable variations or revealed answer */}
+                {isRevealed && (
+                  <div className="p-2.5 bg-zinc-100 rounded-lg text-xs font-sans text-zinc-800 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-bold text-zinc-900">Official Model Answer:</span>
+                      <span className="font-semibold text-emerald-700">{q.correctAnswer}</span>
+                    </div>
+                    <button
+                      onClick={() => playTTS(q.correctAnswer)}
+                      className="p-1 text-zinc-500 hover:text-zinc-800 rounded transition-colors"
+                      title="Listen to model answer"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+              </div>
 
-              {/* Checked Feedback */}
+              {/* Checked Feedback & Explanation */}
               {isChecked && (
                 <div
                   className={`pt-2.5 border-t text-xs font-arabic space-y-1 ${
@@ -224,8 +242,8 @@ export const AhmedComprehensionQuestions: React.FC = () => {
                     )}
                     <span>
                       {correct
-                        ? 'إجابة صحيحة نموذجية!'
-                        : `الإجابة النموذجية هي: ${q.correctAnswer}`}
+                        ? 'إجابة صحيحة ومقبولة وزارياً!'
+                        : `الحل النموذجي المعتمد: ${q.correctAnswer}`}
                     </span>
                   </div>
                   <p className="text-zinc-600 text-[11px] leading-relaxed mr-5">
@@ -259,13 +277,14 @@ export const AhmedComprehensionQuestions: React.FC = () => {
 
         <button
           onClick={solveAll}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-zinc-800 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Show Model Solutions</span>
+          <span>Show All Model Solutions</span>
         </button>
       </div>
 
+      {/* Result Summary Banner */}
       {isChecked && (
         <div
           className={`p-3.5 rounded-xl text-xs sm:text-sm font-sans flex items-center justify-between border ${
