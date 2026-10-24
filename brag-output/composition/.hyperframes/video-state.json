@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "historyId": "ac779ab8-c68c-4fa4-9c65-a4b231d99994",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/ahmed-1.mp3": {
+      "hash": "61c6de0908841bce9270267bf17e5113d404b93a7c3cad942f016682d0bd3b36",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\61\\61c6de0908841bce9270267bf17e5113d404b93a7c3cad942f016682d0bd3b36"
+    },
+    "assets/ahmed-scene-1.jpg": {
+      "hash": "2ff50a8382db4762d6693ad2bec595f089b498dbd9ad4a3b7fdc0583f9d5a2ab",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\2f\\2ff50a8382db4762d6693ad2bec595f089b498dbd9ad4a3b7fdc0583f9d5a2ab"
+    },
+    "assets/ahmed-scene-2.jpg": {
+      "hash": "827e07770dc8b83bbcb0fc401795dd60cfef55b90c47cf5ae47a367a9d455f2e",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\82\\827e07770dc8b83bbcb0fc401795dd60cfef55b90c47cf5ae47a367a9d455f2e"
+    },
+    "assets/ahmed-scene-3.jpg": {
+      "hash": "a5adfea88b0cc3f3eee52c5deff6713996807d4bceb1b803208f4feb6c9d67b4",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\a5\\a5adfea88b0cc3f3eee52c5deff6713996807d4bceb1b803208f4feb6c9d67b4"
+    },
+    "assets/unit1-cover.jpg": {
+      "hash": "f97e61d9f120154339e4fcfa72f990b6e9fd57aa5a82a711ea089f0bea32032a",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\f9\\f97e61d9f120154339e4fcfa72f990b6e9fd57aa5a82a711ea089f0bea32032a"
+    },
+    "hyperframes.json": {
+      "hash": "53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\53\\53dbce1e19aa713cbb12ee0bc4d206143b45ab15e6ffbfcaa8f69572d4d24d50"
+    },
+    "index.html": {
+      "hash": "7f5ebf1d58f275a6019debd8d7d8f17cf3e72e9201a7096ffe3460da898cf52b",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\7f\\7f5ebf1d58f275a6019debd8d7d8f17cf3e72e9201a7096ffe3460da898cf52b"
+    },
+    "meta.json": {
+      "hash": "9e2ee5e19d6d57aebaa35b4333f13e6935cfdcd5116926f285f32b47172d5c3d",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\9e\\9e2ee5e19d6d57aebaa35b4333f13e6935cfdcd5116926f285f32b47172d5c3d"
+    },
+    "assets/music.mp3": {
+      "hash": "aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f",
+      "content": "C:\\Users\\Lenovo\\.cache\\hyperframes\\history\\ac779ab8-c68c-4fa4-9c65-a4b231d99994\\blobs\\aa\\aa56ab1cdcbef6b05566c6a7c114323078580ccf6a740a9e6c6b6c4b40b4389f"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "f88209e0-dab3-4c26-b991-3ca826282039",
+      "completedAt": 1792809235333,
+      "output": "C:\\Users\\Lenovo\\.gemini\\antigravity\\scratch\\english-for-iraq-unit-1\\brag-output\\brag.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}
