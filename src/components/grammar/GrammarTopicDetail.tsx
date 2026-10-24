@@ -417,12 +417,12 @@ export const GrammarTopicDetail: React.FC<GrammarTopicDetailProps> = ({
       ) : /* C. Future Tense or Past Tenses */
       currentTopic.topicType === 'tense' ? (
         <div className="space-y-6">
-          <div className="bg-white p-1.5 sm:p-2 rounded-2xl border border-zinc-200/90 shadow-xs overflow-x-auto no-scrollbar flex items-center gap-1.5 sm:gap-2">
+          <div className="bg-white p-1.5 sm:p-2 rounded-2xl border border-zinc-200/90 shadow-xs flex flex-wrap gap-1.5 sm:gap-2">
             {tenseTabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`shrink-0 sm:flex-1 py-2 sm:py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer font-arabic whitespace-nowrap ${
+                className={`flex-1 min-w-[85px] sm:min-w-[120px] py-1.5 sm:py-2.5 px-2 sm:px-3 rounded-xl text-[11px] sm:text-sm font-bold transition-all cursor-pointer font-arabic ${
                   activeTab === tab.id
                     ? 'bg-zinc-900 text-white shadow-2xs'
                     : 'text-zinc-600 hover:bg-zinc-100'
