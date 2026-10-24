@@ -83,10 +83,10 @@ export const ExerciseEPartnerInterview: React.FC = () => {
           </p>
         </div>
 
-        {/* Counter & Action */}
-        <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
-          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-sans">
-            Notes: {filledCount} / {turns.length}
+        {/* Counter in Arabic */}
+        <div className="flex items-center gap-2 shrink-0 self-start sm:self-center font-arabic" dir="rtl">
+          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800">
+            تم التدوين: {filledCount} من {turns.length}
           </div>
         </div>
       </div>
@@ -103,40 +103,35 @@ export const ExerciseEPartnerInterview: React.FC = () => {
               className="p-4 rounded-xl border border-zinc-200 bg-zinc-50/40 hover:bg-zinc-50/80 transition-all space-y-3 text-left"
             >
               {/* Question Turn */}
-              <div className="flex items-start justify-between gap-3 border-b border-zinc-200/70 pb-2.5">
-                <div className="flex items-start gap-2.5">
-                  <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0 mt-0.5">
+              <div className="flex items-center justify-between gap-3 border-b border-zinc-200/70 pb-2.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0">
                     {turn.questionNumber}
                   </span>
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-zinc-500 uppercase tracking-wider font-sans">
-                        You ask:
-                      </span>
-                      <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
-                        &ldquo;{turn.questionEn}&rdquo;
-                      </h5>
-                      <button
-                        onClick={() => playTTS(turn.questionEn)}
-                        className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
-                        title="Listen to question"
-                      >
-                        <Volume2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                    <p className="text-[11px] sm:text-xs text-zinc-500 font-arabic text-right" dir="rtl">
-                      {turn.questionAr}
-                    </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-wider font-sans">
+                      You ask:
+                    </span>
+                    <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
+                      &ldquo;{turn.questionEn}&rdquo;
+                    </h5>
+                    <button
+                      onClick={() => playTTS(turn.questionEn)}
+                      className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
+                      title="Listen to question"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
 
                 <button
                   onClick={() => toggleSpokenResponse(turn.id)}
-                  className="flex items-center gap-1 text-[11px] font-sans font-semibold text-zinc-500 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded-md transition-colors cursor-pointer shrink-0"
-                  title="View partner sample spoken reply"
+                  className="flex items-center gap-1 text-[11px] font-arabic font-bold text-zinc-600 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer shrink-0"
+                  title="عرض نص إجابة الزميل الشفوية"
                 >
                   <MessageSquare className="w-3 h-3" />
-                  <span>{showSpoken ? 'Hide Speech' : 'Spoken Reply'}</span>
+                  <span>{showSpoken ? 'إخفاء' : 'الإجابة الشفوية'}</span>
                 </button>
               </div>
 
@@ -195,32 +190,32 @@ export const ExerciseEPartnerInterview: React.FC = () => {
         })}
       </div>
 
-      {/* Action Footer */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200">
+      {/* Action Footer in Arabic */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200 font-arabic" dir="rtl">
         <div className="flex items-center gap-2">
           <button
             onClick={applyModelNotes}
-            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>Fill Model Partner Notes</span>
+            <span>ملء نموذج ملاحظات الزميل</span>
           </button>
           <button
             onClick={handleCopyNotes}
             disabled={filledCount === 0}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 disabled:opacity-40 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 disabled:opacity-40 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'Copied!' : 'Copy notes'}</span>
+            <span>{copied ? 'تم النسخ!' : 'نسخ الملاحظات'}</span>
           </button>
         </div>
 
         <button
           onClick={handleReset}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-zinc-800 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
         >
           <RefreshCw className="w-3.5 h-3.5" />
-          <span>Clear Notes</span>
+          <span>مسح الملاحظات</span>
         </button>
       </div>
     </div>

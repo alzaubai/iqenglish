@@ -102,8 +102,8 @@ export const ExerciseAActivitiesMatch: React.FC = () => {
             {instructionAr}
           </p>
         </div>
-        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-sans">
-          Matched: {matchedCount} / {pairs.length}
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-arabic" dir="rtl">
+          تمت المطابقة: {matchedCount} من {pairs.length}
         </div>
       </div>
 
@@ -260,48 +260,49 @@ export const ExerciseAActivitiesMatch: React.FC = () => {
         </div>
       </div>
 
-      {/* Action Footer */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200">
+      {/* Action Footer in Arabic */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200 font-arabic" dir="rtl">
         <div className="flex items-center gap-2">
           <button
             onClick={checkAll}
-            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <CheckCircle2 className="w-4 h-4" />
-            <span>Check answers</span>
+            <span>تحقق من المطابقة</span>
           </button>
           <button
             onClick={resetAll}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <span>إعادة تعيين</span>
           </button>
         </div>
 
         <button
           onClick={solveAll}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-zinc-800 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Show Model Solution</span>
+          <span>عرض الحل النموذجي</span>
         </button>
       </div>
 
       {isChecked && (
         <div
-          className={`p-3.5 rounded-xl text-xs sm:text-sm font-sans flex items-center justify-between border ${
+          className={`p-3.5 rounded-xl text-xs sm:text-sm font-arabic flex items-center justify-between border ${
             correctCount === pairs.length
               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
               : 'bg-zinc-50 text-zinc-800 border-zinc-200'
           }`}
+          dir="rtl"
         >
           <span>
             {correctCount === pairs.length
-              ? 'Excellent! All collocations matched correctly.'
-              : `You matched ${correctCount} of ${pairs.length} verbs correctly.`}
+              ? 'ممتاز جداً! تمت مطابقة جميع الأفعال مع الأنشطة بنجاح.'
+              : `طابقت ${correctCount} من ${pairs.length} أفعال بشكل صحيح.`}
           </span>
-          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700">
+          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700 font-sans">
             {correctCount} / {pairs.length}
           </span>
         </div>

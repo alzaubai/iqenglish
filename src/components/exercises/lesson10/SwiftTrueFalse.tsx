@@ -5,7 +5,7 @@ import { lesson10ActivityData, SwiftTrueFalseItem } from '../../../data/activity
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
 export const SwiftTrueFalse: React.FC = () => {
-  const { titleEn, instructionEn, instructionAr, items } =
+  const { titleEn, instructionAr, items } =
     lesson10ActivityData.page21TrueFalse;
 
   const [answers, setAnswers] = useState<Record<string, 'True' | 'False'>>({});
@@ -65,8 +65,8 @@ export const SwiftTrueFalse: React.FC = () => {
               <HelpCircle className="w-3.5 h-3.5" />
               Activity Book • Page 21
             </span>
-            <span className="text-xs font-semibold text-zinc-500 font-sans">
-              True or False • 6 Statements
+            <span className="text-xs font-semibold text-zinc-500 font-arabic" dir="rtl">
+              صح أو خطأ • 6 عبارات
             </span>
           </div>
           <h4 className="text-base sm:text-lg font-bold text-zinc-900 font-sans">
@@ -77,12 +77,12 @@ export const SwiftTrueFalse: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-sans shrink-0 self-start sm:self-center">
-          Answered: {answeredCount} / {items.length}
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-arabic shrink-0 self-start sm:self-center" dir="rtl">
+          تمت الإجابة: {answeredCount} من {items.length}
         </div>
       </div>
 
-      {/* 6 Statements */}
+      {/* 6 Statements - Pure English as in Activity Book Page 21 */}
       <div className="space-y-3.5">
         {items.map((item) => {
           const selected = answers[item.id];
@@ -99,27 +99,22 @@ export const SwiftTrueFalse: React.FC = () => {
                   : 'border-zinc-200 bg-zinc-50/30 hover:bg-zinc-50 hover:border-zinc-300'
               }`}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-2.5">
-                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0 mt-0.5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0">
                     {item.number}
                   </span>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
-                        {item.statementEn}
-                      </p>
-                      <button
-                        onClick={() => playTTS(item.statementEn)}
-                        className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
-                        title="Listen"
-                      >
-                        <Volume2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                    <p className="text-[11px] sm:text-xs text-zinc-500 font-arabic text-right" dir="rtl">
-                      {item.statementAr}
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
+                      {item.statementEn}
                     </p>
+                    <button
+                      onClick={() => playTTS(item.statementEn)}
+                      className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
+                      title="Listen"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
 
@@ -178,49 +173,50 @@ export const SwiftTrueFalse: React.FC = () => {
         })}
       </div>
 
-      {/* Footer Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200">
+      {/* Footer Controls in Arabic */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200 font-arabic" dir="rtl">
         <div className="flex items-center gap-2">
           <button
             onClick={checkAll}
-            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <CheckCircle2 className="w-4 h-4" />
-            <span>Check answers</span>
+            <span>تحقق من الإجابات</span>
           </button>
           <button
             onClick={resetAll}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <span>إعادة تعيين</span>
           </button>
         </div>
 
         <button
           onClick={solveAll}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Show Model Solutions</span>
+          <span>عرض الحلول النموذجية</span>
         </button>
       </div>
 
-      {/* Result Banner */}
+      {/* Result Banner in Arabic */}
       {isChecked && (
         <div
-          className={`p-3.5 rounded-xl text-xs sm:text-sm font-sans flex items-center justify-between border ${
+          className={`p-3.5 rounded-xl text-xs sm:text-sm font-arabic flex items-center justify-between border ${
             correctCount === items.length
               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
               : 'bg-zinc-50 text-zinc-800 border-zinc-200'
           }`}
+          dir="rtl"
         >
           <span>
             {correctCount === items.length
-              ? 'Great work! All 6 True/False statements solved accurately.'
-              : `You got ${correctCount} of ${items.length} correct.`}
+              ? 'عمل ممتاز! تم حل جميع عبارات الصح والخطأ بدقة كاملة.'
+              : `أجبت على ${correctCount} من ${items.length} بشكل صحيح.`}
           </span>
-          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700">
+          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700 font-sans">
             {correctCount} / {items.length}
           </span>
         </div>

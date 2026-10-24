@@ -71,16 +71,16 @@ export const ExerciseCTrueFalse: React.FC = () => {
             {instructionAr}
           </p>
         </div>
-        <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
+        <div className="flex items-center gap-2 shrink-0 self-start sm:self-center font-arabic" dir="rtl">
           <button
             onClick={() => setShowTranscript(!showTranscript)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 text-xs font-bold text-zinc-700 bg-zinc-50 hover:bg-zinc-100 transition-colors font-sans"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 text-xs font-bold text-zinc-700 bg-zinc-50 hover:bg-zinc-100 transition-colors"
           >
             <HelpCircle className="w-3.5 h-3.5 text-zinc-500" />
-            <span>{showTranscript ? 'Hide audio text' : 'Show audio text'}</span>
+            <span>{showTranscript ? 'إخفاء النص الصوتي' : 'عرض النص الصوتي'}</span>
           </button>
-          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-sans">
-            Answered: {answeredCount} / {questions.length}
+          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800">
+            تمت الإجابة: {answeredCount} من {questions.length}
           </div>
         </div>
       </div>
@@ -128,22 +128,17 @@ export const ExerciseCTrueFalse: React.FC = () => {
                   <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0 mt-0.5">
                     {q.number}
                   </span>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
-                        {q.statementEn}
-                      </p>
-                      <button
-                        onClick={() => playTTS(q.statementEn)}
-                        className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
-                        title="Listen"
-                      >
-                        <Volume2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                    <p className="text-[11px] sm:text-xs text-zinc-500 font-arabic text-right" dir="rtl">
-                      {q.statementAr}
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
+                      {q.statementEn}
                     </p>
+                    <button
+                      onClick={() => playTTS(q.statementEn)}
+                      className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
+                      title="Listen"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
 
@@ -202,48 +197,49 @@ export const ExerciseCTrueFalse: React.FC = () => {
         })}
       </div>
 
-      {/* Action Footer */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200">
+      {/* Action Footer in Arabic */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200 font-arabic" dir="rtl">
         <div className="flex items-center gap-2">
           <button
             onClick={checkAll}
-            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <CheckCircle2 className="w-4 h-4" />
-            <span>Check answers</span>
+            <span>تحقق من الإجابات</span>
           </button>
           <button
             onClick={resetAll}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <span>إعادة تعيين</span>
           </button>
         </div>
 
         <button
           onClick={solveAll}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-zinc-800 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Show Model Solution</span>
+          <span>عرض الحلول النموذجية</span>
         </button>
       </div>
 
       {isChecked && (
         <div
-          className={`p-3.5 rounded-xl text-xs sm:text-sm font-sans flex items-center justify-between border ${
+          className={`p-3.5 rounded-xl text-xs sm:text-sm font-arabic flex items-center justify-between border ${
             correctCount === questions.length
               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
               : 'bg-zinc-50 text-zinc-800 border-zinc-200'
           }`}
+          dir="rtl"
         >
           <span>
             {correctCount === questions.length
-              ? 'Excellent! All answers are completely correct.'
-              : `You got ${correctCount} of ${questions.length} correct. Review explanations above.`}
+              ? 'ممتاز جداً! تمت الإجابة على جميع عبارات الصح والخطأ بنجاح.'
+              : `أجبت على ${correctCount} من ${questions.length} بشكل صحيح. راجع التوضيحات أعلاه.`}
           </span>
-          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700">
+          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700 font-sans">
             {correctCount} / {questions.length}
           </span>
         </div>

@@ -15,7 +15,7 @@ const normalize = (text: string): string => {
 };
 
 export const KarenQuestionsReconstruction: React.FC = () => {
-  const { titleEn, instructionEn, instructionAr, items } =
+  const { titleEn, instructionAr, items } =
     lesson8ActivityData.reconstructedQuestions;
 
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -97,8 +97,8 @@ export const KarenQuestionsReconstruction: React.FC = () => {
               <HelpCircle className="w-3.5 h-3.5" />
               Activity Book • Page 18 • Ex. 1 & 2
             </span>
-            <span className="text-xs font-semibold text-zinc-500 font-sans">
-              6 Questions
+            <span className="text-xs font-semibold text-zinc-500 font-arabic" dir="rtl">
+              إعادة بناء الأسئلة • 6 أسئلة
             </span>
           </div>
           <h4 className="text-base sm:text-lg font-bold text-zinc-900 font-sans">
@@ -109,12 +109,12 @@ export const KarenQuestionsReconstruction: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-sans shrink-0 self-start sm:self-center">
-          Answered: {answeredCount} / {items.length}
+        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-arabic shrink-0 self-start sm:self-center" dir="rtl">
+          تمت الإجابة: {answeredCount} من {items.length}
         </div>
       </div>
 
-      {/* 6 Clues & Writing Lines */}
+      {/* 6 Clues - Pure English without Arabic translation underneath */}
       <div className="space-y-4">
         {items.map((item) => {
           const userVal = answers[item.id] || '';
@@ -133,33 +133,28 @@ export const KarenQuestionsReconstruction: React.FC = () => {
               }`}
             >
               {/* Clue Header */}
-              <div className="flex items-start justify-between gap-3 border-b border-zinc-200/70 pb-2.5">
-                <div className="flex items-start gap-2.5">
-                  <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0 mt-0.5">
+              <div className="flex items-center justify-between gap-3 border-b border-zinc-200/70 pb-2.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0">
                     {item.letterRef}
                   </span>
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-zinc-500 font-sans uppercase tracking-wider">
-                        Clue:
-                      </span>
-                      <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
-                        &ldquo;{item.clueEn}&rdquo;
-                      </h5>
-                    </div>
-                    <p className="text-[11px] sm:text-xs text-zinc-500 font-arabic text-right" dir="rtl">
-                      {item.clueAr}
-                    </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-zinc-500 font-sans uppercase tracking-wider">
+                      Clue:
+                    </span>
+                    <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
+                      &ldquo;{item.clueEn}&rdquo;
+                    </h5>
                   </div>
                 </div>
 
                 <button
                   onClick={() => toggleReveal(item.id)}
-                  className="flex items-center gap-1 text-[11px] font-sans font-semibold text-zinc-500 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded-md transition-colors cursor-pointer shrink-0"
-                  title={isRevealed ? 'Hide question' : 'Show question'}
+                  className="flex items-center gap-1 text-[11px] font-arabic font-bold text-zinc-600 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer shrink-0"
+                  title={isRevealed ? 'إخفاء السؤال النموذجي' : 'إظهار السؤال النموذجي'}
                 >
                   {isRevealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
-                  <span>{isRevealed ? 'Hide' : 'Answer'}</span>
+                  <span>{isRevealed ? 'إخفاء' : 'السؤال النموذجي'}</span>
                 </button>
               </div>
 
@@ -170,7 +165,7 @@ export const KarenQuestionsReconstruction: React.FC = () => {
                     type="text"
                     value={userVal}
                     onChange={(e) => handleTextChange(item.id, e.target.value)}
-                    placeholder="Write Karen's full question here... (e.g. Are you back at school now?)"
+                    placeholder="اكتب سؤال كارين الكامل هنا بالإنجليزية..."
                     className={`w-full bg-white border rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-sans text-zinc-900 focus:outline-none transition-all placeholder:text-zinc-400 ${
                       isChecked
                         ? correct
@@ -193,7 +188,7 @@ export const KarenQuestionsReconstruction: React.FC = () => {
                 {isRevealed && (
                   <div className="p-2.5 bg-zinc-100 rounded-lg text-xs font-sans text-zinc-800 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-zinc-900">Karen&apos;s Full Question:</span>
+                      <span className="font-bold text-zinc-900 font-arabic" dir="rtl">السؤال النموذجي المعتمد:</span>
                       <span className="font-semibold text-emerald-700">{item.correctQuestionEn}</span>
                     </div>
                     <button
@@ -239,49 +234,50 @@ export const KarenQuestionsReconstruction: React.FC = () => {
         })}
       </div>
 
-      {/* Footer Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200">
+      {/* Footer Controls in Arabic */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200 font-arabic" dir="rtl">
         <div className="flex items-center gap-2">
           <button
             onClick={checkAll}
-            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <CheckCircle2 className="w-4 h-4" />
-            <span>Check questions</span>
+            <span>تحقق من الأسئلة</span>
           </button>
           <button
             onClick={resetAll}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <span>إعادة تعيين</span>
           </button>
         </div>
 
         <button
           onClick={solveAll}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Show All 6 Questions</span>
+          <span>عرض الأسئلة الستة النموذجية</span>
         </button>
       </div>
 
-      {/* Result Banner */}
+      {/* Result Banner in Arabic */}
       {isChecked && (
         <div
-          className={`p-3.5 rounded-xl text-xs sm:text-sm font-sans flex items-center justify-between border ${
+          className={`p-3.5 rounded-xl text-xs sm:text-sm font-arabic flex items-center justify-between border ${
             correctCount === items.length
               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
               : 'bg-zinc-50 text-zinc-800 border-zinc-200'
           }`}
+          dir="rtl"
         >
           <span>
             {correctCount === items.length
-              ? 'Great job! All 6 questions reconstructed perfectly.'
-              : `You got ${correctCount} of ${items.length} correct.`}
+              ? 'أحسنت! تمت إعادة صياغة جميع الأسئلة الستة بنجاح وبشكل متقن.'
+              : `أجبت على ${correctCount} من ${items.length} بشكل صحيح.`}
           </span>
-          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700">
+          <span className="font-bold text-xs bg-white px-2 py-0.5 rounded-md border border-zinc-200 text-zinc-700 font-sans">
             {correctCount} / {items.length}
           </span>
         </div>

@@ -111,31 +111,30 @@ export const KarenModelLetterComposition: React.FC = () => {
       {/* VIEW 1: Model Composition for Memorization */}
       {activeSubTab === 'model' && (
         <div className="space-y-6">
-          {/* Controls Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-zinc-50 rounded-xl border border-zinc-200">
+          {/* Controls Bar in Arabic */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-zinc-50 rounded-xl border border-zinc-200 font-arabic" dir="rtl">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => playTTS(model.fullLetterTextEn)}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-bold font-sans transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer"
               >
                 <Volume2 className="w-3.5 h-3.5" />
-                <span>Listen to Full Letter</span>
+                <span>الاستماع للرسالة كاملة</span>
               </button>
               <button
                 onClick={handleCopyModel}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-700 rounded-lg text-xs font-bold font-sans transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? 'Copied!' : 'Copy Letter'}</span>
+                <span>{copied ? 'تم النسخ!' : 'نسخ نص الرسالة'}</span>
               </button>
             </div>
 
             <button
               onClick={() => setShowArabicTranslation(!showArabicTranslation)}
               className="text-xs font-bold text-zinc-600 hover:text-zinc-900 underline font-arabic"
-              dir="rtl"
             >
-              {showArabicTranslation ? 'إخفاء الترجمة العربية' : 'إظهار الترجمة العربية'}
+              {showArabicTranslation ? 'إخفاء الترجمة التوضيحية' : 'إظهار الترجمة التوضيحية'}
             </button>
           </div>
 
@@ -252,24 +251,24 @@ export const KarenModelLetterComposition: React.FC = () => {
       {/* VIEW 2: Student Practice Form */}
       {activeSubTab === 'practice' && (
         <div className="space-y-5 text-left">
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-zinc-50 rounded-xl border border-zinc-200">
-            <span className="text-xs font-bold text-zinc-700 font-sans">
-              Words in body: {wordCount} words
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-zinc-50 rounded-xl border border-zinc-200 font-arabic" dir="rtl">
+            <span className="text-xs font-bold text-zinc-700">
+              عدد الكلمات: {wordCount} كلمة
             </span>
             <div className="flex items-center gap-2">
               <button
                 onClick={fillPracticeFromModel}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-bold font-sans transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                <span>Insert Model Draft to Edit</span>
+                <span>إدراج نموذج الرسالة للتعديل</span>
               </button>
               <button
                 onClick={handleCopyPractice}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-700 rounded-lg text-xs font-bold font-sans transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-700 rounded-lg text-xs font-bold transition-colors cursor-pointer"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>Copy Draft</span>
+                <span>{copied ? 'تم النسخ!' : 'نسخ مسودتي'}</span>
               </button>
             </div>
           </div>

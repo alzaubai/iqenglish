@@ -66,16 +66,16 @@ export const ExerciseDMakeNotes: React.FC = () => {
             {instructionAr}
           </p>
         </div>
-        <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
+        <div className="flex items-center gap-2 shrink-0 self-start sm:self-center font-arabic" dir="rtl">
           <button
             onClick={() => setShowModels(!showModels)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 text-xs font-bold text-zinc-700 bg-zinc-50 hover:bg-zinc-100 transition-colors font-sans cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 text-xs font-bold text-zinc-700 bg-zinc-50 hover:bg-zinc-100 transition-colors cursor-pointer"
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>{showModels ? 'Hide sample plans' : 'Show sample plans'}</span>
+            <span>{showModels ? 'إخفاء النماذج الاسترشادية' : 'عرض النماذج الاسترشادية'}</span>
           </button>
-          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 font-sans">
-            Filled: {filledCount} / {fields.length}
+          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800">
+            تم التدوين: {filledCount} من {fields.length}
           </div>
         </div>
       </div>
@@ -175,36 +175,36 @@ export const ExerciseDMakeNotes: React.FC = () => {
         })}
       </div>
 
-      {/* Action Footer */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200">
+      {/* Action Footer in Arabic */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-zinc-200 font-arabic" dir="rtl">
         <div className="flex items-center gap-2">
           <button
             onClick={handleCopyNotes}
             disabled={filledCount === 0}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer ${
               filledCount === 0
                 ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
                 : 'bg-zinc-900 hover:bg-zinc-800 text-white'
             }`}
           >
             {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-            <span>{copied ? 'Copied to clipboard!' : 'Copy my notes'}</span>
+            <span>{copied ? 'تم النسخ!' : 'نسخ ملاحظاتي'}</span>
           </button>
           <button
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Clear</span>
+            <span>مسح الملاحظات</span>
           </button>
         </div>
 
         <button
           onClick={() => applyModelPlan(0)}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-zinc-800 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 hover:text-zinc-900 text-xs font-bold hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Fill with Sample Plan 1</span>
+          <span>ملء النموذج الاسترشادي 1</span>
         </button>
       </div>
     </div>
