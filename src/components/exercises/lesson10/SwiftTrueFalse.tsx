@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, HelpCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, HelpCircle, Languages } from 'lucide-react';
 import { lesson10ActivityData, SwiftTrueFalseItem } from '../../../data/activityBookLesson10Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -9,7 +9,12 @@ export const SwiftTrueFalse: React.FC = () => {
     lesson10ActivityData.page21TrueFalse;
 
   const [answers, setAnswers] = useState<Record<string, 'True' | 'False'>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
   const [isChecked, setIsChecked] = useState(false);
+
+  const toggleTranslation = (itemId: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [itemId]: !prev[itemId] }));
+  };
 
   const handleSelect = (itemId: string, choice: 'True' | 'False') => {
     setAnswers((prev) => ({ ...prev, [itemId]: choice }));
@@ -99,22 +104,44 @@ export const SwiftTrueFalse: React.FC = () => {
                   : 'border-zinc-200 bg-zinc-50/30 hover:bg-zinc-50 hover:border-zinc-300'
               }`}
             >
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-2.5">
+                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0 mt-0.5">
                     {item.number}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
-                      {item.statementEn}
-                    </p>
-                    <button
-                      onClick={() => playTTS(item.statementEn)}
-                      className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
-                      title="Listen"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
+                  <div className="space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
+                        {item.statementEn}
+                      </p>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => toggleTranslation(item.id)}
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                            visibleTranslations[item.id]
+                              ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                          }`}
+                          title="ترجمة الجملة"
+                        >
+                          <Languages className="w-3 h-3 text-indigo-600" />
+                          <span>{visibleTranslations[item.id] ? 'إخفاء' : 'ترجمة الجملة'}</span>
+                        </button>
+                        <button
+                          onClick={() => playTTS(item.statementEn)}
+                          className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
+                          title="Listen"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    {visibleTranslations[item.id] && (
+                      <p className="text-xs text-zinc-600 font-arabic text-right bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                        {item.statementAr}
+                      </p>
+                    )}
                   </div>
                 </div>
 

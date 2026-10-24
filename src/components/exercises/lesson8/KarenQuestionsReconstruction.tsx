@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Eye, EyeOff, HelpCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Eye, EyeOff, HelpCircle, Languages } from 'lucide-react';
 import { lesson8ActivityData, ReconstructedQuestion } from '../../../data/activityBookLesson8Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -20,7 +20,12 @@ export const KarenQuestionsReconstruction: React.FC = () => {
 
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
   const [isChecked, setIsChecked] = useState(false);
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleTextChange = (itemId: string, val: string) => {
     setAnswers((prev) => ({ ...prev, [itemId]: val }));
@@ -133,29 +138,50 @@ export const KarenQuestionsReconstruction: React.FC = () => {
               }`}
             >
               {/* Clue Header */}
-              <div className="flex items-center justify-between gap-3 border-b border-zinc-200/70 pb-2.5">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0">
-                    {item.letterRef}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-zinc-500 font-sans uppercase tracking-wider">
-                      Clue:
+              <div className="flex flex-col gap-1.5 border-b border-zinc-200/70 pb-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0">
+                      {item.letterRef}
                     </span>
-                    <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
-                      &ldquo;{item.clueEn}&rdquo;
-                    </h5>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-bold text-zinc-500 font-sans uppercase tracking-wider">
+                        Clue:
+                      </span>
+                      <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
+                        &ldquo;{item.clueEn}&rdquo;
+                      </h5>
+                      <button
+                        type="button"
+                        onClick={() => toggleTranslation(item.id)}
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                          visibleTranslations[item.id]
+                            ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                            : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                        }`}
+                        title="ترجمة التلميح"
+                      >
+                        <Languages className="w-3 h-3 text-indigo-600" />
+                        <span>{visibleTranslations[item.id] ? 'إخفاء' : 'ترجمة التلميح'}</span>
+                      </button>
+                    </div>
                   </div>
+
+                  <button
+                    onClick={() => toggleReveal(item.id)}
+                    className="flex items-center gap-1 text-[11px] font-arabic font-bold text-zinc-600 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer shrink-0"
+                    title={isRevealed ? 'إخفاء السؤال النموذجي' : 'إظهار السؤال النموذجي'}
+                  >
+                    {isRevealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                    <span>{isRevealed ? 'إخفاء' : 'السؤال النموذجي'}</span>
+                  </button>
                 </div>
 
-                <button
-                  onClick={() => toggleReveal(item.id)}
-                  className="flex items-center gap-1 text-[11px] font-arabic font-bold text-zinc-600 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer shrink-0"
-                  title={isRevealed ? 'إخفاء السؤال النموذجي' : 'إظهار السؤال النموذجي'}
-                >
-                  {isRevealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
-                  <span>{isRevealed ? 'إخفاء' : 'السؤال النموذجي'}</span>
-                </button>
+                {visibleTranslations[item.id] && (
+                  <p className="text-xs text-zinc-600 font-arabic text-right bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                    {item.clueAr}
+                  </p>
+                )}
               </div>
 
               {/* Direct Writing Line */}

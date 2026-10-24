@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Eye, EyeOff, BookOpen } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Eye, EyeOff, BookOpen, Languages } from 'lucide-react';
 import { lesson7ActivityData, AhmedComprehensionQuestion } from '../../../data/activityBookLesson7Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -22,7 +22,12 @@ export const AhmedComprehensionQuestions: React.FC = () => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   // Per-question model answer visibility
   const [revealedQuestions, setRevealedQuestions] = useState<Record<string, boolean>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
   const [isChecked, setIsChecked] = useState(false);
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleTextChange = (questionId: string, val: string) => {
     setAnswers((prev) => ({ ...prev, [questionId]: val }));
@@ -139,39 +144,62 @@ export const AhmedComprehensionQuestions: React.FC = () => {
               }`}
             >
               {/* Question line */}
-              <div className="flex items-center justify-between gap-3 border-b border-zinc-200/70 pb-2.5">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0">
-                    {q.number}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
-                      {q.questionEn}
-                    </h5>
+              <div className="flex flex-col gap-1.5 border-b border-zinc-200/70 pb-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-6 h-6 rounded-md bg-zinc-900 text-white text-xs font-bold flex items-center justify-center font-sans shrink-0">
+                      {q.number}
+                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h5 className="text-xs sm:text-sm font-bold text-zinc-900 font-sans">
+                        {q.questionEn}
+                      </h5>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => toggleTranslation(q.id)}
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                            visibleTranslations[q.id]
+                              ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                          }`}
+                          title="ترجمة السؤال"
+                        >
+                          <Languages className="w-3 h-3 text-indigo-600" />
+                          <span>{visibleTranslations[q.id] ? 'إخفاء' : 'ترجمة السؤال'}</span>
+                        </button>
+                        <button
+                          onClick={() => playTTS(q.questionEn)}
+                          className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
+                          title="Listen to question"
+                          aria-label="Listen to question"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0 font-arabic" dir="rtl">
+                    <span className="text-[11px] font-semibold text-zinc-500 bg-white border border-zinc-200 px-2 py-0.5 rounded-md">
+                      المشهد {q.sceneRef}
+                    </span>
                     <button
-                      onClick={() => playTTS(q.questionEn)}
-                      className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
-                      title="Listen to question"
-                      aria-label="Listen to question"
+                      onClick={() => toggleReveal(q.id)}
+                      className="flex items-center gap-1 text-[11px] font-bold text-zinc-600 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                      title={isRevealed ? 'إخفاء الحل النموذجي' : 'إظهار الحل النموذجي'}
                     >
-                      <Volume2 className="w-3.5 h-3.5" />
+                      {isRevealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                      <span>{isRevealed ? 'إخفاء' : 'الحل النموذجي'}</span>
                     </button>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0 font-arabic" dir="rtl">
-                  <span className="text-[11px] font-semibold text-zinc-500 bg-white border border-zinc-200 px-2 py-0.5 rounded-md">
-                    المشهد {q.sceneRef}
-                  </span>
-                  <button
-                    onClick={() => toggleReveal(q.id)}
-                    className="flex items-center gap-1 text-[11px] font-bold text-zinc-600 hover:text-zinc-900 bg-white hover:bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
-                    title={isRevealed ? 'إخفاء الحل النموذجي' : 'إظهار الحل النموذجي'}
-                  >
-                    {isRevealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
-                    <span>{isRevealed ? 'إخفاء' : 'الحل النموذجي'}</span>
-                  </button>
-                </div>
+                {visibleTranslations[q.id] && (
+                  <p className="text-xs text-zinc-600 font-arabic text-right bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                    {q.questionAr}
+                  </p>
+                )}
               </div>
 
               {/* Authentic Textbook Writing Line Input */}

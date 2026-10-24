@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, HelpCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, HelpCircle, Languages } from 'lucide-react';
 import { lesson7ActivityData, TrueFalseQuestionItem } from '../../../data/activityBookLesson7Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -11,6 +11,11 @@ export const ExerciseCTrueFalse: React.FC = () => {
   const [answers, setAnswers] = useState<Record<string, 'True' | 'False'>>({});
   const [isChecked, setIsChecked] = useState(false);
   const [showTranscript, setShowTranscript] = useState(false);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleSelect = (questionId: string, choice: 'True' | 'False') => {
     setAnswers((prev) => ({ ...prev, [questionId]: choice }));
@@ -128,17 +133,39 @@ export const ExerciseCTrueFalse: React.FC = () => {
                   <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0 mt-0.5">
                     {q.number}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
-                      {q.statementEn}
-                    </p>
-                    <button
-                      onClick={() => playTTS(q.statementEn)}
-                      className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
-                      title="Listen"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
+                  <div className="space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-xs sm:text-sm font-bold text-zinc-900 font-sans leading-snug">
+                        {q.statementEn}
+                      </p>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => toggleTranslation(q.id)}
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                            visibleTranslations[q.id]
+                              ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                          }`}
+                          title="ترجمة الجملة"
+                        >
+                          <Languages className="w-3 h-3 text-indigo-600" />
+                          <span>{visibleTranslations[q.id] ? 'إخفاء' : 'ترجمة الجملة'}</span>
+                        </button>
+                        <button
+                          onClick={() => playTTS(q.statementEn)}
+                          className="p-1 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
+                          title="Listen"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    {visibleTranslations[q.id] && (
+                      <p className="text-xs text-zinc-600 font-arabic text-right bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                        {q.statementAr}
+                      </p>
+                    )}
                   </div>
                 </div>
 
