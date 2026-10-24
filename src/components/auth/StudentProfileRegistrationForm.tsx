@@ -82,9 +82,9 @@ export const StudentProfileRegistrationForm: React.FC<StudentProfileRegistration
         );
 
         const sessionToSave: StudentSession = {
-          id: externalSubObj?.usedByStudentId || studentId,
+          id: externalSubObj?.isGroupCode ? studentId : (externalSubObj?.usedByStudentId || studentId),
           fullName: cleanName,
-          section: 'مشترك أونلاين',
+          section: externalSubObj?.isGroupCode ? (externalSubObj.note || 'تجريبي جماعي') : 'مشترك أونلاين',
           code: cleanCode,
           registeredAt: externalSubObj?.usedAt || new Date().toISOString(),
           totalTimeSpentMinutes: 0,

@@ -47,6 +47,12 @@ export const AppModalsAndGates: React.FC<AppModalsAndGatesProps> = ({
               <h3 className="text-lg font-bold text-slate-800 font-arabic">
                 {studentSession.subscriptionDuration === '1_hour'
                   ? 'انتهت فترة التجربة المجانية (ساعة واحدة)'
+                  : studentSession.subscriptionDuration === '1_day'
+                  ? 'انتهت فترة التجربة المجانية (يوم واحد)'
+                  : studentSession.subscriptionDuration === '3_days'
+                  ? 'انتهت فترة التجربة المجانية (3 أيام)'
+                  : studentSession.subscriptionDuration === '1_week'
+                  ? 'انتهت فترة التجربة المجانية (أسبوع واحد)'
                   : 'انتهت فترة اشتراكك الإلكتروني'}
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 font-arabic leading-relaxed">

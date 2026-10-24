@@ -75,6 +75,7 @@ export interface SingleUseCode {
 export type SubscriptionDuration =
   | '1_hour'
   | '1_day'
+  | '3_days'
   | '1_week'
   | '1_month'
   | '3_months'
@@ -87,6 +88,7 @@ export const SUBSCRIPTION_DURATIONS_MAP: Record<
 > = {
   '1_hour': { labelAr: 'تجريبي: ساعة واحدة', days: 1 / 24, prefix: 'TRIAL-1H' },
   '1_day': { labelAr: 'تجريبي: يوم كامل (24 ساعة)', days: 1, prefix: 'TRIAL-1D' },
+  '3_days': { labelAr: 'تجريبي: 3 أيام', days: 3, prefix: 'TRIAL-3D' },
   '1_week': { labelAr: 'تجريبي: أسبوع كامل (7 أيام)', days: 7, prefix: 'TRIAL-1W' },
   '1_month': { labelAr: 'شهر واحد (30 يوم)', days: 30, prefix: 'SUB-1M' },
   '3_months': { labelAr: '3 أشهر (90 يوم)', days: 90, prefix: 'SUB-3M' },
@@ -109,6 +111,8 @@ export interface ExternalSubscriptionCode {
   deviceId?: string; // Hardware/Browser lock fingerprint
   deviceInfo?: string; // e.g. "iPhone / iOS" or "Android / Chrome"
   status: 'available' | 'active' | 'expired' | 'suspended';
+  isGroupCode?: boolean;
+  usedCount?: number;
 }
 
 export interface PlatformConfig {

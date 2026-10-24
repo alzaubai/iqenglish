@@ -5,9 +5,9 @@ import { SubscriptionRowItem } from './SubscriptionRowItem';
 
 interface SubscriptionsListProps {
   filteredExternalSubscriptions: ExternalSubscriptionCode[];
-  subStatusFilter: 'all' | 'available' | 'active' | 'expired' | 'suspended';
+  subStatusFilter: 'all' | 'available' | 'active' | 'expired' | 'suspended' | 'group';
   setSubStatusFilter: (
-    filter: 'all' | 'available' | 'active' | 'expired' | 'suspended'
+    filter: 'all' | 'available' | 'active' | 'expired' | 'suspended' | 'group'
   ) => void;
   subSearchQuery: string;
   setSubSearchQuery: (query: string) => void;
@@ -49,6 +49,7 @@ export const SubscriptionsList: React.FC<SubscriptionsListProps> = ({
         <div className="flex flex-wrap gap-1">
           {[
             { id: 'all', label: 'الكل' },
+            { id: 'group', label: '👥 أكواد جماعية' },
             { id: 'available', label: 'متاح للبيع' },
             { id: 'active', label: 'نشط' },
             { id: 'expired', label: 'منتهي' },

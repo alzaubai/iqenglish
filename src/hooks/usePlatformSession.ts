@@ -105,6 +105,7 @@ export function usePlatformSession() {
     const isTrial =
       studentSession?.subscriptionDuration === '1_hour' ||
       studentSession?.subscriptionDuration === '1_day' ||
+      studentSession?.subscriptionDuration === '3_days' ||
       studentSession?.subscriptionDuration === '1_week';
 
     if (!isExternalSubscriber || !isTrial || !studentSession?.subscriptionExpiresAt) {

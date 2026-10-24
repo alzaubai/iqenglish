@@ -19,12 +19,14 @@ interface SubscriptionsTabProps {
 export const SubscriptionsTab: React.FC<SubscriptionsTabProps> = ({ platformConfig }) => {
   const [subDurationInput, setSubDurationInput] = useState<SubscriptionDuration>('3_months');
   const [subNoteInput, setSubNoteInput] = useState('');
+  const [isGroupCodeInput, setIsGroupCodeInput] = useState(false);
+  const [customCodeInput, setCustomCodeInput] = useState('');
   const [isGeneratingSubCode, setIsGeneratingSubCode] = useState(false);
   const [copiedSubCode, setCopiedSubCode] = useState<string | null>(null);
   const [subMessage, setSubMessage] = useState<string | null>(null);
   const [subSearchQuery, setSubSearchQuery] = useState('');
   const [subStatusFilter, setSubStatusFilter] = useState<
-    'all' | 'available' | 'active' | 'expired' | 'suspended'
+    'all' | 'available' | 'active' | 'expired' | 'suspended' | 'group'
   >('all');
 
   const externalSubscriptions = platformConfig.externalSubscriptions || [];
@@ -33,11 +35,21 @@ export const SubscriptionsTab: React.FC<SubscriptionsTabProps> = ({ platformConf
     setIsGeneratingSubCode(true);
     const targetDuration = durationOverride || subDurationInput;
     try {
-      const newCode = await generateExternalSubscriptionCode(targetDuration, subNoteInput.trim() || undefined);
-      setSubMessage(`تم توليد كود اشتراك جديد بنجاح: ${newCode}`);
+      const newCode = await generateExternalSubscriptionCode(
+        targetDuration,
+        subNoteInput.trim() || undefined,
+        isGroupCodeInput,
+        customCodeInput.trim() || undefined
+      );
+      setSubMessage(
+        isGroupCodeInput
+          ? `تم إنشاء كود تجريبي جماعي بنجاح: ${newCode} (صالح لجميع طلاب الكروب)`
+          : `تم توليد كود اشتراك جديد بنجاح: ${newCode}`
+      );
       setCopiedSubCode(newCode);
       setSubNoteInput('');
-      setTimeout(() => setSubMessage(null), 5000);
+      setCustomCodeInput('');
+      setTimeout(() => setSubMessage(null), 6000);
     } catch {
       setSubMessage('حدث خطأ أثناء توليد الكود، يرجى المحاولة ثانية.');
       setTimeout(() => setSubMessage(null), 4000);
@@ -103,17 +115,18 @@ export const SubscriptionsTab: React.FC<SubscriptionsTabProps> = ({ platformConf
 
   const totalSubsCount = externalSubscriptions.length;
   const activeSubsCount = externalSubscriptions.filter(
-    (s) => s.isUsed && s.status !== 'suspended' && (!s.expiresAt || new Date() <= new Date(s.expiresAt))
+    (s) => (s.isGroupCode || s.isUsed) && s.status !== 'suspended' && (!s.expiresAt || new Date() <= new Date(s.expiresAt))
   ).length;
-  const availableSubsCount = externalSubscriptions.filter((s) => !s.isUsed).length;
+  const availableSubsCount = externalSubscriptions.filter((s) => !s.isUsed && !s.isGroupCode).length;
   const expiredSubsCount = externalSubscriptions.filter(
     (s) => s.status === 'suspended' || (s.expiresAt && new Date() > new Date(s.expiresAt))
   ).length;
 
   const filteredExternalSubscriptions = externalSubscriptions.filter((item) => {
     const isExpired = Boolean(item.expiresAt && new Date() > new Date(item.expiresAt));
-    if (subStatusFilter === 'available' && item.isUsed) return false;
-    if (subStatusFilter === 'active' && (!item.isUsed || item.status === 'suspended' || isExpired)) return false;
+    if (subStatusFilter === 'group' && !item.isGroupCode) return false;
+    if (subStatusFilter === 'available' && (item.isUsed || item.isGroupCode)) return false;
+    if (subStatusFilter === 'active' && (!item.isUsed && !item.isGroupCode || item.status === 'suspended' || isExpired)) return false;
     if (subStatusFilter === 'expired' && !isExpired) return false;
     if (subStatusFilter === 'suspended' && item.status !== 'suspended') return false;
 
@@ -147,6 +160,10 @@ export const SubscriptionsTab: React.FC<SubscriptionsTabProps> = ({ platformConf
         subMessage={subMessage}
         copiedSubCode={copiedSubCode}
         onCopySubCode={handleCopySubCode}
+        isGroupCodeInput={isGroupCodeInput}
+        setIsGroupCodeInput={setIsGroupCodeInput}
+        customCodeInput={customCodeInput}
+        setCustomCodeInput={setCustomCodeInput}
       />
 
       <SubscriptionsList

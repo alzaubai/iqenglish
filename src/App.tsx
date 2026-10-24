@@ -229,6 +229,7 @@ export default function App() {
           isExternalSubscriber &&
             (studentSession?.subscriptionDuration === '1_hour' ||
               studentSession?.subscriptionDuration === '1_day' ||
+              studentSession?.subscriptionDuration === '3_days' ||
               studentSession?.subscriptionDuration === '1_week')
         )}
         minutesRemaining={trialMinutesRemaining}
