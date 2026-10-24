@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// Load key from environment or argument or fallback
+// Load key from environment or argument
 const API_KEY = process.env.ELEVENLABS_API_KEY || process.argv[2] || '';
 
 if (!API_KEY) {
@@ -12,8 +12,8 @@ if (!API_KEY) {
 const outDir = path.resolve('public/audio/lesson-7');
 fs.mkdirSync(outDir, { recursive: true });
 
-// Voice Persona: Charlie (lively, natural young boy) with interactive settings
-const VOICE_ID = 'IKne3meq5aSn9XLyUdCD'; // Charlie
+// Voice Persona: Liam (TX3LPaxmHKxFdv7VOQHJ) - Authentic American Accent, Youthful / Schoolboy
+const VOICE_ID = 'TX3LPaxmHKxFdv7VOQHJ'; // Liam (American Youth)
 
 const SCENES = [
   {
@@ -46,16 +46,16 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function generateSceneAudio(scene) {
   const filePath = path.join(outDir, `${scene.id}.mp3`);
-  console.log(`[GENERATING] ${scene.id} (${scene.text.length} chars) with dynamic stability 0.32...`);
+  console.log(`[GENERATING] ${scene.id} (${scene.text.length} chars) with American accent (Liam)...`);
 
   const url = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`;
   const payload = {
     text: scene.text,
     model_id: 'eleven_multilingual_v2',
     voice_settings: {
-      stability: 0.32, // Lower stability for expressive, dynamic, interactive storytelling
-      similarity_boost: 0.75,
-      style: 0.35,
+      stability: 0.38, // Dynamic and expressive with American intonation
+      similarity_boost: 0.80,
+      style: 0.25,
     },
   };
 
@@ -76,14 +76,14 @@ async function generateSceneAudio(scene) {
   const buffer = Buffer.from(await response.arrayBuffer());
   fs.writeFileSync(filePath, buffer);
   console.log(`[SUCCESS] Saved ${filePath} (${buffer.length} bytes)`);
-  await sleep(800); // Respect rate limit
+  await sleep(1000); // Polite rate limit
   return buffer;
 }
 
 async function main() {
-  console.log('=== STARTING ELEVENLABS AUDIO GENERATION FOR AHMED STORY ===');
-  console.log(`Using Voice: Charlie (${VOICE_ID})`);
-  console.log('Settings: stability=0.32 (dynamic/expressive), style=0.35\n');
+  console.log('=== REGENERATING AHMED STORY AUDIO WITH AMERICAN ACCENT (LIAM) ===');
+  console.log(`Voice: Liam (${VOICE_ID}) - American Accent, Youthful Storyteller`);
+  console.log('Settings: stability=0.38, similarity_boost=0.80, style=0.25\n');
 
   const buffers = [];
   for (const scene of SCENES) {
@@ -96,7 +96,7 @@ async function main() {
   const merged = Buffer.concat(buffers);
   fs.writeFileSync(fullTrackPath, merged);
   console.log(`\n[FULL TRACK SAVED] ${fullTrackPath} (${merged.length} bytes)`);
-  console.log('=== ALL 6 SCENES + FULL STORY GENERATED SUCCESSFULLY! ===');
+  console.log('=== ALL 6 SCENES REGENERATED SUCCESSFULLY WITH AMERICAN ACCENT! ===');
 }
 
 main().catch((err) => {
