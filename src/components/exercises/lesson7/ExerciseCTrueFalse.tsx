@@ -97,7 +97,7 @@ export const ExerciseCTrueFalse: React.FC = () => {
               className="flex items-center gap-1.5 text-xs font-bold text-zinc-700 bg-white border border-zinc-200 px-2.5 py-1 rounded-lg hover:bg-zinc-100 transition-colors font-sans"
             >
               <Volume2 className="w-3.5 h-3.5 text-zinc-600" />
-              <span>Listen</span>
+              <span>استمع</span>
             </button>
           </div>
           <p className="text-xs sm:text-sm text-zinc-700 font-sans leading-relaxed italic">

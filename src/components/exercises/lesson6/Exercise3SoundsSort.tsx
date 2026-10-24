@@ -100,7 +100,7 @@ export const Exercise3SoundsSort: React.FC = () => {
             title="Listen to tongue twister"
           >
             <Volume2 className="w-3.5 h-3.5 text-zinc-600" />
-            <span>Listen</span>
+            <span>استمع</span>
           </button>
         </div>
         <p className="text-sm sm:text-base font-bold text-zinc-900 font-sans leading-relaxed">
@@ -333,26 +333,26 @@ export const Exercise3SoundsSort: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={checkAll}
-            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl text-xs sm:text-sm font-bold font-arabic transition-colors"
           >
             <CheckCircle2 className="w-4 h-4" />
-            <span>Check answers</span>
+            <span>تحقق من الإجابات</span>
           </button>
           <button
             onClick={resetAll}
-            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-sans transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-xl text-xs sm:text-sm font-bold font-arabic transition-colors"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <span>إعادة تعيين</span>
           </button>
         </div>
 
         <button
           onClick={solveAll}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-zinc-800 text-xs font-bold font-sans hover:bg-zinc-100 rounded-lg transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-500 hover:text-zinc-800 text-xs font-bold font-arabic hover:bg-zinc-100 rounded-lg transition-colors"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>Show Model Solution</span>
+          <span>عرض الحلول النموذجية</span>
         </button>
       </div>
 

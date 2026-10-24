@@ -150,12 +150,12 @@ export const AhmedStoryCardReader: React.FC = () => {
             {isPlayingFull ? (
               <>
                 <Pause className="w-3.5 h-3.5" />
-                <span>Pause story</span>
+                <span>إيقاف مؤقت</span>
               </>
             ) : (
               <>
                 <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Play full story</span>
+                <span>تشغيل القصة كاملة</span>
               </>
             )}
           </button>
@@ -220,12 +220,12 @@ export const AhmedStoryCardReader: React.FC = () => {
                   {isActive ? (
                     <>
                       <VolumeX className="w-3.5 h-3.5" />
-                      <span>Stop</span>
+                      <span>إيقاف</span>
                     </>
                   ) : (
                     <>
                       <Volume2 className="w-3.5 h-3.5 text-zinc-600" />
-                      <span>Listen</span>
+                      <span>استمع</span>
                     </>
                   )}
                 </button>

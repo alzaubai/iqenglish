@@ -182,10 +182,10 @@ export const Exercise4ScrambledSentences: React.FC<Exercise4ScrambledSentencesPr
                   onClick={() =>
                     setConstructedTokens((prev) => ({ ...prev, [item.id]: [] }))
                   }
-                  className="text-xs text-zinc-500 hover:text-zinc-800 flex items-center gap-1 cursor-pointer font-sans"
+                  className="text-xs text-zinc-500 hover:text-zinc-800 flex items-center gap-1 cursor-pointer font-arabic"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Reset</span>
+                  <span>إعادة تعيين</span>
                 </button>
                 <button
                   onClick={() => checkSentence(item)}
