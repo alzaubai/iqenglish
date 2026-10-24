@@ -226,13 +226,13 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
   },
 
   // ===================== LESSON 6 =====================
-  // Student's Book p. 10 & Tracks 9-10: Bassem's scrapbook & Tongue-twister
+  // Student's Book p. 9 & Tracks 9-10: Bassem's scrapbook & Tongue-twister
   6: {
     lessonNumber: 6,
-    badgeAr: 'محادثة الدرس (SB p. 10)',
+    badgeAr: 'محادثة الدرس (SB p. 9)',
     titleAr: 'دفتر قصاصات باسم والآثار في العراق',
     titleEn: "Bassem's Scrapbook & Tongue-twister",
-    descriptionAr: 'المفردات التمهيدية من حوار عادل وباسم وتمرين نطق الأصوات في ص 10:',
+    descriptionAr: 'المفردات التمهيدية من حوار عادل وباسم وتمرين نطق الأصوات في ص 9:',
     items: [
       {
         id: 'u1-l6-1',
@@ -242,7 +242,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'صور ماذا؟ مواقع تاريخية في العراق؟',
         imageUrl: '/images/dialogue/l6-3.jpg',
         tag: 'مواقع تاريخية',
-        tagColor: 'bg-amber-50 text-amber-800 border-amber-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l6-2',
@@ -252,7 +252,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'أزور مدناً مختلفة في العراق وألتقط صوراً للآثار.',
         imageUrl: '/images/dialogue/l6-4.jpg',
         tag: 'آثار Ruins',
-        tagColor: 'bg-stone-100 text-stone-800 border-stone-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l6-3',
@@ -262,7 +262,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'أنا أضع بعض الصور التذكارية في دفتر قصاصاتي.',
         imageUrl: '/images/dialogue/l6-2.jpg',
         tag: 'دفتر قصاصات',
-        tagColor: 'bg-sky-50 text-sky-800 border-sky-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l6-4',
@@ -270,9 +270,9 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         wordAr: 'أصداف البحر على شاطئ البحر',
         contextEn: 'She sells seashells on the seashore.',
         contextAr: 'هي تبيع أصداف البحر على شاطئ البحر (تمرين أصوات s و sh).',
-        imageUrl: '/images/dialogue/l6-5.jpg',
+        imageUrl: '/images/dialogue/l6-t-1.jpg',
         tag: 'تمرين الأصوات',
-        tagColor: 'bg-teal-50 text-teal-800 border-teal-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l6-5',
@@ -282,7 +282,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'أزور مدناً مختلفة في العراق لالتقاط الصور.',
         imageUrl: '/images/dialogue/l6-6.jpg',
         tag: 'مدن العراق',
-        tagColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l6-6',
@@ -292,7 +292,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'مرحباً باسم، هل تود المجيء معي إلى المول؟',
         imageUrl: '/images/dialogue/l6-1.jpg',
         tag: 'حوار يومي',
-        tagColor: 'bg-indigo-50 text-indigo-800 border-indigo-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
     ],
   },
