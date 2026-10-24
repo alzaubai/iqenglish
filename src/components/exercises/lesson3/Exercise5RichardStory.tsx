@@ -58,13 +58,20 @@ export const Exercise5RichardStory: React.FC<Exercise5RichardStoryProps> = ({ on
 
   return (
     <div className="space-y-5" dir="ltr">
-      {/* Header */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 pb-3">
-          <div>
-            <span className="text-xs font-bold text-zinc-500 font-sans block mb-0.5">
-              Activity Book • Page 9 • Exercise 5
-            </span>
+      {/* Header matching Activity Book Page 9 Ex 5 */}
+      <div className="bg-white rounded-2xl border border-amber-200/80 p-5 shadow-sm space-y-2 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full blur-2xl pointer-events-none -mr-10 -mt-10" />
+
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-100 pb-3 relative z-10">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-amber-100 text-amber-800 border border-amber-300 font-arabic">
+                📓 كتاب النشاط (Activity Book)
+              </span>
+              <span className="text-xs font-bold text-zinc-500 font-sans">
+                Page 9 • Exercise 5
+              </span>
+            </div>
             <h4 className="text-base sm:text-lg font-black text-zinc-900 font-sans">
               Read and complete the paragraph about Richard.
             </h4>
@@ -72,14 +79,14 @@ export const Exercise5RichardStory: React.FC<Exercise5RichardStoryProps> = ({ on
           <button
             type="button"
             onClick={() => setShowGrammarTip(!showGrammarTip)}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 flex items-center gap-1.5 transition-all cursor-pointer font-arabic"
+            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 flex items-center gap-1.5 transition-all cursor-pointer font-arabic relative z-10"
           >
             <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
             <span>{showGrammarTip ? 'إخفاء صندوق القاعدة' : 'عرض قاعدة الماضي البسيط والمستمر'}</span>
           </button>
         </div>
 
-        <p className="text-xs text-zinc-600 font-arabic text-right leading-relaxed" dir="rtl">
+        <p className="text-xs text-zinc-600 font-arabic text-right leading-relaxed relative z-10" dir="rtl">
           اقرأ الفقرة واكتب صيغة الأفعال بين القوسين إما بالماضي البسيط (<span dir="ltr">Past Simple</span>) أو الماضي المستمر (<span dir="ltr">Past Continuous</span>):
         </p>
       </div>
