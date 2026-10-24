@@ -49,7 +49,7 @@ export const CURRICULUM_UNITS: ExamUnit[] = [
       { id: 'lesson-4', lessonNumber: 4, titleAr: 'الدرس 4: أنشطة العطلة ورسالة الصديق', titleEn: 'Lesson 4: Holiday Activities', subtitleAr: 'كتاب النشاط ص 10' },
       { id: 'lesson-5', lessonNumber: 5, titleAr: 'الدرس 5: ظروف التكرار (How often?)', titleEn: 'Lesson 5: How often?', subtitleAr: 'كتاب الطالب ص 8 وكتاب النشاط ص 12 و 13' },
       { id: 'lesson-6', lessonNumber: 6, titleAr: 'الدرس 6: دفتر قصاصات باسم والآثار', titleEn: "Lesson 6: Bassem's scrapbook", subtitleAr: 'كتاب الطالب ص 9 وكتاب النشاط ص 14 و 15' },
-      { id: 'lesson-7', lessonNumber: 7, titleAr: 'الدرس 7: المفردات والتصريف الشاذ', titleEn: 'Lesson 7: Irregular verbs', subtitleAr: 'كتاب النشاط ص 15' },
+      { id: 'lesson-7', lessonNumber: 7, titleAr: 'الدرس 7: يوم مميز (A special day)', titleEn: 'Lesson 7: A special day', subtitleAr: 'كتاب الطالب ص 10 وكتاب النشاط ص 15 و 16' },
       { id: 'lesson-8', lessonNumber: 8, titleAr: 'الدرس 8: التعبير الكتابي والإنشاء', titleEn: 'Lesson 8: Writing practice', subtitleAr: 'كتاب النشاط ص 16' },
       { id: 'lesson-9', lessonNumber: 9, titleAr: 'الدرس 9: مراجعة الوحدة الشاملة', titleEn: 'Lesson 9: Round up & Review', subtitleAr: 'كتاب النشاط ص 17 و 18' },
       { id: 'lesson-10', lessonNumber: 10, titleAr: 'الدرس 10: قصة الوحدة (Story time)', titleEn: 'Lesson 10: Story time', subtitleAr: 'كتاب الطالب ص 14 وكتاب النشاط ص 19' },

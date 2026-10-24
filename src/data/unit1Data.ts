@@ -703,7 +703,7 @@ export const unit1Lessons: LessonData[] = [
         titleEn: "Track 11: Sana's fantastic day",
         titleAr: 'التسجيل 11: يوم سناء الرائع',
         audioTrackNumber: 11,
-        bookReference: "Student's Book p. 9 & 82",
+        bookReference: "Student's Book p. 10 & 82",
         description: 'Sana talks about spending a wonderful day with her friends.',
         audioFileUrl: '/audio/lesson-7/track11-full.mp3',
         hasGeminiAudio: true,

@@ -301,10 +301,10 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
   // Student's Book p. 11 & Track 11 & AB p. 16: Sana's special day
   7: {
     lessonNumber: 7,
-    badgeAr: 'يوم سناء المميز (SB p. 11)',
+    badgeAr: 'يوم سناء المميز (SB p. 10)',
     titleAr: 'أنشطة يوم سناء على شاطئ البحر',
     titleEn: "Sana's Special Day",
-    descriptionAr: 'الأنشطة والعبارات المنهجية التي قامت بها سناء مع صديقاتها في ص 11:',
+    descriptionAr: 'الأنشطة والعبارات المنهجية التي قامت بها سناء مع صديقاتها في ص 10:',
     items: [
       {
         id: 'u1-l7-1',
@@ -314,7 +314,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'قضيت يوماً رائعاً بالأمس بصحبة صديقاتي وفعلنا الكثير من الأشياء.',
         imageUrl: '/images/dialogue/l7-1.jpg',
         tag: 'يوم رائع',
-        tagColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l7-2',
@@ -324,7 +324,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'في الصباح ذهبنا لصيد السمك، وكان الأمر مريحاً للأعصاب.',
         imageUrl: '/images/dialogue/l7-2.jpg',
         tag: 'صيد السمك',
-        tagColor: 'bg-sky-50 text-sky-800 border-sky-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l7-3',
@@ -334,7 +334,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'ثم مشينا بمحاذاة شاطئ البحر وعثرنا على أصداف بحرية جميلة.',
         imageUrl: '/images/dialogue/l7-3.jpg',
         tag: 'شاطئ البحر',
-        tagColor: 'bg-teal-50 text-teal-800 border-teal-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l7-4',
@@ -344,7 +344,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'التقطت بعض الصور للقوارب في البحر.',
         imageUrl: '/images/dialogue/l7-3.jpg',
         tag: 'قوارب البحر',
-        tagColor: 'bg-blue-50 text-blue-800 border-blue-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l7-5',
@@ -354,7 +354,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'قال والداي إنه بإمكاننا تناول البيتزا أو الذهاب في نزهة.',
         imageUrl: '/images/dialogue/l7-4.jpg',
         tag: 'نزهة',
-        tagColor: 'bg-amber-50 text-amber-800 border-amber-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
       {
         id: 'u1-l7-6',
@@ -364,7 +364,7 @@ export const UNIT1_LESSON_SHOWCASES: Record<number, LessonShowcaseData> = {
         contextAr: 'لعبت أنا وصديقاتي كرة القدم في المتنزه واستمعنا لبعض الموسيقى.',
         imageUrl: '/images/dialogue/l7-4.jpg',
         tag: 'في المتنزه',
-        tagColor: 'bg-rose-50 text-rose-800 border-rose-200',
+        tagColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
       },
     ],
   },

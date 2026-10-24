@@ -293,3 +293,5 @@ export { lesson4ActivityData } from './activityBookLesson4Data';
 export { lesson5ActivityData } from './activityBookLesson5Data';
 
 export { lesson6ActivityData } from './activityBookLesson6Data';
+
+export { lesson7ActivityData } from './activityBookLesson7Data';
