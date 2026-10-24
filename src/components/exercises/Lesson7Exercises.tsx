@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { AhmedStoryCardReader } from './lesson7/AhmedStoryCardReader';
+import { AhmedComprehensionQuestions } from './lesson7/AhmedComprehensionQuestions';
 import { ExerciseCTrueFalse } from './lesson7/ExerciseCTrueFalse';
 import { ExerciseDMakeNotes } from './lesson7/ExerciseDMakeNotes';
 import { ExerciseEPartnerInterview } from './lesson7/ExerciseEPartnerInterview';
@@ -9,14 +11,15 @@ interface Lesson7ExercisesProps {
 }
 
 const TABS = [
-  { step: 1, title: 'تمرين C (صح أو خطأ - ص 16)' },
-  { step: 2, title: 'تمرين D (تدوين الملاحظات - ص 16)' },
-  { step: 3, title: 'تمرين E (سؤال الزميل - ص 16)' },
-  { step: 4, title: 'تمرين A (أفعال الأنشطة - ص 15)' },
+  { step: 1, title: 'قصة أحمد وفيصل (كروت الأحداث - ص 17)' },
+  { step: 2, title: 'الأسئلة الوزارية لقصة أحمد (ص 17)' },
+  { step: 3, title: 'تمرين C (صح أو خطأ - يوم سناء - ص 16)' },
+  { step: 4, title: 'تمرين D و E (تدوين الملاحظات ومقابلة الزميل - ص 16)' },
+  { step: 5, title: 'تمرين A (مطابقة أفعال الأنشطة - ص 15)' },
 ] as const;
 
 export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUpdate }) => {
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1);
 
   return (
     <div className="space-y-6">
@@ -39,18 +42,27 @@ export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUp
 
       {/* Preserve state across tabs by toggling display */}
       <div className={currentStep === 1 ? 'block' : 'hidden'}>
-        <ExerciseCTrueFalse />
+        <AhmedStoryCardReader />
       </div>
 
       <div className={currentStep === 2 ? 'block' : 'hidden'}>
-        <ExerciseDMakeNotes />
+        <AhmedComprehensionQuestions />
       </div>
 
       <div className={currentStep === 3 ? 'block' : 'hidden'}>
-        <ExerciseEPartnerInterview />
+        <ExerciseCTrueFalse />
       </div>
 
-      <div className={currentStep === 4 ? 'block' : 'hidden'}>
+      <div className={`space-y-6 ${currentStep === 4 ? 'block' : 'hidden'}`}>
+        {currentStep === 4 && (
+          <>
+            <ExerciseDMakeNotes />
+            <ExerciseEPartnerInterview />
+          </>
+        )}
+      </div>
+
+      <div className={currentStep === 5 ? 'block' : 'hidden'}>
         <ExerciseAActivitiesMatch />
       </div>
     </div>
