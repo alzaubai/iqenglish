@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { lesson5ActivityData, CircleSentenceItem } from '../../../data/activityBookLesson5Data';
-import { CheckCircle2, XCircle, RotateCcw, Volume2, Eye } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, Volume2, Eye, Languages } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const Exercise3AdverbsSentences: React.FC = () => {
@@ -10,6 +10,14 @@ export const Exercise3AdverbsSentences: React.FC = () => {
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const handleInputChange = (id: string, val: string) => {
     if (isSubmitted) return;
@@ -169,14 +177,30 @@ export const Exercise3AdverbsSentences: React.FC = () => {
                   </span>
                 </div>
 
-                <p className="mt-1.5 text-xs text-zinc-500 font-arabic text-right" dir="rtl">
-                  {s.fullSentenceAr}
-                </p>
+                {visibleTranslations[s.id] && (
+                  <p className="mt-2 text-xs text-zinc-700 font-arabic text-right bg-zinc-50 p-2 rounded-lg border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                    {s.fullSentenceAr}
+                  </p>
+                )}
               </div>
 
               {/* Controls & Answers */}
               <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-zinc-100">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => toggleTranslation(s.id)}
+                    className={`px-2 py-1 rounded-md text-xs font-arabic flex items-center gap-1 transition-colors cursor-pointer border ${
+                      visibleTranslations[s.id]
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                        : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                    title="ترجمة الجملة"
+                  >
+                    <Languages className="w-3 h-3 text-indigo-600" />
+                    <span>{visibleTranslations[s.id] ? 'إخفاء الترجمة' : 'ترجمة الجملة'}</span>
+                  </button>
+
                   <button
                     type="button"
                     onClick={() => playTTS(`${s.prefixEn} ${s.correctAnswer} ${s.suffixEn}`)}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, HelpCircle, BookOpen, Sparkles, RefreshCw } from 'lucide-react';
+import { CheckCircle2, XCircle, HelpCircle, BookOpen, Sparkles, RefreshCw, Languages } from 'lucide-react';
 import { lesson3ActivityData, VerbItem } from '../../../data/activityBookLesson3Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -12,6 +12,7 @@ export const Exercise1VerbsTable: React.FC<Exercise1VerbsTableProps> = ({ onProg
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isChecked, setIsChecked] = useState(false);
   const [showRules, setShowRules] = useState(true);
+  const [showVerbMeanings, setShowVerbMeanings] = useState(false);
 
   const verbs = lesson3ActivityData.page8Ex1Verbs;
   const col1Verbs = verbs.filter((v) => v.column === 1);
@@ -90,9 +91,11 @@ export const Exercise1VerbsTable: React.FC<Exercise1VerbsTableProps> = ({ onProg
                   <span className="font-bold text-sm text-zinc-900 block font-sans">
                     {verb.infinitive}
                   </span>
-                  <span className="text-[11px] text-zinc-500 font-arabic">
-                    {verb.infinitiveAr}
-                  </span>
+                  {showVerbMeanings && (
+                    <span className="text-[11px] text-zinc-500 font-arabic block animate-in fade-in duration-150">
+                      {verb.infinitiveAr}
+                    </span>
+                  )}
                 </div>
 
                 <div className="relative">
@@ -147,14 +150,28 @@ export const Exercise1VerbsTable: React.FC<Exercise1VerbsTableProps> = ({ onProg
               Complete the table with the past simple forms.
             </h4>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowRules(!showRules)}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 flex items-center gap-1.5 transition-all cursor-pointer font-arabic"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-amber-600" />
-            <span>{showRules ? 'إخفاء الشرح والقواعد' : 'عرض شرح الأعمدة الثلاثة'}</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowVerbMeanings(!showVerbMeanings)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer font-arabic flex items-center gap-1.5 ${
+                showVerbMeanings
+                  ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                  : 'bg-zinc-50 text-zinc-700 border-zinc-300 hover:bg-zinc-100'
+              }`}
+            >
+              <Languages className="w-3.5 h-3.5 text-indigo-600" />
+              <span>{showVerbMeanings ? 'إخفاء ترجمة الأفعال' : 'ترجمة الأفعال'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowRules(!showRules)}
+              className="px-3 py-1.5 rounded-lg text-xs font-bold border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 flex items-center gap-1.5 transition-all cursor-pointer font-arabic"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-amber-600" />
+              <span>{showRules ? 'إخفاء الشرح والقواعد' : 'عرض شرح الأعمدة الثلاثة'}</span>
+            </button>
+          </div>
         </div>
 
         <p className="text-xs text-zinc-600 font-arabic text-right leading-relaxed" dir="rtl">

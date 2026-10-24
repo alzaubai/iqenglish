@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Eye } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Eye, Languages } from 'lucide-react';
 import { lesson6ActivityData, ComprehensionQuestionItem } from '../../../data/activityBookLesson6Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -11,6 +11,14 @@ export const Exercise1ComprehensionQuestions: React.FC = () => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isChecked, setIsChecked] = useState(false);
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const handleInputChange = (id: string, val: string) => {
     if (isChecked) return;
@@ -113,22 +121,39 @@ export const Exercise1ComprehensionQuestions: React.FC = () => {
                     {q.letter}
                   </span>
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="text-sm sm:text-base font-bold text-zinc-900 font-sans">
                         {q.questionEn}
                       </span>
-                      <button
-                        type="button"
-                        onClick={() => playTTS(q.questionEn)}
-                        className="p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
-                        title="Listen"
-                      >
-                        <Volume2 className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => toggleTranslation(q.id)}
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                            visibleTranslations[q.id]
+                              ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                          }`}
+                          title="ترجمة السؤال"
+                        >
+                          <Languages className="w-3 h-3 text-indigo-600" />
+                          <span>{visibleTranslations[q.id] ? 'إخفاء' : 'ترجمة السؤال'}</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => playTTS(q.questionEn)}
+                          className="p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
+                          title="Listen"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
-                    <span className="text-xs text-zinc-500 font-arabic block text-right mt-0.5" dir="rtl">
-                      {q.questionAr}
-                    </span>
+                    {visibleTranslations[q.id] && (
+                      <span className="text-xs text-zinc-600 font-arabic block text-right mt-1.5 bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                        {q.questionAr}
+                      </span>
+                    )}
                   </div>
                 </div>
 

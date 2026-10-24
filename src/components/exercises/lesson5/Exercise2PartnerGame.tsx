@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { lesson5ActivityData, PartnerDialogueItem } from '../../../data/activityBookLesson5Data';
-import { Volume2, CheckCircle2, RotateCcw } from 'lucide-react';
+import { Volume2, CheckCircle2, RotateCcw, Languages } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const Exercise2PartnerGame: React.FC = () => {
@@ -8,6 +8,7 @@ export const Exercise2PartnerGame: React.FC = () => {
 
   const [activeDialogueIndex, setActiveDialogueIndex] = useState<number>(0);
   const [userChoices, setUserChoices] = useState<Record<string, string>>({});
+  const [showTranslation, setShowTranslation] = useState<boolean>(false);
 
   const currentDialogue: PartnerDialogueItem = dialogues[activeDialogueIndex];
 
@@ -112,22 +113,39 @@ export const Exercise2PartnerGame: React.FC = () => {
             <span className="text-xs font-bold text-zinc-500 font-sans uppercase">
               Partner's Guess:
             </span>
-            <button
-              type="button"
-              onClick={() => playTTS(currentDialogue.partnerGuess)}
-              className="p-1.5 rounded-lg bg-zinc-200/70 hover:bg-zinc-200 text-zinc-700 transition-colors"
-              title="Listen"
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setShowTranslation(!showTranslation)}
+                className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                  showTranslation
+                    ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                    : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                }`}
+                title="ترجمة الحوار والخيارات"
+              >
+                <Languages className="w-3 h-3 text-indigo-600" />
+                <span>{showTranslation ? 'إخفاء الترجمة' : 'ترجمة السؤال والخيارات'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => playTTS(currentDialogue.partnerGuess)}
+                className="p-1.5 rounded-lg bg-zinc-200/70 hover:bg-zinc-200 text-zinc-700 transition-colors"
+                title="Listen"
+              >
+                <Volume2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
           <div className="bg-white p-4 rounded-xl border border-zinc-200">
             <p className="font-sans text-base font-bold text-zinc-900">
               "{currentDialogue.partnerGuess}"
             </p>
-            <p className="text-xs text-zinc-500 font-arabic mt-1 text-right" dir="rtl">
-              {currentDialogue.partnerGuessAr}
-            </p>
+            {showTranslation && (
+              <p className="text-xs text-zinc-600 font-arabic mt-2 text-right bg-zinc-50 p-2 rounded-lg border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                {currentDialogue.partnerGuessAr}
+              </p>
+            )}
           </div>
         </div>
 
@@ -156,9 +174,11 @@ export const Exercise2PartnerGame: React.FC = () => {
                     <p className={`font-sans text-sm font-bold ${isSelected ? 'text-white' : 'text-zinc-900'}`}>
                       {opt.textEn}
                     </p>
-                    <p className={`font-arabic text-xs text-right ${isSelected ? 'text-zinc-300' : 'text-zinc-500'}`} dir="rtl">
-                      {opt.textAr}
-                    </p>
+                    {showTranslation && (
+                      <p className={`font-arabic text-xs text-right mt-1 ${isSelected ? 'text-zinc-300' : 'text-zinc-500'}`} dir="rtl">
+                        {opt.textAr}
+                      </p>
+                    )}
                   </div>
 
                   <button

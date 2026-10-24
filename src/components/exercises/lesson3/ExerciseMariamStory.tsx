@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, Sparkles, RefreshCw, Eye, EyeOff, BookOpen, Search } from 'lucide-react';
+import { CheckCircle2, Sparkles, RefreshCw, Eye, EyeOff, BookOpen, Search, Languages } from 'lucide-react';
 import { lesson3ActivityData, StoryQuestionItem } from '../../../data/activityBookLesson3Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -12,9 +12,18 @@ export const ExerciseMariamStory: React.FC<ExerciseMariamStoryProps> = ({ onProg
   const [revealedAnswers, setRevealedAnswers] = useState<Record<string, boolean>>({});
   const [foundWords, setFoundWords] = useState<Record<string, boolean>>({});
   const [userInputs, setUserInputs] = useState<Record<string, string>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+  const [showWordMeanings, setShowWordMeanings] = useState<boolean>(false);
 
   const questions = lesson3ActivityData.page6StudentBookQuestions;
   const wordsearch = lesson3ActivityData.page8Ex4Wordsearch;
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const toggleRevealAnswer = (id: string) => {
     setRevealedAnswers((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -107,24 +116,41 @@ export const ExerciseMariamStory: React.FC<ExerciseMariamStoryProps> = ({ onProg
                       <h5 className="text-sm font-bold text-zinc-900 font-sans">
                         {q.questionEn}
                       </h5>
-                      <p className="text-xs text-zinc-500 font-arabic mt-0.5" dir="rtl">
-                        {q.questionAr}
-                      </p>
+                      {visibleTranslations[q.id] && (
+                        <p className="text-xs text-zinc-600 font-arabic mt-1.5 bg-zinc-100 p-1.5 rounded-md border border-zinc-200 text-right animate-in fade-in duration-150" dir="rtl">
+                          {q.questionAr}
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => toggleRevealAnswer(q.id)}
-                    className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
-                      isRevealed
-                        ? 'bg-amber-50 text-amber-800 border-amber-300'
-                        : 'bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100'
-                    }`}
-                  >
-                    {isRevealed ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                    <span>{isRevealed ? 'إخفاء الحل' : 'عرض الحل'}</span>
-                  </button>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => toggleTranslation(q.id)}
+                      className={`text-[11px] font-bold px-2 py-1 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                        visibleTranslations[q.id]
+                          ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                          : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                      }`}
+                      title="ترجمة السؤال"
+                    >
+                      <Languages className="w-3 h-3 text-indigo-600" />
+                      <span>{visibleTranslations[q.id] ? 'إخفاء' : 'ترجمة'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleRevealAnswer(q.id)}
+                      className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                        isRevealed
+                          ? 'bg-amber-50 text-amber-800 border-amber-300'
+                          : 'bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100'
+                      }`}
+                    >
+                      {isRevealed ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                      <span>{isRevealed ? 'إخفاء الحل' : 'عرض الحل'}</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="pt-1">
@@ -210,9 +236,23 @@ export const ExerciseMariamStory: React.FC<ExerciseMariamStoryProps> = ({ onProg
 
           {/* Checklist of 12 Words */}
           <div className="space-y-2.5">
-            <span className="text-xs font-black uppercase tracking-wider text-zinc-500 font-sans block">
-              12 Past Verbs Checklist (اضغط على الكلمة عند إيجادها):
-            </span>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-black uppercase tracking-wider text-zinc-500 font-sans block">
+                12 Past Verbs Checklist (اضغط على الكلمة عند إيجادها):
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowWordMeanings(!showWordMeanings)}
+                className={`text-[10px] font-bold px-2 py-0.5 rounded border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                  showWordMeanings
+                    ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                    : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                }`}
+              >
+                <Languages className="w-3 h-3 text-indigo-600" />
+                <span>{showWordMeanings ? 'إخفاء ترجمة الكلمات' : 'ترجمة الكلمات'}</span>
+              </button>
+            </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {wordsearch.words.map((w) => {
@@ -233,9 +273,11 @@ export const ExerciseMariamStory: React.FC<ExerciseMariamStoryProps> = ({ onProg
                       <span className="font-mono font-black text-xs block">
                         {w.word}
                       </span>
-                      <span className="text-[10px] text-zinc-500 font-arabic block" dir="rtl">
-                        {w.meaningAr}
-                      </span>
+                      {showWordMeanings && (
+                        <span className="text-[10px] text-zinc-500 font-arabic block" dir="rtl">
+                          {w.meaningAr}
+                        </span>
+                      )}
                     </div>
 
                     <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 ${

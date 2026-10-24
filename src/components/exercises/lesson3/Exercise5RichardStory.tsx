@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, BookOpen, AlertCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, BookOpen, AlertCircle, Languages } from 'lucide-react';
 import { lesson3ActivityData, StoryBlankItem } from '../../../data/activityBookLesson3Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -12,6 +12,14 @@ export const Exercise5RichardStory: React.FC<Exercise5RichardStoryProps> = ({ on
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isChecked, setIsChecked] = useState(false);
   const [showGrammarTip, setShowGrammarTip] = useState(true);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const items = lesson3ActivityData.page9Ex5Story;
 
@@ -143,9 +151,26 @@ export const Exercise5RichardStory: React.FC<Exercise5RichardStoryProps> = ({ on
                       Verb: <strong className="text-zinc-900 underline">({item.verb})</strong>
                     </span>
                   </div>
-                  <span className="text-[11px] text-zinc-500 font-arabic">
-                    {item.verbAr}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {visibleTranslations[item.id] && (
+                      <span className="text-[11px] text-zinc-600 font-arabic bg-zinc-100 px-1.5 py-0.5 rounded animate-in fade-in duration-150">
+                        {item.verbAr}
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => toggleTranslation(item.id)}
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                        visibleTranslations[item.id]
+                          ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                          : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                      }`}
+                      title="ترجمة الفعل"
+                    >
+                      <Languages className="w-2.5 h-2.5 text-indigo-600" />
+                      <span>{visibleTranslations[item.id] ? 'إخفاء' : 'ترجمة الفعل'}</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="relative">

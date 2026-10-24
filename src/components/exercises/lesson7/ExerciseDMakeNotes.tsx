@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { BookOpen, Sparkles, RefreshCw, Check, Copy } from 'lucide-react';
+import { BookOpen, Sparkles, RefreshCw, Check, Copy, Languages } from 'lucide-react';
 import { lesson7ActivityData } from '../../../data/activityBookLesson7Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -11,6 +11,14 @@ export const ExerciseDMakeNotes: React.FC = () => {
   const [userNotes, setUserNotes] = useState<Record<string, string>>({});
   const [showModels, setShowModels] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const handleInputChange = (fieldId: string, val: string) => {
     setUserNotes((prev) => ({ ...prev, [fieldId]: val }));
@@ -130,21 +138,38 @@ export const ExerciseDMakeNotes: React.FC = () => {
               key={f.id}
               className="p-3.5 sm:p-4 rounded-xl border border-zinc-200 bg-zinc-50/30 hover:bg-zinc-50 transition-all space-y-2.5 text-left"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0">
-                    {idx + 1}
-                  </span>
-                  <label
-                    htmlFor={f.id}
-                    className="text-xs sm:text-sm font-bold text-zinc-900 font-sans"
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center justify-between gap-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0">
+                      {idx + 1}
+                    </span>
+                    <label
+                      htmlFor={f.id}
+                      className="text-xs sm:text-sm font-bold text-zinc-900 font-sans"
+                    >
+                      {f.questionEn}
+                    </label>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => toggleTranslation(f.id)}
+                    className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                      visibleTranslations[f.id]
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                        : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                    title="ترجمة السؤال"
                   >
-                    {f.questionEn}
-                  </label>
+                    <Languages className="w-3 h-3 text-indigo-600" />
+                    <span>{visibleTranslations[f.id] ? 'إخفاء' : 'ترجمة'}</span>
+                  </button>
                 </div>
-                <span className="text-[11px] sm:text-xs text-zinc-500 font-arabic text-right" dir="rtl">
-                  {f.questionAr}
-                </span>
+                {visibleTranslations[f.id] && (
+                  <p className="text-xs text-zinc-600 font-arabic text-right bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                    {f.questionAr}
+                  </p>
+                )}
               </div>
 
               {/* Text Input */}

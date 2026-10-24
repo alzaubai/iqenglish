@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, ArrowRightLeft } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, ArrowRightLeft, Languages } from 'lucide-react';
 import { lesson6ActivityData, SoundSortingWord } from '../../../data/activityBookLesson6Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -11,6 +11,7 @@ export const Exercise3SoundsSort: React.FC = () => {
   // State: wordId -> 's' | 'sh' | undefined
   const [placements, setPlacements] = useState<Record<string, 's' | 'sh'>>({});
   const [isChecked, setIsChecked] = useState(false);
+  const [showMeanings, setShowMeanings] = useState(false);
 
   const handleAssign = (wordId: string, targetSound: 's' | 'sh') => {
     setPlacements((prev) => {
@@ -94,21 +95,37 @@ export const Exercise3SoundsSort: React.FC = () => {
           <span className="text-xs font-bold text-zinc-500 font-sans uppercase tracking-wider">
             Tongue-twister (نص النطق السريع)
           </span>
-          <button
-            onClick={() => playTTS(tongueTwisterEn)}
-            className="flex items-center gap-1.5 text-xs font-bold text-zinc-700 bg-white border border-zinc-200 px-2.5 py-1 rounded-lg hover:bg-zinc-100 transition-colors font-sans"
-            title="Listen to tongue twister"
-          >
-            <Volume2 className="w-3.5 h-3.5 text-zinc-600" />
-            <span>استمع</span>
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setShowMeanings(!showMeanings)}
+              className={`text-xs font-bold px-2.5 py-1 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer ${
+                showMeanings
+                  ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                  : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+              }`}
+            >
+              <Languages className="w-3.5 h-3.5 text-indigo-600" />
+              <span>{showMeanings ? 'إخفاء ترجمة الكلمات' : 'ترجمة الكلمات والجملة'}</span>
+            </button>
+            <button
+              onClick={() => playTTS(tongueTwisterEn)}
+              className="flex items-center gap-1.5 text-xs font-bold text-zinc-700 bg-white border border-zinc-200 px-2.5 py-1 rounded-lg hover:bg-zinc-100 transition-colors font-sans"
+              title="Listen to tongue twister"
+            >
+              <Volume2 className="w-3.5 h-3.5 text-zinc-600" />
+              <span>استمع</span>
+            </button>
+          </div>
         </div>
         <p className="text-sm sm:text-base font-bold text-zinc-900 font-sans leading-relaxed">
           &ldquo;{tongueTwisterEn}&rdquo;
         </p>
-        <p className="text-xs text-zinc-600 font-arabic text-right" dir="rtl">
-          {tongueTwisterAr}
-        </p>
+        {showMeanings && (
+          <p className="text-xs text-zinc-600 font-arabic text-right mt-1 bg-zinc-100/70 p-2 rounded-lg border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+            {tongueTwisterAr}
+          </p>
+        )}
       </div>
 
       {/* Unassigned Words Pool */}
@@ -139,9 +156,11 @@ export const Exercise3SoundsSort: React.FC = () => {
                   <span className="text-xs sm:text-sm font-bold text-zinc-900 font-sans block">
                     {w.word}
                   </span>
-                  <span className="text-[11px] text-zinc-500 font-arabic block" dir="rtl">
-                    {w.meaningAr}
-                  </span>
+                  {showMeanings && (
+                    <span className="text-[11px] text-zinc-500 font-arabic block" dir="rtl">
+                      {w.meaningAr}
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center gap-1 border-l border-zinc-200 pl-2">
                   <button
@@ -215,9 +234,11 @@ export const Exercise3SoundsSort: React.FC = () => {
                             {w.phonetic}
                           </span>
                         </div>
-                        <span className="text-[11px] text-zinc-500 font-arabic block" dir="rtl">
-                          {w.meaningAr}
-                        </span>
+                        {showMeanings && (
+                          <span className="text-[11px] text-zinc-500 font-arabic block" dir="rtl">
+                            {w.meaningAr}
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -296,9 +317,11 @@ export const Exercise3SoundsSort: React.FC = () => {
                             {w.phonetic}
                           </span>
                         </div>
-                        <span className="text-[11px] text-zinc-500 font-arabic block" dir="rtl">
-                          {w.meaningAr}
-                        </span>
+                        {showMeanings && (
+                          <span className="text-[11px] text-zinc-500 font-arabic block" dir="rtl">
+                            {w.meaningAr}
+                          </span>
+                        )}
                       </div>
                     </div>
 

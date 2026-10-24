@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Languages } from 'lucide-react';
 import { lesson4ActivityData, NotCorrectItem } from '../../../data/activityBookLesson4Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -11,6 +11,14 @@ interface Exercise2InterestsGerundsProps {
 export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps> = ({ onProgressUpdate }) => {
   const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
   const [isChecked, setIsChecked] = useState(false);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const items = lesson4ActivityData.page10Ex2NotCorrect;
 
@@ -90,18 +98,35 @@ export const Exercise2InterestsGerunds: React.FC<Exercise2InterestsGerundsProps>
                   : 'border-zinc-200 bg-zinc-50/40 hover:bg-zinc-50 hover:border-zinc-300'
               }`}
             >
-              <div className="flex items-center justify-between border-b border-zinc-200/80 pb-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans uppercase">
-                    {item.letter}
-                  </span>
-                  <span className="text-sm font-bold text-zinc-900 font-sans">
-                    {item.promptEn}
-                  </span>
+              <div className="border-b border-zinc-200/80 pb-2 space-y-1">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans uppercase">
+                      {item.letter}
+                    </span>
+                    <span className="text-sm font-bold text-zinc-900 font-sans">
+                      {item.promptEn}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => toggleTranslation(item.id)}
+                    className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                      visibleTranslations[item.id]
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                        : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                    title="ترجمة السؤال"
+                  >
+                    <Languages className="w-3 h-3 text-indigo-600" />
+                    <span>{visibleTranslations[item.id] ? 'إخفاء' : 'ترجمة السؤال'}</span>
+                  </button>
                 </div>
-                <span className="text-[11px] text-zinc-500 font-arabic">
-                  {item.promptAr}
-                </span>
+                {visibleTranslations[item.id] && (
+                  <p className="text-xs text-zinc-600 font-arabic text-right bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                    {item.promptAr}
+                  </p>
+                )}
               </div>
 
               {/* Options Checkboxes */}

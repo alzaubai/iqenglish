@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Volume2, BookMarked, Sparkles } from 'lucide-react';
+import { Volume2, BookMarked, Sparkles, Languages } from 'lucide-react';
 import { lesson10ActivityData } from '../../../data/activityBookLesson10Data';
 
 export const SwiftVocabularyMatch: React.FC = () => {
   const vocabulary = lesson10ActivityData.vocabulary;
+  const [showTranslations, setShowTranslations] = useState(false);
 
   const playTTS = (text: string) => {
     if ('speechSynthesis' in window && text.trim()) {
@@ -36,6 +37,18 @@ export const SwiftVocabularyMatch: React.FC = () => {
             المفردات الأساسية لقصة طائر السَّمامة ونطقها واستخدامها في الجمل
           </p>
         </div>
+        <button
+          type="button"
+          onClick={() => setShowTranslations(!showTranslations)}
+          className={`text-xs font-bold px-3 py-1.5 rounded-xl border font-arabic transition-all flex items-center gap-1.5 cursor-pointer shrink-0 self-start sm:self-center ${
+            showTranslations
+              ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+          }`}
+        >
+          <Languages className="w-3.5 h-3.5 text-indigo-600" />
+          <span>{showTranslations ? 'إخفاء ترجمة المفردات' : 'ترجمة المفردات'}</span>
+        </button>
       </div>
 
       {/* Vocabulary Cards Grid */}
@@ -50,9 +63,11 @@ export const SwiftVocabularyMatch: React.FC = () => {
                 <span className="text-xs sm:text-sm font-bold text-zinc-900 font-sans block">
                   {voc.wordEn}
                 </span>
-                <span className="text-xs font-bold text-zinc-600 font-arabic block pt-0.5" dir="rtl">
-                  {voc.wordAr}
-                </span>
+                {showTranslations && (
+                  <span className="text-xs font-bold text-zinc-600 font-arabic block pt-0.5 animate-in fade-in duration-150" dir="rtl">
+                    {voc.wordAr}
+                  </span>
+                )}
               </div>
               <button
                 onClick={() => playTTS(`${voc.wordEn}. ${voc.exampleSentenceEn}`)}
@@ -63,9 +78,11 @@ export const SwiftVocabularyMatch: React.FC = () => {
               </button>
             </div>
 
-            <p className="text-[11px] sm:text-xs text-zinc-500 font-arabic text-right leading-relaxed" dir="rtl">
-              {voc.definitionAr}
-            </p>
+            {showTranslations && (
+              <p className="text-[11px] sm:text-xs text-zinc-600 font-arabic text-right leading-relaxed bg-zinc-100 p-2 rounded-lg border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                {voc.definitionAr}
+              </p>
+            )}
 
             <div className="p-2.5 bg-white rounded-lg border border-zinc-200 text-xs font-sans text-zinc-800 space-y-0.5">
               <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Languages } from 'lucide-react';
 import { lesson4ActivityData, ScrapbookMatchItem } from '../../../data/activityBookLesson4Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -20,6 +20,7 @@ const PEOPLE_OPTIONS = [
 export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = ({ onProgressUpdate }) => {
   const [matches, setMatches] = useState<Record<number, string>>({});
   const [isChecked, setIsChecked] = useState(false);
+  const [showHobbyTranslations, setShowHobbyTranslations] = useState<boolean>(false);
 
   const items = lesson4ActivityData.page10ExAMatches;
 
@@ -73,8 +74,22 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
             اقرأ اهتمامات وهوايات كل شخصية وطابق رقم دفتر القصاصات (1 إلى 6) مع صاحبه المناسب:
           </p>
         </div>
-        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-sans">
-          Answered: {answeredCount} / {items.length}
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowHobbyTranslations(!showHobbyTranslations)}
+            className={`text-xs font-bold px-3 py-1.5 rounded-xl border font-arabic transition-all flex items-center gap-1.5 cursor-pointer ${
+              showHobbyTranslations
+                ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+            }`}
+          >
+            <Languages className="w-3.5 h-3.5 text-indigo-600" />
+            <span>{showHobbyTranslations ? 'إخفاء ترجمة الهوايات' : 'ترجمة الهوايات'}</span>
+          </button>
+          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-sans">
+            Answered: {answeredCount} / {items.length}
+          </div>
         </div>
       </div>
 
@@ -119,9 +134,11 @@ export const ExerciseAScrapbookMatch: React.FC<ExerciseAScrapbookMatchProps> = (
                     <span className="text-xs font-bold text-zinc-900 font-sans block truncate">
                       {item.hobbyEn}
                     </span>
-                    <span className="text-[11px] text-zinc-500 font-arabic block truncate" dir="rtl">
-                      {item.hobbyAr}
-                    </span>
+                    {showHobbyTranslations && (
+                      <span className="text-[11px] text-zinc-500 font-arabic block truncate animate-in fade-in duration-150" dir="rtl">
+                        {item.hobbyAr}
+                      </span>
+                    )}
                   </div>
                 </div>
 

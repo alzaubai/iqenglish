@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Languages } from 'lucide-react';
 import { lesson6ActivityData, DialogueMatchItem } from '../../../data/activityBookLesson6Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -10,6 +10,15 @@ export const ExerciseADialogueMatch: React.FC = () => {
 
   const [matches, setMatches] = useState<Record<number, string>>({});
   const [isChecked, setIsChecked] = useState(false);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+  const [showOptionsTranslation, setShowOptionsTranslation] = useState<boolean>(false);
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const handleSelect = (num: number, letter: string) => {
     setMatches((prev) => ({ ...prev, [num]: letter }));
@@ -77,9 +86,23 @@ export const ExerciseADialogueMatch: React.FC = () => {
 
       {/* Options Reference Box */}
       <div className="bg-zinc-50 rounded-xl border border-zinc-200 p-3.5 space-y-2">
-        <span className="text-xs font-bold text-zinc-600 font-sans uppercase tracking-wider block">
-          Bassem's Responses Box (خيارات ردود باسم):
-        </span>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="text-xs font-bold text-zinc-600 font-sans uppercase tracking-wider block">
+            Bassem's Responses Box (خيارات ردود باسم):
+          </span>
+          <button
+            type="button"
+            onClick={() => setShowOptionsTranslation(!showOptionsTranslation)}
+            className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+              showOptionsTranslation
+                ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+            }`}
+          >
+            <Languages className="w-3 h-3 text-indigo-600" />
+            <span>{showOptionsTranslation ? 'إخفاء ترجمة الخيارات' : 'ترجمة خيارات الرد'}</span>
+          </button>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
           {options.map((opt) => (
             <div
@@ -91,9 +114,11 @@ export const ExerciseADialogueMatch: React.FC = () => {
               </span>
               <div className="min-w-0">
                 <span className="font-bold text-zinc-900 block">{opt.textEn}</span>
-                <span className="text-[11px] text-zinc-500 font-arabic block text-right" dir="rtl">
-                  {opt.textAr}
-                </span>
+                {showOptionsTranslation && (
+                  <span className="text-[11px] text-zinc-600 font-arabic block text-right mt-0.5" dir="rtl">
+                    {opt.textAr}
+                  </span>
+                )}
               </div>
             </div>
           ))}
@@ -125,25 +150,42 @@ export const ExerciseADialogueMatch: React.FC = () => {
                     {item.number}
                   </span>
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="text-xs font-bold text-zinc-500 font-sans uppercase">
                         Adel:
                       </span>
                       <span className="text-sm sm:text-base font-bold text-zinc-900 font-sans">
                         "{item.adelSpeechEn}"
                       </span>
-                      <button
-                        type="button"
-                        onClick={() => playTTS(item.adelSpeechEn)}
-                        className="p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
-                        title="Listen"
-                      >
-                        <Volume2 className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => toggleTranslation(item.id)}
+                          className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                            visibleTranslations[item.id]
+                              ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                              : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                          }`}
+                          title="ترجمة السطر"
+                        >
+                          <Languages className="w-3 h-3 text-indigo-600" />
+                          <span>{visibleTranslations[item.id] ? 'إخفاء' : 'ترجمة السطر'}</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => playTTS(item.adelSpeechEn)}
+                          className="p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
+                          title="Listen"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
-                    <span className="text-xs text-zinc-500 font-arabic block text-right mt-0.5" dir="rtl">
-                      {item.adelSpeechAr}
-                    </span>
+                    {visibleTranslations[item.id] && (
+                      <span className="text-xs text-zinc-600 font-arabic block text-right mt-1.5 bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                        {item.adelSpeechAr}
+                      </span>
+                    )}
                   </div>
                 </div>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, ArrowRight } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, ArrowRight, Languages } from 'lucide-react';
 import { lesson7ActivityData, VerbActivityCollocation } from '../../../data/activityBookLesson7Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -12,6 +12,7 @@ export const ExerciseAActivitiesMatch: React.FC = () => {
   const [matches, setMatches] = useState<Record<string, string>>({});
   const [selectedVerbId, setSelectedVerbId] = useState<string | null>(null);
   const [isChecked, setIsChecked] = useState(false);
+  const [showTranslations, setShowTranslations] = useState(false);
 
   const handleVerbClick = (verbId: string) => {
     if (selectedVerbId === verbId) {
@@ -102,8 +103,22 @@ export const ExerciseAActivitiesMatch: React.FC = () => {
             {instructionAr}
           </p>
         </div>
-        <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-arabic" dir="rtl">
-          تمت المطابقة: {matchedCount} من {pairs.length}
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowTranslations(!showTranslations)}
+            className={`text-xs font-bold px-3 py-1.5 rounded-xl border font-arabic transition-all flex items-center gap-1.5 cursor-pointer ${
+              showTranslations
+                ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+            }`}
+          >
+            <Languages className="w-3.5 h-3.5 text-indigo-600" />
+            <span>{showTranslations ? 'إخفاء الترجمة' : 'إظهار الترجمة'}</span>
+          </button>
+          <div className="bg-zinc-100 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-800 shrink-0 self-start sm:self-center font-arabic" dir="rtl">
+            تمت المطابقة: {matchedCount} من {pairs.length}
+          </div>
         </div>
       </div>
 
@@ -160,14 +175,16 @@ export const ExerciseAActivitiesMatch: React.FC = () => {
                     >
                       {p.verbPast}
                     </span>
-                    <span
-                      className={`text-[11px] font-arabic block ${
-                        isSelected ? 'text-zinc-300' : 'text-zinc-500'
-                      }`}
-                      dir="rtl"
-                    >
-                      {p.verbAr} (present: {p.verbPresent})
-                    </span>
+                    {showTranslations && (
+                      <span
+                        className={`text-[11px] font-arabic block animate-in fade-in duration-150 ${
+                          isSelected ? 'text-zinc-300' : 'text-zinc-500'
+                        }`}
+                        dir="rtl"
+                      >
+                        {p.verbAr} (present: {p.verbPresent})
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -237,9 +254,11 @@ export const ExerciseAActivitiesMatch: React.FC = () => {
                       <Volume2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
-                  <span className="text-[11px] text-zinc-500 font-arabic block text-right" dir="rtl">
-                    {p.activityAr}
-                  </span>
+                  {showTranslations && (
+                    <span className="text-[11px] text-zinc-500 font-arabic block text-right animate-in fade-in duration-150" dir="rtl">
+                      {p.activityAr}
+                    </span>
+                  )}
                 </div>
 
                 {pairedVerb && (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { lesson5ActivityData, SurveyQuestionItem } from '../../../data/activityBookLesson5Data';
-import { Volume2, RotateCcw, Check } from 'lucide-react';
+import { Volume2, RotateCcw, Check, Languages } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const Exercise1FrequencySurvey: React.FC = () => {
@@ -8,6 +8,14 @@ export const Exercise1FrequencySurvey: React.FC = () => {
     lesson5ActivityData.page12Ex1Survey;
 
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
   const [customQuestions] = useState<Record<string, string>>({
     'sq-i': 'read an English story',
     'sq-j': 'help with housework at home',
@@ -132,23 +140,43 @@ export const Exercise1FrequencySurvey: React.FC = () => {
 
                       {/* Question Text */}
                       <td className="py-3 px-3">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="space-y-0.5">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div className="space-y-1 min-w-0">
                             <p className="font-sans text-xs sm:text-sm font-semibold text-zinc-900">
                               {q.questionEn}
                             </p>
-                            <p className="font-arabic text-xs text-zinc-500 text-right" dir="rtl">
-                              {q.questionAr}
-                            </p>
+                            {visibleTranslations[q.id] && (
+                              <div
+                                className="font-arabic text-xs text-zinc-700 bg-zinc-100 p-2 rounded-lg border border-zinc-200 text-right animate-in fade-in duration-150"
+                                dir="rtl"
+                              >
+                                {q.questionAr}
+                              </div>
+                            )}
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => playTTS(q.questionEn)}
-                            className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 transition-colors shrink-0"
-                            title="Listen"
-                          >
-                            <Volume2 className="w-3.5 h-3.5" />
-                          </button>
+                          <div className="flex items-center gap-1 shrink-0 self-start sm:self-center">
+                            <button
+                              type="button"
+                              onClick={() => toggleTranslation(q.id)}
+                              className={`text-[11px] font-bold px-2 py-1 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                                visibleTranslations[q.id]
+                                  ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                                  : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                              }`}
+                              title="ترجمة السؤال"
+                            >
+                              <Languages className="w-3 h-3 text-indigo-600" />
+                              <span>{visibleTranslations[q.id] ? 'إخفاء' : 'ترجمة'}</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => playTTS(q.questionEn)}
+                              className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 transition-colors shrink-0"
+                              title="Listen"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                       </td>
 

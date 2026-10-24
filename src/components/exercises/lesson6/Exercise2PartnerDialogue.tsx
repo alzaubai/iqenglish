@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Sparkles, RefreshCw, Volume2, Languages } from 'lucide-react';
 import { lesson6ActivityData, GuidedDialogueTurn } from '../../../data/activityBookLesson6Data';
 import { playSuccessChime } from '../../../utils/audioFeedback';
 
@@ -10,6 +10,14 @@ export const Exercise2PartnerDialogue: React.FC = () => {
 
   const [selectedChoices, setSelectedChoices] = useState<Record<string, string>>({});
   const [isChecked, setIsChecked] = useState(false);
+  const [visibleTranslations, setVisibleTranslations] = useState<Record<string, boolean>>({});
+
+  const toggleTranslation = (id: string) => {
+    setVisibleTranslations((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const handleSelect = (turnId: string, opt: string) => {
     setSelectedChoices((prev) => ({ ...prev, [turnId]: opt }));
@@ -95,7 +103,7 @@ export const Exercise2PartnerDialogue: React.FC = () => {
               {/* Speaker Hanaa prompt */}
               <div className="flex items-start justify-between gap-2 border-b border-zinc-200/80 pb-2.5">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className="w-6 h-6 rounded-md bg-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center font-sans shrink-0">
                       {idx + 1}
                     </span>
@@ -105,18 +113,35 @@ export const Exercise2PartnerDialogue: React.FC = () => {
                     <span className="text-sm font-bold text-zinc-900 font-sans">
                       "{turn.promptEn}"
                     </span>
-                    <button
-                      type="button"
-                      onClick={() => playTTS(turn.promptEn)}
-                      className="p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
-                      title="Listen"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => toggleTranslation(turn.id)}
+                        className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border font-arabic transition-all flex items-center gap-1 cursor-pointer shrink-0 ${
+                          visibleTranslations[turn.id]
+                            ? 'bg-indigo-50 text-indigo-700 border-indigo-300'
+                            : 'bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-100 hover:text-zinc-900'
+                        }`}
+                        title="ترجمة السؤال"
+                      >
+                        <Languages className="w-3 h-3 text-indigo-600" />
+                        <span>{visibleTranslations[turn.id] ? 'إخفاء' : 'ترجمة'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => playTTS(turn.promptEn)}
+                        className="p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
+                        title="Listen"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
-                  <p className="text-xs text-zinc-500 font-arabic text-right" dir="rtl">
-                    {turn.promptAr}
-                  </p>
+                  {visibleTranslations[turn.id] && (
+                    <p className="text-xs text-zinc-600 font-arabic text-right mt-1.5 bg-zinc-100 p-1.5 rounded-md border border-zinc-200 animate-in fade-in duration-150" dir="rtl">
+                      {turn.promptAr}
+                    </p>
+                  )}
                 </div>
 
                 {isChecked && (
