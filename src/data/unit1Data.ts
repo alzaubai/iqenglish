@@ -750,7 +750,7 @@ export const unit1Lessons: LessonData[] = [
         bookReference: "Activity Book p. 17",
         description: 'Ahmed visits his friend Faisal in New York and they talk about Iraq in Central Park.',
         audioFileUrl: '/audio/lesson-7/ahmed-story-full.mp3',
-        hasGeminiAudio: false,
+        hasGeminiAudio: true,
         lines: [
           {
             id: 'l7-ahmed-1',
