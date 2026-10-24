@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookMarked, ArrowLeft, CheckCircle2, Clock } from 'lucide-react';
+import { BookMarked, ArrowLeft, CheckCircle2, Lock } from 'lucide-react';
 import { GrammarUnit } from '../../types/grammar';
 
 interface GrammarUnitSelectorProps {
@@ -31,10 +31,10 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
             </p>
           </div>
           <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 text-center shrink-0">
-            <span className="text-xs text-zinc-500 font-arabic block">الوحدات المكتملة</span>
-            <span className="text-2xl font-black text-zinc-900 font-sans block mt-0.5">3 وحدات</span>
+            <span className="text-xs text-zinc-500 font-arabic block">الوحدات المتاحة</span>
+            <span className="text-2xl font-black text-zinc-900 font-sans block mt-0.5">الوحدة 1</span>
             <span className="text-[11px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full inline-block mt-1 font-arabic">
-              مكتملة ومتاحة الآن
+              الإطلاق التجريبي (متاحة بالكامل)
             </span>
           </div>
         </div>
@@ -54,7 +54,7 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
               className={`rounded-2xl border p-5 sm:p-6 transition-all text-right relative overflow-hidden flex flex-col justify-between ${
                 unit.isAvailable
                   ? 'bg-white border-zinc-300 hover:border-zinc-900 hover:shadow-md cursor-pointer group'
-                  : 'bg-zinc-50/70 border-zinc-200 opacity-70 cursor-not-allowed'
+                  : 'bg-zinc-50/80 border-zinc-200 opacity-75 cursor-not-allowed select-none'
               }`}
             >
               <div>
@@ -69,9 +69,9 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
                       <span>متاح (شرح تفصيلي)</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 text-xs text-zinc-500 bg-zinc-100 px-2.5 py-0.5 rounded-full font-arabic">
-                      <Clock className="w-3.5 h-3.5" />
-                      <span>قيد الإعداد</span>
+                    <span className="inline-flex items-center gap-1.5 text-xs text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full font-arabic font-semibold">
+                      <Lock className="w-3.5 h-3.5 text-amber-600" />
+                      <span>مقفلة في الإطلاق التجريبي</span>
                     </span>
                   )}
                 </div>
@@ -107,7 +107,10 @@ export const GrammarUnitSelector: React.FC<GrammarUnitSelectorProps> = ({
                     <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                   </button>
                 ) : (
-                  <span className="text-xs text-zinc-400 font-arabic">قريباً</span>
+                  <span className="text-xs text-amber-700 font-semibold font-arabic flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5 text-amber-600" />
+                    <span>ستُتاح بعد الإطلاق التجريبي</span>
+                  </span>
                 )}
               </div>
             </div>

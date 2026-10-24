@@ -424,7 +424,7 @@ export const grammarUnitsList: GrammarUnit[] = [
     titleEn: 'Unit 2: Seasons & Weather',
     titleAr: 'الوحدة الثانية: فصول السنة والطقس',
     descriptionAr: 'شرح زمن المستقبل البسيط مع will، درجات المقارنة والتفضيل، وقراءة وكتابة التواريخ والأعداد الترتيبية.',
-    isAvailable: true,
+    isAvailable: false,
     lessons: [
       {
         id: 'grammar-u2-l1',

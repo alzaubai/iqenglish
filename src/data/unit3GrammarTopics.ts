@@ -345,6 +345,6 @@ export const unit3GrammarUnit: GrammarUnit = {
   titleAr: 'الوحدة الثالثة: لقد أنهيتُ عملي',
   descriptionAr:
     'شرح شامل لزمن المضارع التام (have/has + p.p)، جدول تصاريف الأفعال الشاذة والقياسية، وظروف الحال (Adverbs of Manner).',
-  isAvailable: true,
+  isAvailable: false,
   lessons: unit3GrammarLessons,
 };

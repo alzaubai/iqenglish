@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, CheckCircle2, Lock } from 'lucide-react';
+import { CheckCircle2, Lock } from 'lucide-react';
 import { UnitData } from '../types/curriculum';
 
 interface UnitSelectorProps {
@@ -42,18 +42,30 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
               className={`group p-5 sm:p-6 rounded-2xl border-2 text-right transition-all flex flex-col justify-between ${
                 unit.isAvailable
                   ? 'bg-white hover:border-zinc-900 border-zinc-200 shadow-sm cursor-pointer hover:shadow-md'
-                  : 'bg-zinc-50 border-zinc-200/70 opacity-60 cursor-not-allowed'
+                  : 'bg-zinc-50/80 border-zinc-200 opacity-75 cursor-not-allowed select-none'
               }`}
             >
               <div>
                 {unit.imageUrl && (
-                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-zinc-100 border border-zinc-200/80 shadow-2xs">
+                  <div className="w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-zinc-100 border border-zinc-200/80 shadow-2xs relative">
                     <img
                       src={unit.imageUrl}
                       alt={unit.titleAr}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                      className={`w-full h-full object-cover transition-transform duration-300 ${
+                        unit.isAvailable ? 'group-hover:scale-[1.03]' : 'grayscale contrast-75 brightness-90'
+                      }`}
                       loading="lazy"
                     />
+                    {!unit.isAvailable && (
+                      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1.5px] flex flex-col items-center justify-center p-3 text-center text-white">
+                        <div className="w-10 h-10 rounded-full bg-white/20 border border-white/40 flex items-center justify-center mb-2 shadow-sm">
+                          <Lock className="w-5 h-5 text-white" />
+                        </div>
+                        <span className="text-xs font-bold font-arabic bg-slate-900/80 px-2.5 py-1 rounded-full border border-white/20">
+                          مقفلة في الإطلاق التجريبي
+                        </span>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -68,14 +80,14 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                     UNIT {unit.unitNumber}
                   </span>
                   {unit.isAvailable ? (
-                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md flex items-center gap-1 font-arabic">
+                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md flex items-center gap-1 font-arabic border border-emerald-200">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>{unit.lessonsCount} دروس متاحة</span>
                     </span>
                   ) : (
-                    <span className="text-xs text-zinc-400 flex items-center gap-1 font-arabic">
-                      <Lock className="w-3 h-3" />
-                      <span>قيد الإعداد</span>
+                    <span className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md flex items-center gap-1 font-arabic font-semibold">
+                      <Lock className="w-3.5 h-3.5 text-amber-600" />
+                      <span>مقفلة حالياً</span>
                     </span>
                   )}
                 </div>
@@ -98,7 +110,10 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                     <span className="text-zinc-400 font-sans">10 Lessons</span>
                   </>
                 ) : (
-                  <span className="text-zinc-400 font-arabic">قيد الإعداد قريباً</span>
+                  <span className="text-amber-700 font-arabic flex items-center gap-1.5 font-semibold">
+                    <Lock className="w-3.5 h-3.5 text-amber-600" />
+                    <span>ستُتاح بعد انتهاء الإطلاق التجريبي</span>
+                  </span>
                 )}
               </div>
             </button>

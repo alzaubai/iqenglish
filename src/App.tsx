@@ -76,9 +76,17 @@ export default function App() {
 
   // Curriculum navigation handlers
   const handleSelectUnit = (unitId: string) => {
+    const allUnits = getAllUnits();
+    const targetUnit = allUnits.find((u) => u.id === unitId);
+    if (targetUnit && !targetUnit.isAvailable && !isTeacherLoggedIn) {
+      alert('عذراً، هذه الوحدة مقفلة حالياً في مرحلة الإطلاق التجريبي وستُتاح قريباً.');
+      return;
+    }
     setSelectedUnitId(unitId);
     const targetLessons = getUnitLessons(unitId);
-    setSelectedLessonId(targetLessons[0].id);
+    if (targetLessons.length > 0) {
+      setSelectedLessonId(targetLessons[0].id);
+    }
     setCurriculumViewState('lessons');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -124,6 +132,11 @@ export default function App() {
 
   // Grammar navigation handlers (Units -> Topics -> Detail)
   const handleSelectGrammarUnit = (unitId: string) => {
+    const targetUnit = grammarUnitsList.find((u) => u.id === unitId);
+    if (targetUnit && !targetUnit.isAvailable && !isTeacherLoggedIn) {
+      alert('عذراً، هذه الوحدة مقفلة حالياً في مرحلة الإطلاق التجريبي وستُتاح قريباً.');
+      return;
+    }
     setGrammarSelectedUnitId(unitId);
     setGrammarViewState('topics');
     window.scrollTo({ top: 0, behavior: 'smooth' });
