@@ -103,7 +103,7 @@ export const AhmedComprehensionQuestions: React.FC = () => {
           <div className="flex items-center gap-2 mb-1">
             <span className="inline-flex items-center gap-1 text-xs font-bold text-zinc-600 bg-zinc-100 px-2.5 py-0.5 rounded-md font-sans">
               <BookOpen className="w-3.5 h-3.5" />
-              Activity Book • Page 17
+              Activity Book • Page 17 • Exercise F
             </span>
             <span className="text-xs font-semibold text-zinc-500 font-arabic" dir="rtl">
               كتابة مباشرة • 8 أسئلة

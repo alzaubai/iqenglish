@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { AhmedComprehensionQuestions } from './lesson7/AhmedComprehensionQuestions';
+import { ExerciseAActivitiesMatch } from './lesson7/ExerciseAActivitiesMatch';
 import { ExerciseCTrueFalse } from './lesson7/ExerciseCTrueFalse';
 import { ExerciseDMakeNotes } from './lesson7/ExerciseDMakeNotes';
 import { ExerciseEPartnerInterview } from './lesson7/ExerciseEPartnerInterview';
-import { ExerciseAActivitiesMatch } from './lesson7/ExerciseAActivitiesMatch';
+import { AhmedComprehensionQuestions } from './lesson7/AhmedComprehensionQuestions';
 
 interface Lesson7ExercisesProps {
   onProgressUpdate: (completed: boolean) => void;
 }
 
 const TABS = [
-  { step: 1, title: 'تمرين 1: الأسئلة الوزارية لقصة أحمد (ص 17)' },
-  { step: 2, title: 'تمرين 2: صح أو خطأ - يوم سناء (ص 16)' },
-  { step: 3, title: 'تمرين 3: تدوين الملاحظات ومقابلة الزميل (ص 16)' },
-  { step: 4, title: 'تمرين 4: مطابقة أفعال الأنشطة (ص 15)' },
+  { step: 1, title: 'تمرين A (مطابقة أفعال الأنشطة - ص 15)' },
+  { step: 2, title: 'تمرين C (صح أو خطأ - يوم سناء - ص 16)' },
+  { step: 3, title: 'تمرين D و E (الملاحظات والمقابلة - ص 16)' },
+  { step: 4, title: 'تمرين F (الأسئلة الوزارية لقصة أحمد - ص 17)' },
 ] as const;
 
 export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUpdate }) => {
@@ -21,7 +21,7 @@ export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUp
 
   return (
     <div className="space-y-6">
-      {/* Exercise Tabs Bar: Consistent with site design */}
+      {/* Exercise Tabs Bar */}
       <div className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 pb-1" dir="rtl">
         {TABS.map((tab) => (
           <button
@@ -38,17 +38,17 @@ export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUp
         ))}
       </div>
 
-      {/* Tab 1: Ahmed & Faisal 8 Ministerial Questions */}
+      {/* Tab 1: Page 15 Ex A: Activities Match */}
       <div className={currentStep === 1 ? 'block' : 'hidden'}>
-        <AhmedComprehensionQuestions />
+        <ExerciseAActivitiesMatch />
       </div>
 
-      {/* Tab 2: Sana True or False */}
+      {/* Tab 2: Page 16 Ex C: Sana True or False */}
       <div className={currentStep === 2 ? 'block' : 'hidden'}>
         <ExerciseCTrueFalse />
       </div>
 
-      {/* Tab 3: Notes & Partner Interview */}
+      {/* Tab 3: Page 16 Ex D & E: Notes & Partner Interview */}
       <div className={`space-y-6 ${currentStep === 3 ? 'block' : 'hidden'}`}>
         {currentStep === 3 && (
           <>
@@ -58,9 +58,9 @@ export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUp
         )}
       </div>
 
-      {/* Tab 4: Verbs & Activities Collocation Match */}
+      {/* Tab 4: Page 17 Ex F: Ahmed & Faisal Ministerial Questions */}
       <div className={currentStep === 4 ? 'block' : 'hidden'}>
-        <ExerciseAActivitiesMatch />
+        <AhmedComprehensionQuestions />
       </div>
     </div>
   );
