@@ -9,10 +9,10 @@ interface Lesson8ExercisesProps {
 }
 
 const TABS = [
-  { step: 1, title: 'تمرين 1: أسئلة الفهم لرسالة كارين (ص 11)' },
-  { step: 2, title: 'تمرين 2: إعادة صياغة أسئلة كارين الستة (ص 18)' },
-  { step: 3, title: 'تمرين 3: تدوين الملاحظات للرسالة (ص 18)' },
-  { step: 4, title: 'تمرين 4: إنشاء الوحدة الأولى - رسالة إلى كارين (ص 19)' },
+  { step: 1, title: 'أسئلة فهم رسالة كارين (ك. الطالب ص 11)' },
+  { step: 2, title: 'تمرين 1 و 2 (صياغة أسئلة كارين - ك. النشاط ص 18)' },
+  { step: 3, title: 'تمرين 3 (تدوين ملاحظات الرسالة - ك. النشاط ص 18)' },
+  { step: 4, title: 'إنشاء الوحدة الأولى (رسالة إلى كارين - ك. النشاط ص 19)' },
 ] as const;
 
 export const Lesson8Exercises: React.FC<Lesson8ExercisesProps> = ({ onProgressUpdate }) => {
