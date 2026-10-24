@@ -58,6 +58,25 @@ export const Exercise7Adjectives: React.FC<Exercise7AdjectivesProps> = ({ onProg
     return Object.values(selectedWords).filter((w) => w === word).length;
   };
 
+  // Helper to render the word with its stressed syllable properly highlighted anywhere in the word
+  const renderStressedWord = (word: string, stressedPart: string) => {
+    const idx = word.toLowerCase().indexOf(stressedPart.toLowerCase());
+    if (idx === -1) {
+      return <span>{word}</span>;
+    }
+    const before = word.slice(0, idx);
+    const match = word.slice(idx, idx + stressedPart.length);
+    const after = word.slice(idx + stressedPart.length);
+
+    return (
+      <span className="font-sans font-black">
+        {before}
+        <span className="text-indigo-600 underline underline-offset-2 font-black">{match}</span>
+        {after}
+      </span>
+    );
+  };
+
   return (
     <div className="space-y-5" dir="ltr">
       {/* Header matching Activity Book Page 9 Exercises 6 & 7 */}
@@ -110,8 +129,7 @@ export const Exercise7Adjectives: React.FC<Exercise7AdjectivesProps> = ({ onProg
                 }`}
               >
                 <span className="text-xs font-black font-sans text-zinc-900">
-                  <span className="text-indigo-600 underline underline-offset-2">{adj.stressedPart}</span>
-                  {adj.word.slice(adj.stressedPart.length)}
+                  {renderStressedWord(adj.word, adj.stressedPart)}
                 </span>
                 <span className="text-[11px] font-bold text-zinc-500 font-arabic">
                   ({adj.meaningAr})
