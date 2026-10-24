@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { AhmedStoryCardReader } from './lesson7/AhmedStoryCardReader';
 import { AhmedComprehensionQuestions } from './lesson7/AhmedComprehensionQuestions';
 import { ExerciseCTrueFalse } from './lesson7/ExerciseCTrueFalse';
 import { ExerciseDMakeNotes } from './lesson7/ExerciseDMakeNotes';
@@ -11,15 +10,14 @@ interface Lesson7ExercisesProps {
 }
 
 const TABS = [
-  { step: 1, title: 'قصة أحمد وفيصل (كروت الأحداث - ص 17)' },
-  { step: 2, title: 'الأسئلة الوزارية لقصة أحمد (ص 17)' },
-  { step: 3, title: 'تمرين C (صح أو خطأ - يوم سناء - ص 16)' },
-  { step: 4, title: 'تمرين D و E (تدوين الملاحظات ومقابلة الزميل - ص 16)' },
-  { step: 5, title: 'تمرين A (مطابقة أفعال الأنشطة - ص 15)' },
+  { step: 1, title: 'تمرين 1: الأسئلة الوزارية لقصة أحمد (ص 17)' },
+  { step: 2, title: 'تمرين 2: صح أو خطأ - يوم سناء (ص 16)' },
+  { step: 3, title: 'تمرين 3: تدوين الملاحظات ومقابلة الزميل (ص 16)' },
+  { step: 4, title: 'تمرين 4: مطابقة أفعال الأنشطة (ص 15)' },
 ] as const;
 
 export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUpdate }) => {
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
 
   return (
     <div className="space-y-6">
@@ -40,21 +38,19 @@ export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUp
         ))}
       </div>
 
-      {/* Preserve state across tabs by toggling display */}
+      {/* Tab 1: Ahmed & Faisal 8 Ministerial Questions */}
       <div className={currentStep === 1 ? 'block' : 'hidden'}>
-        <AhmedStoryCardReader />
-      </div>
-
-      <div className={currentStep === 2 ? 'block' : 'hidden'}>
         <AhmedComprehensionQuestions />
       </div>
 
-      <div className={currentStep === 3 ? 'block' : 'hidden'}>
+      {/* Tab 2: Sana True or False */}
+      <div className={currentStep === 2 ? 'block' : 'hidden'}>
         <ExerciseCTrueFalse />
       </div>
 
-      <div className={`space-y-6 ${currentStep === 4 ? 'block' : 'hidden'}`}>
-        {currentStep === 4 && (
+      {/* Tab 3: Notes & Partner Interview */}
+      <div className={`space-y-6 ${currentStep === 3 ? 'block' : 'hidden'}`}>
+        {currentStep === 3 && (
           <>
             <ExerciseDMakeNotes />
             <ExerciseEPartnerInterview />
@@ -62,7 +58,8 @@ export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUp
         )}
       </div>
 
-      <div className={currentStep === 5 ? 'block' : 'hidden'}>
+      {/* Tab 4: Verbs & Activities Collocation Match */}
+      <div className={currentStep === 4 ? 'block' : 'hidden'}>
         <ExerciseAActivitiesMatch />
       </div>
     </div>

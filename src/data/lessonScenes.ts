@@ -390,6 +390,44 @@ export const LINE_SCENE_IMAGES: Record<string, LineSceneIllustration> = {
     badgeColor: 'bg-cyan-50 text-cyan-800 border-cyan-200',
   },
 
+  // Lesson 7 - Ahmed & Faisal in New York
+  'l7-ahmed-1': {
+    imageUrl: '/images/ahmed-story/ahmed-scene-1.jpg',
+    captionAr: 'أحمد وعائلته بحقائب السفر في فندق بنيويورك وصديقه فيصل',
+    badgeLabelAr: 'العطلة في نيويورك (New York)',
+    badgeColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
+  },
+  'l7-ahmed-2': {
+    imageUrl: '/images/ahmed-story/ahmed-scene-2.jpg',
+    captionAr: 'نزول أحمد من التكسي الأصفر عند شقة فيصل (الساعة 2:30)',
+    badgeLabelAr: 'شقة فيصل (At 2:30)',
+    badgeColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
+  },
+  'l7-ahmed-3': {
+    imageUrl: '/images/ahmed-story/ahmed-scene-3.jpg',
+    captionAr: 'الصديقان أمام السينما وشعور أحمد بالملل من الفلم',
+    badgeLabelAr: 'السينما والفلم الممل (Cinema)',
+    badgeColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
+  },
+  'l7-ahmed-4': {
+    imageUrl: '/images/ahmed-story/ahmed-scene-4.jpg',
+    captionAr: 'المشي في سنترال بارك والجلوس تحت الشجرة والحديث عن العراق',
+    badgeLabelAr: 'سنترال بارك (Central Park)',
+    badgeColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
+  },
+  'l7-ahmed-5': {
+    imageUrl: '/images/ahmed-story/ahmed-scene-5.jpg',
+    captionAr: 'الحديث عن العائلات: فيصل وحيد وأحمد لديه 4 أطفال في عائلته',
+    badgeLabelAr: 'الحديث عن العائلة (Families)',
+    badgeColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
+  },
+  'l7-ahmed-6': {
+    imageUrl: '/images/ahmed-story/ahmed-scene-6.jpg',
+    captionAr: 'ركوب التكسي والعودة إلى الفندق في تمام الساعة الخامسة (5:00)',
+    badgeLabelAr: 'العودة للفندق (At 5:00)',
+    badgeColor: 'bg-zinc-100 text-zinc-800 border-zinc-200',
+  },
+
   // Lesson 7 - Track 11: Sana's fantastic day
   'l7-1': {
     imageUrl: '/images/dialogue/l7-1.jpg',
