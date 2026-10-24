@@ -441,6 +441,66 @@ export const CURRICULUM_CHUNKS: Record<string, LineChunk[]> = {
     { en: 'to some music.', ar: 'لبعض الموسيقى.' },
   ],
 
+  // Lesson 7 - Ahmed & Faisal in New York
+  'l7-ahmed-1': [
+    { en: 'In the holidays,', ar: 'في العطلة،' },
+    { en: 'Ahmed and his family', ar: 'أقام أحمد وعائلته' },
+    { en: 'stayed in a hotel', ar: 'في فندق' },
+    { en: 'in New York.', ar: 'في نيويورك.' },
+    { en: "Ahmed's friend, Faisal,", ar: 'صديق أحمد، فيصل،' },
+    { en: 'lives in New York', ar: 'يعيش في نيويورك' },
+    { en: 'with his family.', ar: 'مع عائلته.' },
+    { en: 'Faisal is seventeen,', ar: 'عمر فيصل 17 سنة،' },
+    { en: 'two years older', ar: 'وهو أكبر' },
+    { en: 'than Ahmed.', ar: 'من أحمد بسنتين.' },
+  ],
+  'l7-ahmed-2': [
+    { en: 'One day,', ar: 'في أحد الأيام،' },
+    { en: 'Ahmed took a taxi', ar: 'استقل أحمد سيارة أجرة' },
+    { en: "to Faisal's flat.", ar: 'إلى شقة فيصل،' },
+    { en: 'He got there', ar: 'ووصل إلى هناك' },
+    { en: 'at half past two.', ar: 'في تمام الساعة الثانية والنصف (2:30).' },
+  ],
+  'l7-ahmed-3': [
+    { en: "'What do you want to do?'", ar: "'ماذا تريد أن نفعل؟'" },
+    { en: 'asked Faisal.', ar: 'سأله فيصل:' },
+    { en: "'Let's go to the cinema,'", ar: "'لنذهب إلى السينما'." },
+    { en: 'said Ahmed.', ar: 'قال أحمد:' },
+    { en: 'They went to the cinema,', ar: 'ذهبا إلى السينما،' },
+    { en: "but they didn't stay long", ar: 'لكنهما لم يبقيا طويلاً' },
+    { en: 'because the film was boring.', ar: 'لأن الفلم كان مملاً.' },
+  ],
+  'l7-ahmed-4': [
+    { en: 'They went for a walk', ar: 'ذهبا للمشي' },
+    { en: 'in the park.', ar: 'في المتنزه،' },
+    { en: 'It is a huge park', ar: 'وهو متنزه ضخم جداً' },
+    { en: 'called Central Park.', ar: 'يدعى سنترال بارك.' },
+    { en: 'The boys sat under a tree', ar: 'جلس الولدان تحت شجرة' },
+    { en: 'and talked.', ar: 'وتحدثا' },
+    { en: 'They talked about Iraq.', ar: 'عن العراق.' },
+    { en: 'Faisal said', ar: 'قال فيصل' },
+    { en: 'that he liked New York,', ar: 'إنه يحب نيويورك' },
+    { en: 'but he wanted to go back', ar: 'لكنه يريد العودة' },
+    { en: 'to Iraq.', ar: 'إلى العراق.' },
+  ],
+  'l7-ahmed-5': [
+    { en: 'Then they talked', ar: 'ثم تحدثا' },
+    { en: 'about their families.', ar: 'عن عائلتيهما.' },
+    { en: 'Faisal said', ar: 'قال فيصل' },
+    { en: 'that he did not have', ar: 'إنه ليس لديه' },
+    { en: 'any brothers or sisters.', ar: 'أي إخوة أو أخوات (وحيد)،' },
+    { en: 'Ahmed said', ar: 'بينما قال أحمد' },
+    { en: 'that there were four children', ar: 'إن هناك أربعة أطفال' },
+    { en: 'in his family.', ar: 'في عائلته.' },
+    { en: 'They had a great time together.', ar: 'وقضيا وقتاً رائعاً معاً.' },
+  ],
+  'l7-ahmed-6': [
+    { en: "At five o'clock,", ar: 'وفي تمام الساعة الخامسة (5:00)،' },
+    { en: 'Ahmed took a taxi', ar: 'استقل أحمد سيارة أجرة' },
+    { en: 'back to his hotel.', ar: 'عائداً إلى فندقه.' },
+  ],
+
+
   // ===================== LESSON 8 =====================
   'l8-1': [
     { en: '19 Harbour Street,', ar: '19 شارع هاربور،' },
