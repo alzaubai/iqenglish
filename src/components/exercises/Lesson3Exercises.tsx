@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, ChevronRight, ChevronLeft, Layers, Sparkles } from 'lucide-react';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { ExerciseASBQuestions } from './lesson3/ExerciseASBQuestions';
 import { ExerciseBActionTypes } from './lesson3/ExerciseBActionTypes';
 import { Exercise1VerbsTable } from './lesson3/Exercise1VerbsTable';
@@ -75,7 +75,6 @@ const TABS: ExerciseTabMeta[] = [
 
 export const Lesson3Exercises: React.FC<Lesson3ExercisesProps> = ({ onProgressUpdate }) => {
   const [currentStep, setCurrentStep] = useState<Lesson3Step>('sb-a');
-  const [filterCategory, setFilterCategory] = useState<'all' | 'student_book' | 'activity_book'>('all');
 
   const currentIndex = TABS.findIndex((t) => t.id === currentStep);
 
@@ -91,72 +90,11 @@ export const Lesson3Exercises: React.FC<Lesson3ExercisesProps> = ({ onProgressUp
     }
   };
 
-  const filteredTabs = filterCategory === 'all' 
-    ? TABS 
-    : TABS.filter((t) => t.bookCategory === filterCategory);
-
   return (
     <div className="space-y-6">
-      {/* Textbook Alignment Banner */}
-      <div className="bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 text-white rounded-2xl p-4 sm:p-5 shadow-sm space-y-3" dir="rtl">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5">
-          <div className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg bg-amber-400 text-zinc-950 flex items-center justify-center font-black text-xs">
-              <BookOpen className="w-4 h-4" />
-            </span>
-            <h3 className="font-bold text-sm sm:text-base font-arabic text-amber-300">
-              تمارين الدرس الثالث (مطابقة 100% لكتاب الطالب وكتاب النشاط)
-            </h3>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-xs font-arabic">
-            <span className="text-zinc-400">التصفية السريعة:</span>
-            <div className="inline-flex rounded-xl bg-zinc-800 p-0.5 border border-zinc-700">
-              <button
-                type="button"
-                onClick={() => setFilterCategory('all')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  filterCategory === 'all'
-                    ? 'bg-amber-400 text-zinc-950 shadow-xs'
-                    : 'text-zinc-300 hover:text-white'
-                }`}
-              >
-                الكل (6)
-              </button>
-              <button
-                type="button"
-                onClick={() => setFilterCategory('student_book')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  filterCategory === 'student_book'
-                    ? 'bg-sky-400 text-zinc-950 shadow-xs'
-                    : 'text-zinc-300 hover:text-white'
-                }`}
-              >
-                📘 كتاب الطالب (2)
-              </button>
-              <button
-                type="button"
-                onClick={() => setFilterCategory('activity_book')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  filterCategory === 'activity_book'
-                    ? 'bg-amber-400 text-zinc-950 shadow-xs'
-                    : 'text-zinc-300 hover:text-white'
-                }`}
-              >
-                📓 كتاب النشاط (4)
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <p className="text-xs text-zinc-300 leading-relaxed font-arabic">
-          مرتبة بالترتيب الوزاري المعتمد: ابدأ أولاً بأسئلة كتاب الطالب (ص 6)، ثم انتقل لتمارين كتاب النشاط (ص 8 وص 9). اضغط على أي تمرين للبدء بحله مباشرة:
-        </p>
-      </div>
-
       {/* Exercise Tabs Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" dir="rtl">
-        {filteredTabs.map((tab) => {
+        {TABS.map((tab) => {
           const isActive = currentStep === tab.id;
           const isSB = tab.bookCategory === 'student_book';
 
