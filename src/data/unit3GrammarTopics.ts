@@ -138,7 +138,7 @@ export const unit3GrammarLessons: GrammarLesson[] = [
         titleAr: 'أشكال التصريف الثالث للأفعال (Past Participles)',
         titleEn: 'Regular and Irregular Past Participles',
         summaryAr:
-          'ينقسم التصريف الثالث (p.p) إلى نوعين: أفعال قياسية (تنتهي بـ ed مثل الماضي البسيط تماماً)، وأفعال شاذة (Irregular) يتغير شكلها ويجب حفظها عن ظهر قلب لأنها تتكرر دائماً في الامتحانات الوزارية والمدرسية.',
+          'ينقسم التصريف الثالث (p.p) إلى نوعين: أفعال قياسية (تنتهي بـ ed مثل الماضي البسيط تماماً)، وأفعال شاذة (Irregular) يتغير شكلها ويجب حفظها عن ظهر قلب لأنها تتكرر دائماً في الامتحانات المدرسية والشهرية.',
         rules: [
           {
             id: 'rule-u3-l2-regular-vs-irregular',

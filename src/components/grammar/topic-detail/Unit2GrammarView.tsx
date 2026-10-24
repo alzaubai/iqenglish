@@ -439,7 +439,7 @@ export const Unit2GrammarView: React.FC<Unit2GrammarViewProps> = ({ topicId, onS
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0" />
                   <h5 className="font-bold text-xs sm:text-sm text-rose-950 font-arabic">
-                    سؤال الإملاء الوزاري والشهري الثابت: طريقة كتابة won&apos;t
+                    سؤال الإملاء الامتحاني والشهري الثابت: طريقة كتابة won&apos;t
                   </h5>
                 </div>
                 <p className="text-xs text-rose-850 font-arabic leading-relaxed">
@@ -1256,7 +1256,7 @@ export const Unit2GrammarView: React.FC<Unit2GrammarViewProps> = ({ topicId, onS
                     جدول جميع صفات الوحدة الثانية المنهجية (العادية والشواذ)
                   </h4>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    جميع صفات الطقس والرياضات وأسئلة الإملاء الوزارية:
+                    جميع صفات الطقس والرياضات وأسئلة الإملاء الامتحانية:
                   </p>
                 </div>
               </div>
@@ -1785,7 +1785,7 @@ export const Unit2GrammarView: React.FC<Unit2GrammarViewProps> = ({ topicId, onS
                     قواعد حروف الجر الزمنية الذهبية (Prepositions: IN vs ON vs AT)
                   </h4>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    سؤال وزاري وشهري ثابت في الاختيارات بين (in) و (on) و (at):
+                    سؤال امتحاني وشهري ثابت في الاختيارات بين (in) و (on) و (at):
                   </p>
                 </div>
               </div>
@@ -1856,7 +1856,7 @@ export const Unit2GrammarView: React.FC<Unit2GrammarViewProps> = ({ topicId, onS
               {/* Preposition Examples */}
               <div className="space-y-2.5 pt-1">
                 <span className="text-xs font-bold text-slate-700 block">
-                  أمثلة وزارية هامة على حروف الجر (تمرين ص 38 في كتاب النشاط):
+                  أمثلة امتحانية هامة على حروف الجر (تمرين ص 38 في كتاب النشاط):
                 </span>
                 {[
                   { en: 'My birthday is in November.', ar: 'عيد ميلادي في تشرين الثاني (شهر فقط ➔ in)', prep: 'in' },

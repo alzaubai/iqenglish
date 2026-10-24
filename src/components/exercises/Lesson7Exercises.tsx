@@ -13,7 +13,7 @@ const TABS = [
   { step: 1, title: 'تمرين A (مطابقة أفعال الأنشطة - ص 15)' },
   { step: 2, title: 'تمرين C (صح أو خطأ - يوم سناء - ص 16)' },
   { step: 3, title: 'تمرين D و E (الملاحظات والمقابلة - ص 16)' },
-  { step: 4, title: 'تمرين F (الأسئلة الوزارية لقصة أحمد - ص 17)' },
+  { step: 4, title: 'تمرين F (أسئلة استيعاب قصة أحمد - ص 17)' },
 ] as const;
 
 export const Lesson7Exercises: React.FC<Lesson7ExercisesProps> = ({ onProgressUpdate }) => {

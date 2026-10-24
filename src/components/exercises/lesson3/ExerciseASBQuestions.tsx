@@ -162,7 +162,7 @@ export const ExerciseASBQuestions: React.FC<ExerciseASBQuestionsProps> = ({ onPr
                 <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-arabic space-y-1.5 text-right animate-in fade-in duration-150" dir="rtl">
                   <div className="flex items-center gap-1.5 font-bold text-emerald-900">
                     <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
-                    <span>الجواب الوزاري النموذجي:</span>
+                    <span>الجواب النموذجي:</span>
                   </div>
                   <p className="font-sans font-bold text-zinc-900 text-left text-xs bg-white p-2.5 rounded-lg border border-emerald-200" dir="ltr">
                     {q.modelAnswerEn}

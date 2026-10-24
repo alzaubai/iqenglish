@@ -183,7 +183,7 @@ export const NegativeTab: React.FC<NegativeTabProps> = ({ currentTopic, onSpeak 
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs font-arabic">
               <span className="font-bold text-slate-700 flex items-center gap-1.5">
                 <Lightbulb className="w-4 h-4 text-amber-500" />
-                <span>سؤال الإملاء الوزاري:</span>
+                <span>سؤال الإملاء الامتحاني:</span>
               </span>
               <div className="font-mono text-xs" dir="ltr">
                 <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-900 font-bold shadow-2xs">

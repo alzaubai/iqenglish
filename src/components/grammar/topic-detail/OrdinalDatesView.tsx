@@ -190,7 +190,7 @@ export const OrdinalDatesView: React.FC<OrdinalDatesViewProps> = ({ currentTopic
                   قواعد حروف الجر مع التواريخ والأيام والشهور
                 </h4>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  سؤال وزاري متكرر جداً في الاختيارات بين (in) و (on):
+                  سؤال امتحاني متكرر جداً في الاختيارات بين (in) و (on):
                 </p>
               </div>
             </div>

@@ -308,7 +308,7 @@ export const lesson3ActivityData = {
       sentenceAr: 'الحصان العربي حيوان جميل وبديع.',
       correctWord: 'lovely',
       acceptableAnswers: ['lovely', 'beautiful'],
-      explanationAr: 'lovely هي الصفة الوزارية النموذجية المعتمدة في تمرين كتاب النشاط ودليل المعلم للحصان العربي (The Arabian horse is a lovely animal).',
+      explanationAr: 'lovely هي الصفة النموذجية المعتمدة في تمرين كتاب النشاط ودليل المعلم للحصان العربي (The Arabian horse is a lovely animal).',
     },
     {
       id: 'sent-d',

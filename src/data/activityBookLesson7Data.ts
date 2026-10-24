@@ -475,12 +475,12 @@ export const lesson7ActivityData = {
     ] as AhmedStoryScene[],
   },
 
-  // AB Page 17 - Ahmed and Faisal 8 Ministerial Comprehension Questions
+  // AB Page 17 - Ahmed and Faisal 8 Comprehension Questions
   page17AhmedQuestions: {
     titleEn: 'Exercise: Questions on Ahmed and Faisal',
-    titleAr: 'الأسئلة الوزارية الثمانية لقطعة أحمد وفيصل (ص 17)',
+    titleAr: 'أسئلة قصة أحمد وفيصل الثمانية (ص 17)',
     instructionEn: 'Answer the 8 official questions based on the story of Ahmed and Faisal in New York:',
-    instructionAr: 'أجب عن الأسئلة الوزارية الثمانية المعتمدة لقطعة أحمد وفيصل في نيويورك:',
+    instructionAr: 'أجب عن أسئلة قصة أحمد وفيصل في نيويورك الثمانية المعتمدة:',
     questions: [
       {
         id: 'aq-1',

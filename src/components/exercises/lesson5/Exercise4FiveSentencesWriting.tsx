@@ -201,7 +201,7 @@ export const Exercise4FiveSentencesWriting: React.FC = () => {
                     ) : (
                       <>
                         <Copy className="w-3 h-3" />
-                        نسخ النموذج الوزاري
+                        نسخ النموذج النموذجي
                       </>
                     )}
                   </button>

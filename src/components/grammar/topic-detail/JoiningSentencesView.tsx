@@ -153,7 +153,7 @@ export const JoiningSentencesView: React.FC<JoiningSentencesViewProps> = ({
                   <div className="p-3 bg-white rounded-xl border border-rose-200 flex items-start gap-2 shadow-2xs text-right">
                     <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                     <p className="text-xs text-rose-950 font-arabic leading-relaxed">
-                      <strong>ملاحظة وزارية حاسمة:</strong> نضع دائماً فارزة (<span className="font-mono font-black">,</span>) مباشرة قبل كلمة <span className="font-mono font-bold">but</span> عند ربط جملتين كاملتين (مثل: <span className="font-mono text-zinc-800" dir="ltr">I like tea, but I don't like coffee.</span>).
+                      <strong>ملاحظة امتحانية هامة:</strong> نضع دائماً فارزة (<span className="font-mono font-black">,</span>) مباشرة قبل كلمة <span className="font-mono font-bold">but</span> عند ربط جملتين كاملتين (مثل: <span className="font-mono text-zinc-800" dir="ltr">I like tea, but I don't like coffee.</span>).
                     </p>
                   </div>
                 )}

@@ -548,7 +548,7 @@ export const Unit3GrammarView: React.FC<Unit3GrammarViewProps> = ({ topicId, onS
                 </span>
               </div>
               <p className="text-xs text-purple-800 font-arabic leading-relaxed">
-                يتغير شكلها في التصريف الثالث (p.p) وتتكرر دائماً بالامتحانات الوزارية والمدرسية:
+                يتغير شكلها في التصريف الثالث (p.p) وتتكرر دائماً في الامتحانات المدرسية والشهرية:
               </p>
               <div className="p-2.5 bg-white rounded-xl border border-purple-200/80 font-mono text-xs font-bold text-slate-900 flex items-center justify-between" dir="ltr">
                 <span>go ➔ went ➔ <span className="text-purple-700 font-black">gone</span></span>
@@ -918,7 +918,7 @@ export const Unit3GrammarView: React.FC<Unit3GrammarViewProps> = ({ topicId, onS
         </div>
       )}
 
-      {/* 4. EXAM TIPS SECTION (نصائح الامتحان الوزاري والمدرسي) */}
+      {/* 4. EXAM TIPS SECTION (نصائح الامتحان المدرسي) */}
       {currentTopic.examTips && currentTopic.examTips.length > 0 && (
         <div className="bg-amber-50/70 border border-amber-200/90 rounded-3xl p-5 sm:p-6 shadow-xs space-y-3">
           <div className="flex items-center gap-2 border-b border-amber-200/80 pb-2.5">

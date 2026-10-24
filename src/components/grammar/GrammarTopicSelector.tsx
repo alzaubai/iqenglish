@@ -52,7 +52,7 @@ export const GrammarTopicSelector: React.FC<GrammarTopicSelectorProps> = ({
       taglineAr: 'قواعد إضافة (ly-) وتحويل الصفات إلى ظروف لوصف طريقة وقوع الفعل والشواذ',
       badge: 'ظروف الحال',
       color: 'amber',
-      features: ['قواعد إضافة ly', 'الشواذ fast / well', 'أسئلة وزارية'],
+      features: ['قواعد إضافة ly', 'الشواذ fast / well', 'نماذج امتحانية'],
     },
   ];
 
