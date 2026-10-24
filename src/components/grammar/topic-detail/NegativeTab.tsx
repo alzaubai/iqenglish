@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, Volume2, Lightbulb } from 'lucide-react';
+import { AlertTriangle, Lightbulb, Volume2 } from 'lucide-react';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
 import { HighlightedSentence } from './HighlightedSentence';
 import { ExamApplicationsList } from './ExamApplicationsList';
@@ -15,7 +15,7 @@ export const NegativeTab: React.FC<NegativeTabProps> = ({ currentTopic, onSpeak 
 
   return (
     <div className="space-y-6">
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
+      <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 text-right">
         <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
           <h4 className="text-base sm:text-lg font-black text-rose-950 font-arabic">
             {currentTopic.id === 'u2-topic-comparatives'
@@ -30,58 +30,106 @@ export const NegativeTab: React.FC<NegativeTabProps> = ({ currentTopic, onSpeak 
           </span>
         </div>
 
-        {/* Vibrant Visual Formula Chips */}
-        <div className="space-y-2">
-          <span className="text-xs font-bold text-slate-600 block">
-            شريط كروت النفي التفاعلية:
+        {/* 1. Direct High-Contrast Formula Banner (الخلاصة المباشرة للنفي - واضحة ومستقيمة) */}
+        <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-rose-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xs text-center border border-rose-800/40">
+          <span className="text-[11px] text-rose-300 font-arabic block font-bold mb-1.5">
+            صيغة قاعدة النفي المباشرة (Negative Rule):
           </span>
+          <div className="font-mono font-black text-xs sm:text-base tracking-wide text-white flex items-center justify-center flex-wrap gap-1.5" dir="ltr">
+            {currentTopic.id === 'topic-past-continuous' ? (
+              <>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Subject</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-rose-500/30 text-rose-200 border border-rose-400/40 px-2.5 py-1 rounded-lg font-black">wasn't / weren't</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-amber-500/25 text-amber-300 border border-amber-400/30 px-2.5 py-1 rounded-lg font-black">Verb-ing</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Complement</span>
+              </>
+            ) : currentTopic.id === 'topic-past-simple' ? (
+              <>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Subject</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-rose-500/30 text-rose-200 border border-rose-400/40 px-2.5 py-1 rounded-lg font-black">didn't</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-emerald-500/25 text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-lg font-black">Base Verb (مجرد)</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Complement</span>
+              </>
+            ) : currentTopic.id === 'topic-present-simple' ? (
+              <>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Subject</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-rose-500/30 text-rose-200 border border-rose-400/40 px-2.5 py-1 rounded-lg font-black">don't / doesn't</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-emerald-500/25 text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-lg font-black">Base Verb (مجرد)</span>
+                <span className="text-rose-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Complement</span>
+              </>
+            ) : (
+              <span>{negative.formulaChips.map((c) => c.text).join(' ')}</span>
+            )}
+          </div>
+        </div>
+
+        {/* 2. Interactive Negative Ribbon - Guaranteed Unbroken Ribbon on Mobile with Horizontal Swipe */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between text-xs text-slate-500 font-arabic">
+            <span className="font-bold text-slate-700">شريط كروت النفي التفاعلية:</span>
+            <span className="text-[10px] sm:hidden text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md font-bold">
+              اسحب أفقياً ➔
+            </span>
+          </div>
+
           <div
-            className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 p-3.5 sm:p-4 bg-zinc-50 border border-zinc-200/90 rounded-2xl shadow-2xs"
+            className="overflow-x-auto pb-2 pt-1 px-1 -mx-1 flex items-center justify-start sm:justify-center"
             dir="ltr"
           >
-            {negative.formulaChips.map((chip, idx) => {
-              const isSymbol = chip.text === '+' || chip.text === 'أو' || chip.text === '➔';
-              const textLower = chip.text.toLowerCase();
-              const isNegAux =
-                textLower.includes("n't") ||
-                textLower.includes('not') ||
-                textLower.includes("didn't") ||
-                textLower.includes("wasn't") ||
-                textLower.includes("weren't") ||
-                textLower.includes("don't") ||
-                textLower.includes("doesn't") ||
-                textLower.includes("won't");
-              const isVerb =
-                textLower.includes('v-ing') ||
-                textLower.includes('base') ||
-                textLower.includes('infinitive') ||
-                textLower.includes('فعل') ||
-                textLower.includes('p.p');
+            <div className="inline-flex items-center gap-1.5 sm:gap-2.5 p-2.5 sm:p-3.5 bg-zinc-50 border border-zinc-200/90 rounded-2xl shadow-2xs shrink-0 min-w-full sm:min-w-0 justify-center">
+              {negative.formulaChips.map((chip, idx) => {
+                const isSymbol = chip.text === '+' || chip.text === 'أو' || chip.text === '➔';
+                const textLower = chip.text.toLowerCase();
+                const isNegAux =
+                  textLower.includes("n't") ||
+                  textLower.includes('not') ||
+                  textLower.includes("didn't") ||
+                  textLower.includes("wasn't") ||
+                  textLower.includes("weren't") ||
+                  textLower.includes("don't") ||
+                  textLower.includes("doesn't") ||
+                  textLower.includes("won't");
+                const isVerb =
+                  textLower.includes('v-ing') ||
+                  textLower.includes('base') ||
+                  textLower.includes('infinitive') ||
+                  textLower.includes('فعل') ||
+                  textLower.includes('p.p');
 
-              return (
-                <span
-                  key={idx}
-                  className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-center ${
-                    isSymbol
-                      ? 'text-rose-600 font-black text-base shadow-none px-1'
-                      : chip.isHighlight
-                      ? isNegAux
-                        ? 'bg-rose-600 text-white font-mono font-black shadow-xs ring-2 ring-rose-200'
-                        : isVerb
-                        ? 'bg-emerald-600 text-white font-mono font-black shadow-xs ring-2 ring-emerald-200'
-                        : 'bg-rose-600 text-white font-mono font-black shadow-xs ring-2 ring-rose-200'
-                      : 'bg-white border border-slate-300 text-slate-800 font-mono font-bold shadow-2xs'
-                  }`}
-                >
-                  <span>{chip.text}</span>
-                  {chip.note && (
-                    <span className="font-arabic text-[10px] block font-normal opacity-90 mt-0.5">
-                      ({chip.note})
-                    </span>
-                  )}
-                </span>
-              );
-            })}
+                return (
+                  <span
+                    key={idx}
+                    className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-center shrink-0 ${
+                      isSymbol
+                        ? 'text-rose-600 font-black text-sm sm:text-base shadow-none px-1'
+                        : chip.isHighlight
+                        ? isNegAux
+                          ? 'bg-rose-600 text-white font-mono font-black shadow-xs ring-2 ring-rose-200'
+                          : isVerb
+                          ? 'bg-emerald-600 text-white font-mono font-black shadow-xs ring-2 ring-emerald-200'
+                          : 'bg-rose-600 text-white font-mono font-black shadow-xs ring-2 ring-rose-200'
+                        : 'bg-white border border-slate-300 text-slate-800 font-mono font-bold shadow-2xs'
+                    }`}
+                  >
+                    <span>{chip.text}</span>
+                    {chip.note && (
+                      <span className="font-arabic text-[10px] block font-normal opacity-90 mt-0.5">
+                        ({chip.note})
+                      </span>
+                    )}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -164,7 +212,7 @@ export const NegativeTab: React.FC<NegativeTabProps> = ({ currentTopic, onSpeak 
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 font-mono text-xs sm:text-sm" dir="ltr">
                 <div className="p-2.5 bg-white border border-rose-200 rounded-xl text-rose-800 text-left shadow-2xs">
-                  خطأ: He didn&apos;t <span className="line-through text-rose-600 font-black">went</span> ✗
+                  خطأ شائع: He didn&apos;t <span className="line-through text-rose-600 font-black">went</span> ✗
                 </div>
                 <div className="p-2.5 bg-white border border-emerald-300 rounded-xl text-emerald-800 font-bold text-left shadow-2xs flex items-center justify-between">
                   <span>He didn&apos;t <span className="text-emerald-700 font-black underline">go</span> ✓</span>
@@ -178,23 +226,10 @@ export const NegativeTab: React.FC<NegativeTabProps> = ({ currentTopic, onSpeak 
                 </div>
               </div>
             </div>
-
-            {/* Contraction Pill */}
-            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs font-arabic">
-              <span className="font-bold text-slate-700 flex items-center gap-1.5">
-                <Lightbulb className="w-4 h-4 text-amber-500" />
-                <span>سؤال الإملاء الامتحاني:</span>
-              </span>
-              <div className="font-mono text-xs" dir="ltr">
-                <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-900 font-bold shadow-2xs">
-                  did + not ➔ <strong className="text-rose-700">didn&apos;t</strong>
-                </span>
-              </div>
-            </div>
           </div>
         )}
 
-        {/* 3. PRESENT SIMPLE: Negative Warning Card */}
+        {/* 3. PRESENT SIMPLE: Negative Card */}
         {currentTopic.id === 'topic-present-simple' && (
           <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 text-right">
             <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">

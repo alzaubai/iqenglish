@@ -1,5 +1,5 @@
 import React from 'react';
-import { HelpCircle, Volume2, Check, X } from 'lucide-react';
+import { HelpCircle, Check, X, Volume2 } from 'lucide-react';
 import { GrammarTopicData } from '../../../data/unit1GrammarTopics';
 import { HighlightedSentence } from './HighlightedSentence';
 import { ExamApplicationsList } from './ExamApplicationsList';
@@ -15,7 +15,7 @@ export const QuestionTab: React.FC<QuestionTabProps> = ({ currentTopic, onSpeak 
 
   return (
     <div className="space-y-6">
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-5 text-right">
+      <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 text-right">
         <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
           <h4 className="text-base sm:text-lg font-black text-indigo-950 font-arabic">
             {currentTopic.id === 'u2-topic-comparatives'
@@ -30,61 +30,115 @@ export const QuestionTab: React.FC<QuestionTabProps> = ({ currentTopic, onSpeak 
           </span>
         </div>
 
-        {/* Vibrant Visual Formula Chips */}
-        <div className="space-y-2">
-          <span className="text-xs font-bold text-slate-600 block">
-            شريط كروت السؤال التفاعلية:
+        {/* 1. Direct High-Contrast Formula Banner (الخلاصة المباشرة للسؤال - واضحة ومستقيمة) */}
+        <div className="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xs text-center border border-indigo-800/40">
+          <span className="text-[11px] text-indigo-300 font-arabic block font-bold mb-1.5">
+            صيغة قاعدة الاستفهام المباشرة (Question Rule):
           </span>
+          <div className="font-mono font-black text-xs sm:text-base tracking-wide text-white flex items-center justify-center flex-wrap gap-1.5" dir="ltr">
+            {currentTopic.id === 'topic-past-continuous' ? (
+              <>
+                <span className="bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 px-2.5 py-1 rounded-lg font-black">Was / Were</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Subject</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-amber-500/25 text-amber-300 border border-amber-400/30 px-2.5 py-1 rounded-lg font-black">Verb-ing</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Complement</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-amber-500 text-white font-black px-2 py-0.5 rounded-lg">?</span>
+              </>
+            ) : currentTopic.id === 'topic-past-simple' ? (
+              <>
+                <span className="bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 px-2.5 py-1 rounded-lg font-black">Did</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Subject</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-emerald-500/25 text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-lg font-black">Base Verb (مجرد)</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Complement</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-amber-500 text-white font-black px-2 py-0.5 rounded-lg">?</span>
+              </>
+            ) : currentTopic.id === 'topic-present-simple' ? (
+              <>
+                <span className="bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 px-2.5 py-1 rounded-lg font-black">Do / Does</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Subject</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-emerald-500/25 text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-lg font-black">Base Verb (مجرد)</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-white/10 px-2.5 py-1 rounded-lg">Complement</span>
+                <span className="text-indigo-300 font-bold text-sm sm:text-base">+</span>
+                <span className="bg-amber-500 text-white font-black px-2 py-0.5 rounded-lg">?</span>
+              </>
+            ) : (
+              <span>{question.formulaChips.map((c) => c.text).join(' ')}</span>
+            )}
+          </div>
+        </div>
+
+        {/* 2. Interactive Question Ribbon - Guaranteed Unbroken Ribbon on Mobile with Horizontal Swipe */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between text-xs text-slate-500 font-arabic">
+            <span className="font-bold text-slate-700">شريط كروت السؤال التفاعلية:</span>
+            <span className="text-[10px] sm:hidden text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md font-bold">
+              اسحب أفقياً ➔
+            </span>
+          </div>
+
           <div
-            className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 p-3.5 sm:p-4 bg-zinc-50 border border-zinc-200/90 rounded-2xl shadow-2xs"
+            className="overflow-x-auto pb-2 pt-1 px-1 -mx-1 flex items-center justify-start sm:justify-center"
             dir="ltr"
           >
-            {question.formulaChips.map((chip, idx) => {
-              const isSymbol = chip.text === '+' || chip.text === 'أو' || chip.text === '➔';
-              const textLower = chip.text.toLowerCase();
-              const isQuestionMark = chip.text.includes('?');
-              const isQWord =
-                textLower.includes('did') ||
-                textLower.includes('was') ||
-                textLower.includes('were') ||
-                textLower.includes('do') ||
-                textLower.includes('does') ||
-                textLower.includes('will') ||
-                textLower.includes('wh-') ||
-                textLower.includes('which');
-              const isVerb =
-                textLower.includes('base') ||
-                textLower.includes('infinitive') ||
-                textLower.includes('v-ing') ||
-                textLower.includes('فعل') ||
-                textLower.includes('p.p');
+            <div className="inline-flex items-center gap-1.5 sm:gap-2.5 p-2.5 sm:p-3.5 bg-zinc-50 border border-zinc-200/90 rounded-2xl shadow-2xs shrink-0 min-w-full sm:min-w-0 justify-center">
+              {question.formulaChips.map((chip, idx) => {
+                const isSymbol = chip.text === '+' || chip.text === 'أو' || chip.text === '➔';
+                const textLower = chip.text.toLowerCase();
+                const isQuestionMark = chip.text.includes('?');
+                const isQWord =
+                  textLower.includes('did') ||
+                  textLower.includes('was') ||
+                  textLower.includes('were') ||
+                  textLower.includes('do') ||
+                  textLower.includes('does') ||
+                  textLower.includes('will') ||
+                  textLower.includes('wh-') ||
+                  textLower.includes('which');
+                const isVerb =
+                  textLower.includes('base') ||
+                  textLower.includes('infinitive') ||
+                  textLower.includes('v-ing') ||
+                  textLower.includes('فعل') ||
+                  textLower.includes('p.p');
 
-              return (
-                <span
-                  key={idx}
-                  className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-center ${
-                    isQuestionMark
-                      ? 'bg-amber-500 text-white font-mono font-black shadow-xs ring-2 ring-amber-200'
-                      : isSymbol
-                      ? 'text-indigo-600 font-black text-base shadow-none px-1'
-                      : chip.isHighlight
-                      ? isQWord
-                        ? 'bg-indigo-600 text-white font-mono font-black shadow-xs ring-2 ring-indigo-200'
-                        : isVerb
-                        ? 'bg-emerald-600 text-white font-mono font-black shadow-xs ring-2 ring-emerald-200'
-                        : 'bg-indigo-600 text-white font-mono font-black shadow-xs ring-2 ring-indigo-200'
-                      : 'bg-white border border-slate-300 text-slate-800 font-mono font-bold shadow-2xs'
-                  }`}
-                >
-                  <span>{chip.text}</span>
-                  {chip.note && (
-                    <span className="font-arabic text-[10px] block font-normal opacity-90 mt-0.5">
-                      ({chip.note})
-                    </span>
-                  )}
-                </span>
-              );
-            })}
+                return (
+                  <span
+                    key={idx}
+                    className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all text-center shrink-0 ${
+                      isQuestionMark
+                        ? 'bg-amber-500 text-white font-mono font-black shadow-xs ring-2 ring-amber-200'
+                        : isSymbol
+                        ? 'text-indigo-600 font-black text-sm sm:text-base shadow-none px-1'
+                        : chip.isHighlight
+                        ? isQWord
+                          ? 'bg-indigo-600 text-white font-mono font-black shadow-xs ring-2 ring-indigo-200'
+                          : isVerb
+                          ? 'bg-emerald-600 text-white font-mono font-black shadow-xs ring-2 ring-emerald-200'
+                          : 'bg-indigo-600 text-white font-mono font-black shadow-xs ring-2 ring-indigo-200'
+                        : 'bg-white border border-slate-300 text-slate-800 font-mono font-bold shadow-2xs'
+                    }`}
+                  >
+                    <span>{chip.text}</span>
+                    {chip.note && (
+                      <span className="font-arabic text-[10px] block font-normal opacity-90 mt-0.5">
+                        ({chip.note})
+                      </span>
+                    )}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
 
