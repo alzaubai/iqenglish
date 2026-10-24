@@ -123,19 +123,6 @@ export const StudentProfileRegistrationForm: React.FC<StudentProfileRegistration
       return;
     }
 
-    // Check if this specific student (name + code) was previously deleted/revoked
-    const isStudentRevoked = (platformConfig.revokedStudents || []).some(
-      (r) =>
-        r.code.toUpperCase() === cleanCode &&
-        r.name.trim().toLowerCase() === cleanName.toLowerCase()
-    );
-
-    if (isStudentRevoked) {
-      setErrorMessage(
-        'تم إلغاء تفعيل حسابك بهذا الكود من قبل أستاذ المادة. يرجى مراجعة الأستاذ لاستلام كود جديد.'
-      );
-      return;
-    }
 
     setIsSubmitting(true);
     try {

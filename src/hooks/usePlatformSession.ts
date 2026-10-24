@@ -75,11 +75,10 @@ export function usePlatformSession() {
   useEffect(() => {
     if (!studentSession || isTeacherLoggedIn) return;
 
+    // Strict revocation check: Match solely by unique studentId to prevent false-positives
+    // on innocent students sharing the same school code or similar common names
     const isRevoked = (platformConfig.revokedStudents || []).some(
-      (r) =>
-        r.studentId === studentSession.id ||
-        (r.code.toUpperCase() === studentSession.code.toUpperCase() &&
-          r.name.trim().toLowerCase() === studentSession.fullName.trim().toLowerCase())
+      (r) => r.studentId && r.studentId === studentSession.id
     );
     if (isRevoked) {
       setStoredStudentSession(null);
@@ -95,8 +94,6 @@ export function usePlatformSession() {
     return () => unsub();
   }, [
     studentSession?.id,
-    studentSession?.code,
-    studentSession?.fullName,
     isTeacherLoggedIn,
     platformConfig.revokedStudents,
   ]);
@@ -131,7 +128,13 @@ export function usePlatformSession() {
     setIsTeacherLoggedIn(false);
   }, []);
 
-  const handleLogoutStudent = useCallback(() => {
+  const handleLogoutStudent = useCallback((skipConfirm = false) => {
+    if (!skipConfirm && typeof window !== 'undefined') {
+      const confirmed = window.confirm(
+        'هل أنت متأكد من تسجيل الخروج؟ ستحتاج إلى إدخال كود الدخول مجدداً للعودة إلى المنصة.'
+      );
+      if (!confirmed) return;
+    }
     setStoredStudentSession(null);
     setStudentSession(null);
   }, []);

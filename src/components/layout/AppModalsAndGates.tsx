@@ -15,7 +15,7 @@ interface AppModalsAndGatesProps {
   setIsStudentExamModalOpen: (open: boolean) => void;
   isStudentHistoryModalOpen: boolean;
   setIsStudentHistoryModalOpen: (open: boolean) => void;
-  onLogoutStudent: () => void;
+  onLogoutStudent: (skipConfirm?: boolean) => void;
 }
 
 export const AppModalsAndGates: React.FC<AppModalsAndGatesProps> = ({
@@ -57,7 +57,7 @@ export const AppModalsAndGates: React.FC<AppModalsAndGatesProps> = ({
               </p>
               <div className="pt-2">
                 <button
-                  onClick={onLogoutStudent}
+                  onClick={() => onLogoutStudent(true)}
                   className="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm cursor-pointer shadow-xs transition-colors font-arabic"
                 >
                   تسجيل الخروج وإدخال كود جديد

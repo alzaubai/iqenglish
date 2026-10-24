@@ -8,7 +8,7 @@ interface HeaderProps {
   studentSection?: string;
   isTeacher?: boolean;
   onLogoutTeacher?: () => void;
-  onLogoutStudent?: () => void;
+  onLogoutStudent?: (skipConfirm?: boolean) => void;
   isExamActive?: boolean;
   onOpenExam?: () => void;
   onOpenTeacherDashboard?: () => void;
@@ -144,7 +144,8 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
                 {onLogoutStudent && (
                   <button
-                    onClick={onLogoutStudent}
+                    type="button"
+                    onClick={() => onLogoutStudent()}
                     className="p-1 sm:px-2.5 sm:py-1 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs flex items-center gap-1 cursor-pointer font-arabic transition-all shadow-2xs shrink-0"
                     title="تسجيل خروج الطالب"
                   >

@@ -6,7 +6,7 @@ interface AppFooterProps {
   studentSession: StudentSession | null;
   onOpenTeacherDashboard: () => void;
   onLogoutTeacher: () => void;
-  onLogoutStudent: () => void;
+  onLogoutStudent: (skipConfirm?: boolean) => void;
 }
 
 export const AppFooter: React.FC<AppFooterProps> = ({
@@ -45,7 +45,7 @@ export const AppFooter: React.FC<AppFooterProps> = ({
                 الطالب: <strong>{studentSession.fullName}</strong> (شعبة {studentSession.section})
               </span>
               <button
-                onClick={onLogoutStudent}
+                onClick={() => onLogoutStudent()}
                 className="text-slate-500 hover:text-slate-800 underline cursor-pointer text-[11px]"
                 title="تسجيل خروج الطالب والعودة لشاشة البداية"
               >
