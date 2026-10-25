@@ -108,13 +108,13 @@ export const topicPastContinuous: GrammarTopicData = {
     // 2. كارت الإثبات
     affirmative: {
       formulaChips: [
-        { text: 'الفاعل المفرد (I / He / She / It) + was' },
-        { text: 'أو' },
-        { text: 'الفاعل الجمع (We / You / They) + were' },
+        { text: 'فاعل (Subject)' },
         { text: '+', note: '' },
-        { text: 'فعل + ing', isHighlight: true, note: 'فعل مستمر' },
+        { text: 'was / were', isHighlight: true, note: 'حسب الفاعل' },
         { text: '+', note: '' },
-        { text: 'التكملة' },
+        { text: 'فعل بي ing', isHighlight: true, note: 'Verb-ing' },
+        { text: '+', note: '' },
+        { text: 'تكملة (Complement)' },
       ],
       explanationAr: 'في الإثبات، نحدد الفاعل أولاً:\n• إذا كان مفرداً (I, He, She, It أو اسم مفرد مثل Ali أو The boy) ➔ يأخذ (was).\n• إذا كان جمعاً (We, You, They أو اسم جمع مثل The boys) ➔ يأخذ (were).\nثم نضيف مباشرة الفعل الرئيسي مضافاً إليه (ing) مع تطبيق قواعد الإملاء.',
       examples: [
@@ -273,13 +273,13 @@ export const topicPastContinuous: GrammarTopicData = {
     // 3. كارت النفي
     negative: {
       formulaChips: [
-        { text: 'الفاعل' },
+        { text: 'فاعل (Subject)' },
         { text: '+', note: '' },
-        { text: "was not (wasn't) / were not (weren't)", isHighlight: true, note: 'نفي مباشر' },
+        { text: "wasn't / weren't", isHighlight: true, note: 'was / were + not' },
         { text: '+', note: '' },
-        { text: 'فعل + ing', isHighlight: true, note: 'يبقى مضافاً له ing' },
+        { text: 'فعل بي ing', isHighlight: true, note: 'Verb-ing' },
         { text: '+', note: '' },
-        { text: 'التكملة' },
+        { text: 'تكملة (Complement)' },
       ],
       explanationAr: 'عند نفي جملة الماضي المستمر، نضع كلمة (not) بعد الفعل المساعد was أو were مباشرة لتصبح (wasn\'t / weren\'t)، ويبقى الفعل كما هو مضافاً له ing (لا نحذف ing في النفي نهائياً!).',
       warningAr: 'احذر جداً: لا تحذف ing من الفعل عند النفي! في الماضي البسيط كنا نرجع الفعل لمجرد لوجود didn\'t، أما في الماضي المستمر فيبقى الفعل حاملاً لـ ing دائماً.',
@@ -437,13 +437,13 @@ export const topicPastContinuous: GrammarTopicData = {
     // 4. كارت الاستفهام
     question: {
       formulaChips: [
-        { text: 'Was / Were', isHighlight: true, note: 'في البداية' },
+        { text: 'Was / Were', isHighlight: true, note: 'حسب الفاعل' },
         { text: '+', note: '' },
-        { text: 'الفاعل (Subject)' },
+        { text: 'فاعل (Subject)' },
         { text: '+', note: '' },
-        { text: 'فعل + ing', isHighlight: true, note: 'مستمر' },
+        { text: 'فعل بي ing', isHighlight: true, note: 'Verb-ing' },
         { text: '+', note: '' },
-        { text: 'التكملة + ?' },
+        { text: 'تكملة + ?' },
       ],
       explanationAr: 'لتكوين سؤال في الماضي المستمر، نتبع طريقة التبديل البسيطة (تقديم وتأخير):\n• نقدم الفعل المساعد (Was أو Were) في بداية الجملة ويكتب بحرف كبير (Capital).\n• نضع الفاعل بعده مباشرة.\n• يبقى الفعل حاملاً لـ (ing) كما هو تماماً.\n• ننزل التكملة ونضع علامة الاستفهام (?) في نهاية الجملة.\n• الإجابات القصيرة: Yes, he was. / No, he wasn\'t. أو Yes, they were. / No, they weren\'t.',
       examples: [

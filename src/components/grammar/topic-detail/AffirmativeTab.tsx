@@ -88,37 +88,37 @@ export const AffirmativeTab: React.FC<AffirmativeTabProps> = ({ currentTopic, on
 
         {/* 1. PAST CONTINUOUS: Singular vs Plural Comparison Cards */}
         {currentTopic.id === 'topic-past-continuous' && (
-          <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 text-right">
-            <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
-              <span className="p-2 bg-emerald-50 text-emerald-600 rounded-xl shrink-0 border border-emerald-100 shadow-2xs">
-                <AlertTriangle className="w-5 h-5" />
+          <div className="bg-white border border-zinc-200 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-xs space-y-3.5 text-right">
+            <div className="flex items-center gap-2 border-b border-zinc-100 pb-2.5">
+              <span className="p-1.5 sm:p-2 bg-emerald-50 text-emerald-600 rounded-xl shrink-0 border border-emerald-100 shadow-2xs">
+                <AlertTriangle className="w-4 h-4 sm:w-5 h-5" />
               </span>
               <div>
-                <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
-                  ملاحظة هامة: اختيار الفعل المساعد (was أو were) حسب الفاعل
+                <h5 className="text-xs sm:text-base font-black font-arabic text-zinc-900">
+                  تحديد استخدام (was) و (were) حسب الفاعل:
                 </h5>
-                <span className="text-xs text-zinc-500 font-arabic">
-                  الخطوة الأولى والأساسية لحل أي جملة ماضٍ مستمر في الامتحان
+                <span className="text-[11px] sm:text-xs text-zinc-500 font-arabic">
+                  القاعدة: فاعل + was / were + فعل بي ing + تكملة
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-0.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-0.5">
               {/* Singular Card */}
-              <div className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-200 space-y-2.5 text-right shadow-2xs">
-                <div className="flex items-center justify-between border-b border-emerald-100 pb-2">
+              <div className="bg-emerald-50/50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-emerald-200 space-y-2 text-right shadow-2xs">
+                <div className="flex items-center justify-between border-b border-emerald-100 pb-1.5">
                   <span className="font-bold text-xs sm:text-sm text-emerald-900 font-arabic flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
-                    <span>1. فاعل مفرد (Singular)</span>
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+                    <span>1. (was) تأخذ الفاعل المفرد + I</span>
                   </span>
-                  <span className="text-xs bg-emerald-600 text-white px-2.5 py-0.5 rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
+                  <span className="text-[11px] sm:text-xs bg-emerald-600 text-white px-2 py-0.5 rounded-md sm:rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
                     was + v-ing
                   </span>
                 </div>
-                <p className="text-xs text-emerald-850 font-arabic leading-relaxed">
-                  مع الضمائر (<strong>I, He, She, It</strong>) أو أي اسم مفرد (Ali, The boy):
+                <p className="text-xs text-emerald-900 font-arabic leading-relaxed">
+                  تأخذ الضمائر: (<strong>I, He, She, It</strong>) أو أي اسم مفرد (مثل: <strong>Ali, The boy</strong>).
                 </p>
-                <div className="bg-white p-2.5 rounded-xl border border-emerald-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
+                <div className="bg-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-emerald-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
                   <span>Ali ➔ <strong className="text-emerald-700 font-black">was playing</strong></span>
                   <button
                     type="button"
@@ -132,20 +132,20 @@ export const AffirmativeTab: React.FC<AffirmativeTabProps> = ({ currentTopic, on
               </div>
 
               {/* Plural Card */}
-              <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-200 space-y-2.5 text-right shadow-2xs">
-                <div className="flex items-center justify-between border-b border-blue-100 pb-2">
+              <div className="bg-blue-50/50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-blue-200 space-y-2 text-right shadow-2xs">
+                <div className="flex items-center justify-between border-b border-blue-100 pb-1.5">
                   <span className="font-bold text-xs sm:text-sm text-blue-900 font-arabic flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
-                    <span>2. فاعل جمع (Plural)</span>
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-600 shrink-0"></span>
+                    <span>2. (were) تأخذ الفاعل الجمع</span>
                   </span>
-                  <span className="text-xs bg-blue-600 text-white px-2.5 py-0.5 rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
+                  <span className="text-[11px] sm:text-xs bg-blue-600 text-white px-2 py-0.5 rounded-md sm:rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
                     were + v-ing
                   </span>
                 </div>
-                <p className="text-xs text-blue-850 font-arabic leading-relaxed">
-                  مع الضمائر (<strong>We, You, They</strong>) أو أي اسم جمع (The boys, Students):
+                <p className="text-xs text-blue-900 font-arabic leading-relaxed">
+                  تأخذ الضمائر: (<strong>We, You, They</strong>) أو أي اسم جمع (مثل: <strong>The boys, Students</strong>).
                 </p>
-                <div className="bg-white p-2.5 rounded-xl border border-blue-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
+                <div className="bg-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
                   <span>They ➔ <strong className="text-blue-700 font-black">were watching</strong></span>
                   <button
                     type="button"
