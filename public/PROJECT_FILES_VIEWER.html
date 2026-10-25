@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خريطة ملفات المشروع البرمجية | English for Iraq</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --card-hover: #1e293b;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-rgb: 56, 189, 248;
+      --primary: #6366f1;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --highlight: rgba(56, 189, 248, 0.25);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 24px 16px 80px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: rgba(17, 24, 39, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 14px 18px;
+    }
+
+    .stat-num {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Sticky Search & Filter Box */
+    .sticky-toolbar {
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #1e293b;
+      border: 1.5px solid #334155;
+      color: #ffffff;
+      font-size: 16px;
+      padding: 14px 48px 14px 44px;
+      border-radius: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+      background: #111827;
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      pointer-events: none;
+      font-size: 18px;
+    }
+
+    .clear-btn {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #cbd5e1;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .clear-btn:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    .count-badge {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent);
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Category Filter Chips */
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: #334155 transparent;
+    }
+
+    .filter-chip {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .filter-chip:hover {
+      background: #334155;
+      color: #ffffff;
+      border-color: #475569;
+    }
+
+    .filter-chip.active {
+      background: var(--accent);
+      color: #0b0f19;
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+
+    /* Table & Cards */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+
+    thead th {
+      background: #0f172a;
+      padding: 16px 20px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #cbd5e1;
+      border-bottom: 2px solid var(--card-border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--card-border);
+      transition: background 0.15s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--card-hover);
+    }
+
+    td {
+      padding: 16px 20px;
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    .cell-id {
+      font-weight: 900;
+      color: #64748b;
+      text-align: center;
+      width: 50px;
+    }
+
+    .cell-file {
+      min-width: 280px;
+    }
+
+    .file-path {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 4px 8px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      word-break: break-all;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .cell-category {
+      color: #a78bfa;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .cell-role {
+      font-weight: 800;
+      color: #f1f5f9;
+      min-width: 220px;
+    }
+
+    .cell-mech {
+      color: #94a3b8;
+      line-height: 1.5;
+      min-width: 320px;
+    }
+
+    .badge-ext {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      font-family: monospace;
+      margin-right: 6px;
+    }
+
+    .ext-tsx { background: #3b82f620; color: #60a5fa; border: 1px solid #3b82f640; }
+    .ext-ts { background: #0284c720; color: #38bdf8; border: 1px solid #0284c740; }
+    .ext-mjs { background: #f59e0b20; color: #fbbf24; border: 1px solid #f59e0b40; }
+    .ext-json { background: #10b98120; color: #34d399; border: 1px solid #10b98140; }
+    .ext-py { background: #8b5cf620; color: #c084fc; border: 1px solid #8b5cf640; }
+    .ext-css { background: #ec489920; color: #f472b6; border: 1px solid #ec489940; }
+    .ext-other { background: #64748b20; color: #94a3b8; border: 1px solid #64748b40; }
+
+    .highlight {
+      background: var(--highlight);
+      color: #ffffff;
+      padding: 1px 3px;
+      border-radius: 4px;
+      font-weight: 800;
+    }
+
+    .empty-state {
+      padding: 60px 20px;
+      text-align: center;
+      color: #64748b;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #10b981;
+      color: #ffffff;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .table-container {
+        border: none;
+        background: transparent;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody tr {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 18px;
+        padding: 16px;
+        margin-bottom: 14px;
+      }
+
+      td {
+        padding: 6px 0;
+      }
+
+      .cell-id {
+        display: inline-block;
+        text-align: right;
+        margin-left: 8px;
+      }
+
+      .cell-category {
+        display: inline-block;
+        margin-bottom: 6px;
+      }
+
+      .cell-file {
+        margin: 6px 0;
+      }
+
+      .cell-role {
+        font-size: 15px;
+        color: #ffffff;
+        margin-top: 4px;
+      }
+
+      .cell-mech {
+        font-size: 13px;
+        margin-top: 6px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 8px 12px;
+        border-radius: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="badge-top">
+        <span>⚡</span> توثيق هندسي تفاعلي شامل
+      </div>
+      <h1 class="title">فهرس ملفات المشروع البرمجية (English for Iraq)</h1>
+      <p class="subtitle">
+        دليل شامل وفوري يضم كافة ملفات الكود في المنصة (273 ملفاً برمجياً)، مع محرك بحث فوري وتصفية ذكية حسب التصنيف والامتداد.
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-total">273</div>
+          <div class="stat-label">إجمالي الملفات الكودية</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">120</div>
+          <div class="stat-label">واجهات React (.tsx)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">82</div>
+          <div class="stat-label">بيانات ومنطق (.ts)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">56</div>
+          <div class="stat-label">سكربتات بناء وأتمتة</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">16</div>
+          <div class="stat-label">أقسام برمجية رئيسية</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Toolbar -->
+    <div class="sticky-toolbar">
+      <div class="search-row">
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="ابحث باسم الملف، المسار، القاعدة، نوع التمرين، أو الوظيفة..."
+            autofocus
+          >
+          <button id="clear-btn" class="clear-btn" title="مسح">✕</button>
+        </div>
+        <div class="count-badge" id="count-badge">
+          عرض <span id="visible-count">273</span> من 273
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="filter-chips" id="filter-chips">
+        <button class="filter-chip active" data-category="ALL">الكل (273)</button>
+        <button class="filter-chip" data-category="16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)">16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)</button>
+        <button class="filter-chip" data-category="1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)">1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)</button>
+        <button class="filter-chip" data-category="15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)">15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)</button>
+        <button class="filter-chip" data-category="2. النواة والموجّه الرئيسي للمنصة (Core App & Navigation)">2. النواة والموجّه الرئيسي للمنصة (Core App & Navigation)</button>
+        <button class="filter-chip" data-category="3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)">3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)</button>
+        <button class="filter-chip" data-category="8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)">8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)</button>
+        <button class="filter-chip" data-category="4. مشغلات الصوت والمزامنة الفورية (Audio & Transcripts)">4. مشغلات الصوت والمزامنة الفورية (Audio & Transcripts)</button>
+        <button class="filter-chip" data-category="5. بوابات المصادقة والدخول والأمان (Authentication & Security)">5. بوابات المصادقة والدخول والأمان (Authentication & Security)</button>
+        <button class="filter-chip" data-category="6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)">6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)</button>
+        <button class="filter-chip" data-category="10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)">10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)</button>
+        <button class="filter-chip" data-category="9. شاشات وشروحات القواعد النحوية (Grammar Components)">9. شاشات وشروحات القواعد النحوية (Grammar Components)</button>
+        <button class="filter-chip" data-category="7. الهيكل العام والتذييل والنوافذ المنبثقة (Layout & Footer)">7. الهيكل العام والتذييل والنوافذ المنبثقة (Layout & Footer)</button>
+        <button class="filter-chip" data-category="14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)">14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)</button>
+        <button class="filter-chip" data-category="12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)">12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)</button>
+        <button class="filter-chip" data-category="11. بيانات وشروحات القواعد النحوية (Grammar Data)">11. بيانات وشروحات القواعد النحوية (Grammar Data)</button>
+        <button class="filter-chip" data-category="13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)">13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)</button>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px;">#</th>
+            <th style="width: 100px;">الامتداد</th>
+            <th>المسار البرمجي للملف</th>
+            <th>التصنيف</th>
+            <th>الوظيفة الأساسية</th>
+            <th>آلية العمل البرمجية والتعليمية</th>
+          </tr>
+        </thead>
+        <tbody id="files-tbody">
+          <!-- Rendered by JS -->
+        </tbody>
+      </table>
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-icon">📂</div>
+        <h3>لم يتم العثور على أي ملف يطابق بحثك!</h3>
+        <p>تأكد من كتابة الكلمات بصورة صحيحة أو جرب البحث بكلمة أخرى.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <span>✓</span> تم نسخ المسار إلى الحافظة!
+  </div>
+
+  <script>
+    const allFiles = [{"id":1,"path":".agents/skills/brag/assets/music/cues/happy-beats-business-moves-vol-1-by-ende-dot-app.music-cues.json","name":"happy-beats-business-moves-vol-1-by-ende-dot-app.music-cues.json","category":"16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)","role":"نقاط التزامن الإيقاعي للمقطوعة الموسيقية الترويجية (المجلد 1)","mechanism":"يحتوي على توقيتات النبضات الإيقاعية (Beats & Cues) بالمللي ثانية لقص لقطات الفيديو الترويجي عليها بتناغم تام.","ext":".json"},{"id":2,"path":".agents/skills/brag/assets/music/cues/happy-beats-business-moves-vol-10-by-ende-dot-app.music-cues.json","name":"happy-beats-business-moves-vol-10-by-ende-dot-app.music-cues.json","category":"16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)","role":"نقاط التزامن الإيقاعي للمقطوعة الموسيقية الترويجية (المجلد 10)","mechanism":"يحدد أوقات الانتقالات البصرية الحماسية في الفيديو الإعلاني لمطابقتها مع الموسيقى التصويرية.","ext":".json"},{"id":3,"path":".agents/skills/brag/assets/music/cues/happy-beats-business-moves-vol-11-by-ende-dot-app.music-cues.json","name":"happy-beats-business-moves-vol-11-by-ende-dot-app.music-cues.json","category":"16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)","role":"نقاط التزامن الإيقاعي للمقطوعة الموسيقية الترويجية (المجلد 11)","mechanism":"ملف توقيت نغمات موسيقية لتوليد مقاطع ترويجية سريعة لمنصات TikTok و Instagram Reels.","ext":".json"},{"id":4,"path":".agents/skills/brag/assets/music/cues/happy-beats-business-moves-vol-12-by-ende-dot-app.music-cues.json","name":"happy-beats-business-moves-vol-12-by-ende-dot-app.music-cues.json","category":"16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)","role":"نقاط التزامن الإيقاعي للمقطوعة الموسيقية الترويجية (المجلد 12)","mechanism":"يحدد أماكن الذروة الصوتية والتحولات الموسيقية لتبديل مشاهد شاشات التطبيق في الفيديو.","ext":".json"},{"id":5,"path":".agents/skills/brag/assets/music/cues/happy-beats-business-moves-vol-9-by-ende-dot-app.music-cues.json","name":"happy-beats-business-moves-vol-9-by-ende-dot-app.music-cues.json","category":"16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)","role":"نقاط التزامن الإيقاعي للمقطوعة الموسيقية الترويجية (المجلد 9)","mechanism":"يحدد أماكن الإيقاعات الخفيفة لعرض نصوص الميزات والخصائص التعليمية على الشاشة.","ext":".json"},{"id":6,"path":".agents/skills/brag/assets/sfx/sfx-analysis.json","name":"sfx-analysis.json","category":"16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)","role":"تحليل المؤثرات الصوتية والانتقالات للفيديو الترويجي","mechanism":"يحتوي على فهارس وتوقيتات أصوات النقر، شارات النجاح، وحركات الواجهة المدمجة بالفيديو.","ext":".json"},{"id":7,"path":".agents/skills/brag/scripts/analyze_music_cues.py","name":"analyze_music_cues.py","category":"16. أدوات المساعد ومسارات الفيديو الترويجي (Promo & Agent Assets)","role":"سكربت بايثون لتحليل إيقاعات الموسيقى وتوليد ملفات الـ Cues","mechanism":"يقرأ الملفات الصوتية، يحلل ترددات الـ BPM، ويصدر ملفات JSON التي تحدد لحظات التبديل بين اللقطات.","ext":".py"},{"id":8,"path":"count_chars.ts","name":"count_chars.ts","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"فحص وإحصاء عدد الحروف والكلمات في محتوى المنهج والدروس","mechanism":"يقوم بقراءة نصوص الدروس ومطابقتها للتأكد من حجم المحتوى النصي ومعالجة الإحصائيات الخاصة بالمفردات.","ext":".ts"},{"id":9,"path":"firestore.rules","name":"firestore.rules","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"قواعد أمان وصلاحيات قاعدة بيانات السحابة Firestore","mechanism":"تحدد شروط القراءة والكتابة لجداول الاشتراكات، أكواد التفعيل، درجات الطلاب، وسجلات المعلم لمنع أي تلاعب غير مصرح به.","ext":".rules"},{"id":10,"path":"index.html","name":"index.html","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"صفحة الهبوط ونقطة التحميل الأساسية لتطبيق الويب في المتصفح","mechanism":"تحتوي على وسم البداية للـ DOM (#root)، وتضمين الخطوط العربية (Cairo, Tajawal)، ووسوم العرض للأجهزة المحمولة (Viewport)، وإشارة تشغيل React عبر Vite.","ext":".html"},{"id":11,"path":"metadata.json","name":"metadata.json","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"ملف البيانات الوصفية للمنصة التعليمية","mechanism":"يحتوي على معلومات إصدار المنصة، والوصف، وإعدادات الهوية للمشروع.","ext":".json"},{"id":12,"path":"package.json","name":"package.json","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"ملف تعريف الحزم والمكتبات المعتمدة وأوامر التشغيل والبناء","mechanism":"يحدد تبعيات التطبيق (React 19, Lucide Icons, Canvas Confetti, Firebase, Vite) وسكربتات التشغيل (dev, build, preview).","ext":".json"},{"id":13,"path":"public/manifest.json","name":"manifest.json","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"بيانات تطبيق الويب التقدمي (PWA Manifest)","mechanism":"يمكن الطالب من تثبيت المنصة على شاشة هاتفه أو حاسوبه كتطبيق أصيل مع تحديد الأيقونات، الألوان الأساسية، ووضع ملء الشاشة (standalone).","ext":".json"},{"id":14,"path":"public/sw.js","name":"sw.js","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"عامل الخدمة للتخزين المؤقت والتشغيل أوفلاين (Service Worker)","mechanism":"يعترض طلبات المتصفح للصور والملفات الصوتية ويقوم بتخزينها محلياً في Cache Storage ليعمل التطبيق حتى في حال انقطاع الإنترنت.","ext":".js"},{"id":15,"path":"tsconfig.json","name":"tsconfig.json","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"إعدادات مترجم TypeScript العام للتحقق الصارم من الأنواع","mechanism":"يضبط قواعد التحقق الصارم من الأنواع (Strict Type Checking)، ودعم مسارات الاستيراد، وصيغة JSX لـ React.","ext":".json"},{"id":16,"path":"vite.config.ts","name":"vite.config.ts","category":"1. الملفات الجذرية وإعدادات المشروع (Root Config & Setup)","role":"إعدادات حزمة البناء وخادم التطوير السريع Vite","mechanism":"يضبط مسار النشر الأساسي (base: /iqenglish/) على GitHub Pages، ويدمج معالج Tailwind CSS v4، ومكون React الإضافي لعمل Bundling فعال وسريع.","ext":".ts"},{"id":17,"path":"scripts/activityBookAllLessons.mjs","name":"activityBookAllLessons.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تصدير وتجميع كافة تمارين النشاط إلى ملف موحد","mechanism":"يقوم بقراءة ومعالجة ملفات التمارين ودمجها في مصفوفة موحدة صالحة للاستيراد المباشر.","ext":".mjs"},{"id":18,"path":"scripts/activity_book_pages.json","name":"activity_book_pages.json","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"ملف مرجعي لربط أرقام صفحات كتاب النشاط بمحتوى التمارين","mechanism":"يحتوي على خريطة مطابقة بين أرقام الصفحات، والدروس، وروابط الصور الخاصة بكتاب النشاط.","ext":".json"},{"id":19,"path":"scripts/append_unit3_part2_activity.mjs","name":"append_unit3_part2_activity.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"إلحاق تمارين الجزء الثاني للوحدة الثالثة ببنك البيانات","mechanism":"يدمج تمارين الدروس 6 إلى 10 للوحدة الثالثة داخل ملف البيانات المركزي.","ext":".mjs"},{"id":20,"path":"scripts/append_unit3_part2_chunks.mjs","name":"append_unit3_part2_chunks.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"إلحاق مقاطع التزامن الصوتي للجزء الثاني للوحدة الثالثة","mechanism":"يضيف بيانات التوقيت الزمني لجمل وكلمات دروس الوحدة الثالثة المتبقية.","ext":".mjs"},{"id":21,"path":"scripts/append_unit3_part2_lessons.mjs","name":"append_unit3_part2_lessons.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"إلحاق نصوص ومفردات الجزء الثاني للوحدة الثالثة","mechanism":"يقوم بإضافة نصوص القراءة والمفردات والترجمات للدروس الأخيرة من الوحدة الثالثة.","ext":".mjs"},{"id":22,"path":"scripts/build_data_json.py","name":"build_data_json.py","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"سكربت بايثون لتحويل وبناء بيانات المنهج في ملف JSON منظم","mechanism":"يقرأ جداول وبيانات المنهج النصية ويحولها إلى صيغة JSON قياسية لتسهيل المعالجة.","ext":".py"},{"id":23,"path":"scripts/clean_and_scan.mjs","name":"clean_and_scan.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"فحص ملفات المشروع البرمجية وتنظيف الشوائب والتعارضات","mechanism":"يمسح الملفات بحثاً عن نصوص مكررة أو مسارات معطوبة ويقوم بإصلاحها تلقائياً.","ext":".mjs"},{"id":24,"path":"scripts/connect_curriculum_registry.mjs","name":"connect_curriculum_registry.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"ربط سجل المنهج المركزي بكافة وحدات البيانات","mechanism":"يقوم بربط ملف curriculumRegistry ببيانات الوحدات 1 و 2 و 3 بشكل متكامل.","ext":".mjs"},{"id":25,"path":"scripts/export_app_data.mjs","name":"export_app_data.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تصدير بيانات التطبيق الكاملة لأغراض النسخ الاحتياطي","mechanism":"يستخرج كافة بيانات الدروس والامتحانات والقواعد ويحفظها في ملف نسخ احتياطي مستقل.","ext":".mjs"},{"id":26,"path":"scripts/extract_unit2_pdf.mjs","name":"extract_unit2_pdf.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"استخراج نصوص ومحتويات الوحدة الثانية من كتاب PDF الأصلي","mechanism":"يقرأ صفحات PDF الخاصة بكتاب الطالب للوحدة الثانية ويستخرج النصوص الخام لمعالجتها.","ext":".mjs"},{"id":27,"path":"scripts/finalize_clean_utf8.mjs","name":"finalize_clean_utf8.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"التحقق النهائي من سلامة ترميز النصوص العربية UTF-8","mechanism":"يفحص كافة ملفات المشروع ويتأكد من خلوها من أي تشويه أو تداخل في الحروف العربية.","ext":".mjs"},{"id":28,"path":"scripts/find_line_diff.mjs","name":"find_line_diff.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"مقارنة الفروقات السطرية بين إصدارات ملفات البيانات","mechanism":"يكتشف الفروقات بين النسخ القديمة والحديثة لملفات بيانات الدروس لتفادي فقدان أي محتوى.","ext":".mjs"},{"id":29,"path":"scripts/find_line_diff_fb.mjs","name":"find_line_diff_fb.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"مقارنة الفروقات لملفات خدمات Firebase السحابية","mechanism":"يفحص التغييرات التي طرأت على خدمات السحابة والمصادقة للتحقق من الاستقرار.","ext":".mjs"},{"id":30,"path":"scripts/fix_alerts.mjs","name":"fix_alerts.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تصحيح رسائل التنبيه والواجهات المنبثقة","mechanism":"يحدث نصوص التنبيهات ونوافذ التأكيد لتتوافق مع معايير المنصة وتجربة المستخدم.","ext":".mjs"},{"id":31,"path":"scripts/fix_apostrophes.mjs","name":"fix_apostrophes.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تصحيح علامات الاقتباس والفواصل العليا في النصوص","mechanism":"يستبدل الفواصل العليا المشوهة (curly/slanted) بفواصل قياسية لمنع أخطاء الترجمة البرمجية.","ext":".mjs"},{"id":32,"path":"scripts/fix_remaining.mjs","name":"fix_remaining.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"معالجة وتصحيح النصوص المتبقية غير المتطابقة","mechanism":"يمسح الكود ويعالج أي نصوص متبقية تحتاج إلى تدقيق إملائي أو لغوي.","ext":".mjs"},{"id":33,"path":"scripts/fix_track13_audio.mjs","name":"fix_track13_audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"إعادة ضبط وتعديل مسار وتوقيت المقطع الصوتي للمسار 13","mechanism":"يصلح ارتباط ملف الصوت للمسار 13 ويعيد ضبط مؤشرات التزامن الزمني.","ext":".mjs"},{"id":34,"path":"scripts/generate-lesson1-audio.mjs","name":"generate-lesson1-audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد الصوتيات الخاصة بالدرس الأول","mechanism":"ينشئ ملفات الصوت للدرس الأول عبر الاتصال بخدمة التوليد الصوتي وحفظ الملفات في مجلد الصوتيات.","ext":".mjs"},{"id":35,"path":"scripts/generate-lesson1-elevenlabs.mjs","name":"generate-lesson1-elevenlabs.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدرس الأول بالذكاء الاصطناعي عبر ElevenLabs","mechanism":"يرسل نصوص الدرس الأول بدقة نبرات الشخصيات إلى ElevenLabs API ويستقبل الصوت عالي الدقة.","ext":".mjs"},{"id":36,"path":"scripts/generate-lesson2-audio.mjs","name":"generate-lesson2-audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد الصوتيات الخاصة بالدرس الثاني","mechanism":"يولد التسجيلات الصوتية لحوارات وقراءة نصوص الدرس الثاني.","ext":".mjs"},{"id":37,"path":"scripts/generate-lesson3-elevenlabs.mjs","name":"generate-lesson3-elevenlabs.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدرس الثالث عبر ElevenLabs","mechanism":"يولد المقاطع الصوتية لنصوص وأفعال الدرس الثالث وقصة ريتشارد.","ext":".mjs"},{"id":38,"path":"scripts/generate-lesson4-elevenlabs.mjs","name":"generate-lesson4-elevenlabs.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدرس الرابع عبر ElevenLabs (Node.js)","mechanism":"يولد المقاطع الصوتية لنصوص الهوايات وسجل القصاصات للدرس الرابع.","ext":".mjs"},{"id":39,"path":"scripts/generate-part1-boys.mjs","name":"generate-part1-boys.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد أصوات شخصيات الأولاد (باسم وأحمد) للقسم الأول","mechanism":"يخصص أصوات ذكورية ملائمة لأعمار شخصيات الطلاب في المنهج ويولد حواراتهم.","ext":".mjs"},{"id":40,"path":"scripts/generate-sara-audio.mjs","name":"generate-sara-audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوت شخصية سارة للمحادثات والتمارين","mechanism":"يولد صوت شخصية سارة بنبرة صوتية بناتيّة طبيعية واضحة لمحادثات الدرس الثاني.","ext":".mjs"},{"id":41,"path":"scripts/generate_ahmed_story_elevenlabs.mjs","name":"generate_ahmed_story_elevenlabs.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد قراءة قصة أحمد في العطلة عبر ElevenLabs","mechanism":"يولد القراءة السردية لقصة أحمد في نيويورك مع فواصل زمنية متطابقة مع بطاقات القراءة.","ext":".mjs"},{"id":42,"path":"scripts/generate_lesson10_american_youth.mjs","name":"generate_lesson10_american_youth.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوت المراهق الأمريكي لقصة طائر السمامة في الدرس العاشر","mechanism":"ينتج تسجيلاً صوتياً بنبرة إنجليزية واضحة لقصة الدرس العاشر من كتاب النشاط.","ext":".mjs"},{"id":43,"path":"scripts/generate_lesson10_young_boy.mjs","name":"generate_lesson10_young_boy.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوت الراوي الصغير للدرس العاشر","mechanism":"يولد تسجيل الراوي بأسلوب سردي تعليمي جذاب لقصة وقت القصة.","ext":".mjs"},{"id":44,"path":"scripts/generate_lesson4_elevenlabs.py","name":"generate_lesson4_elevenlabs.py","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدرس الرابع عبر مكتبة ElevenLabs بلغة بايثون","mechanism":"سكربت بايثون بديل لتوليد ومزامنة صوتيات الدرس الرابع مع تحكم دقيق في نبرة الصوت.","ext":".py"},{"id":45,"path":"scripts/generate_lesson5_audio.mjs","name":"generate_lesson5_audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد الصوتيات الخاصة بالدرس الخامس","mechanism":"يولد تسجيلات استبيان ظروف التكرار والمحادثات اليومية للدرس الخامس.","ext":".mjs"},{"id":46,"path":"scripts/generate_lessons5_6_elevenlabs.mjs","name":"generate_lessons5_6_elevenlabs.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدرسين 5 و 6 عبر ElevenLabs (Node.js)","mechanism":"ينفذ عمليات توليد دفعية لصوتيات الدرسين الخامس والسادس وحفظها في المجلد العام.","ext":".mjs"},{"id":47,"path":"scripts/generate_lessons5_6_elevenlabs.py","name":"generate_lessons5_6_elevenlabs.py","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدرسين 5 و 6 عبر ElevenLabs (Python)","mechanism":"سكربت بايثون بديل لمعالجة الصوتيات وضغط جودتها لتناسب المتصفحات.","ext":".py"},{"id":48,"path":"scripts/generate_lessons7_9_elevenlabs.mjs","name":"generate_lessons7_9_elevenlabs.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدروس من 7 إلى 9 عبر ElevenLabs","mechanism":"يولد صوتيات قصة أحمد، رسالة كارين، والمفردات المرافقة للدروس من 7 إلى 9.","ext":".mjs"},{"id":49,"path":"scripts/generate_lessons8_10_elevenlabs.mjs","name":"generate_lessons8_10_elevenlabs.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوتيات الدروس من 8 إلى 10 عبر ElevenLabs","mechanism":"يولد المقاطع الصوتية النهائية لدروس الوحدة الأولى وقصة طائر السمامة.","ext":".mjs"},{"id":50,"path":"scripts/generate_missing_audio.mjs","name":"generate_missing_audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"فحص وتوليد أي ملفات صوتية مفقودة في المنهج","mechanism":"يقارن مسارات الصوت المطلوبة في البيانات بالملفات الموجودة فعلياً ويولد النواقص فورياً.","ext":".mjs"},{"id":51,"path":"scripts/generate_track18_rhyme.mjs","name":"generate_track18_rhyme.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد صوت قافية وأنشودة المسار 18","mechanism":"يولد التسجيل الصوتي الإيقاعي الخاص بقافية المسار 18 في كتاب الطالب.","ext":".mjs"},{"id":52,"path":"scripts/generate_unit2_audio.mjs","name":"generate_unit2_audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد المقاطع الصوتية الكاملة لدروس الوحدة الثانية","mechanism":"يولد صوتيات نصوص القراءة، الطقس، والشهور الخاصة بكافة دروس الوحدة الثانية.","ext":".mjs"},{"id":53,"path":"scripts/generate_unit3_audio.mjs","name":"generate_unit3_audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"توليد المقاطع الصوتية الكاملة لدروس الوحدة الثالثة","mechanism":"يولد التسجيلات الصوتية عالية الدقة لدروس الوحدة الثالثة العشرة.","ext":".mjs"},{"id":54,"path":"scripts/grammarData.mjs","name":"grammarData.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"بناء وتحويل بيانات القواعد إلى صيغة متوافقة مع المتصفح","mechanism":"يقوم بمعالجة وتنظيم بيانات القواعد النحوية لتسريع تحميلها في شاشات التطبيق.","ext":".mjs"},{"id":55,"path":"scripts/inspect_unit2_data.mjs","name":"inspect_unit2_data.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"فحص واختبار سلامة بنية بيانات الوحدة الثانية","mechanism":"يتأكد من اكتمال النصوص والمفردات والتمارين والصوتيات للوحدة الثانية بدون أي نقص.","ext":".mjs"},{"id":56,"path":"scripts/integrate_access_control.mjs","name":"integrate_access_control.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"دمج وتطبيق بوابات التحكم بالوصول على صفحات المنصة","mechanism":"يقوم بربط شاشات الدروس بالقفل السحابي والتحقق من اشتراك الطالب.","ext":".mjs"},{"id":57,"path":"scripts/link_unit2_audio.mjs","name":"link_unit2_audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"ربط مسارات الملفات الصوتية ببيانات دروس الوحدة الثانية","mechanism":"يطابق أسماء الملفات الصوتية المنشأة مع مصفوفات النصوص والتمارين للوحدة الثانية.","ext":".mjs"},{"id":58,"path":"scripts/link_unit3_audio.mjs","name":"link_unit3_audio.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"ربط مسارات الملفات الصوتية ببيانات دروس الوحدة الثالثة","mechanism":"يطابق الملفات الصوتية الخاصة بالوحدة الثالثة ويدمجها في مصفوفة بيانات الدروس.","ext":".mjs"},{"id":59,"path":"scripts/list_voices.py","name":"list_voices.py","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"استعراض قائمة أصوات الذكاء الاصطناعي المتاحة في حساب ElevenLabs","mechanism":"سكربت بايثون يستعلم عن معرفات الأصوات وخصائصها لاختيار الأصوات الأنسب لشخصيات المنهج.","ext":".py"},{"id":60,"path":"scripts/pack_clean_zip.mjs","name":"pack_clean_zip.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"حزم المشروع وتصديره في ملف مضغوط نظيف","mechanism":"يجمع الملفات الأساسية للمشروع متجاهلاً node_modules و dist لإنشاء نسخة احتياطية خفيفة.","ext":".mjs"},{"id":61,"path":"scripts/regenerate_without_antoni.mjs","name":"regenerate_without_antoni.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"إعادة توليد المقاطع الصوتية باستبدال نبرة صوت محددة","mechanism":"يفحص المقاطع الصوتية ويعيد توليد التسجيلات بنبرة صوتية بديلة لتحسين جودة النطق.","ext":".mjs"},{"id":62,"path":"scripts/restore_clean_utf8.mjs","name":"restore_clean_utf8.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"استعادة ومعالجة النصوص المعطوبة بسبب مشاكل الترميز","mechanism":"يصلح الحروف العربية المشوهة ويعيدها إلى ترميز UTF-8 القياسي النقي.","ext":".mjs"},{"id":63,"path":"scripts/scan_mojibake.mjs","name":"scan_mojibake.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"فحص واكتشاف الحروف المشوهة (Mojibake) في ملفات المشروع","mechanism":"يقوم بعمل مسح شامل لجميع الملفات بحثاً عن رموز غريبة متبقية من أخطاء التحويل القديمة.","ext":".mjs"},{"id":64,"path":"scripts/slice_all_lessons_images.mjs","name":"slice_all_lessons_images.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تقطيع ومعالجة صور الدروس من كتاب الطالب الممسوح ضوئياً","mechanism":"يحدد إحداثيات كل تمرين وفقرة ويقطع الصور بدقة متناهية لربطها بشاشات التمارين.","ext":".mjs"},{"id":65,"path":"scripts/slice_lesson.ps1","name":"slice_lesson.ps1","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"سكربت PowerShell لتقطيع ومعالجة صور الدرس بدقة عبر ImageMagick","mechanism":"ينفذ أوامر تقطيع وتحسين جودة الصور وضبط التباين لصفحات كتاب الطالب عبر بيئة PowerShell.","ext":".ps1"},{"id":66,"path":"scripts/slice_unit3_grid.mjs","name":"slice_unit3_grid.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تقطيع شبكة صور ورسومات الوحدة الثالثة","mechanism":"يقطع الصور التوضيحية لدروس الوحدة الثالثة ويحفظها في مجلد الصور العام.","ext":".mjs"},{"id":67,"path":"scripts/student_book_pages.json","name":"student_book_pages.json","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"ملف مرجعي لربط أرقام صفحات كتاب الطالب بنصوص الدروس","mechanism":"يحتوي على فهرس شامل بأرقام الصفحات الرسمية لكتاب الطالب وروابط الصور الخاصة بكل صفحة.","ext":".json"},{"id":68,"path":"scripts/test_decode.mjs","name":"test_decode.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"اختبار فك التشفير والترميز للنصوص العربية","mechanism":"يختبر دوال فك ترميز النصوص للتأكد من عرض الحروف العربية بشكل صحيح على المتصفح.","ext":".mjs"},{"id":69,"path":"scripts/test_poem.mjs","name":"test_poem.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"اختبار تشغيل وتزامن قصيدة الدرس التعليمية مع الصوت","mechanism":"يختبر تزامن أبيات القصيدة المكتوبة مع الصوت المسموع وسرعة التظليل.","ext":".mjs"},{"id":70,"path":"scripts/unit1Data.mjs","name":"unit1Data.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"معالجة وتصدير بيانات الوحدة الأولى","mechanism":"يقوم بتجميع وتجهيز نصوص وتمارين الوحدة الأولى للنشر المباشر.","ext":".mjs"},{"id":71,"path":"scripts/update_app_for_unit3.mjs","name":"update_app_for_unit3.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تحديث تطبيق الويب وإضافة روابط التنقل للوحدة الثالثة","mechanism":"يعدل واجهات اختيار الوحدات ويضيف الوحدة الثالثة في القائمة الرئيسية للتطبيق.","ext":".mjs"},{"id":72,"path":"scripts/update_firebase_config.mjs","name":"update_firebase_config.mjs","category":"15. سكربتات الأتمتة والتوليد والمعالجة (Scripts & Automation)","role":"تحديث مفاتيح وإعدادات الاتصال بمشروع Firebase","mechanism":"يحدث إعدادات الاتصال السحابي وبيانات الاعتماد لمزامنة المنصة مع خوادم Firebase.","ext":".mjs"},{"id":73,"path":"src/App.tsx","name":"App.tsx","category":"2. النواة والموجّه الرئيسي للمنصة (Core App & Navigation)","role":"المكون الجذري والموجه الرئيسي لواجهات المنصة","mechanism":"يدير التنقل بين الوحدات (1، 2، 3)، والتبديل بين شاشات الدروس، القواعد، الاختبارات، ولوحة تحكم المعلم، مع تطبيق قيود المصادقة والتفعيل.","ext":".tsx"},{"id":74,"path":"src/index.css","name":"index.css","category":"2. النواة والموجّه الرئيسي للمنصة (Core App & Navigation)","role":"ملف التنسيقات العامة والأنماط البصرية للتطبيق","mechanism":"يعرف توجيهات Tailwind CSS v4، والخطوط العربية، وتأثيرات التمرير الناعم، والحركات والانتقالات وتنسيق الاتجاه من اليمين إلى اليسار (RTL).","ext":".css"},{"id":75,"path":"src/main.tsx","name":"main.tsx","category":"2. النواة والموجّه الرئيسي للمنصة (Core App & Navigation)","role":"نقطة الانطلاق البرمجية لربط React بشجرة DOM","mechanism":"يقوم بعمل ReactDOM.createRoot وربط المكون الأساسي App بعنصر root في الصفحة مع تفعيل وضع StrictMode.","ext":".tsx"},{"id":76,"path":"src/components/AudioTranscriptPlayer.tsx","name":"AudioTranscriptPlayer.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"مشغل تفاعلي لربط الصوت المسموع بالنصوص والترجمة الفورية","mechanism":"يتتبع التوقيت بالمللي ثانية ويقوم بتظليل السطر المقروء حالياً تلقائياً مع توفير زر لإظهار أو إخفاء الترجمة العربية.","ext":".tsx"},{"id":77,"path":"src/components/CharacterAvatar.tsx","name":"CharacterAvatar.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"عرض الأفاتار وصور شخصيات المنهج التعليمي","mechanism":"يستقبل اسم الشخصية (أحمد، سارة، باسم...) ويعرض الصورة الكرتونية المناسبة مع مؤشر صوتي عند تحدث الشخصية.","ext":".tsx"},{"id":78,"path":"src/components/FourSeasonsShowcase.tsx","name":"FourSeasonsShowcase.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"معرض بصري تفاعلي لفصول السنة الأربعة باللغة الإنجليزية","mechanism":"يعرض بطاقات مصورة للطقس والمواسم (Winter, Spring, Summer, Autumn) مع نطق صوتي للكلمات والصفات المصاحبة.","ext":".tsx"},{"id":79,"path":"src/components/Header.tsx","name":"Header.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"شريط الرأس العلوي الثابت للمنصة","mechanism":"يعرض شعار المنصة، وحالة كود تفعيل الطالب، وزر الوصول السريع للدروس، وزر تسجيل الخروج أو دخول لوحة المعلم.","ext":".tsx"},{"id":80,"path":"src/components/HolidayActivitiesShowcase.tsx","name":"HolidayActivitiesShowcase.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"معرض الأنشطة الترفيهية والعطلات للدرس الأول","mechanism":"يقدم بطاقات تفاعلية مصورة لأنشطة الإجازة مع إمكانية الاستماع للنطق والتعرف على المعاني العربية.","ext":".tsx"},{"id":81,"path":"src/components/IraqLandmarksShowcase.tsx","name":"IraqLandmarksShowcase.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"معرض المعالم العراقية التاريخية (ملوية سامراء، أور، شط العرب)","mechanism":"يعرض معلومات وصور عن معالم العراق باللغة الإنجليزية كما وردت في كتاب الطالب، مع ملفات صوتية شارحة وترجمة.","ext":".tsx"},{"id":82,"path":"src/components/LessonGridSelector.tsx","name":"LessonGridSelector.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"شبكة اختيار وتصفح الدروس العشرة للوحدة المحددة","mechanism":"تعرض بطاقات الدروس مع عناوينها ومؤشرات الإكمال، وتتيح للطالب النقر للدخول المباشر إلى الدرس المختار.","ext":".tsx"},{"id":83,"path":"src/components/UnitSelector.tsx","name":"UnitSelector.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"شريط التبديل بين الوحدات الدراسية (الوحدة الأولى، الثانية، الثالثة)","mechanism":"يغير الوحدة النشطة في سياق التطبيق مع حفظ الاختيار محلياً لتحديث شاشات الدروس والقواعد التابعة لتلك الوحدة فورياً.","ext":".tsx"},{"id":84,"path":"src/components/curriculum/CurriculumDetailView.tsx","name":"CurriculumDetailView.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"عرض محتوى الدرس التفاعلي من كتاب الطالب (Student Book)","mechanism":"يعرض النصوص الأصلية للدرس مع مشغل الصوت المتزامن ومربعات المفردات البصرية وأزرار إظهار الترجمة.","ext":".tsx"},{"id":85,"path":"src/components/showcases/Unit1LessonShowcase.tsx","name":"Unit1LessonShowcase.tsx","category":"3. مكونات الواجهة العامة والمعارض البصرية (General UI & Showcases)","role":"العرض البصري التفاعلي لدروس الوحدة الأولى المميزة","mechanism":"يعرض شرائح تفاعلية تسلط الضوء على الشخصيات والمفردات والأنشطة الخاصة بالوحدة الأولى بطريقة مشوقة.","ext":".tsx"},{"id":86,"path":"src/components/admin/TeacherAuthCard.tsx","name":"TeacherAuthCard.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"بطاقة تسجيل دخول المعلم وحماية لوحة الإدارة","mechanism":"تستقبل رمز PIN للمعلم وتتحقق منه مع إظهار تنبيهات أمنية وحماية الجلسة من الاختراق.","ext":".tsx"},{"id":87,"path":"src/components/admin/TeacherDashboardPage.tsx","name":"TeacherDashboardPage.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"الصفحة الرئيسية الحاضنة للوحة تحكم المعلم بكل أقسامها","mechanism":"تدير الحالة العامة للوحة التحكم، التنقل بين التبويبات (الأكواد، الامتحانات، الاشتراكات، الإحصائيات) وجلب البيانات سحابياً.","ext":".tsx"},{"id":88,"path":"src/components/admin/curriculum/CurriculumLocksManager.tsx","name":"CurriculumLocksManager.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"مدير أقفال الدروس والوحدات المدرسية","mechanism":"يمكن المعلم من قفل أو فتح دروس أو وحدات معينة أمام الطلاب للتحكم في وتيرة التقدم الدراسي وفق الخطة السنوية.","ext":".tsx"},{"id":89,"path":"src/components/admin/exam/ExamSourceCascader.tsx","name":"ExamSourceCascader.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"محدد مصدر أسئلة الاختبار الهرمي (وحدة -> درس -> نوع السؤال)","mechanism":"يتيح للمعلم اختيار الوحدات والدروس المستهدفة لتوليد أسئلة الاختبار منها بنقرات متسلسلة سلسة.","ext":".tsx"},{"id":90,"path":"src/components/admin/header/TeacherHeader.tsx","name":"TeacherHeader.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"شريط رأس لوحة تحكم المعلم","mechanism":"يعرض اسم المعلم، حالة الاتصال السحابي، أزرار التحديث السريع للبيانات، وزر تسجيل الخروج والعودة للتطبيق.","ext":".tsx"},{"id":91,"path":"src/components/admin/modals/AbsenteeNoticeModal.tsx","name":"AbsenteeNoticeModal.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"نافذة إشعار وتبليغ الطلاب الغائبين عن الاختبار","mechanism":"تجمع قائمة الطلاب الذين لم يسلموا إجابات الامتحان وتتيح نسخ رسالة إشعار رسمية لأولياء الأمور أو طباعتها.","ext":".tsx"},{"id":92,"path":"src/components/admin/modals/PdfReportModal.tsx","name":"PdfReportModal.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"نافذة إنشاء وتصدير تقارير درجات الطلاب بصيغة PDF","mechanism":"تنسق كشوفات الدرجات وأسماء الطلاب في جداول جاهزة للطباعة والتصدير المباشر بصيغة PDF أو الطباعة الورقية.","ext":".tsx"},{"id":93,"path":"src/components/admin/modals/StudentHistoryModal.tsx","name":"StudentHistoryModal.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"نافذة استعراض السجل التفصيلي لامتحانات طالب محدد","mechanism":"تستعرض كافة محاولات الطالب وتواريخ الدخول ودرجاته في كل اختبار خاضه داخل المنصة.","ext":".tsx"},{"id":94,"path":"src/components/admin/navigation/DashboardTabsNav.tsx","name":"DashboardTabsNav.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"شريط التبويبات الرئيسي للتنقل داخل لوحة تحكم المعلم","mechanism":"يتيح الانتقال بين (النتائج، صانع الاختبارات، أقفال المنهج، توليد الاشتراكات، وإحصائيات الطلاب).","ext":".tsx"},{"id":95,"path":"src/components/admin/overview/DashboardOverviewMetrics.tsx","name":"DashboardOverviewMetrics.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"بطاقات المؤشرات الرقمية العامة للوحة الإدارة","mechanism":"تعرض إجمالي عدد الطلاب المسجلين، نسبة النجاح العامة، عدد الطلاب الغائبين، وعدد الاختبارات المنجزة.","ext":".tsx"},{"id":96,"path":"src/components/admin/tabs/AnalyticsTab.tsx","name":"AnalyticsTab.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"تبويب التحليلات والإحصائيات التراكمية لأداء الفصول الدراسية","mechanism":"يحلل متوسطات الدرجات ونسب الإتقان في كل مهارة ويعرض رسوماً بيانية توضح مستوى الاستيعاب العام.","ext":".tsx"},{"id":97,"path":"src/components/admin/tabs/CodesTab.tsx","name":"CodesTab.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"تبويب إدارة ومراقبة أكواد تفعيل الطلاب","mechanism":"يستعرض الأكواد النشطة، والمستخدمة، والملغاة، مع إمكانية نسخ الكود، إعادة تعيينه، أو حظره فورياً.","ext":".tsx"},{"id":98,"path":"src/components/admin/tabs/CurriculumLocksTab.tsx","name":"CurriculumLocksTab.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"تبويب التحكم في إتاحة وإغلاق محتوى المنهج الدراسي","mechanism":"يحتضن مدير الأقفال ويتيح تفعيل القفل الشامل أو الجزئي على مستوى كل درس بنقرة واحدة.","ext":".tsx"},{"id":99,"path":"src/components/admin/tabs/ExamBuilderTab.tsx","name":"ExamBuilderTab.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"تبويب صانع ومولد الامتحانات والاختبارات المدرسية","mechanism":"يمكن المعلم من تخصيص وقت الامتحان، عدد الأسئلة، درجة النجاح، وخلط الأسئلة عشوائياً ونشر الامتحان للطلاب.","ext":".tsx"},{"id":100,"path":"src/components/admin/tabs/ExamResultsTab.tsx","name":"ExamResultsTab.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"تبويب كشوفات نتائج وتسليمات امتحانات الطلاب","mechanism":"يعرض جداول فورية للطلاب الذين أتموا الامتحان ودرجاتهم، والطلاب المسجلين الذين لم يبدأوا بعد.","ext":".tsx"},{"id":101,"path":"src/components/admin/tabs/SubscriptionsTab.tsx","name":"SubscriptionsTab.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"تبويب إدارة باقات واشتراكات الطلاب وتوليد الأكواد الجديدة","mechanism":"يتيح إنشاء اشتراك جديد (أسبوعي، شهري، سنوي، كامل) وربطه ببيانات الطالب وتوليد كود تفعيل فريد.","ext":".tsx"},{"id":102,"path":"src/components/admin/tabs/results/AbsentStudentsTable.tsx","name":"AbsentStudentsTable.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"جدول حصر الطلاب الغائبين عن تسليم الامتحان","mechanism":"يقارن بين الطلاب المسجلين والمسلمين للإجابات ويعرض قائمة بأسماء الغائبين وشعبهم للتواصل معهم.","ext":".tsx"},{"id":103,"path":"src/components/admin/tabs/results/RegisteredStudentsTable.tsx","name":"RegisteredStudentsTable.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"جدول كافة الطلاب المسجلين في الفصل الدراسي","mechanism":"يعرض الاسم الكامل، الشعبة، المحافظة، المدرسة، وتاريخ آخر ظهور وتفاعل على المنصة.","ext":".tsx"},{"id":104,"path":"src/components/admin/tabs/results/ResultsStatsCards.tsx","name":"ResultsStatsCards.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"بطاقات الإحصائيات الفورية لنتائج الاختبار الحالي","mechanism":"تحسب فورياً أعلى درجة، أدنى درجة، المتوسط الحسابي، ونسبة الإكمال للامتحان الجاري.","ext":".tsx"},{"id":105,"path":"src/components/admin/tabs/results/SubmittedStudentsTable.tsx","name":"SubmittedStudentsTable.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"جدول تسليمات الطلاب الذين أنهوا الاختبار بنجاح","mechanism":"يعرض أسماء المسلمين، وقت التسليم بالدقيقة، والدرجة النهائية، مع زر لعرض الإجابات التفصيلية للطالب.","ext":".tsx"},{"id":106,"path":"src/components/admin/tabs/subscriptions/GenerateSubscriptionForm.tsx","name":"GenerateSubscriptionForm.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"نموذج توليد اشتراك جديد وكود تفعيل مخصص","mechanism":"يستقبل اسم الطالب، مدة الصلاحية، ونوع الباقة (مجانية، تجريبية، مدفوعة)، ويولد كوداً فورياً مع زر نسخ سريع.","ext":".tsx"},{"id":107,"path":"src/components/admin/tabs/subscriptions/SubscriptionRowItem.tsx","name":"SubscriptionRowItem.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"عنصر سطر الاشتراك الفردي في جدول الاشتراكات","mechanism":"يعرض كود الاشتراك، اسم الطالب، الجهاز المقترن، تاريخ البدء والانتهاء، وأزرار التجديد أو الحذف.","ext":".tsx"},{"id":108,"path":"src/components/admin/tabs/subscriptions/SubscriptionStatsCards.tsx","name":"SubscriptionStatsCards.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"بطاقات إحصائيات حالة الاشتراكات العامة","mechanism":"تعرض إجمالي الأكواد المولدة، الاشتراكات المفعلة حالياً، والاشتراكات المنتهية الصلاحية.","ext":".tsx"},{"id":109,"path":"src/components/admin/tabs/subscriptions/SubscriptionsList.tsx","name":"SubscriptionsList.tsx","category":"8. لوحة تحكم المعلم وإدارة المنصة (Teacher Admin Dashboard)","role":"قائمة وعارض الاشتراكات مع خاصية البحث والفلترة","mechanism":"تتيح البحث بالاسم أو الكود، وفلترة الاشتراكات حسب الحالة (نشط، منتهي، معلق).","ext":".tsx"},{"id":110,"path":"src/components/audio/AudioPlayerControls.tsx","name":"AudioPlayerControls.tsx","category":"4. مشغلات الصوت والمزامنة الفورية (Audio & Transcripts)","role":"أزرار التحكم بمشغل الصوت (تشغيل، إيقاف، تسريع، شريط التقدم)","mechanism":"تتحكم في حالة عنصر Audio، وتوفر إمكانية القفز للوقت المحدد وتعديل مستوى الصوت وسرعة القراءة.","ext":".tsx"},{"id":111,"path":"src/components/audio/TranscriptLineItem.tsx","name":"TranscriptLineItem.tsx","category":"4. مشغلات الصوت والمزامنة الفورية (Audio & Transcripts)","role":"عنصر سطر المحادثة أو النص المتزامن مع الصوت","mechanism":"يبرز النص الإنجليزي عند وصول الصوت إليه، مع إمكانية النقر لإعادة قراءة هذا السطر منفرداً وعرض ترجمته العربية.","ext":".tsx"},{"id":112,"path":"src/components/audio/types.ts","name":"types.ts","category":"4. مشغلات الصوت والمزامنة الفورية (Audio & Transcripts)","role":"تعريف الواجهات البرمجية الخاصة بالمقاطع الصوتية والتزامن","mechanism":"يحدد بنية بيانات Track و TranscriptSegment و WordCue مع أوقات البداية والنهاية والنصوص.","ext":".ts"},{"id":113,"path":"src/components/auth/MaintenanceScreen.tsx","name":"MaintenanceScreen.tsx","category":"5. بوابات المصادقة والدخول والأمان (Authentication & Security)","role":"شاشة وضع الصيانة عند إيقاف المنصة مؤقتاً","mechanism":"تفحص حالة الخادم عبر Firebase، وإذا كان وضع الصيانة مفعلاً تمنع دخول الطلاب وتعرض رسالة توضيحية مع وقت العودة.","ext":".tsx"},{"id":114,"path":"src/components/auth/StudentCodeVerificationForm.tsx","name":"StudentCodeVerificationForm.tsx","category":"5. بوابات المصادقة والدخول والأمان (Authentication & Security)","role":"نموذج إدخال كود التفعيل الممنوح للطالب من المعلم","mechanism":"يقوم بالتحقق من صحة وصلاحية الكود في Firestore وقفل الكود على جهاز الطالب، وتخزينه محلياً لتخطي الدخول لاحقاً.","ext":".tsx"},{"id":115,"path":"src/components/auth/StudentLoginScreen.tsx","name":"StudentLoginScreen.tsx","category":"5. بوابات المصادقة والدخول والأمان (Authentication & Security)","role":"الشاشة الرئيسية لتسجيل وتفعيل دخول الطلاب","mechanism":"توفر واجهة ترحيبية تجمع بين إدخال كود التفعيل أو الانتقال لملء بيانات الملف الشخصي للطالب.","ext":".tsx"},{"id":116,"path":"src/components/auth/StudentProfileRegistrationForm.tsx","name":"StudentProfileRegistrationForm.tsx","category":"5. بوابات المصادقة والدخول والأمان (Authentication & Security)","role":"نموذج تسجيل بيانات الطالب (الاسم الكامل، المحافظة، المدرسة)","mechanism":"يربط بيانات الطالب الشخصية بكود التفعيل الخاص به ويخزنها في قاعدة البيانات السحابية لظهورها في كشوفات المعلم.","ext":".tsx"},{"id":117,"path":"src/components/auth/TeacherPinForm.tsx","name":"TeacherPinForm.tsx","category":"5. بوابات المصادقة والدخول والأمان (Authentication & Security)","role":"نموذج إدخال الرمز السري (PIN) الخاص بدخول المعلم","mechanism":"يتحقق من كود الحماية الخاص بالمعلم ويمنحه جلسة معتمدة للوصول الكامل إلى لوحة الإدارة وتوليد الاشتراكات.","ext":".tsx"},{"id":118,"path":"src/components/auth/constants.ts","name":"constants.ts","category":"5. بوابات المصادقة والدخول والأمان (Authentication & Security)","role":"ثوابت نظام المصادقة والتحقق","mechanism":"يحتوي على أطوال الأكواد القياسية، مدد الجلسات، ورسائل الخطأ النموذجية لإدخال الأكواد.","ext":".ts"},{"id":119,"path":"src/components/exam/ExamQuestionsForm.tsx","name":"ExamQuestionsForm.tsx","category":"6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)","role":"نموذج عرض الأسئلة الامتحانية واستقبال إجابات الطالب","mechanism":"يعرض الأسئلة بأسلوب الاختيار من متعدد، وتوصيل المفردات، وملء الفراغات، ويسجل اختيارات الطالب لحظة بلحظة.","ext":".tsx"},{"id":120,"path":"src/components/exam/ExamResultCard.tsx","name":"ExamResultCard.tsx","category":"6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)","role":"بطاقة عرض نتيجة الاختبار والدرجة النهائية والتقييم","mechanism":"تحسب الدرجة المئوية، وتعرض شارات التميز وتفصيل الإجابات الصحيحة والخاطئة مع تصحيح نموذجي.","ext":".tsx"},{"id":121,"path":"src/components/exam/ExamTimerBanners.tsx","name":"ExamTimerBanners.tsx","category":"6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)","role":"شريط العداد التنازلي للوقت المتبقي في الامتحان","mechanism":"يصدر تنبيهات بصرية وصوتية عند اقتراب انتهاء الوقت وينهي الامتحان ويسلم الإجابات تلقائياً عند وصول العداد لصفر.","ext":".tsx"},{"id":122,"path":"src/components/exam/MandatoryExamOverlay.tsx","name":"MandatoryExamOverlay.tsx","category":"6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)","role":"طبقة إجبارية تمنع الطالب من التصفح إذا فُرض عليه امتحان إلزامي","mechanism":"تفحص إعدادات المعلم؛ وإذا كان هناك امتحان معمم على الطلاب، تجبر الطالب على خوض الامتحان قبل إتاحة بقية المنصة.","ext":".tsx"},{"id":123,"path":"src/components/exam/StudentGradesHistoryModal.tsx","name":"StudentGradesHistoryModal.tsx","category":"6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)","role":"نافذة منبثقة لسجل درجات الطالب السابقة ومخطط تقدمه","mechanism":"تستعرض أرشيف الاختبارات التي خاضها الطالب مع التواريخ والدرجات ونسب النجاح لمراقبة التطور الدراسي.","ext":".tsx"},{"id":124,"path":"src/components/exam/StudentGradesPage.tsx","name":"StudentGradesPage.tsx","category":"6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)","role":"صفحة درجات الطالب وتقارير الأداء الأكاديمي","mechanism":"تعرض تفاصيل تفوق الطالب في كل مهارة (قواعد، مفردات، استيعاب قرائي، صوتيات) مع إمكانية طباعة أو حفظ التقرير.","ext":".tsx"},{"id":125,"path":"src/components/exam/StudentQuickExamModal.tsx","name":"StudentQuickExamModal.tsx","category":"6. نظام الامتحانات والتقييم والاختبارات (Exam & Assessments)","role":"نافذة الامتحان السريع للتقييم الفوري بعد كل درس","mechanism":"تولد اختباراً سريعاً من 5 إلى 10 أسئلة مأخوذة مباشرة من درس اليوم للتحقق من الفهم الفوري وإعطاء تغذية راجعة سريعة.","ext":".tsx"},{"id":126,"path":"src/components/exercises/GenericLessonExercises.tsx","name":"GenericLessonExercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون الحاوي للتمارين العامة للدروس التي لا تتطلب قالباً خاصاً","mechanism":"يقرأ بيانات التمارين ويعرض الأسئلة تفاعلياً مع التحقق الفوري من صحة إجابات الطالب وتخزين تقدمه.","ext":".tsx"},{"id":127,"path":"src/components/exercises/Lesson10Exercises.tsx","name":"Lesson10Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس العاشر للوحدة الأولى","mechanism":"يجمع كافة تمارين كتاب النشاط الخاصة بالدرس العاشر (قصة وقت القصة) في شاشة واحدة متناسقة.","ext":".tsx"},{"id":128,"path":"src/components/exercises/Lesson1Exercises.tsx","name":"Lesson1Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس الأول للوحدة الأولى","mechanism":"يدير تمارين أنشطة العطلات والمفردات الجديدة الخاصة بالدرس الأول مع التقييم الذاتي.","ext":".tsx"},{"id":129,"path":"src/components/exercises/Lesson2Exercises.tsx","name":"Lesson2Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس الثاني للوحدة الأولى","mechanism":"يدير تمارين الماضي المستمر وأوصاف الشخصيات والمحادثات للدرس الثاني.","ext":".tsx"},{"id":130,"path":"src/components/exercises/Lesson3Exercises.tsx","name":"Lesson3Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس الثالث للوحدة الأولى","mechanism":"يدير تمارين الأفعال الشاذة والماضي البسيط وقصة ريتشارد للدرس الثالث.","ext":".tsx"},{"id":131,"path":"src/components/exercises/Lesson4Exercises.tsx","name":"Lesson4Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس الرابع للوحدة الأولى","mechanism":"يدير تمارين الضمائر وسجل القصاصات والهوايات للدرس الرابع.","ext":".tsx"},{"id":132,"path":"src/components/exercises/Lesson5Exercises.tsx","name":"Lesson5Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس الخامس للوحدة الأولى","mechanism":"يدير تمارين استبيان ظروف التكرار وتركيب الجمل للدرس الخامس.","ext":".tsx"},{"id":133,"path":"src/components/exercises/Lesson6Exercises.tsx","name":"Lesson6Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس السادس للوحدة الأولى","mechanism":"يدير تمارين المراسلة، الحوارات الثنائية، وتصنيف الأصوات للدرس السادس.","ext":".tsx"},{"id":134,"path":"src/components/exercises/Lesson7Exercises.tsx","name":"Lesson7Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس السابع للوحدة الأولى","mechanism":"يدير تمارين استيعاب قصة أحمد، تدوين الملاحظات، والمقابلة للدرس السابع.","ext":".tsx"},{"id":135,"path":"src/components/exercises/Lesson8Exercises.tsx","name":"Lesson8Exercises.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"المكون التجميعي لتمارين الدرس الثامن للوحدة الأولى","mechanism":"يدير تمارين استيعاب رسالة كارين وكتابة الرسالة النموذجية للدرس الثامن.","ext":".tsx"},{"id":136,"path":"src/components/exercises/lesson10/SwiftComprehensionQuestions.tsx","name":"SwiftComprehensionQuestions.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"أسئلة فهم واستيعاب قصة طائر السمامة (The Swift)","mechanism":"تستقبل إجابات الطالب على أسئلة القصة وتفحص دقتها مع تقديم التغذية الراجعة الفورية.","ext":".tsx"},{"id":137,"path":"src/components/exercises/lesson10/SwiftStoryElements.tsx","name":"SwiftStoryElements.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين استخراج عناصر القصة الأدبية (Story Elements)","mechanism":"يتيح للطالب تحديد العنوان، الشخصيات، المغزى، والأحداث الرئيسية لقصة طائر السمامة.","ext":".tsx"},{"id":138,"path":"src/components/exercises/lesson10/SwiftTrueFalse.tsx","name":"SwiftTrueFalse.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين صح أو خطأ (True or False) لقصة طائر السمامة","mechanism":"يعرض عبارات دقيقة عن حياة وسلوك الطائر في القصة ويفحص اختيار الطالب فورياً.","ext":".tsx"},{"id":139,"path":"src/components/exercises/lesson10/SwiftVocabularyMatch.tsx","name":"SwiftVocabularyMatch.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين مطابقة المفردات الجديدة لقصة طائر السمامة","mechanism":"يوصل بين المفردات الإنجليزية الصعبة ومعانيها وتعاريفها المعتمدة في المنهج.","ext":".tsx"},{"id":140,"path":"src/components/exercises/lesson2/Exercise1Descriptions.tsx","name":"Exercise1Descriptions.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين ربط أوصاف الشخصيات بالصور المناسبة","mechanism":"يقدم بطاقات وصفية لشخصيات الدرس ويطلب من الطالب مطابقتها مع صور الأنشطة.","ext":".tsx"},{"id":141,"path":"src/components/exercises/lesson2/Exercise3WordMatches.tsx","name":"Exercise3WordMatches.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين مطابقة الكلمات والتعابير الاصطلاحية للدرس الثاني","mechanism":"يعتمد أسلوب التوصيل التفاعلي بين أطراف الكلمات لتركيب تعابير متكاملة.","ext":".tsx"},{"id":142,"path":"src/components/exercises/lesson2/Exercise4ScrambledSentences.tsx","name":"Exercise4ScrambledSentences.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين إعادة ترتيب الكلمات المشوشة لتكوين جمل الماضي المستمر","mechanism":"يتيح سحب الكلمات أو النقر عليها بالترتيب الصحيح لتكوين جملة صحيحة قواعدياً.","ext":".tsx"},{"id":143,"path":"src/components/exercises/lesson2/Exercise5SaraInterview.tsx","name":"Exercise5SaraInterview.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين أسئلة مقابلة سارة وتعبئة الفراغات","mechanism":"يعرض حوار المقابلة ويطلب من الطالب اختيار الكلمات المناسبة لإكمال ردود سارة.","ext":".tsx"},{"id":144,"path":"src/components/exercises/lesson2/ExerciseBPhotos.tsx","name":"ExerciseBPhotos.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين التعرف على صور العطلات وكتابة الأنشطة","mechanism":"يعرض صور الأنشطة الترفيهية ويطلب من الطالب كتابة أو اختيار الفعل والنشاط المناسب.","ext":".tsx"},{"id":145,"path":"src/components/exercises/lesson3/Exercise1VerbsTable.tsx","name":"Exercise1VerbsTable.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"جدول تصريف الأفعال الشاذة والقياسية في الماضي البسيط","mechanism":"يطلب من الطالب إدخال تصريف الماضي للأفعال المعطاة مع التحقق من صحة الإملاء.","ext":".tsx"},{"id":146,"path":"src/components/exercises/lesson3/Exercise4Wordsearch.tsx","name":"Exercise4Wordsearch.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"لعبة شبكة الكلمات المتقاطعة والبحث عن الأفعال","mechanism":"شبكة حروف تفاعلية يبحث فيها الطالب عن تصاريف الأفعال في الماضي أفقياً وعمودياً.","ext":".tsx"},{"id":147,"path":"src/components/exercises/lesson3/Exercise5RichardStory.tsx","name":"Exercise5RichardStory.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين قراءة قصة ريتشارد في العراق وإكمال الفراغات","mechanism":"يقدم نص القصة مع فراغات تتطلب وضع الفعل الصحيح في زمن الماضي البسيط.","ext":".tsx"},{"id":148,"path":"src/components/exercises/lesson3/Exercise7Adjectives.tsx","name":"Exercise7Adjectives.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين استخدام الصفات الوصفية الإيجابية والسلبية","mechanism":"يدرب الطالب على توظيف صفات مثل (fantastic, boring, delicious, terrible) في سياقها الصحيح.","ext":".tsx"},{"id":149,"path":"src/components/exercises/lesson3/ExerciseASBQuestions.tsx","name":"ExerciseASBQuestions.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين أسئلة كتاب الطالب التفاعلية للدرس الثالث","mechanism":"يعرض أسئلة الفهم لكتاب الطالب ويتحقق من إجابات الطالب النموذجية.","ext":".tsx"},{"id":150,"path":"src/components/exercises/lesson3/ExerciseBActionTypes.tsx","name":"ExerciseBActionTypes.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين تصنيف أنواع الأحداث والأفعال","mechanism":"يقسم الأفعال إلى أحداث سريعة وأحداث مستمرة لتمييز استخدام الماضي البسيط عن المستمر.","ext":".tsx"},{"id":151,"path":"src/components/exercises/lesson4/Exercise1Pronouns.tsx","name":"Exercise1Pronouns.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين اختيار ضمائر وصفات التملك الصحيحة","mechanism":"يعرض جملاً تتطلب التمييز بين صفة التملك (my) وضمير التملك (mine) وفق موقع الفراغ.","ext":".tsx"},{"id":152,"path":"src/components/exercises/lesson4/Exercise2InterestsGerunds.tsx","name":"Exercise2InterestsGerunds.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين صيغ الأفعال المنتهية بـ ing بعد أفعال الرغبة","mechanism":"يدرب الطالب على إضافة ing للأفعال بعد (enjoy, like, interested in) مع ضبط الإملاء.","ext":".tsx"},{"id":153,"path":"src/components/exercises/lesson4/Exercise3HobbiesReading.tsx","name":"Exercise3HobbiesReading.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين قراءة نصوص الهوايات واستخراج المعلومات","mechanism":"يعرض نصوصاً قصيرة عن هوايات الطلاب ويطرح أسئلة استخراجية محددة.","ext":".tsx"},{"id":154,"path":"src/components/exercises/lesson4/Exercise4WritingParagraph.tsx","name":"Exercise4WritingParagraph.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين توجيهي لكتابة فقرة تعبيرية عن الهواية المفضلة","mechanism":"يقدم للطالب مخططاً ونموذجاً استرشادياً لكتابة موضوع الإنشاء مع معايير التقييم.","ext":".tsx"},{"id":155,"path":"src/components/exercises/lesson4/ExerciseAScrapbookMatch.tsx","name":"ExerciseAScrapbookMatch.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين مطابقة صور سجل القصاصات (Scrapbook)","mechanism":"يوصل بين صور الهوايات والملصقات مع أصحابها من شخصيات المنهج.","ext":".tsx"},{"id":156,"path":"src/components/exercises/lesson5/Exercise1FrequencySurvey.tsx","name":"Exercise1FrequencySurvey.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"استبيان ظروف التكرار والأنشطة اليومية","mechanism":"استبيان تفاعلي يسجل فيه الطالب نسب تكرار أنشطته اليومية باستخدام (always, often, never).","ext":".tsx"},{"id":157,"path":"src/components/exercises/lesson5/Exercise2PartnerGame.tsx","name":"Exercise2PartnerGame.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"لعبة محادثة الزميل باستخدام ظروف التكرار","mechanism":"يوفر بطاقات أسئلة وأجوبة تفاعلية لتبادل الأدوار والمحادثة في الفصل.","ext":".tsx"},{"id":158,"path":"src/components/exercises/lesson5/Exercise3AdverbsSentences.tsx","name":"Exercise3AdverbsSentences.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين وضع ظروف التكرار في موضعها الصحيح بالجملة","mechanism":"يدرب الطالب على وضع ظرف التكرار قبل الفعل الرئيسي أو بعد أفعال الكينونة (be).","ext":".tsx"},{"id":159,"path":"src/components/exercises/lesson5/Exercise4FiveSentencesWriting.tsx","name":"Exercise4FiveSentencesWriting.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين كتابة 5 جمل تعبر عن الروتين اليومي","mechanism":"حقول إدخال موجهة لكتابة جمل حقيقية عن روتين الطالب مع فحص أوتوماتيكي لتركيب الجملة.","ext":".tsx"},{"id":160,"path":"src/components/exercises/lesson6/Exercise1ComprehensionQuestions.tsx","name":"Exercise1ComprehensionQuestions.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"أسئلة استيعاب وفهم نص المراسلة والبطاقات البريدية","mechanism":"تطرح أسئلة عن أصول الرسائل وأصحابها مع التحقق الفوري من الإجابات النموذجية.","ext":".tsx"},{"id":161,"path":"src/components/exercises/lesson6/Exercise2PartnerDialogue.tsx","name":"Exercise2PartnerDialogue.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين الحوار التفاعلي المتبادل للدرس السادس","mechanism":"حوار صوتي ونصي متدرج يساعد الطالب على التدرب على المحادثة باللغة الإنجليزية.","ext":".tsx"},{"id":162,"path":"src/components/exercises/lesson6/Exercise3SoundsSort.tsx","name":"Exercise3SoundsSort.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين تصنيف وفرز الأصوات ومخارج الحروف","mechanism":"يصنف الكلمات وفق صوت النهاية أو الحروف الصوتية مع نطق صوتي للمقارنة.","ext":".tsx"},{"id":163,"path":"src/components/exercises/lesson6/ExerciseADialogueMatch.tsx","name":"ExerciseADialogueMatch.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين توصيل جمل الحوار والمحادثة","mechanism":"يوصل بين الأسئلة المطروحة وإجاباتها المناسبة لإتمام سياق الحديث.","ext":".tsx"},{"id":164,"path":"src/components/exercises/lesson7/AhmedComprehensionQuestions.tsx","name":"AhmedComprehensionQuestions.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"أسئلة استيعاب قصة أحمد وعطلته في نيويورك","mechanism":"تطرح أسئلة دقيقة حول ما شاهده أحمد في عطلته وتفحص إجابة الطالب مباشرة.","ext":".tsx"},{"id":165,"path":"src/components/exercises/lesson7/AhmedStoryCardReader.tsx","name":"AhmedStoryCardReader.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"قارئ بطاقات قصة أحمد التفاعلي المصور","mechanism":"يعرض بطاقات القصة بالتتابع مع الاستماع للصوت والترجمة ومتابعة سير الأحداث.","ext":".tsx"},{"id":166,"path":"src/components/exercises/lesson7/ExerciseAActivitiesMatch.tsx","name":"ExerciseAActivitiesMatch.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين مطابقة أنشطة العطلة الخاصة بقصة أحمد","mechanism":"يوصل بين الأنشطة والأماكن التي زارها أحمد في القصة.","ext":".tsx"},{"id":167,"path":"src/components/exercises/lesson7/ExerciseCTrueFalse.tsx","name":"ExerciseCTrueFalse.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين صح أو خطأ لأحداث قصة أحمد","mechanism":"يختبر مدى دقة الطالب في تذكر تفاصيل رحلة أحمد وعائلته.","ext":".tsx"},{"id":168,"path":"src/components/exercises/lesson7/ExerciseDMakeNotes.tsx","name":"ExerciseDMakeNotes.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين تدوين الملاحظات ورؤوس الأقلام","mechanism":"يدرب الطالب على مهارة التلخيص وكتابة الكلمات المفتاحية للقصة.","ext":".tsx"},{"id":169,"path":"src/components/exercises/lesson7/ExerciseEPartnerInterview.tsx","name":"ExerciseEPartnerInterview.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين المقابلة مع الزميل حول العطلة الصيفية","mechanism":"نموذج أسئلة وأجوبة لإجراء مقابلة صفية بين طالبين حول تجارب الإجازة.","ext":".tsx"},{"id":170,"path":"src/components/exercises/lesson8/KarenComprehensionQuestions.tsx","name":"KarenComprehensionQuestions.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"أسئلة فهم واستيعاب رسالة كارين من أستراليا","mechanism":"تطرح أسئلة عن عائلة كارين، مدرستها، وهواياتها مع التحقق من الحل.","ext":".tsx"},{"id":171,"path":"src/components/exercises/lesson8/KarenLetterPlanning.tsx","name":"KarenLetterPlanning.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين التخطيط المسبق لكتابة رسالة رد إلى كارين","mechanism":"يساعد الطالب على تنظيم أفكاره وفق فقرات الرسالة القياسية (المقدمة، التفاصيل، الخاتمة).","ext":".tsx"},{"id":172,"path":"src/components/exercises/lesson8/KarenModelLetterComposition.tsx","name":"KarenModelLetterComposition.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين تركيب وإنشاء الرسالة النموذجية لكارين","mechanism":"يوفر قالباً تدريبياً لتجميع عبارات الرسالة مع مراعاة علامات الترقيم وقواعد الإملاء.","ext":".tsx"},{"id":173,"path":"src/components/exercises/lesson8/KarenQuestionsReconstruction.tsx","name":"KarenQuestionsReconstruction.tsx","category":"10. تمارين كتاب النشاط التفاعلية (Activity Book Exercises)","role":"تمرين إعادة بناء وتكوين الأسئلة الموجهة لكارين","mechanism":"يعيد ترتيب الكلمات لتكوين أسئلة استفسارية صحيحة عن أستراليا.","ext":".tsx"},{"id":174,"path":"src/components/grammar/GrammarTopicDetail.tsx","name":"GrammarTopicDetail.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"الشاشة العامة الرئيسية لعرض تفاصيل القاعدة النحوية المختارة","mechanism":"تستقبل معرف الموضوع النحوي وتدير التبديل بين تبويبات الإثبات، النفي، السؤال، النظرة العامة، والملاحظات الإملائية والامتحانية.","ext":".tsx"},{"id":175,"path":"src/components/grammar/GrammarTopicSelector.tsx","name":"GrammarTopicSelector.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شبكة اختيار وتصفح موضوعات القواعد النحوية للوحدة","mechanism":"تعرض بطاقات مواضيع القواعد (الماضي البسيط، المستمر، المضارع، التملك...) مع أيقونات دلالية ونبذة سريعة لتسهيل الاختيار.","ext":".tsx"},{"id":176,"path":"src/components/grammar/GrammarUnitSelector.tsx","name":"GrammarUnitSelector.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شريط التبديل بين قواعد الوحدات الدراسية (الوحدة 1، 2، 3)","mechanism":"يغير الوحدة المعروضة في قسم القواعد النحوية ويجلب قائمة المواضيع التابعة للوحدة المحددة فورياً.","ext":".tsx"},{"id":177,"path":"src/components/grammar/topic-detail/AffirmativeTab.tsx","name":"AffirmativeTab.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"تبويب صيغة الإثبات (Affirmative Form) للقاعدة النحوية","mechanism":"يعرض الصيغة العلوية كشرائح مدمجة، وأسفلها بطاقات توضيحية منفصلة للمفرد والجمع مع أمثلة مترجمة وأزرار استماع صوتي.","ext":".tsx"},{"id":178,"path":"src/components/grammar/topic-detail/ComparativesView.tsx","name":"ComparativesView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة درجات المقارنة والتفضيل (Comparatives & Superlatives)","mechanism":"تعرض قواعد إضافة er/est والكلمات الطويلة مع more/most والشواذ مع جداول مقارنة وتطبيقات امتحانية.","ext":".tsx"},{"id":179,"path":"src/components/grammar/topic-detail/ExamApplicationsList.tsx","name":"ExamApplicationsList.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"قائمة الصيغ الامتحانية المعتمدة للقاعدة النحوية","mechanism":"تستعرض نماذج الأسئلة الامتحانية (تصحيح الفعل، اختيارات، تحويل لنفي أو استفهام) مع توضيح الحل النموذجي والسبب.","ext":".tsx"},{"id":180,"path":"src/components/grammar/topic-detail/ExamPracticeTab.tsx","name":"ExamPracticeTab.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"تبويب التدريب الامتحاني التفاعلي للقاعدة","mechanism":"يتيح للطالب حل أسئلة تدريبية مباشرة على القاعدة مع تصحيح فوري وإظهار التلميحات عند الخطأ.","ext":".tsx"},{"id":181,"path":"src/components/grammar/topic-detail/HighlightedSentence.tsx","name":"HighlightedSentence.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"مكون تظليل وتمييز أركان الجملة الإنجليزية بالألوان","mechanism":"يميز الفاعل، الفعل المساعد، الفعل الرئيسي، والتكملة بألوان محددة لمساعدة الطالب على فهم تركيب الجملة بصرياً.","ext":".tsx"},{"id":182,"path":"src/components/grammar/topic-detail/InterestsView.tsx","name":"InterestsView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة التعبير عن الاهتمامات والهوايات (Interests & Gerunds)","mechanism":"تشرح قاعدة استخدام فعل + ing أو الاسم بعد أدوات التعبير (like, enjoy, interested in) مع بطاقات تفاعلية.","ext":".tsx"},{"id":183,"path":"src/components/grammar/topic-detail/JoiningSentencesView.tsx","name":"JoiningSentencesView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة أدوات الربط بين الجمل (Joining Words: and, but, because, or)","mechanism":"توضح وظيفة كل أداة ربط (الإضافة، التناقض، السبب، التخيير) مع أمثلة تفاعلية وجمل مقارنة.","ext":".tsx"},{"id":184,"path":"src/components/grammar/topic-detail/NegativeTab.tsx","name":"NegativeTab.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"تبويب صيغة النفي (Negative Form) للقاعدة النحوية","mechanism":"يشرح كيفية نفي الجملة باستخدام الأفعال المساعدة المنفية (didn't, wasn't, don't) وإرجاع الفعل لشكله المجرد.","ext":".tsx"},{"id":185,"path":"src/components/grammar/topic-detail/OrdinalDatesView.tsx","name":"OrdinalDatesView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة الأعداد الترتيبية وقراءة وكتابة التواريخ والشهور","mechanism":"تعرض الأرقام الترتيبية (1st, 2nd, 3rd...) وقواعد نطق وكتابة التواريخ والشهور الإنجليزية في الوحدة الثانية.","ext":".tsx"},{"id":186,"path":"src/components/grammar/topic-detail/OverviewTab.tsx","name":"OverviewTab.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"تبويب النظرة العامة وشرح فكرة واستخدامات الزمن باللغة العربية","mechanism":"يقدم شرحاً مبسطاً باللغة العربية يوضح متى نستخدم هذا الزمن ولماذا، مع مقارنة سريعة لترسيخ المفهوم في ذهن الطالب.","ext":".tsx"},{"id":187,"path":"src/components/grammar/topic-detail/PossessivePronounsView.tsx","name":"PossessivePronounsView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة ضمائر وصفات التملك (Possessive Adjectives & Pronouns)","mechanism":"تعرض جدول التحويل المقارن (my -> mine, your -> yours...) مع توضيح الفارق الجوهري بين وجود اسم بعدها أو مجيئها منفردة.","ext":".tsx"},{"id":188,"path":"src/components/grammar/topic-detail/QuestionTab.tsx","name":"QuestionTab.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"تبويب صيغة السؤال والاستفهام (Question Form)","mechanism":"يوضح تقديم الفعل المساعد على الفاعل وعلامة الاستفهام في النهاية (Yes/No Questions) مع إجابات نموذجية قصيرة.","ext":".tsx"},{"id":189,"path":"src/components/grammar/topic-detail/SpellingNotesTab.tsx","name":"SpellingNotesTab.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"تبويب الملاحظات الإملائية وقواعد كتابة الحروف","mechanism":"يشرح قواعد إضافة ed أو ing أو s للأفعال، ومضاعفة الحرف الصحيح الأخير، وقلب حرف y إلى i.","ext":".tsx"},{"id":190,"path":"src/components/grammar/topic-detail/Unit2GrammarView.tsx","name":"Unit2GrammarView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة عرض وتصفح قواعد الوحدة الثانية التفاعلية","mechanism":"تستعرض موضوعات الوحدة الثانية مثل التفضيل، التواريخ، والطقس في واجهة موحدة متكاملة.","ext":".tsx"},{"id":191,"path":"src/components/grammar/topic-detail/Unit3GrammarView.tsx","name":"Unit3GrammarView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة عرض وتصفح قواعد الوحدة الثالثة التفاعلية","mechanism":"تستعرض موضوعات قواعد الوحدة الثالثة مثل المضارع التام (Present Perfect) وأدوات المقارنة.","ext":".tsx"},{"id":192,"path":"src/components/grammar/topic-detail/WhQuestionsView.tsx","name":"WhQuestionsView.tsx","category":"9. شاشات وشروحات القواعد النحوية (Grammar Components)","role":"شاشة أدوات الاستفهام (Wh-Questions)","mechanism":"توضح معاني أدوات الاستفهام (What, Where, When, Who, Why, How) وتركيب السؤال المعتمد في المنهج.","ext":".tsx"},{"id":193,"path":"src/components/layout/AppFooter.tsx","name":"AppFooter.tsx","category":"7. الهيكل العام والتذييل والنوافذ المنبثقة (Layout & Footer)","role":"تذييل الصفحة السفلي للمنصة التعليمية","mechanism":"يحتوي على حقوق الملكية الفكرية، ومعلومات الإصدار، وروابط الدعم الفني وتأكيد الاعتماد للمنهج الدراسي.","ext":".tsx"},{"id":194,"path":"src/components/layout/AppModalsAndGates.tsx","name":"AppModalsAndGates.tsx","category":"7. الهيكل العام والتذييل والنوافذ المنبثقة (Layout & Footer)","role":"مجمع النوافذ المنبثقة وبوابات الحماية المركزية","mechanism":"يتحكم في إظهار أو إخفاء بوابات التحقق، ومودالات تجديد الاشتراك، وتنبيهات الخادم في مكان موحد دون تكرار الكود.","ext":".tsx"},{"id":195,"path":"src/components/layout/TrialNoticeBar.tsx","name":"TrialNoticeBar.tsx","category":"7. الهيكل العام والتذييل والنوافذ المنبثقة (Layout & Footer)","role":"شريط التنبيه بالفترة التجريبية أو قرب انتهاء الاشتراك","mechanism":"يحسب الأيام أو الساعات المتبقية من الاشتراك التجريبي ويعرض تنبيهاً علوياً يوجه الطالب للتواصل مع المعلم للتجديد.","ext":".tsx"},{"id":196,"path":"src/constants/storageKeys.ts","name":"storageKeys.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"ثوابت مفاتيح التخزين المحلي (LocalStorage Keys)","mechanism":"تعرف أسماء مفاتيح التخزين الموحدة لمنع التضارب وتسهيل مسح أو استرجاع بيانات الطالب.","ext":".ts"},{"id":197,"path":"src/hooks/usePlatformSession.ts","name":"usePlatformSession.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"خطاف React المخصص لإدارة حالة جلسة الطالب والاشتراك","mechanism":"يراقب حالة الاتصال بالإنترنت، صلاحية الكود، والوحدة الحالية، ويوفرها لجميع مكونات التطبيق.","ext":".ts"},{"id":198,"path":"src/modules/access-control/useAccessControl.ts","name":"useAccessControl.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"منظومة التحقق من صلاحيات الوصول وقفل الدروس والامتحانات","mechanism":"تدمج حالة اشتراك الطالب مع أقفال المعلم لتحديد ما إذا كان الدرس متاحاً للطالب أم مقفلاً.","ext":".ts"},{"id":199,"path":"src/modules/curriculum/curriculumRegistry.ts","name":"curriculumRegistry.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"السجل المركزي العام لمنهج الوحدات الثلاث","mechanism":"يوفر واجهة برمجية موحدة لجلب أي درس أو تمرين أو صوت بناءً على رقم الوحدة ورقم الدرس.","ext":".ts"},{"id":200,"path":"src/types/curriculum.ts","name":"curriculum.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"تعريف الواجهات والأنواع الخاصة بالمنهج والدروس والصوتيات","mechanism":"تعرف واجهات LessonData و UnitData و TranscriptLine و VocabularyItem لضمان سلامة الكود.","ext":".ts"},{"id":201,"path":"src/types/grammar.ts","name":"grammar.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"تعريف الواجهات والأنواع الخاصة بالقواعد والتمارين النحوية","mechanism":"تعرف أنواع GrammarRule و ExampleItem و GrammarExercise و TopicSection.","ext":".ts"},{"id":202,"path":"src/utils/audioFeedback.ts","name":"audioFeedback.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"أداة توليد المؤثرات الصوتية التفاعلية للتشجيع والنجاح","mechanism":"تولد نغمات تشجيعية فورية بالمتصفح عبر Web Audio API عند الإجابة الصحيحة أو الحصول على درجة ممتازة.","ext":".ts"},{"id":203,"path":"src/utils/characterProfiles.ts","name":"characterProfiles.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"سجل ملفات وبيانات شخصيات المنهج التعليمي","mechanism":"يحتوي على أسماء شخصيات المنهج باللغتين، شاراتهم، والألوان الخاصة بكل شخصية لتمييزها.","ext":".ts"},{"id":204,"path":"src/utils/offlineMedia.ts","name":"offlineMedia.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"محرك التحميل المسبق والتخزين المؤقت للوسائط (Offline Media)","mechanism":"يقوم بتنزيل وتخزين التسجيلات الصوتية والصور تلقائياً في Cache المتصفح لضمان عملها أوفلاين.","ext":".ts"},{"id":205,"path":"src/utils/speech.ts","name":"speech.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"أداة تحديد جنس الشخصية ومطابقة النبرة الصوتية","mechanism":"تحدد ما إذا كان المتحدث ذكراً أو أنثى لاختيار النبرة الصوتية المناسبة لقراءة النصوص.","ext":".ts"},{"id":206,"path":"src/utils/wordTranslations.ts","name":"wordTranslations.ts","category":"14. الأدوات المساعدة والخطافات والأنواع (Utils, Hooks & Types)","role":"قاموس الترجمة الفورية للمفردات والمصطلحات","mechanism":"قاموس ثنائي اللغة يربط الكلمات الإنجليزية بترجماتها العراقية المعتمدة في المنهج.","ext":".ts"},{"id":207,"path":"src/data/activityBookAllLessons.ts","name":"activityBookAllLessons.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"تجميع بيانات كافة تمارين كتاب النشاط للوحدة الأولى","mechanism":"توفر مصفوفة شاملة تضم كافة تمارين الدروس العشرة لتغذية واجهات التمارين التفاعلية.","ext":".ts"},{"id":208,"path":"src/data/activityBookData.ts","name":"activityBookData.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط التمهيدية والأساسية","mechanism":"تحتوي على بنك تمارين كتاب النشاط للدروس الأولى مع الإجابات النموذجية.","ext":".ts"},{"id":209,"path":"src/data/activityBookLesson10Data.ts","name":"activityBookLesson10Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط المخصصة للدرس العاشر","mechanism":"تضم أسئلة وتمارين قصة وقت القصة لطائر السمامة مع مفاتيح الحل.","ext":".ts"},{"id":210,"path":"src/data/activityBookLesson3Data.ts","name":"activityBookLesson3Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للدرس الثالث","mechanism":"تضم جداول الأفعال وتمارين قصة ريتشارد وشبكة الكلمات.","ext":".ts"},{"id":211,"path":"src/data/activityBookLesson4Data.ts","name":"activityBookLesson4Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للدرس الرابع","mechanism":"تضم أسئلة الضمائر والهوايات وسجل القصاصات.","ext":".ts"},{"id":212,"path":"src/data/activityBookLesson5Data.ts","name":"activityBookLesson5Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للدرس الخامس","mechanism":"تضم بنك أسئلة استبيان ظروف التكرار وتركيب الجمل.","ext":".ts"},{"id":213,"path":"src/data/activityBookLesson6Data.ts","name":"activityBookLesson6Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للدرس السادس","mechanism":"تضم تمارين المراسلة والبطاقات البريدية وفرز الأصوات.","ext":".ts"},{"id":214,"path":"src/data/activityBookLesson7Data.ts","name":"activityBookLesson7Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للدرس السابع","mechanism":"تضم أسئلة وتمارين قصة أحمد والملاحظات والمقابلة.","ext":".ts"},{"id":215,"path":"src/data/activityBookLesson8Data.ts","name":"activityBookLesson8Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للدرس الثامن","mechanism":"تضم أسئلة رسالة كارين وتمارين كتابة وإنشاء الرسالة.","ext":".ts"},{"id":216,"path":"src/data/curriculumChunks.ts","name":"curriculumChunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"تجزئة نصوص كتاب الطالب إلى مقاطع صوتية متزامنة (الوحدة 1)","mechanism":"تربط كل جملة في نصوص الوحدة الأولى بتوقيت البداية والنهاية في الملفات الصوتية.","ext":".ts"},{"id":217,"path":"src/data/curriculumStructure.ts","name":"curriculumStructure.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"الهيكل الهرمي لمنهج الصف الأول المتوسط المعتمد","mechanism":"يعرف الوحدات الدراسية، عناوين الدروس، صفحات كتاب الطالب والنشاط، والأهداف التعليمية.","ext":".ts"},{"id":218,"path":"src/data/defaultExamQuestions.ts","name":"defaultExamQuestions.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بنك الأسئلة الافتراضية للاختبارات السريعة والتقييم","mechanism":"يحتوي على مئات الأسئلة الامتحانية المتنوعة المصنفة حسب الوحدات ومستويات الصعوبة.","ext":".ts"},{"id":219,"path":"src/data/grammarData.ts","name":"grammarData.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بنك القواعد النحوية الشامل لكافة وحدات المنصة","mechanism":"يجمع شروحات وأمثلة وتمارين قواعد الوحدات 1 و 2 و 3 بصيغة مركزية موحدة.","ext":".ts"},{"id":220,"path":"src/data/lessonScenes.ts","name":"lessonScenes.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات المشاهد الحوارية والرسومات المصاحبة للدروس","mechanism":"تربط كل مشهد حواري بشخصيات المنهج وصور الخلفيات والمؤثرات الصوتية.","ext":".ts"},{"id":221,"path":"src/data/unit1Data.ts","name":"unit1Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"البيانات المركزية الكاملة لدروس كتاب الطالب للوحدة الأولى","mechanism":"تحتوي على نصوص القراءة، الحوارات، المفردات، مسارات الصوتيات، وترجماتها للدروس العشرة.","ext":".ts"},{"id":222,"path":"src/data/unit1GrammarTopics.ts","name":"unit1GrammarTopics.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"فهرس وقائمة موضوعات قواعد الوحدة الأولى","mechanism":"يعرف عناوين المواضيع وأوصافها المختصرة وأيقوناتها لشاشة اختيار القواعد.","ext":".ts"},{"id":223,"path":"src/data/unit1ShowcaseData.ts","name":"unit1ShowcaseData.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات المعارض البصرية للوحدة الأولى","mechanism":"تضم بطاقات وصور العطلات ومعالم العراق وفصول السنة الخاصة بعروض الوحدة الأولى.","ext":".ts"},{"id":224,"path":"src/data/unit2ActivityBookData.ts","name":"unit2ActivityBookData.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للوحدة الثانية كاملة","mechanism":"تضم أسئلة وتمارين فصول السنة، الطقس، التواريخ، والأنشطة للدروس العشرة.","ext":".ts"},{"id":225,"path":"src/data/unit2CurriculumChunks.ts","name":"unit2CurriculumChunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي لنصوص ودروس الوحدة الثانية","mechanism":"تحدد أوقات تظليل الكلمات والجمل المتزامنة مع التسجيلات الصوتية للوحدة الثانية.","ext":".ts"},{"id":226,"path":"src/data/unit2Data.ts","name":"unit2Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"البيانات المركزية الكاملة لدروس كتاب الطالب للوحدة الثانية","mechanism":"تضم نصوص القراءة والمفردات والصوتيات والترجمة لجميع دروس الوحدة الثانية العشرة.","ext":".ts"},{"id":227,"path":"src/data/unit2GrammarTopics.ts","name":"unit2GrammarTopics.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"فهرس وموضوعات قواعد الوحدة الثانية","mechanism":"يعرف مواضيع درجات المقارنة، والتواريخ، والطقس الخاصة بالوحدة الثانية.","ext":".ts"},{"id":228,"path":"src/data/unit3/chunks/index.ts","name":"index.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"نقطة التصدير المركزية لمقاطع التزامن الصوتي للوحدة الثالثة","mechanism":"تجمع ملفات مقاطع التزامن للدروس العشرة للوحدة الثالثة.","ext":".ts"},{"id":229,"path":"src/data/unit3/chunks/lesson10Chunks.ts","name":"lesson10Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس العاشر من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة قصة الدرس العاشر المتزامنة مع الصوت.","ext":".ts"},{"id":230,"path":"src/data/unit3/chunks/lesson1Chunks.ts","name":"lesson1Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس الأول من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة جمل ونصوص الدرس الأول بالمللي ثانية.","ext":".ts"},{"id":231,"path":"src/data/unit3/chunks/lesson2Chunks.ts","name":"lesson2Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس الثاني من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس الثاني.","ext":".ts"},{"id":232,"path":"src/data/unit3/chunks/lesson3Chunks.ts","name":"lesson3Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس الثالث من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس الثالث.","ext":".ts"},{"id":233,"path":"src/data/unit3/chunks/lesson4Chunks.ts","name":"lesson4Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس الرابع من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس الرابع.","ext":".ts"},{"id":234,"path":"src/data/unit3/chunks/lesson5Chunks.ts","name":"lesson5Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس الخامس من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس الخامس.","ext":".ts"},{"id":235,"path":"src/data/unit3/chunks/lesson6Chunks.ts","name":"lesson6Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس السادس من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس السادس.","ext":".ts"},{"id":236,"path":"src/data/unit3/chunks/lesson7Chunks.ts","name":"lesson7Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس السابع من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس السابع.","ext":".ts"},{"id":237,"path":"src/data/unit3/chunks/lesson8Chunks.ts","name":"lesson8Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس الثامن من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس الثامن.","ext":".ts"},{"id":238,"path":"src/data/unit3/chunks/lesson9Chunks.ts","name":"lesson9Chunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي للدرس التاسع من الوحدة الثالثة","mechanism":"تحدد أوقات بدء وانتهاء قراءة نصوص الدرس التاسع.","ext":".ts"},{"id":239,"path":"src/data/unit3/index.ts","name":"index.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"نقطة التجميع والتصدير المركزية لدروس الوحدة الثالثة","mechanism":"يجمع الملفات الفردية لدروس الوحدة الثالثة العشرة في كائن موحد.","ext":".ts"},{"id":240,"path":"src/data/unit3/lesson1.ts","name":"lesson1.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس الأول للوحدة الثالثة","mechanism":"تحتوي على نصوص الدرس الأول، الكلمات الجديدة، والمقاطع الصوتية وترجمتها.","ext":".ts"},{"id":241,"path":"src/data/unit3/lesson10.ts","name":"lesson10.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس العاشر (وقت القصة) للوحدة الثالثة","mechanism":"تحتوي على قصة الدرس العاشر والأسئلة الاستيعابية والمفردات والتسجيلات.","ext":".ts"},{"id":242,"path":"src/data/unit3/lesson2.ts","name":"lesson2.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس الثاني للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس الثاني للوحدة الثالثة.","ext":".ts"},{"id":243,"path":"src/data/unit3/lesson3.ts","name":"lesson3.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس الثالث للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس الثالث للوحدة الثالثة.","ext":".ts"},{"id":244,"path":"src/data/unit3/lesson4.ts","name":"lesson4.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس الرابع للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس الرابع للوحدة الثالثة.","ext":".ts"},{"id":245,"path":"src/data/unit3/lesson5.ts","name":"lesson5.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس الخامس للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس الخامس للوحدة الثالثة.","ext":".ts"},{"id":246,"path":"src/data/unit3/lesson6.ts","name":"lesson6.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس السادس للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس السادس للوحدة الثالثة.","ext":".ts"},{"id":247,"path":"src/data/unit3/lesson7.ts","name":"lesson7.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس السابع للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس السابع للوحدة الثالثة.","ext":".ts"},{"id":248,"path":"src/data/unit3/lesson8.ts","name":"lesson8.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس الثامن للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس الثامن للوحدة الثالثة.","ext":".ts"},{"id":249,"path":"src/data/unit3/lesson9.ts","name":"lesson9.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات ونصوص وصوتيات الدرس التاسع للوحدة الثالثة","mechanism":"تحتوي على نصوص ومفردات وصوتيات الدرس التاسع للوحدة الثالثة.","ext":".ts"},{"id":250,"path":"src/data/unit3ActivityBookData.ts","name":"unit3ActivityBookData.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"بيانات تمارين كتاب النشاط للوحدة الثالثة كاملة","mechanism":"تضم تمارين وأسئلة كتاب النشاط لكافة دروس الوحدة الثالثة مع نماذج الإجابة.","ext":".ts"},{"id":251,"path":"src/data/unit3CurriculumChunks.ts","name":"unit3CurriculumChunks.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"مقاطع التزامن الصوتي لنصوص ودروس الوحدة الثالثة","mechanism":"تحدد أوقات التزامن الصوتي لكلمات وجمل نصوص كتاب الطالب للوحدة الثالثة.","ext":".ts"},{"id":252,"path":"src/data/unit3Data.ts","name":"unit3Data.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"البيانات المركزية الكاملة لدروس كتاب الطالب للوحدة الثالثة","mechanism":"تضم نصوص ومفردات وصوتيات وتمارين دروس الوحدة الثالثة العشرة بالكامل.","ext":".ts"},{"id":253,"path":"src/data/unit3GrammarTopics.ts","name":"unit3GrammarTopics.ts","category":"12. بيانات المنهج والدروس والتمارين (Curriculum & Lesson Data)","role":"فهرس وموضوعات قواعد الوحدة الثالثة","mechanism":"يعرف مواضيع قواعد الوحدة الثالثة مثل المضارع التام واستخداماته.","ext":".ts"},{"id":254,"path":"src/data/grammar/unit1/index.ts","name":"index.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"نقطة التصدير المركزية لموضوعات قواعد الوحدة الأولى","mechanism":"تجمع مواضيع القواعد الثمانية للوحدة الأولى وتصدرها بصيغة موحدة لشاشات القواعد.","ext":".ts"},{"id":255,"path":"src/data/grammar/unit1/topic1-past-simple.ts","name":"topic1-past-simple.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة الماضي البسيط (Past Simple)","mechanism":"تحتوي على الصيغة، الأفعال القياسية والشاذة، النفي، السؤال، والأمثلة المترجمة.","ext":".ts"},{"id":256,"path":"src/data/grammar/unit1/topic2-past-continuous.ts","name":"topic2-past-continuous.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة الماضي المستمر (Past Continuous)","mechanism":"تحتوي على الصيغة المنفصلة، توزيع was/were، أمثلة الاختبارات، وملاحظات ing الإملائية.","ext":".ts"},{"id":257,"path":"src/data/grammar/unit1/topic3-present-simple.ts","name":"topic3-present-simple.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة المضارع البسيط (Present Simple)","mechanism":"تحتوي على صيغ المفرد والجمع، النفي بـ don't/doesn't، وتكوين الأسئلة.","ext":".ts"},{"id":258,"path":"src/data/grammar/unit1/topic4-adverbs-frequency.ts","name":"topic4-adverbs-frequency.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة ظروف التكرار (Adverbs of Frequency)","mechanism":"تحتوي على نسب الظروف، ومواضعها قبل الفعل الرئيسي وبعد be، وسؤال How often.","ext":".ts"},{"id":259,"path":"src/data/grammar/unit1/topic5-possessive-pronouns.ts","name":"topic5-possessive-pronouns.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة ضمائر وصفات التملك (Possessive Pronouns)","mechanism":"تحتوي على جدول المقارنة بين صفات وضمائر التملك والتطبيقات الامتحانية المعتمدة.","ext":".ts"},{"id":260,"path":"src/data/grammar/unit1/topic6-joining-sentences.ts","name":"topic6-joining-sentences.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة أدوات الربط (Joining Sentences: and, but, or, because)","mechanism":"تحتوي على شروحات وأمثلة الربط بين الجمل والتعبير عن السبب والتناقض والتخيير.","ext":".ts"},{"id":261,"path":"src/data/grammar/unit1/topic7-interests.ts","name":"topic7-interests.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة التعبير عن الاهتمامات (Expressing Interests)","mechanism":"تحتوي على صيغ like / love / enjoy / interested in متبوعة باسم أو فعل بي ing.","ext":".ts"},{"id":262,"path":"src/data/grammar/unit1/topic8-wh-questions.ts","name":"topic8-wh-questions.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"بيانات قاعدة أدوات الاستفهام (Wh-Questions)","mechanism":"تحتوي على أدوات السؤال واستخداماتها وتركيب صيغة السؤال الكاملة.","ext":".ts"},{"id":263,"path":"src/data/grammar/unit1/types.ts","name":"types.ts","category":"11. بيانات وشروحات القواعد النحوية (Grammar Data)","role":"واجهات وهياكل بيانات قواعد الوحدة الأولى","mechanism":"تعرف نوع GrammarTopic و FormulaChip و ExamApplication لضمان تطابق البيانات.","ext":".ts"},{"id":264,"path":"src/services/firebase.ts","name":"firebase.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"الواجهة البرمجية المركزية لخدمات Firebase المعتمدة بالمنصة","mechanism":"تعيد تصدير كافة خدمات العميل، قواعد البيانات، والمصادقة في نقطة استيراد موحدة.","ext":".ts"},{"id":265,"path":"src/services/firebase/analyticsService.ts","name":"analyticsService.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"خدمة تسجيل ومتابعة إحصائيات ونشاط الطلاب التفاعلي","mechanism":"تسجل عدد مرات فتح الدروس، الاستماع للصوتيات، وإكمال التمارين في مستندات سحابية.","ext":".ts"},{"id":266,"path":"src/services/firebase/client.ts","name":"client.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"تهيئة وتهيئة عميل Firebase وقاعدة بيانات Firestore","mechanism":"يقوم بعمل initializeApp بمفاتيح المشروع وإعداد Firestore مع تفعيل التخزين المؤقت في المتصفح.","ext":".ts"},{"id":267,"path":"src/services/firebase/examService.ts","name":"examService.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"خدمة إدارة الامتحانات السحابية وتسجيل النتائج","mechanism":"توفر دوال جلب أسئلة الامتحان، رفع إجابات الطلاب، وحفظ سجل الدرجات في Firestore.","ext":".ts"},{"id":268,"path":"src/services/firebase/index.ts","name":"index.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"مجمع تصدير خدمات Firebase الفرعية","mechanism":"يجمع ويصدر خدمات الاشتراكات والامتحانات والطلاب وإعدادات المنصة في حزمة واحدة.","ext":".ts"},{"id":269,"path":"src/services/firebase/platformConfigService.ts","name":"platformConfigService.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"خدمة جلب وتحديث الإعدادات العامة للمنصة","mechanism":"تدير حالة وضع الصيانة، إعلانات الهيدر، والرسائل التوجيهية العامة الموجهة للطلاب.","ext":".ts"},{"id":270,"path":"src/services/firebase/studentService.ts","name":"studentService.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"خدمة إدارة بيانات وملفات الطلاب وسجلاتهم","mechanism":"توفر دوال تسجيل الطالب الجديد، جلب بيانات جلسة الطالب، وتحديث المدرسة والشعبة.","ext":".ts"},{"id":271,"path":"src/services/firebase/subscriptionService.ts","name":"subscriptionService.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"خدمة التحقق وتوليد وتجديد اشتراكات وأكواد الطلاب","mechanism":"تتحقق من صحة كود التفعيل، تاريخ الصلاحية، قفل الكود على جهاز محدد، وتوليد الأكواد الجديدة.","ext":".ts"},{"id":272,"path":"src/services/firebase/teacherAuthService.ts","name":"teacherAuthService.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"خدمة التحقق الأمني ومصادقة جلسة المعلم","mechanism":"تتحقق من رمز PIN الخاص بالمعلم عبر مقارنته بالمفتاح السري المشفر المخزن في Firestore.","ext":".ts"},{"id":273,"path":"src/services/firebase/types.ts","name":"types.ts","category":"13. خدمات السحابة والاتصال وقاعدة البيانات (Services & Firebase)","role":"تعريف الهياكل والأنواع لبيانات Firebase السحابية","mechanism":"تعرف واجهات StudentSession و ExamSubmission و SubscriptionDoc و PlatformConfig.","ext":".ts"}];
+    let currentFilter = 'ALL';
+    let searchQuery = '';
+
+    const searchInput = document.getElementById('search-input');
+    const clearBtn = document.getElementById('clear-btn');
+    const filterChips = document.getElementById('filter-chips');
+    const tbody = document.getElementById('files-tbody');
+    const visibleCount = document.getElementById('visible-count');
+    const emptyState = document.getElementById('empty-state');
+    const toast = document.getElementById('toast');
+
+    function getExtClass(ext) {
+      if (ext === '.tsx') return 'ext-tsx';
+      if (ext === '.ts') return 'ext-ts';
+      if (ext === '.mjs' || ext === '.js') return 'ext-mjs';
+      if (ext === '.json') return 'ext-json';
+      if (ext === '.py') return 'ext-py';
+      if (ext === '.css') return 'ext-css';
+      return 'ext-other';
+    }
+
+    function highlightText(text, query) {
+      if (!query || !query.trim()) return text;
+      const q = query.trim().replace(/[.*+?^$${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp('(' + q + ')', 'gi');
+      return text.replace(regex, '<span class="highlight">$1</span>');
+    }
+
+    function render() {
+      const q = searchQuery.toLowerCase().trim();
+      
+      const filtered = allFiles.filter(item => {
+        // Category filter
+        if (currentFilter !== 'ALL' && item.category !== currentFilter) {
+          return false;
+        }
+
+        // Search query filter
+        if (q) {
+          const inPath = item.path.toLowerCase().includes(q);
+          const inRole = item.role.toLowerCase().includes(q);
+          const inMech = item.mechanism.toLowerCase().includes(q);
+          const inCat = item.category.toLowerCase().includes(q);
+          const inExt = item.ext.toLowerCase().includes(q);
+          return inPath || inRole || inMech || inCat || inExt;
+        }
+
+        return true;
+      });
+
+      visibleCount.textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      let html = '';
+      for (const item of filtered) {
+        const extBadge = '<span class="badge-ext ' + getExtClass(item.ext) + '">' + item.ext + '</span>';
+        const displayPath = highlightText(item.path, q);
+        const displayRole = highlightText(item.role, q);
+        const displayMech = highlightText(item.mechanism, q);
+
+        html += '<tr>' +
+          '<td class="cell-id">' + item.id + '</td>' +
+          '<td>' + extBadge + '</td>' +
+          '<td class="cell-file">' +
+            '<span class="file-path">' +
+              displayPath +
+              '<button class="copy-btn" onclick="copyPath(\'' + item.path + '\')" title="نسخ المسار">📋</button>' +
+            '</span>' +
+          '</td>' +
+          '<td class="cell-category">' + item.category.replace(/^\d+\.\s*/, '') + '</td>' +
+          '<td class="cell-role">' + displayRole + '</td>' +
+          '<td class="cell-mech">' + displayMech + '</td>' +
+        '</tr>';
+      }
+
+      tbody.innerHTML = html;
+    }
+
+    // Copy to clipboard
+    window.copyPath = function(p) {
+      navigator.clipboard.writeText(p).then(() => {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    };
+
+    // Search events
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      clearBtn.style.display = searchQuery ? 'flex' : 'none';
+      render();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      clearBtn.style.display = 'none';
+      searchInput.focus();
+      render();
+    });
+
+    // Category click events
+    filterChips.addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-chip');
+      if (!btn) return;
+
+      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.category;
+      render();
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
