@@ -236,37 +236,37 @@ export const AffirmativeTab: React.FC<AffirmativeTabProps> = ({ currentTopic, on
 
         {/* 3. PRESENT SIMPLE: Singular vs Plural / I Comparison Cards */}
         {currentTopic.id === 'topic-present-simple' && (
-          <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 text-right">
-            <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
-              <span className="p-2 bg-blue-50 text-blue-600 rounded-xl shrink-0 border border-blue-100 shadow-2xs">
-                <Sparkles className="w-5 h-5" />
+          <div className="bg-white border border-zinc-200 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-xs space-y-3.5 text-right">
+            <div className="flex items-center gap-2 border-b border-zinc-100 pb-2.5">
+              <span className="p-1.5 sm:p-2 bg-blue-50 text-blue-600 rounded-xl shrink-0 border border-blue-100 shadow-2xs">
+                <Sparkles className="w-4 h-4 sm:w-5 h-5" />
               </span>
               <div>
-                <h5 className="text-sm sm:text-base font-black font-arabic text-zinc-900">
-                  قاعدة المفرد والجمع في زمن المضارع البسيط
+                <h5 className="text-xs sm:text-base font-black font-arabic text-zinc-900">
+                  تحديد متى نضيف (s) ومتى يبقى الفعل مجرداً:
                 </h5>
-                <span className="text-xs text-zinc-500 font-arabic">
-                  متى نضيف s الشخص الثالث ومتى يبقى الفعل مجرداً؟
+                <span className="text-[11px] sm:text-xs text-zinc-500 font-arabic">
+                  حسب نوع الفاعل (مفرد أو جمع):
                 </span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-0.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-0.5">
               {/* Singular + s */}
-              <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-200 space-y-2.5 text-right shadow-2xs">
-                <div className="flex items-center justify-between border-b border-blue-100 pb-2">
+              <div className="bg-blue-50/50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-blue-200 space-y-2 text-right shadow-2xs">
+                <div className="flex items-center justify-between border-b border-blue-100 pb-1.5">
                   <span className="font-bold text-xs sm:text-sm text-blue-900 font-arabic flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0"></span>
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-blue-600 shrink-0"></span>
                     <span>1. فاعل مفرد (He / She / It)</span>
                   </span>
-                  <span className="text-xs bg-blue-600 text-white px-2.5 py-0.5 rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
+                  <span className="text-[11px] sm:text-xs bg-blue-600 text-white px-2 py-0.5 rounded-md sm:rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
                     Verb + s / es
                   </span>
                 </div>
-                <p className="text-xs text-blue-850 font-arabic leading-relaxed">
-                  مع (<strong>He, She, It</strong>) أو أي اسم مفرد (Ali, Noor): نضيف للفعل s أو es:
+                <p className="text-xs text-blue-900 font-arabic leading-relaxed">
+                  مع (<strong>He, She, It</strong>) أو أي اسم مفرد (Ali, Noor): نضيف للفعل (s أو es).
                 </p>
-                <div className="bg-white p-2.5 rounded-xl border border-blue-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
+                <div className="bg-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-blue-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
                   <span>He <strong className="text-blue-700 font-black">watches</strong> TV every day.</span>
                   <button
                     type="button"
@@ -279,20 +279,20 @@ export const AffirmativeTab: React.FC<AffirmativeTabProps> = ({ currentTopic, on
               </div>
 
               {/* Plural / I + Base */}
-              <div className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-200 space-y-2.5 text-right shadow-2xs">
-                <div className="flex items-center justify-between border-b border-emerald-100 pb-2">
+              <div className="bg-emerald-50/50 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-emerald-200 space-y-2 text-right shadow-2xs">
+                <div className="flex items-center justify-between border-b border-emerald-100 pb-1.5">
                   <span className="font-bold text-xs sm:text-sm text-emerald-900 font-arabic flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
                     <span>2. فاعل جمع والمتكلم (I / They / We / You)</span>
                   </span>
-                  <span className="text-xs bg-emerald-600 text-white px-2.5 py-0.5 rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
-                    Base Verb
+                  <span className="text-[11px] sm:text-xs bg-emerald-600 text-white px-2 py-0.5 rounded-md sm:rounded-lg font-mono font-bold shadow-2xs" dir="ltr">
+                    Base Verb (مجرد)
                   </span>
                 </div>
-                <p className="text-xs text-emerald-850 font-arabic leading-relaxed">
-                  مع (<strong>I, We, They, You</strong>) أو أي اسم جمع: يبقى الفعل مجرداً تماماً:
+                <p className="text-xs text-emerald-900 font-arabic leading-relaxed">
+                  مع (<strong>I, We, They, You</strong>) أو أي اسم جمع: يبقى الفعل مجرداً بدون أي إضافة.
                 </p>
-                <div className="bg-white p-2.5 rounded-xl border border-emerald-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
+                <div className="bg-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl border border-emerald-200/80 font-mono text-xs text-slate-900 flex items-center justify-between shadow-2xs" dir="ltr">
                   <span>They <strong className="text-emerald-700 font-black">watch</strong> TV every day.</span>
                   <button
                     type="button"

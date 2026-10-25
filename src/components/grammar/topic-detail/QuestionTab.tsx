@@ -220,7 +220,7 @@ export const QuestionTab: React.FC<QuestionTabProps> = ({ currentTopic, onSpeak 
 
         {/* 3. PRESENT SIMPLE: Do / Does Question Card */}
         {currentTopic.id === 'topic-present-simple' && (
-          <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 text-right">
+          <div className="bg-white border border-zinc-200 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-xs space-y-3.5 text-right">
             <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
               <span className="p-2 bg-indigo-50 text-indigo-600 rounded-xl shrink-0 border border-indigo-100 shadow-2xs">
                 <HelpCircle className="w-5 h-5" />

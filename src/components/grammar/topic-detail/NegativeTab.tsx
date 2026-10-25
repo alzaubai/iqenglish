@@ -183,7 +183,7 @@ export const NegativeTab: React.FC<NegativeTabProps> = ({ currentTopic, onSpeak 
 
         {/* 3. PRESENT SIMPLE: Negative Card */}
         {currentTopic.id === 'topic-present-simple' && (
-          <div className="bg-white border border-zinc-200 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 text-right">
+          <div className="bg-white border border-zinc-200 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-xs space-y-3.5 text-right">
             <div className="flex items-center gap-2.5 border-b border-zinc-100 pb-3">
               <span className="p-2 bg-rose-50 text-rose-600 rounded-xl shrink-0 border border-rose-100 shadow-2xs">
                 <AlertTriangle className="w-5 h-5" />
