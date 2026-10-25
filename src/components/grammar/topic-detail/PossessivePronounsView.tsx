@@ -36,7 +36,7 @@ export const PossessivePronounsView: React.FC<PossessivePronounsViewProps> = ({
   return (
     <div className="space-y-6">
       {/* 1. المقارنة السريعة بين صفة التملك وضمير التملك بكبسولات ملونة */}
-      <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-6 shadow-xs space-y-4 text-right">
+      <div className="bg-white border border-zinc-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-xs space-y-3.5 text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-3">
           <div>
             <span className="text-xs font-bold text-indigo-600 font-arabic block">
@@ -56,7 +56,7 @@ export const PossessivePronounsView: React.FC<PossessivePronounsViewProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* كارت صفة التملك */}
-          <div className="p-4 bg-indigo-50/50 border border-indigo-200/90 rounded-2xl space-y-2.5 shadow-2xs text-right">
+          <div className="p-3 sm:p-4 bg-indigo-50/50 border border-indigo-200/90 rounded-xl sm:rounded-2xl space-y-2 text-right shadow-2xs">
             <div className="flex items-center justify-between">
               <span className="px-3 py-1 rounded-xl bg-indigo-600 text-white font-black text-xs font-arabic shadow-2xs">
                 1. صفة التملك (Possessive Adjective)
@@ -107,7 +107,7 @@ export const PossessivePronounsView: React.FC<PossessivePronounsViewProps> = ({
           </div>
 
           {/* كارت ضمير التملك */}
-          <div className="p-4 bg-emerald-50/50 border border-emerald-200/90 rounded-2xl space-y-2.5 shadow-2xs text-right">
+          <div className="p-3 sm:p-4 bg-emerald-50/50 border border-emerald-200/90 rounded-xl sm:rounded-2xl space-y-2 text-right shadow-2xs">
             <div className="flex items-center justify-between">
               <span className="px-3 py-1 rounded-xl bg-emerald-600 text-white font-black text-xs font-arabic shadow-2xs">
                 2. ضمير التملك (Possessive Pronoun)
@@ -160,7 +160,7 @@ export const PossessivePronounsView: React.FC<PossessivePronounsViewProps> = ({
       </div>
 
       {/* 2. جدول ضمائر التملك وصفات التملك (Dual Responsive Layout) */}
-      <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 text-right">
+      <div className="bg-white border border-zinc-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 shadow-xs space-y-4 text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-3">
           <div>
             <span className="text-xs font-bold text-indigo-600 font-arabic block">

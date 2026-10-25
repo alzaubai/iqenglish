@@ -17,11 +17,11 @@ export const topicAdverbsFrequency: GrammarTopicData = {
       {
         titleAr: '1. ظروف التكرار الخمسة ومعانيها ونسبها المئوية',
         formulaChips: [
-          { text: 'always (دائماً - 100%)', isHighlight: true },
-          { text: 'usually (عادةً - 90%)' },
-          { text: 'often (غالباً - 50%)' },
-          { text: 'sometimes (أحياناً - 25%)' },
-          { text: 'never (أبداً / قط - 0%)', isHighlight: true }
+          { text: 'always (100%)', isHighlight: true, note: 'دائماً' },
+          { text: 'usually (80%)', note: 'عادةً' },
+          { text: 'often (70%)', note: 'غالباً' },
+          { text: 'sometimes (50%)', note: 'أحياناً' },
+          { text: 'never (0%)', isHighlight: true, note: 'أبداً' }
         ],
         explanationAr: 'تُستخدم هذه الكلمات الخمس للتعبير عن العادات ومدى تكرارنا للأنشطة اليومية في زمن المضارع البسيط، وتتراوح من الشيء المؤكد دائماً (always 100%) إلى الشيء الذي لا يحدث إطلاقاً (never 0%).',
         examples: [
@@ -35,13 +35,13 @@ export const topicAdverbsFrequency: GrammarTopicData = {
       {
         titleAr: '2. القاعدة الأولى: موقع ظرف التكرار قبل الفعل الرئيسي (Before the Main Verb)',
         formulaChips: [
-          { text: 'الفاعل (Subject)' },
+          { text: 'فاعل (Subject)' },
           { text: '+' },
-          { text: 'ظرف التكرار (always / usually / often / sometimes / never)', isHighlight: true, note: 'قبل الفعل' },
+          { text: 'ظرف التكرار (Adverb)', isHighlight: true, note: 'قبل الفعل' },
           { text: '+' },
-          { text: 'الفعل الرئيسي (Main Verb)', isHighlight: true },
+          { text: 'فعل رئيسي (Main Verb)', isHighlight: true },
           { text: '+' },
-          { text: 'التكملة (Complement)' }
+          { text: 'تكملة (Complement)' }
         ],
         explanationAr: 'توضع ظروف التكرار دائماً قبل الفعل الرئيسي في الجملة.\nتنبيه هام جداً بالامتحان: إذا كان الفاعل مفرداً (He, She, It, Ali)، يجب إضافة s الشخص الثالث للفعل الرئيسي بعد ظرف التكرار!',
         examples: [
@@ -54,13 +54,13 @@ export const topicAdverbsFrequency: GrammarTopicData = {
       {
         titleAr: '3. القاعدة الثانية: موقع ظرف التكرار بعد فعل الكينونة be (After am / is / are)',
         formulaChips: [
-          { text: 'الفاعل (Subject)' },
+          { text: 'فاعل (Subject)' },
           { text: '+' },
-          { text: 'am / is / are (فعل الكينونة)', isHighlight: true },
+          { text: 'am / is / are (be)', isHighlight: true },
           { text: '+' },
-          { text: 'ظرف التكرار (always / usually / often...)', isHighlight: true, note: 'بعد be مباشرة' },
+          { text: 'ظرف التكرار (Adverb)', isHighlight: true, note: 'بعد be مباشرة' },
           { text: '+' },
-          { text: 'الصفة أو التكملة' }
+          { text: 'تكملة / صفة' }
         ],
         explanationAr: 'إذا كانت الجملة تحتوي على أحد أفعال الكينونة (am, is, are)، فإن ظرف التكرار يأتي بعدها مباشرة وليس قبلها!\nهذه النقطة هي أكثر سؤال مكرر في الاختيارات الامتحانية (is always وليس always is).',
         examples: [
@@ -73,9 +73,15 @@ export const topicAdverbsFrequency: GrammarTopicData = {
       {
         titleAr: '4. ظرف النفي (never) والسؤال بأداة التكرار (How often)',
         formulaChips: [
-          { text: 'never = نفي قاطع بدون not', isHighlight: true },
-          { text: '•' },
-          { text: 'How often + do / does + الفاعل + فعل مجرد + ?', isHighlight: true }
+          { text: 'How often', isHighlight: true },
+          { text: '+' },
+          { text: 'do / does', isHighlight: true },
+          { text: '+' },
+          { text: 'فاعل (Subject)' },
+          { text: '+' },
+          { text: 'فعل مجرد' },
+          { text: '+' },
+          { text: 'تكملة + ?' }
         ],
         explanationAr: '1. كلمة (never) تعطي معنى النفي التام بدون استخدام not أو don\'t / doesn\'t، ولا يجوز الجمع بين not و never في نفس الجملة.\n2. للسؤال عن عدد المرات أو نسبة تكرار الفعل، نستخدم أداة الاستفهام (How often = كم مرة)، وتكون الإجابة باستخدام أحد ظروف التكرار.',
         examples: [

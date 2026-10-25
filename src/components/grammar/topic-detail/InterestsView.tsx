@@ -45,7 +45,7 @@ export const InterestsView: React.FC<InterestsViewProps> = ({ currentTopic, onSp
     <div className="space-y-6">
       {/* مقياس نسب ظروف التكرار إذا كان الموضوع ظروف التكرار */}
       {isFrequencyTopic && (
-        <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-4 text-right">
+        <div className="bg-white border border-zinc-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 shadow-xs space-y-4 text-right">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-3">
             <div>
               <span className="text-xs font-bold text-teal-700 font-arabic block">
@@ -105,7 +105,7 @@ export const InterestsView: React.FC<InterestsViewProps> = ({ currentTopic, onSp
       )}
 
       {/* بطاقة القواعد الرئيسية (Interests / Adverbs / Dates) */}
-      <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-6 text-right">
+      <div className="bg-white border border-zinc-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 shadow-xs space-y-5 text-right">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-3">
           <div>
             <span className="text-xs font-bold text-teal-700 font-arabic block">
@@ -139,7 +139,7 @@ export const InterestsView: React.FC<InterestsViewProps> = ({ currentTopic, onSp
           {currentTopic.interestsSections?.map((sec, idx) => (
             <div
               key={idx}
-              className="p-5 bg-zinc-50/80 border border-zinc-200/90 rounded-2xl space-y-3.5 shadow-2xs"
+              className="p-3.5 sm:p-5 bg-zinc-50/80 border border-zinc-200/90 rounded-xl sm:rounded-2xl space-y-3 shadow-2xs"
             >
               <div className="flex items-center justify-between border-b border-zinc-200/60 pb-2">
                 <h5 className="text-sm sm:text-base font-black text-zinc-900 font-arabic">
@@ -150,25 +150,30 @@ export const InterestsView: React.FC<InterestsViewProps> = ({ currentTopic, onSp
 
               {/* رقائق معادلة القاعدة بكبسولات ملونة واضحة */}
               <div
-                className="flex flex-wrap items-center justify-center gap-1.5 py-2.5 px-3 bg-white rounded-xl border border-zinc-200/90 shadow-2xs font-mono text-xs"
+                className="flex flex-wrap items-center justify-center gap-1.5 py-2 sm:py-2.5 px-2 sm:px-3 bg-white rounded-xl border border-zinc-200/90 shadow-2xs font-mono text-xs"
                 dir="ltr"
               >
                 {sec.formulaChips.map((chip, cIdx) => (
                   <span
                     key={cIdx}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold ${
+                    className={`px-2 sm:px-3 py-1 rounded-lg text-[11px] sm:text-xs font-bold text-center ${
                       chip.isHighlight
                         ? 'bg-teal-600 text-white font-mono shadow-xs ring-2 ring-teal-200'
-                        : chip.text === '+' || chip.text === 'أو'
-                        ? 'text-teal-600 font-bold px-1'
+                        : chip.text === '+' || chip.text === 'أو' || chip.text === '•'
+                        ? 'text-teal-600 font-bold px-0.5 sm:px-1 shadow-none'
                         : chip.text.includes('ing') || chip.text.includes('Verb') || chip.text.includes('فعل')
                         ? 'bg-emerald-600 text-white font-mono shadow-2xs'
-                        : chip.text.includes('am / is / are') || chip.text.includes('like') || chip.text.includes('interested')
+                        : chip.text.includes('am / is / are') || chip.text.includes('like') || chip.text.includes('interested') || chip.text.includes('do / does') || chip.text.includes('How often')
                         ? 'bg-indigo-600 text-white font-mono shadow-2xs'
                         : 'bg-zinc-100 border border-zinc-200 text-zinc-800 font-arabic'
                     }`}
                   >
-                    {chip.text}
+                    <span>{chip.text}</span>
+                    {chip.note && (
+                      <span className="font-arabic text-[9px] sm:text-[10px] block font-normal opacity-90 mt-0.5">
+                        ({chip.note})
+                      </span>
+                    )}
                   </span>
                 ))}
               </div>
@@ -211,7 +216,7 @@ export const InterestsView: React.FC<InterestsViewProps> = ({ currentTopic, onSp
 
       {/* التمارين الامتحانية الشهرية */}
       {currentTopic.examPractice && currentTopic.examPractice.length > 0 && (
-        <div className="bg-white border border-zinc-200/90 rounded-3xl p-5 sm:p-7 shadow-xs space-y-5 text-right">
+        <div className="bg-white border border-zinc-200/90 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 shadow-xs space-y-5 text-right">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-3">
             <div>
               <span className="text-xs font-bold text-teal-700 font-arabic block">
